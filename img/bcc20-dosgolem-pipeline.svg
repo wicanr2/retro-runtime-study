@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="560" fill="#ffffff"/>
+
+  <!-- 1 安裝 -->
+  <text x="20" y="34" font-size="18" font-weight="bold" fill="#222">① 安裝：tools/bcpp20/install.sh</text>
+  <rect x="20" y="50" width="220" height="70" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="130" y="80" font-size="15" text-anchor="middle" fill="#222">你自己的 BC++ 2.0</text>
+  <text x="130" y="102" font-size="14" text-anchor="middle" fill="#555">磁片映像 *.IMG</text>
+  <line x1="244" y1="85" x2="296" y2="85" stroke="#555" marker-end="url(#a)"/>
+  <rect x="300" y="50" width="420" height="70" rx="8" fill="#ffffff" stroke="#888" stroke-dasharray="5 4"/>
+  <text x="315" y="74" font-size="14" fill="#555">容器（--network none）</text>
+  <text x="315" y="100" font-size="14" fill="#222">讀 FAT12 → 接合 .CA1／.CA2（每片去掉 4 bytes 片頭）→ 解 ZIP</text>
+  <line x1="724" y1="85" x2="776" y2="85" stroke="#555" marker-end="url(#a)"/>
+  <rect x="780" y="50" width="200" height="70" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="880" y="80" font-size="15" text-anchor="middle" fill="#222">BORLANDC 目錄</text>
+  <text x="880" y="102" font-size="13" text-anchor="middle" fill="#555">BIN INCLUDE LIB BGI</text>
+
+  <!-- 2 編譯 -->
+  <text x="20" y="178" font-size="18" font-weight="bold" fill="#222">② 編譯：tools/bcpp20/bcc.sh（examples/tetris/build.sh）</text>
+  <rect x="20" y="196" width="220" height="70" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="130" y="226" font-size="15" text-anchor="middle" fill="#222">TETRIS.C</text>
+  <text x="130" y="248" font-size="13" text-anchor="middle" fill="#555">＋BORLANDC 攤平成 DOS 根目錄</text>
+  <line x1="244" y1="231" x2="296" y2="231" stroke="#555" marker-end="url(#a)"/>
+  <rect x="300" y="190" width="420" height="120" rx="8" fill="#ffffff" stroke="#888" stroke-dasharray="5 4"/>
+  <text x="315" y="212" font-size="14" fill="#555">容器：dosgolem 的 cmd/run，-cpu 186</text>
+  <rect x="320" y="226" width="140" height="44" rx="6" fill="#f3f4f6" stroke="#888"/>
+  <text x="390" y="253" font-size="15" text-anchor="middle" fill="#222">BCC.EXE</text>
+  <line x1="464" y1="248" x2="556" y2="248" stroke="#555" marker-end="url(#a)"/>
+  <text x="510" y="240" font-size="13" text-anchor="middle" fill="#555">EXEC</text>
+  <rect x="560" y="226" width="140" height="44" rx="6" fill="#f3f4f6" stroke="#888"/>
+  <text x="630" y="253" font-size="15" text-anchor="middle" fill="#222">TLINK.EXE</text>
+  <text x="315" y="296" font-size="13" fill="#555">寫出的檔案落在暫存層 out/，BORLANDC 目錄保持唯讀</text>
+  <line x1="724" y1="248" x2="776" y2="248" stroke="#555" marker-end="url(#a)"/>
+  <rect x="780" y="213" width="200" height="70" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="880" y="243" font-size="15" text-anchor="middle" fill="#222">out/tetris.exe</text>
+  <text x="880" y="265" font-size="13" text-anchor="middle" fill="#555">27,688 bytes</text>
+
+  <!-- 3 遊玩 -->
+  <text x="20" y="362" font-size="18" font-weight="bold" fill="#222">③ 遊玩：examples/tetris/play.sh</text>
+  <rect x="20" y="380" width="220" height="70" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="130" y="410" font-size="15" text-anchor="middle" fill="#222">TETRIS.EXE</text>
+  <text x="130" y="432" font-size="13" text-anchor="middle" fill="#555">＋EGAVGA.BGI（VGA 驅動）</text>
+  <line x1="244" y1="415" x2="296" y2="415" stroke="#555" marker-end="url(#a)"/>
+  <rect x="300" y="374" width="420" height="150" rx="8" fill="#ffffff" stroke="#888" stroke-dasharray="5 4"/>
+  <text x="315" y="396" font-size="14" fill="#555">容器：dosgolem 的 cmd/webplay，埠只開在 127.0.0.1</text>
+  <text x="315" y="424" font-size="15" fill="#222">約 60 Hz 分段執行，BIOS 時鐘對齊真實時間</text>
+  <text x="315" y="450" font-size="15" fill="#222">mode 12h 的四個位元平面 → RGB → PNG</text>
+  <text x="315" y="476" font-size="15" fill="#222">瀏覽器按鍵 → 掃描碼 → BIOS 鍵盤佇列</text>
+  <text x="315" y="508" font-size="13" fill="#555">給人玩的互動外殼；決定性的觀測用 cmd/run</text>
+  <line x1="724" y1="420" x2="776" y2="420" stroke="#E8710A" stroke-width="2" marker-end="url(#o)"/>
+  <text x="750" y="410" font-size="13" text-anchor="middle" fill="#E8710A">/frame</text>
+  <line x1="776" y1="470" x2="724" y2="470" stroke="#E8710A" stroke-width="2" marker-end="url(#o)"/>
+  <text x="750" y="492" font-size="13" text-anchor="middle" fill="#E8710A">/key</text>
+  <rect x="780" y="400" width="200" height="90" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="880" y="435" font-size="15" text-anchor="middle" fill="#222">瀏覽器</text>
+  <text x="880" y="460" font-size="13" text-anchor="middle" fill="#555">http://127.0.0.1:8086/</text>
+</svg>

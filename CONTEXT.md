@@ -41,6 +41,15 @@
 | `les`／`lds` | 一次從記憶體載入 far 指標（段＋位移）的指令；反組譯時大量出現代表資料指標是 far |
 | Win32s | 讓部分 Win32 程式在 16 位元 Windows 3.1 上執行的相容層 |
 | Alpha | DEC 的 64 位元 RISC 處理器架構，當時 Windows NT 支援的平台之一 |
+| dosgolem | 無頭、決定性的 DOS 執行器：以執行的指令數當時鐘，同樣輸入每次得到同樣結果；本 repo 用它執行原廠工具鏈 |
+| `dosrun` | dosgolem 的命令列執行器（`cmd/run` 編出的執行檔），跑完印出結束碼、開過的檔、主控台輸出 |
+| webplay | dosgolem 上的互動外殼（`cmd/webplay`），以接近真實時間執行一支 DOS 程式，畫面與按鍵經瀏覽器往返；不是對拍工具 |
+| 暫存層（scratch） | dosgolem 讓 DOS 程式的寫入落到另一個目錄、來源目錄保持唯讀的機制 |
+| BGI | Borland Graphics Interface，BC++ 附的繪圖庫（`graphics.h`、`GRAPHICS.LIB`）；顯示卡相關的部分是執行時載入的 `.BGI` 驅動檔 |
+| mode 12h | VGA 的 640×480、16 色圖形模式；每個像素的 4 個位元分散在 4 個位元平面 |
+| DAC | VGA 把色號轉成實際 RGB 的調色盤硬體；每格 R、G、B 各 6 位元 |
+| DTA | Disk Transfer Area，DOS 的 FindFirst／FindNext 寫搜尋結果的緩衝區 |
+| EXEC | `int 21h AX=4B00h`，由一支程式載入並執行另一支程式（BCC 用它叫 TLINK、TASM） |
 
 ## 前置欄位的值
 

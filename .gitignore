@@ -1,3 +1,4 @@
 # 驗證用的 PNG 與暫存
 *.png
+!img/tetris-webplay.png
 .scratch/

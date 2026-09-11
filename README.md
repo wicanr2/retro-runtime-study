@@ -30,13 +30,23 @@
 | 篇 | 內容 |
 |---|---|
 | [五份函式庫的全景](docs/00-overview/era-and-libraries.md) | 指標寬度、浮點、作業系統三個約束怎麼決定函式庫的份數與寫法；兩家 16 位元 CRT 的做法對照；各函式庫出現在哪些遊戲 |
+| [在 dosgolem 裡用 Borland C++ 2.0 編譯](docs/70-toolchain/bcc20-on-dosgolem.md) | 從安裝磁片映像到可重跑的命令列編譯；BGI 俄羅斯方塊範例在瀏覽器裡玩；dosgolem 為 BCC 補的七條規格 |
 
 後續篇目與進度見 `PLAN.md`。
+
+## 工具與範例
+
+| 路徑 | 內容 |
+|---|---|
+| `tools/bcpp20/install.sh` | 從你自己的 BC++ 2.0 安裝磁片映像裝出 BORLANDC 目錄（容器內執行） |
+| `tools/bcpp20/bcc.sh` | 在 [dosgolem](https://github.com/wicanr2/dosgolem) 裡執行 BCC、TASM、TLINK 等工具 |
+| `examples/tetris/` | BGI 俄羅斯方塊：自己寫的範例程式與編譯、遊玩腳本 |
 
 ## 邊界
 
 - **本 repo 不含任何原始碼。** 上述函式庫的授權都禁止散布原始碼，這裡只有自己寫的說明、
-  虛擬碼、圖與統計。要讀原文請自行取得合法來源。
+  虛擬碼、圖與統計。要讀原文請自行取得合法來源。`examples/` 的程式是本 repo 自己寫的；
+  工具鏈腳本不附任何 Borland 檔案，要用你自己的安裝磁片。
 - 位元組簽章只收 Borland 與 Microsoft 函式庫，且只收遮罩過位址的短樣式。
 - 推論等級分「已證實／強推論／假說」；沒有一手來源支持的內容標「待查證」。
 
