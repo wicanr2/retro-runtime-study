@@ -61,7 +61,7 @@ unpack() {  # $1 目的地子目錄，其餘為 ZIP 主檔名
     for stem in "$@"; do
         z=$(ls "$T/$stem.ZIP" "$T"/disks/*/"$stem.ZIP" 2>/dev/null | head -1)
         [ -n "$z" ] || { echo "沒有 $stem" >> "$log"; continue; }
-        for m in $(unzip -Z1 "$z"); do
+        unzip -Z1 "$z" | while IFS= read -r m; do
             case "$m" in */) continue ;; esac
             if [ -e "/out/$dst/$m" ]; then
                 [ "$(cksum < "/out/$dst/$m")" = "$(unzip -p "$z" "$m" | cksum)" ] \
@@ -82,4 +82,6 @@ rm -rf "$T"
 for f in BIN/BCC.EXE BIN/TASM.EXE BIN/TLINK.EXE LIB/CS.LIB LIB/GRAPHICS.LIB BGI/EGAVGA.BGI; do
     [ -e "/out/$f" ] || { echo "安裝不完整：缺 $f（見 install.log）" >&2; exit 1; }
 done
+n=$(grep -c '^同名但內容不同' "$log" || true)
+[ "$n" = 0 ] || echo "注意：$n 個同名但內容不同的檔案沒有採用，清單見 install.log" >&2
 echo "安裝完成：$(find /out -type f | wc -l) 個檔案"

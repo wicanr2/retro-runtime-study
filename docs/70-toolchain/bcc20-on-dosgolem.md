@@ -23,10 +23,10 @@ Borland C++ 2.0 的命令列工具（BCC、TASM、TLINK）可以在 [dosgolem](h
 同樣的輸入每次得到同樣的輸出，編一支 hello world 約 330 萬條模擬指令、數秒完成。
 
 本 repo 附了三支腳本與一個範例：`tools/bcpp20/install.sh` 從你自己的安裝磁片映像裝出 BORLANDC 目錄，
-`tools/bcpp20/bcc.sh` 在 dosgolem 裡執行任一支 BC++ 工具，`examples/tetris/` 是用 BGI 繪圖庫寫的俄羅斯方塊，
+`tools/bcpp20/bcc.sh` 在 dosgolem 裡執行任一支 BC++ 工具，`examples/tetris/` 是用 BGI（Borland Graphics Interface，BC++ 附的繪圖庫）寫的俄羅斯方塊，
 編好之後由 dosgolem 的 `webplay` 在瀏覽器裡即時執行、可以用鍵盤玩。
 
-BCC 能在 dosgolem 裡跑，是因為 dosgolem 為它補了七條規格（194–200，在 dosgolem 的 `bcc20-toolchain` 分支）。
+BCC 能在 dosgolem 裡跑，是因為 dosgolem 為它補了七條規格（編號 194–200；dosgolem 每補一種行為，先在 `docs/spec/` 寫一份 markdown 規格再實作，這七份在 `bcc20-toolchain` 分支）。
 下文逐條列出每一條擋住的是什麼症狀。
 
 <p align="center"><img src="../../img/bcc20-dosgolem-pipeline.svg" width="900" alt="三個階段：安裝磁片映像經容器解出 BORLANDC 目錄；TETRIS.C 與 BORLANDC 攤平後由 dosgolem 的 cmd/run 執行 BCC 與 TLINK，產出 tetris.exe；tetris.exe 與 EGAVGA.BGI 交給 dosgolem 的 webplay，畫面以 PNG 送到瀏覽器、按鍵送回來"></p>
@@ -51,11 +51,15 @@ dosgolem 以「執行了幾條指令」當時鐘，沒有視窗、沒有即時�
 
 - **你自己合法取得的 Borland C++ 2.0 安裝磁片映像**（`*.IMG`，FAT12 格式的 720 KB 或 1.44 MB 磁片）。
   本 repo 與 dosgolem 都不含任何 Borland 檔案。
-- **Docker**。所有解壓、編譯、執行都在容器裡；主機只需要 `sh`。
-- **dosgolem 的 `bcc20-toolchain` 分支**：
+- **Docker**，而且目前的使用者不用 `sudo` 就能執行 `docker`。所有解壓、編譯、執行都在容器裡；主機只需要 `sh`。
+  腳本第一次執行時會自動建置映像 `retro-runtime-study-tools:1`（`tools/bcpp20/Dockerfile`，Alpine 加 unzip），
+  dosgolem 的 Go 編譯用 `golang:1.24-bookworm`；這兩步要能連網，之後的解壓、編譯、執行都以 `--network none` 進行。
+- **本 repo 與 dosgolem 的 `bcc20-toolchain` 分支**：
 
   ```sh
+  git clone https://github.com/wicanr2/retro-runtime-study.git ~/retro-runtime-study
   git clone -b bcc20-toolchain https://github.com/wicanr2/dosgolem.git ~/dosgolem
+  cd ~/retro-runtime-study          # 以下指令都在這個目錄執行
   ```
 
   dosgolem 的 Go 工具鏈也在容器裡（`tools/go.sh`），不用在主機裝 Go。
@@ -76,7 +80,8 @@ tools/bcpp20/install.sh ~/bcpp20-disks ~/bcpp20
    每一片開頭有 4 bytes 的片頭，去掉之後依序接起來就是一個完整的 ZIP。
    接完用 `unzip -t` 驗每個成員的 CRC32，片的順序或片頭長度弄錯會在這一步失敗。
 2. **依用途解到固定目錄。** 編譯器與工具解到 `BIN`，標頭檔到 `INCLUDE`，各記憶體模型的函式庫到 `LIB`，
-   BGI 的驅動與字型到 `BGI`，啟動碼原始檔到 `STARTUP`。
+   BGI 的驅動與字型到 `BGI`，啟動碼的組語原始檔到 `STARTUP`。連結時用的啟動碼目的檔
+   （`C0S.OBJ`、`C0L.OBJ`⋯⋯）已經編好放在 `LIB`，所以編譯時用不到 `STARTUP`。
 
 磁片檔案系統用本 repo 的 `fat12.py` 直接讀，不需要 `mount` 或 mtools。
 完成後會檢查 `BCC.EXE`、`TASM.EXE`、`TLINK.EXE`、`CS.LIB`、`GRAPHICS.LIB`、`EGAVGA.BGI` 都在，
@@ -84,7 +89,7 @@ tools/bcpp20/install.sh ~/bcpp20-disks ~/bcpp20
 
 ## 步驟二：編一支 hello world
 
-找一個空目錄放 `HELLO.C`：
+建一個空目錄（下例是 `~/hello`）當工作目錄，在裡面放 `HELLO.C`：
 
 ```c
 #include <stdio.h>
@@ -99,11 +104,14 @@ int main(void)
 然後：
 
 ```sh
-export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem
+export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem     # 之後的腳本都讀這兩個變數；開新終端機要重設
 tools/bcpp20/bcc.sh ~/hello BCC.EXE -ms HELLO.C
 ```
 
-`-ms` 是 small 記憶體模型（程式碼與資料各一個 64 KB 段，指標都是 near；見
+`bcc.sh` 的三段參數依序是：工作目錄（`HELLO.C` 所在處，產物寫到它底下的 `out/`）、要執行的 DOS 程式、
+傳給那支程式的命令列。
+
+`-ms` 是 small 記憶體模型（程式碼與資料各一個 64 KB 段，指標都是只存段內位移的 2 bytes near 指標；見
 [五份函式庫的全景](../00-overview/era-and-libraries.md)）。產物在 `~/hello/out/hello.exe`（6,072 bytes）。
 dosgolem 最後印出一份報告，節錄如下：
 
@@ -137,7 +145,7 @@ Turbo Link  Version 4.0 Copyright (c) 1991 Borland International
 
 **`-cpu 186`。** BCC 啟動時會偵測 CPU。它先用 `PUSH SP` 分辨「8086／80186 這一類」與「80286 以後」
 （前者推入的是減 2 之後的 SP，後者推入減之前的值），判定為 286 以後再進一步試 32 位元指令。
-dosgolem 預設的 386 模式只實作了 32 位元指令的子集，BCC 走那條路會遇到還沒實作的部分；
+dosgolem 預設的 386 模式只實作了 32 位元指令的子集，BCC 在第 564 條指令、以 `mov eax,ebx`（`66 8B C3`）探測 386 時就停下；
 選 8086 或 186，BCC 就留在 16 位元路徑。選 186 而不選 8086，是因為 186 模式另外解得出
 `PUSH imm`、`ENTER`／`LEAVE`、立即數位移這些 80186 指令——用 BCC 的 `-1` 選項編出的程式會用到。
 
@@ -183,7 +191,7 @@ Ctrl-C 結束容器。埠只開在 `127.0.0.1`，要換埠號設 `PORT`。
 判定是 VGA 後，到第三個參數指定的目錄（空字串是目前目錄）找 `EGAVGA.BGI` 載進記憶體，
 再切到 mode 12h（640×480、16 色）。`GRAPHICS.LIB` 本身只有與硬體無關的部分；
 CGA、EGA／VGA、Hercules、AT&T、IBM 8514、3270 各有一個 `.BGI` 驅動。
-同一支執行檔在哪種顯示卡上都能跑，也不必把用不到的驅動全部連結進來——在記憶體以 KB 計的年代，這是合理的取捨。
+驅動分開成檔案，同一支執行檔在哪種顯示卡上都能跑，也不必把用不到的驅動連結進來佔用記憶體。
 不想另外附檔的程式可以用 `BGIOBJ.EXE` 把驅動轉成 `.OBJ` 連結進去，再以 `registerbgidriver()` 登記；
 範例為了保持簡單沒有這樣做。
 
@@ -205,6 +213,7 @@ CGA、EGA／VGA、Hercules、AT&T、IBM 8514、3270 各有一個 `.BGI` 驅動�
    dosgolem 以指令數當時鐘：一個 BIOS tick 在預設分頻下約 63 萬條指令，
    要每秒 18.2 次得每秒執行約 1,160 萬條。主機跟不上時，webplay 按實測速度調降每個 tick 的指令數（`IRQ0Base`），
    等於「模擬出來的 CPU 變慢，但 BIOS 時間照常走」，方塊的下落速度就維持正確。
+   這個調整只往下調：主機恢復之後時間仍然正確，但模擬 CPU 維持在調低後的速度，要恢復得重開 webplay。
 2. **把顯示記憶體轉成圖片。** mode 12h 的每個像素分散在四個位元平面裡，各取一個位元組合成 0–15 的色號，
    經過屬性調色盤與 DAC 轉成 RGB，編成 PNG。瀏覽器每 30 ms 問一次，畫面沒變就回 204，不重送。
 3. **把按鍵送回去。** 瀏覽器的 `KeyboardEvent.code` 轉成 PC 鍵盤的掃描碼，放進 BIOS 鍵盤佇列，
@@ -220,12 +229,12 @@ dosgolem 的原則是：遇到跑不起來的程式，就依 DOSBox-X 的原始�
 
 | 規格 | 補了什麼 | 沒有它時的症狀 |
 |---|---|---|
-| 194 | EXEC 時子行程的 DTA（FindFirst 寫結果的緩衝區）指到它自己的 PSP:0080h | TLINK 正常產出 `.EXE`，但 BCC 回來後當掉：TLINK 找 `tlink.cfg` 的結果寫進了 BCC 堆疊上的返回位址 |
+| 194 | EXEC 時子行程的 DTA（FindFirst 寫結果的緩衝區）指到它自己的 PSP:0080h（PSP 是 DOS 替每個行程準備的 256 bytes 表頭） | TLINK 正常產出 `.EXE`，但 BCC 回來後當掉：TLINK 找 `tlink.cfg` 的結果寫進了 BCC 堆疊上的返回位址 |
 | 195 | `NUL` 字元裝置 | TASM 開 `NUL` 失敗，第 623 條指令以回傳碼 7 結束，沒有任何訊息；BCC 用 `-B` 編內嵌組語時一併失敗 |
-| 196 | `int 21h AH=38h`（國別資訊）寫進呼叫端給的緩衝區，不動 DS:DX | TASM 呼叫後 DS 被改掉，之後的資料存取全部落在錯的段，以回傳碼 7 結束 |
+| 196 | `int 21h AH=38h`（國別資訊）寫進呼叫端以 DS:DX（資料段暫存器：位移）指定的緩衝區，不改動這兩個暫存器 | TASM 呼叫後 DS 被改掉，之後的資料存取全部落在錯的段，以回傳碼 7 結束 |
 | 197 | 80186 的 `PUSH SP` 推入減 2 之後的值（分界在 80286） | 以 186 模式執行時 BCC 把 CPU 誤判成 286 以後，接著執行 `mov eax,ebx` 探測 386，dosgolem 在 `0x66` 前綴停下 |
 | 198 | 切到 mode 10h／12h 時載入預設的 64 色 DAC | BGI 畫面全黑；平面裡的色號其實都對，只是 DAC 全是 0 |
-| 199 | BIOS ROM 在 `F000:FA6E` 放 8×8 字型 | BGI 預設字型的標點與數字 1–9 畫成空白（`Borland C++ 2.0` 只剩 `Borland C     O`） |
+| 199 | BIOS ROM 在 `F000:FA6E` 放 8×8 字型 | BGI 預設字型的標點與數字 1–9 畫成空白（`Borland C++ 2.0` 只剩 `Borland C     0`，末尾是數字 0） |
 | 200 | `cmd/webplay` 互動外殼 | —（新功能） |
 
 194、195、196 不是 BC++ 特有的問題：任何會 EXEC 子程式再 FindFirst 的程式、任何開 `NUL` 的程式、
@@ -242,7 +251,7 @@ dosgolem 的原則是：遇到跑不起來的程式，就依 DOSBox-X 的原始�
 | 報告的「找不到的檔」出現 `.H` 或 `.LIB` | 檔名拼錯，或那個檔不在 `BIN`、`INCLUDE`、`LIB`、`BGI` 與工作目錄最上層；子目錄裡的檔案不會被攤平 |
 | 程式印出 `BGI error: Device driver file not found (EGAVGA.BGI)` 並以回傳碼 1 結束 | 執行目錄沒有 `EGAVGA.BGI` |
 | 瀏覽器畫面不動 | 先點一下畫面讓它取得焦點；狀態列若顯示「程式已結束」，看下方的主控台輸出 |
-| 狀態列每秒指令數很低、方塊掉得慢 | 主機忙；webplay 已調降 `IRQ0Base` 讓時間照常走，但畫面更新會變頓。用 `-realtime=false` 可以關掉這個調整 |
+| 狀態列每秒指令數很低、畫面更新變頓 | 主機忙；webplay 已調降 `IRQ0Base` 讓時間照常走。調降不會自動回復，主機空下來後重開 `play.sh` 即可。webplay 加 `-realtime=false` 可以關掉這個調整 |
 | 在 386 模式（dosgolem 預設）執行自己的程式 | 一般的 BCC 產物用不到 386 指令，三種模式都能跑；但執行時偵測 CPU 的程式（BCC 自己就是）會走不同路徑 |
 
 ## 證據與未知
@@ -252,7 +261,7 @@ dosgolem 的原則是：遇到跑不起來的程式，就依 DOSBox-X 的原始�
 | BCC、TLINK 在 dosgolem 裡編出可執行的 `hello.exe`、`tetris.exe` | 以本文腳本實際執行，產物在 dosgolem 裡執行結果正確 | 已證實 |
 | 同樣輸入得到同樣產物 | dosgolem 以指令數計時、不讀主機時間；同一安裝重跑兩次，以及兩份安裝來源（1991-04 與 1991-08 的磁片；`BCC.EXE` 相同、`TLINK.EXE` 不同）編出的 `hello.exe` 都逐位元組相同 | 已證實 |
 | 報告中各檔案的角色（`turboc.$ln` 是回應檔、`EMMXXXX0` 是 EMS 探測） | 開檔順序與檔名慣例；`EMMXXXX0` 是 EMS 驅動程式的標準裝置名 | 強推論 |
-| BCC 以 `PUSH SP` 分辨 CPU 等級、286 以後再試 32 位元指令 | 反組譯 `BCC.EXE` 的啟動碼 | 已證實（反組譯） |
+| BCC 以 `PUSH SP` 分辨 CPU 等級、286 以後再試 32 位元指令 | 反組譯 `BCC.EXE` 的啟動碼；`-cpu 386` 實跑停在 `66 8B C3` | 已證實（反組譯、實跑） |
 | 規格 194–199 的症狀與修正 | 各規格的觸發案例（記憶體監看、指令追蹤）與單元測試 | 已證實 |
 | 模組化 `.BGI` 驅動是為了省記憶體與支援多種顯示卡 | 驅動檔的分法與 `BGIOBJ` 的存在；沒有找到 Borland 的設計文件 | 強推論 |
 | mode 12h 的顏色 | dosgolem 的預設 DAC 照 DOSBox-X，真機 VGA BIOS 載入的值應相同，**未與真機截圖比對** | 強推論 |
@@ -261,5 +270,4 @@ dosgolem 的原則是：遇到跑不起來的程式，就依 DOSBox-X 的原始�
 
 - 在真機或 DOSBox-X 上以同一份 `TETRIS.C` 編出的 `tetris.exe` 是否與 dosgolem 產出的逐位元組相同。
   BCC 的輸出理論上不依賴時間與環境，但沒有實測。
-- BCC 在 `-cpu 386` 下具體卡在哪一條指令；本文只用到 186 模式，沒有追。
 - `INSTALL.EXE` 除了接合與解壓以外是否還做了別的事（例如修改設定檔）；命令列建置沒有用到它的產物以外的東西。

@@ -1,6 +1,6 @@
 # BGI 俄羅斯方塊
 
-用 Borland C++ 2.0 的 BGI 繪圖庫寫的俄羅斯方塊。在 dosgolem 裡用原廠 BCC 編譯，
+用 Borland C++ 2.0 的 BGI（Borland Graphics Interface）繪圖庫寫的俄羅斯方塊。在 dosgolem 裡用原廠 BCC 編譯，
 再由 dosgolem 的 `webplay` 在瀏覽器裡即時執行。原理與每一步的說明見
 [在 dosgolem 裡用 Borland C++ 2.0 編譯](../../docs/70-toolchain/bcc20-on-dosgolem.md)。
 
@@ -15,6 +15,7 @@
 ## 編譯與執行
 
 ```sh
+cd examples/tetris
 export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem
 ./build.sh      # → out/tetris.exe
 ./play.sh       # → 開 http://127.0.0.1:8086/，Ctrl-C 結束
