@@ -2,14 +2,15 @@
 id: overview/era-and-libraries
 title: 五份函式庫的全景：指標寬度決定了函式庫的形狀
 libraries: [borland-crtl-2.0, msvc-1.0-crt, msvc-2.0-crt, dmx, dsmi]
-goals: [craft, re]
+goals: [craft, re, oracle]
 evidence: 強推論
 triggers:
   - 第一次使用本知識庫，想知道五份函式庫各自涵蓋什麼、差在哪裡
   - 反組譯 1990 年代的 DOS 或 Windows 執行檔，要先判斷它連結的是哪家函式庫的哪個變體
   - 看到 CS.LIB、CL.LIB、CWINL.LIB、SLIBCER.LIB、LLIBCEW.LIB、LIBCMT.LIB、dmx.lib 這類檔名，想知道它們怎麼切分
   - remake 目標是 Doom、Heretic、Hexen、Raptor 或 Disney 的 The Lion King，想知道它們用的音效函式庫
-symbols: [retf, les, lds, MZ, NE, LE, PE, LPROG, LDATA, __FARFUNCS__, CMACROS.INC, RULES.ASI, CS.LIB, CL.LIB, CWINL.LIB, MATHL.LIB, SLIBCER.LIB, LLIBCEW.LIB, LIBC.LIB, LIBCMT.LIB, dmx.lib, wcc386p, bpc]
+  - 要判斷 Borland C++ 2.0 的 runtime 原始碼能不能代表某個執行檔裡連結的版本
+symbols: [SCROLL, retf, les, lds, MZ, NE, LE, PE, LPROG, LDATA, __FARFUNCS__, CMACROS.INC, RULES.ASI, CS.LIB, CL.LIB, CWINL.LIB, MATHL.LIB, SLIBCER.LIB, LLIBCEW.LIB, LIBC.LIB, LIBCMT.LIB, dmx.lib, wcc386p, bpc]
 related: []
 ---
 
@@ -183,6 +184,13 @@ Microsoft 的 README 說明這份原始碼經過測試、功能與出貨版相�
 | `dmx` | Digital Expressions 署名檔的版權年份 1993–1994 | 32 位元 DOS 保護模式 | DEBUG／BETA／PROD | 3.4a：C 35、組語 6 | Watcom C 32 位元、TASM | 3.7 版只有 `.LIB`、標頭與一支測試程式 |
 | `dsmi` | Otto Chrons 署名檔的版權年份 1992–1994 | DOS 真實模式、16 位元 DPMI | 音效卡驅動 × 語言介面 | Pascal 97、C 43、組語 38 | Borland Pascal、BCC（large model）、TASM | — |
 
+Borland 這份 RTL 原始碼與出貨的函式庫是什麼關係，已經用原廠工具鏈實際重編驗證過：
+C 函式庫與 iostream 共 491 個模組、各以五種記憶體模型編譯（2,455 次），產出的程式碼、資料、重定位與符號
+與 1991-04 出貨版的 `CS`～`CH.LIB` **全部相同**。Borland C++ 2.0 另有一個 1991-08 的改版
+（Application Frameworks 套裝），它的 C 函式庫只有 `SCROLL` 一個模組不同（程式碼變長，多參照
+`puttext`／`gettext`）。所以讀這份原始碼得到的結論，可以直接套到 BC++ 2.0 編出的程式上；
+要分辨是哪一版連結進去的，看 `SCROLL`。
+
 DMX 的封存裡並排放著 3.3b、3.3d、3.3gs、3.4a 四個含原始碼的版本，檔頭留有版本控制系統的修訂紀錄，
 能看出同一個函式在一年多裡怎麼改。DSMI 的 Pascal 端在 makefile 裡同時以真實模式與 DPMI 保護模式兩種目標編譯
 （依 Borland Pascal 的 `-CD`／`-CP` 參數判斷，強推論），每種音效卡各有一個驅動模組（`SDI_` 開頭）。
@@ -239,13 +247,15 @@ DSMI 的授權禁止對該套件做逆向，本知識庫對 DSMI 只記錄原始
 | Win16 DLL 另編一份的原因是資料段與堆疊段不同 | 兩家都另編 DLL 版；原始檔尚未逐一查證 | 強推論 |
 | DMX 真實模式中斷段的用途 | 段宣告與檔頭；切換時機是推論 | 強推論 |
 | 檔案數 | 各封存解出的原始檔，依副檔名計數 | 已證實（計數） |
+| Borland RTL 原始碼的 C 函式庫與 1991-04 出貨的 `CS`～`CH.LIB` 模組逐一相同 | 以原廠 BCC 2.0／TASM 2.51 在 DOS 模擬環境重編 2,455 次，比對 OMF 語意記錄（略過模組名與註解記錄） | 已證實（對拍） |
+| 1991-08 改版的 C 函式庫只有 `SCROLL` 不同 | 同上，對 8 月版比對 | 已證實（對拍） |
 | Borland C++ 2.0 於 1991 年推出 | 磁片時間戳；《Borland C++ Version 2.0 Getting Started》版權頁（bitsavers 掃描） | 已證實（原文） |
 | Visual C++ 2.0 另有 RISC 版（Alpha 與 MIPS） | Microsoft 知識庫文章 Q164951（封存）；本封存只有 Alpha 那一包 | 已證實（原文） |
 | 兩份 VC CRT 原始碼來自 Microsoft 的 FTP 站 | archive.org 條目 `vccrt1-src`、`vc20-src` 的說明 | 二手 |
 
 尚未查證：
 
-- 所有「編出來長什麼樣子」的敘述都還沒經過編譯對拍，原廠工具鏈尚未取得。
+- Borland 的數學函式庫、far 字串函式、Windows 版函式庫與啟動碼還沒對拍；Microsoft 的 CRT 還沒有編譯器可以對拍。
 - huge model 與 large model 在靜態資料配置上的具體差異。
 - DSMI 在保護模式下的支援程度；DMX 在各音效卡上的中斷處理細節。
 - DMX 這份封存的來歷與目前的權利人。
