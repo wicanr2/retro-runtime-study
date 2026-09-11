@@ -8,8 +8,8 @@
 |---|---|---|
 | `borland-crtl-2.0` | Borland C++ 2.0 附的 Runtime Library Source（1991） | Turbo C 各版、BC++ 3.x 以後的 RTL |
 | `msvc-1.0-crt` | Visual C++ 1.0 的 16 位元 CRT 原始碼（1993） | MSC 5／6／7、VC++ 1.5 |
-| `msvc-2.0-crt` | Visual C++ 2.0 的 Win32 CRT 原始碼（1994）；x86 與 Alpha 分兩包 | 16 位元 CRT |
-| `dmx` | DMX 音效函式庫；版本另外標（3.3b、3.3d、3.3gs、3.4a、3.7） | — |
+| `msvc-2.0-crt` | Visual C++ 2.0 的 Win32 CRT 原始碼（1994）；本封存有 x86 與 Alpha 兩包（RISC 版另有 MIPS，不在封存內） | 16 位元 CRT |
+| `dmx` | DMX 音效函式庫；版本另外標（3.3b、3.3d、3.3gs、3.4a、3.7） | 用 DMX 的遊戲自帶的 `.LIB` 版本 |
 | `dsmi` | DSMI（Digital Sound and Music Interface） | 以 DSMI 為基礎的 DMP 播放器 |
 
 ## 術語
@@ -27,3 +27,8 @@
 | prolog／epilog | 函式開頭建立堆疊框、結尾拆掉它的固定指令序列；記憶體模型與 Windows 相容需求會讓它長得不一樣 |
 | 8087 emulator | 沒有數學輔助處理器的機器上，用軟體模擬浮點指令的執行時元件 |
 | 對拍（oracle） | 用原廠工具鏈重新編譯，拿產物驗證文章的說法 |
+| DOS extender | 讓 DOS 程式在 32 位元保護模式下執行、需要時再切回真實模式呼叫 DOS 的執行時元件 |
+| DPMI | DOS Protected Mode Interface，保護模式程式向主機要記憶體、掛中斷、呼叫真實模式程式碼的標準介面 |
+| flat model | 32 位元下所有段都從 0 開始、涵蓋整個位址空間，程式只看到一個平面位址 |
+| `CMACROS.INC` | Microsoft 16 位元組語用的巨集套件，依記憶體模型展開函式進出與參數存取 |
+| 組合函式庫 | Visual C++ 1.0 安裝時把 C 函式庫、浮點庫、C++ 函式庫等元件庫合併成的單一 `.LIB`，檔名編碼記憶體模型、浮點方式與執行環境 |

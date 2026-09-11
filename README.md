@@ -8,8 +8,8 @@
 | `borland-crtl-2.0` | Borland C++ 2.0 Runtime Library Source | 1991 | C 函式庫、數學函式庫、iostream、Windows 版函式庫 |
 | `msvc-1.0-crt` | Microsoft Visual C++ 1.0 Run-Time Library Sources | 1993 | 16 位元 CRT（MS-DOS 與 Windows 3.x） |
 | `msvc-2.0-crt` | Microsoft Visual C++ 2.0 Run-Time Library Sources | 1994 | Win32 CRT（x86 與 Alpha） |
-| `dmx` | DMX（Paul J. Radek） | 1992–1994 | DOS 音效卡驅動與音樂／音效播放 |
-| `dsmi` | DSMI（Otto Chrons） | 1992–1993 | DOS 模組音樂與音效混音 |
+| `dmx` | DMX（Paul J. Radek） | 1993–1994 | DOS 音效卡驅動與音樂／音效播放 |
+| `dsmi` | DSMI（Otto Chrons） | 1992–1994 | DOS 模組音樂與音效混音 |
 
 ## 用途
 
@@ -25,7 +25,13 @@
 （`triggers`）、可以 grep 的符號（`symbols`）。AI 讀者先比對 `triggers` 與 `symbols` 再決定要讀哪篇；
 術語與來源代號見 `CONTEXT.md`。
 
-文章目錄隨研究進度增加，進度見 `PLAN.md`。
+## 文章
+
+| 篇 | 內容 |
+|---|---|
+| [五份函式庫的全景](docs/00-overview/era-and-libraries.md) | 指標寬度、浮點、作業系統三個約束怎麼決定函式庫的份數與寫法；兩家 16 位元 CRT 的做法對照；各函式庫出現在哪些遊戲 |
+
+後續篇目與進度見 `PLAN.md`。
 
 ## 邊界
 

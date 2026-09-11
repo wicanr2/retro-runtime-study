@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="470" viewBox="0 0 1000 470" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="470" fill="#ffffff"/>
+
+  <!-- 左：段:位移 -->
+  <text x="30" y="40" font-size="20" font-weight="bold" fill="#222">① 8086 的位址：段 × 16 ＋ 位移</text>
+  <rect x="30" y="70" width="200" height="50" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="130" y="101" font-size="17" text-anchor="middle" fill="#222">段 0x1234</text>
+  <text x="285" y="86" font-size="14" text-anchor="middle" fill="#555">左移 4 位元</text>
+  <line x1="236" y1="97" x2="334" y2="97" stroke="#555" marker-end="url(#arr)"/>
+  <rect x="340" y="70" width="130" height="50" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="405" y="101" font-size="17" text-anchor="middle" fill="#222">0x12340</text>
+
+  <rect x="30" y="140" width="200" height="50" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="130" y="171" font-size="17" text-anchor="middle" fill="#222">位移 0x0010</text>
+  <text x="300" y="171" font-size="22" text-anchor="middle" fill="#555">＋</text>
+  <rect x="340" y="140" width="130" height="50" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="405" y="171" font-size="17" text-anchor="middle" fill="#222">0x00010</text>
+  <line x1="30" y1="210" x2="470" y2="210" stroke="#bbb"/>
+  <rect x="340" y="222" width="130" height="50" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="405" y="253" font-size="17" text-anchor="middle" fill="#222">0x12350</text>
+  <text x="40" y="253" font-size="15" fill="#333">實體位址（20 位元，共 1 MB）</text>
+
+  <text x="30" y="310" font-size="16" fill="#222">暫存器只有 16 位元，所以指標有兩種寬度：</text>
+  <rect x="30" y="325" width="440" height="46" rx="8" fill="#ffffff" stroke="#888"/>
+  <text x="45" y="354" font-size="15" fill="#222"><tspan font-weight="bold">near</tspan>：只存位移，2 bytes，只能指到同一個 64 KB 段</text>
+  <rect x="30" y="380" width="440" height="46" rx="8" fill="#ffffff" stroke="#888"/>
+  <text x="45" y="409" font-size="15" fill="#222"><tspan font-weight="bold">far</tspan>：段＋位移，4 bytes，1 MB 內都指得到</text>
+  <text x="30" y="452" font-size="13" fill="#777">記憶體模型就是「程式碼指標」與「資料指標」各選 near 或 far</text>
+
+  <!-- 右：near / far call -->
+  <line x1="505" y1="30" x2="505" y2="450" stroke="#e2e2e2"/>
+  <text x="530" y="40" font-size="20" font-weight="bold" fill="#222">② 呼叫與返回必須成對</text>
+
+  <text x="530" y="78" font-size="15" fill="#333">near call 推 2 bytes</text>
+  <rect x="530" y="88" width="120" height="30" rx="4" fill="#f3f4f6" stroke="#888"/>
+  <text x="590" y="108" font-size="14" text-anchor="middle" fill="#222">IP</text>
+  <text x="665" y="108" font-size="14" fill="#555">→ 函式結尾用 ret 彈 2 bytes</text>
+
+  <text x="530" y="152" font-size="15" fill="#333">far call 推 4 bytes</text>
+  <rect x="530" y="162" width="120" height="30" rx="4" fill="#f3f4f6" stroke="#888"/>
+  <text x="590" y="182" font-size="14" text-anchor="middle" fill="#222">CS</text>
+  <rect x="530" y="192" width="120" height="30" rx="4" fill="#f3f4f6" stroke="#888"/>
+  <text x="590" y="212" font-size="14" text-anchor="middle" fill="#222">IP</text>
+  <text x="665" y="197" font-size="14" fill="#555">→ 函式結尾用 retf 彈 4 bytes</text>
+
+  <rect x="530" y="245" width="440" height="140" rx="10" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="548" y="275" font-size="16" font-weight="bold" fill="#222">混用的後果</text>
+  <text x="548" y="302" font-size="15" fill="#222">small model 的程式用 near call 呼叫</text>
+  <text x="548" y="326" font-size="15" fill="#222">large model 編出的函式，函式用 retf 返回：</text>
+  <text x="548" y="350" font-size="15" fill="#222">多彈走 2 bytes 當成 CS，跳到錯的段。</text>
+  <text x="548" y="374" font-size="15" fill="#222">指標參數也一樣：2 bytes 和 4 bytes 對不上。</text>
+
+  <line x1="750" y1="392" x2="750" y2="412" stroke="#E8710A" marker-end="url(#arrO)"/>
+  <text x="750" y="438" font-size="16" text-anchor="middle" font-weight="bold" fill="#222">所以函式庫要每種記憶體模型各編一份</text>
+</svg>
