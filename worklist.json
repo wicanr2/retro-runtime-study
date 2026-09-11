@@ -1,0 +1,35 @@
+{
+  "schema": "retro-runtime-study-worklist/1",
+  "layers": {
+    "article": "要寫的文章",
+    "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
+  },
+  "items": [
+    {
+      "id": "overview-era-and-libraries",
+      "layer": "article",
+      "title": "總覽：時代約束與五份函式庫的全景",
+      "acceptance": "有前置欄位、至少一張 SVG、每份函式庫的範圍與來源代號都對得上 CONTEXT.md",
+      "verify": { "kind": "missing", "paths": ["docs/00-overview/era-and-libraries.md"] }
+    },
+    {
+      "id": "borland-memory-model-macros",
+      "layer": "article",
+      "title": "Borland：一份原始碼怎麼編出五個記憶體模型",
+      "verify": { "kind": "missing", "paths": ["docs/10-borland-crtl/memory-model-macros.md"] }
+    },
+    {
+      "id": "borland-compiler-helpers",
+      "layer": "article",
+      "title": "Borland 編譯器 helper：原始碼、呼叫慣例、執行檔裡的樣子",
+      "verify": { "kind": "missing", "paths": ["docs/10-borland-crtl/compiler-helpers.md"] }
+    },
+    {
+      "id": "kb-index",
+      "layer": "infra",
+      "title": "由前置欄位產生 kb-index.json，並檢查 id 唯一、related 指得到",
+      "acceptance": "tools/build_index.py 可重跑；前置欄位缺欄或 related 斷鏈時 exit 1",
+      "verify": { "kind": "missing", "paths": ["tools/build_index.py", "kb-index.json"] }
+    }
+  ]
+}
