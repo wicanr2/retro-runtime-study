@@ -20,6 +20,11 @@
 |---|---|
 | 記憶體模型（memory model） | 16 位元 x86 編譯器決定程式碼指標與資料指標是 16 位元（near）還是 32 位元段:位移（far）的一組設定；small／compact／medium／large／huge 各一種組合，函式庫要各編一份 |
 | near／far 指標 | near 只存段內位移（2 bytes），far 另外帶段值（4 bytes）；呼叫與存取的指令、速度、可定址範圍都不同 |
+| DGROUP | 16 位元程式把 `_DATA`、`_BSS` 等資料段合成一個 64 KB 以內的群組，DS 平常指向它；huge 模型的使用者模組資料不在其中 |
+| huge 模型 | 指標寬度與 large 相同，但每個模組的靜態資料可以各佔一段，函式進入時自己把 DS 設成所屬的資料段 |
+| far 版函式（`_fstrlen` 等） | Borland RTL 以 large 模型加 `__FARFUNCS__` 重編、改名成 `_f` 開頭的字串與記憶體函式，放進每個模型的函式庫，供 near 資料模型處理 far 指標 |
+| `_DSSTACK_` | Borland 啟動碼的開關：堆疊放在資料段裡（SS 等於 DS）；near 資料模型本來就定義它 |
+| map 檔 | 連結器輸出的段落配置與公開符號位址清單（TLINK 的 `/m`，BCC 的 `-M`） |
 | `LPROG`／`LDATA` | Borland RTL 內部用的兩個條件編譯開關：程式碼指標是否為 far、資料指標是否為 far。同一份原始碼靠它們切出各記憶體模型的版本 |
 | `.CAS` | Borland RTL 的「C 加內嵌組語」原始檔，編譯時要經過 TASM |
 | TASM | Turbo Assembler，Borland 的組譯器 |

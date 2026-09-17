@@ -30,6 +30,7 @@
 | 篇 | 內容 |
 |---|---|
 | [五份函式庫的全景](docs/00-overview/era-and-libraries.md) | 指標寬度、浮點、作業系統三個約束怎麼決定函式庫的份數與寫法；兩家 16 位元 CRT 的做法對照；各函式庫出現在哪些遊戲 |
+| [一份原始碼怎麼編出五個記憶體模型](docs/10-borland-crtl/memory-model-macros.md) | Borland RTL 的三層機制：批次檔、編譯器、`LDATA`／`LPROG` 巨集；huge 模型為什麼自己設定 DS；f 開頭的 far 版函式；在執行檔裡怎麼判斷模型 |
 | [在 dosgolem 裡用 Borland C++ 2.0 編譯](docs/70-toolchain/bcc20-on-dosgolem.md) | 從安裝磁片映像到可重跑的命令列編譯；BGI 俄羅斯方塊範例在瀏覽器裡玩；dosgolem 為 BCC 補的七條規格 |
 
 後續篇目、各階段目標與完成條件見 [`docs/goal/`](docs/goal/README.md)；進度看 issues。

@@ -9,7 +9,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 |---|---|---|
 | R0 | 骨架 | `CLAUDE.md`、`README.md`、`CONTEXT.md`、`worklist.json`、`tools/worklist.py` |
 | R1 | 總覽（完成） | `docs/00-overview/era-and-libraries.md`、兩張 SVG |
-| R2 | Borland 記憶體模型機制 | 一份原始碼怎麼編出五個 `.LIB` |
+| R2 | Borland 記憶體模型機制（完成） | `docs/10-borland-crtl/memory-model-macros.md`、兩張 SVG |
 | R3 | 編譯器 helper | 長整數乘除、結構複製、堆疊檢查：原始碼、呼叫慣例、執行檔裡的樣子 |
 | R4 | 啟動與結束鏈 | Borland 與 MS 的比較 |
 | R5 以後 | 依 worklist 排序 | heap、printf 引擎、檔案 I/O、iostream、DMX、DSMI |
@@ -41,3 +41,4 @@ img/
 |---|---|---|
 | README 把 DMX 標為 1992–1994 | 1993–1994 | 程式碼檔頭版權年份；1992 年的只有範例 WAV，「1992」來自封存名稱 |
 | README 把 DSMI 標為 1992–1993 | 1992–1994 | 檔頭版權年份有 8 個檔案標 1994 |
+| 總覽說啟動碼沒有隨原始碼一起提供（強推論） | 啟動碼原始檔與 `BUILD-C0.BAT` 在編譯器套件的 `STARTUP.ZIP`，RTL 的 `BUILD.BAT` 分支就是呼叫它 | 編譯器磁片的 `STARTUP.ZIP`；組出的 20 個目的檔與出貨版相同 |

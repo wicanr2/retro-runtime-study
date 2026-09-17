@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="520" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#222">large 與 huge：靜態資料放在哪、DS 誰來設</text>
+
+  <!-- large -->
+  <text x="240" y="84" font-size="18" font-weight="bold" text-anchor="middle" fill="#222">large</text>
+  <rect x="60" y="104" width="360" height="236" rx="10" fill="#f9fafb" stroke="#888"/>
+  <text x="240" y="130" font-size="15" text-anchor="middle" fill="#555">DGROUP（一段，最多 64 KB）</text>
+  <rect x="90" y="146" width="300" height="40" fill="#f3f4f6" stroke="#aaa"/><text x="240" y="172" font-size="15" text-anchor="middle" fill="#222">RTL 與使用者的 _DATA</text>
+  <rect x="90" y="190" width="300" height="40" fill="#f3f4f6" stroke="#aaa"/><text x="240" y="216" font-size="15" text-anchor="middle" fill="#222">_CONST、_INIT_、_EXIT_ …</text>
+  <rect x="90" y="234" width="300" height="40" fill="#f3f4f6" stroke="#aaa"/><text x="240" y="260" font-size="15" text-anchor="middle" fill="#222">_BSS（未初始化資料）</text>
+  <text x="240" y="318" font-size="14" text-anchor="middle" fill="#555">啟動碼設一次 DS，之後不變</text>
+  <rect x="60" y="370" width="360" height="56" rx="8" fill="#fff" stroke="#bbb"/>
+  <text x="240" y="394" font-size="15" text-anchor="middle" fill="#333">函式進出：不動 DS</text>
+  <text x="240" y="415" font-size="13" text-anchor="middle" fill="#666">far 指標參數才用 les／lds</text>
+
+  <!-- huge -->
+  <text x="720" y="84" font-size="18" font-weight="bold" text-anchor="middle" fill="#222">huge</text>
+  <rect x="520" y="104" width="240" height="190" rx="10" fill="#f9fafb" stroke="#888"/>
+  <text x="640" y="130" font-size="15" text-anchor="middle" fill="#555">DGROUP（沒有 _BSS）</text>
+  <rect x="540" y="146" width="200" height="56" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="640" y="170" font-size="15" text-anchor="middle" fill="#222">_DATA：整個 RTL</text>
+  <text x="640" y="192" font-size="13" text-anchor="middle" fill="#666">-zR_DATA -zTDATA 讓它們合併</text>
+  <rect x="540" y="208" width="200" height="40" fill="#f3f4f6" stroke="#aaa"/>
+  <text x="640" y="234" font-size="14" text-anchor="middle" fill="#222">_CONST、_INIT_、_EXIT_ …</text>
+  <text x="640" y="276" font-size="13" text-anchor="middle" fill="#666">仍是一段，最多 64 KB</text>
+
+  <rect x="780" y="104" width="190" height="44" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="875" y="132" font-size="15" text-anchor="middle" fill="#222">A_DATA（模組 A）</text>
+  <rect x="780" y="156" width="190" height="44" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="875" y="184" font-size="15" text-anchor="middle" fill="#222">B_DATA（模組 B）</text>
+  <text x="875" y="222" font-size="13" text-anchor="middle" fill="#666">使用者模組各自一段</text>
+  <text x="875" y="242" font-size="13" text-anchor="middle" fill="#666">類別 FAR_DATA，不進 DGROUP</text>
+  <text x="875" y="276" font-size="13" text-anchor="middle" fill="#666">總量可以超過 64 KB</text>
+
+  <rect x="520" y="370" width="450" height="56" rx="8" fill="#fff4ea" stroke="#E8710A"/>
+  <text x="745" y="394" font-size="15" text-anchor="middle" fill="#333">每個函式進入：push ds，載入「自己模組的資料段」</text>
+  <text x="745" y="415" font-size="15" text-anchor="middle" fill="#333">離開：pop ds（RTL 函式載入的就是 DGROUP）</text>
+  <line x1="640" y1="366" x2="640" y2="300" stroke="#E8710A" stroke-dasharray="5 4" marker-end="url(#arrO)"/>
+  <line x1="875" y1="366" x2="875" y2="300" stroke="#555" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+
+  <text x="30" y="470" font-size="14" fill="#555">呼叫進來時 DS 可能還是呼叫端模組的段，所以 huge 的函式不能假設 DS 已經指向 DGROUP。</text>
+  <text x="30" y="496" font-size="13" fill="#888">依據：RULES.ASI 的段落與群組定義、CH.LIB 模組的段落記錄，以及在 dosgolem 以 BCC -mh -M 連結的 map 檔。</text>
+</svg>

@@ -6,18 +6,6 @@
   },
   "items": [
     {
-      "id": "borland-memory-model-macros",
-      "layer": "article",
-      "title": "Borland：一份原始碼怎麼編出五個記憶體模型",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/10-borland-crtl/memory-model-macros.md"
-        ]
-      },
-      "issue": "#1"
-    },
-    {
       "id": "borland-compiler-helpers",
       "layer": "article",
       "title": "Borland 編譯器 helper：原始碼、呼叫慣例、執行檔裡的樣子",

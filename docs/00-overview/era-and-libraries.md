@@ -147,8 +147,8 @@ Borland 的建置全部是 DOS 批次檔，外層由環境變數 `MODEL` 列出�
    `.ASM` 則以 `__<模型>__` 形式的巨集告訴組語檔現在是哪個模型。
 2. 用 TLIB 依回應檔（`.RSP`）把目的檔收成該模型的 `.LIB`。C 函式庫的回應檔列了 300 個模組、iostream 191 個。
 3. 另外在 large model 下，把 31 個字串與記憶體函式加上 `__FARFUNCS__` 重編一次，
-   產出 f 開頭的目的檔，再收進每一個模型的 C 函式庫。用意應是讓 small 這類近指標模型的程式
-   也能呼叫處理 far 指標的版本（強推論，函式名稱與呼叫方式另文查證）。
+   產出 f 開頭的目的檔（`_fstrlen`、`_fmemcpy` 等），再收進每一個模型的 C 函式庫，
+   讓 small 這類近指標模型的程式也能處理 far 指標指向的字串；機制見[記憶體模型專文](../10-borland-crtl/memory-model-macros.md)。
 4. 同一份組語編出不同變體：浮點轉整數的 `FTOL` 在數學庫的共用步驟裡組譯兩次，分成 near 呼叫與 far 呼叫兩版；
    數學庫的 `EMUVARS` 則在每個模型各組譯一次，small 與 medium 帶 `LDATA=0`，compact、large、huge 帶 `LDATA=1`。
 5. Windows 版不建 huge model。
@@ -161,8 +161,8 @@ Borland 的建置全部是 DOS 批次檔，外層由環境變數 `MODEL` 列出�
   只是沒設進去，後面所有依賴環境變數的步驟就會默默跑錯。讀不回來就停下，提示使用者加大 `SHELL` 的 `/E` 參數。
   Visual C++ 1.0 的 README 也要求至少 4 KB 環境空間，是同一個限制。
 
-主建置批次檔裡還留著建啟動碼 `C0.ASM` 的分支，但磁片裡沒有這個檔案，分支在檔案不存在時直接跳過。
-看起來是原廠內部的建置腳本原樣出貨，啟動碼則沒有隨這套原始碼一起提供（強推論）。
+主建置批次檔裡還留著建啟動碼的分支：若 `startup` 目錄下有 `C0.ASM`，就呼叫 `BUILD-C0.BAT` 組出 DOS 與 Windows 版啟動碼。
+RTL 的磁片裡沒有這兩個檔案，它們隨編譯器套件的 `STARTUP.ZIP` 出貨；兩者放在一起，這個分支就接得上。
 
 ## 原廠為什麼附原始碼
 
@@ -178,7 +178,7 @@ Microsoft 的 README 說明這份原始碼經過測試、功能與出貨版相�
 
 | 代號 | 年代依據 | 執行環境 | 切分軸 | 主要語言（檔數） | 建置工具 | 沒附的部分 |
 |---|---|---|---|---|---|---|
-| `borland-crtl-2.0` | 磁片 FAT 時間戳 1991-02-13 | DOS、Windows 3.x | 記憶體模型 × DOS／Windows | C++ 216、C 174、C＋內嵌組語 161、組語 44 | BCC、TASM、TLIB，批次檔 | 8087 emulator、graphics library、啟動碼 `C0.ASM` |
+| `borland-crtl-2.0` | 磁片 FAT 時間戳 1991-02-13 | DOS、Windows 3.x | 記憶體模型 × DOS／Windows | C++ 216、C 174、C＋內嵌組語 161、組語 44 | BCC、TASM、TLIB，批次檔 | 8087 emulator、graphics library；啟動碼原始檔在編譯器套件 |
 | `msvc-1.0-crt` | 封存內時間戳 1993-02 | MS-DOS、Windows 3.x | 記憶體模型 × 浮點方式 × DOS／Win EXE／Win DLL | 組語 359、C 134、C++ 52 | CL、ML、NMAKE，批次檔 | 浮點庫、graphics、QuickWin 等 |
 | `msvc-2.0-crt` | 封存內時間戳 1994-10（x86）、1994-12（Alpha） | Win32、Win32s | 單／多執行緒 × 靜態／DLL | x86 包：C 475、組語 40，另附預編 `.OBJ` 200 個 | CL、NMAKE | 大部分浮點例程（只給 `.OBJ`） |
 | `dmx` | Digital Expressions 署名檔的版權年份 1993–1994 | 32 位元 DOS 保護模式 | DEBUG／BETA／PROD | 3.4a：C 35、組語 6 | Watcom C 32 位元、TASM | 3.7 版只有 `.LIB`、標頭與一支測試程式 |
@@ -186,7 +186,8 @@ Microsoft 的 README 說明這份原始碼經過測試、功能與出貨版相�
 
 Borland 這份 RTL 原始碼與出貨的函式庫是什麼關係，已經用原廠工具鏈實際重編驗證過：
 C 函式庫與 iostream 共 491 個模組、各以五種記憶體模型編譯（2,455 次），產出的程式碼、資料、重定位與符號
-與 1991-04 出貨版的 `CS`～`CH.LIB` **全部相同**。Borland C++ 2.0 另有一個 1991-08 的改版
+與 1991-04 出貨版的 `CS`～`CH.LIB` **全部相同**；far 版字串函式 31 個、編譯器套件附的啟動碼 20 個目的檔也全部相同。
+數學函式庫與 Windows 版函式庫大部分相同，少數浮點相關模組對不上，原因還在查。Borland C++ 2.0 另有一個 1991-08 的改版
 （Application Frameworks 套裝），它的 C 函式庫只有 `SCROLL` 一個模組不同（程式碼變長，多參照
 `puttext`／`gettext`）。所以讀這份原始碼得到的結論，可以直接套到 BC++ 2.0 編出的程式上；
 要分辨是哪一版連結進去的，看 `SCROLL`。
@@ -237,7 +238,8 @@ DSMI 的授權禁止對該套件做逆向，本知識庫對 DSMI 只記錄原始
 | Borland 五個 C 函式庫是同一組模組依模型分別編譯 | Borland C++ 2.0 RTL，`CRTL.DOC` §3 | 已證實（原文） |
 | `LPROG`／`LDATA` 對應程式碼與資料指標是否為 far | Borland C++ 2.0 RTL，`RULES.ASI`、`ASMRULES.H` | 已證實（原文） |
 | Borland 的建置步驟、far 字串函式重編、Windows 不建 huge | Borland C++ 2.0 RTL，`BATCH.ZIP` 內各批次檔 | 已證實（原文） |
-| 啟動碼 `C0.ASM` 不在磁片內 | 磁片檔案清單、`FILELIST.DOC` | 已證實（原文） |
+| 啟動碼 `C0.ASM` 不在 RTL 磁片內，隨編譯器套件的 `STARTUP.ZIP` 出貨 | RTL 與編譯器的磁片檔案清單、`FILELIST.DOC` | 已證實（原文） |
+| far 版字串函式與啟動碼的原始碼與出貨版相同 | 原廠工具重編，far 版 31 個模組 × 兩版 × 五個庫、啟動碼 20 個目的檔 | 已證實（對拍） |
 | VC 1.0 浮點庫不在原始碼範圍、合併函式庫的命名 | Visual C++ 1.0 CRT，`README.TXT` Part 4、Part 5 | 已證實（原文） |
 | VC 1.0 組語檔引入 `CMACROS.INC` | Visual C++ 1.0 CRT，359 個組語檔中 317 個的引入敘述 | 已證實（原文） |
 | `CMACROS.INC` 負責依模型展開函式進出與參數存取 | 引用關係與建置參數；巨集內容尚未逐一讀過 | 強推論 |
@@ -255,7 +257,7 @@ DSMI 的授權禁止對該套件做逆向，本知識庫對 DSMI 只記錄原始
 
 尚未查證：
 
-- Borland 的數學函式庫、far 字串函式、Windows 版函式庫與啟動碼還沒對拍；Microsoft 的 CRT 還沒有編譯器可以對拍。
-- huge model 與 large model 在靜態資料配置上的具體差異。
+- Borland 數學函式庫有六個 C 模組、Windows 版函式庫有兩個組語模組（`E87TRANS`、`FPINIT`）重編後與出貨版不同，
+  原因還沒查明；Microsoft 的 CRT 還沒有編譯器可以對拍。
 - DSMI 在保護模式下的支援程度；DMX 在各音效卡上的中斷處理細節。
 - DMX 這份封存的來歷與目前的權利人。

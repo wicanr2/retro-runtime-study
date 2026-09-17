@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="1000" height="560" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#222">strlen(str) 進入後的堆疊：同一份原始碼，三種長相</text>
+  <text x="30" y="64" font-size="14" fill="#555">BP 指向舊 BP；位址往下增加。橘色是字串參數，灰色是呼叫指令推入的返回位址。</text>
+
+  <!-- column headers -->
+  <text x="165" y="104" font-size="18" font-weight="bold" text-anchor="middle" fill="#222">small（tiny 同）</text>
+  <text x="165" y="126" font-size="14" text-anchor="middle" fill="#555">near 呼叫 · near 資料</text>
+  <text x="500" y="104" font-size="18" font-weight="bold" text-anchor="middle" fill="#222">medium</text>
+  <text x="500" y="126" font-size="14" text-anchor="middle" fill="#555">far 呼叫 · near 資料</text>
+  <text x="835" y="104" font-size="18" font-weight="bold" text-anchor="middle" fill="#222">large（huge 位置同）</text>
+  <text x="835" y="126" font-size="14" text-anchor="middle" fill="#555">far 呼叫 · far 資料</text>
+
+  <!-- small -->
+  <g font-size="15">
+    <text x="60" y="165" text-anchor="end" fill="#555">[bp+0]</text>
+    <rect x="70" y="145" width="190" height="34" fill="#f3f4f6" stroke="#888"/><text x="165" y="168" text-anchor="middle" fill="#222">舊 BP</text>
+    <text x="60" y="199" text-anchor="end" fill="#555">[bp+2]</text>
+    <rect x="70" y="179" width="190" height="34" fill="#e5e7eb" stroke="#888"/><text x="165" y="202" text-anchor="middle" fill="#222">返回 IP</text>
+    <text x="60" y="233" text-anchor="end" fill="#555">[bp+4]</text>
+    <rect x="70" y="213" width="190" height="34" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/><text x="165" y="236" text-anchor="middle" fill="#222">str 位移</text>
+  </g>
+
+  <!-- medium -->
+  <g font-size="15">
+    <text x="395" y="165" text-anchor="end" fill="#555">[bp+0]</text>
+    <rect x="405" y="145" width="190" height="34" fill="#f3f4f6" stroke="#888"/><text x="500" y="168" text-anchor="middle" fill="#222">舊 BP</text>
+    <text x="395" y="199" text-anchor="end" fill="#555">[bp+2]</text>
+    <rect x="405" y="179" width="190" height="34" fill="#e5e7eb" stroke="#888"/><text x="500" y="202" text-anchor="middle" fill="#222">返回 IP</text>
+    <text x="395" y="233" text-anchor="end" fill="#555">[bp+4]</text>
+    <rect x="405" y="213" width="190" height="34" fill="#e5e7eb" stroke="#888"/><text x="500" y="236" text-anchor="middle" fill="#222">返回 CS</text>
+    <text x="395" y="267" text-anchor="end" fill="#555">[bp+6]</text>
+    <rect x="405" y="247" width="190" height="34" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/><text x="500" y="270" text-anchor="middle" fill="#222">str 位移</text>
+  </g>
+
+  <!-- large -->
+  <g font-size="15">
+    <text x="730" y="165" text-anchor="end" fill="#555">[bp+0]</text>
+    <rect x="740" y="145" width="190" height="34" fill="#f3f4f6" stroke="#888"/><text x="835" y="168" text-anchor="middle" fill="#222">舊 BP</text>
+    <text x="730" y="199" text-anchor="end" fill="#555">[bp+2]</text>
+    <rect x="740" y="179" width="190" height="34" fill="#e5e7eb" stroke="#888"/><text x="835" y="202" text-anchor="middle" fill="#222">返回 IP</text>
+    <text x="730" y="233" text-anchor="end" fill="#555">[bp+4]</text>
+    <rect x="740" y="213" width="190" height="34" fill="#e5e7eb" stroke="#888"/><text x="835" y="236" text-anchor="middle" fill="#222">返回 CS</text>
+    <text x="730" y="267" text-anchor="end" fill="#555">[bp+6]</text>
+    <rect x="740" y="247" width="190" height="34" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/><text x="835" y="270" text-anchor="middle" fill="#222">str 位移</text>
+    <text x="730" y="301" text-anchor="end" fill="#555">[bp+8]</text>
+    <rect x="740" y="281" width="190" height="34" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/><text x="835" y="304" text-anchor="middle" fill="#222">str 段</text>
+  </g>
+
+  <!-- who decides -->
+  <line x1="30" y1="340" x2="970" y2="340" stroke="#ddd"/>
+  <text x="30" y="370" font-size="16" font-weight="bold" fill="#222">由編譯器依 -m 產生（原始碼沒寫）</text>
+  <g font-size="15" fill="#333">
+    <text x="165" y="398" text-anchor="middle">結尾 ret</text>
+    <text x="500" y="398" text-anchor="middle">結尾 retf，參數位置 +2</text>
+    <text x="835" y="398" text-anchor="middle">結尾 retf，參數位置 +2</text>
+  </g>
+
+  <text x="30" y="438" font-size="16" font-weight="bold" fill="#E8710A">由原始碼的 LDATA 分支決定（手寫組語）</text>
+  <rect x="70" y="454" width="525" height="84" rx="8" fill="#f9fafb" stroke="#bbb"/>
+  <text x="332" y="482" font-size="15" text-anchor="middle" fill="#333">LDATA = 0：把 DS 複製到 ES，只取 2 bytes 位移</text>
+  <text x="332" y="508" font-size="15" text-anchor="middle" fill="#333">不檢查空指標</text>
+  <text x="332" y="530" font-size="13" text-anchor="middle" fill="#666">small 與 medium 這一段逐位元組相同</text>
+  <rect x="660" y="454" width="310" height="84" rx="8" fill="#fff4ea" stroke="#E8710A"/>
+  <text x="815" y="482" font-size="15" text-anchor="middle" fill="#333">LDATA = 1：les 一次載入段與位移</text>
+  <text x="815" y="508" font-size="15" text-anchor="middle" fill="#333">段與位移都是 0 → 直接回傳 0</text>
+  <text x="815" y="530" font-size="13" text-anchor="middle" fill="#666">compact／large／huge</text>
+</svg>
