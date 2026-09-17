@@ -1,0 +1,15 @@
+frame 5 156 77
+loop 45 7 10
+dense 10 15 -1
+sparse 5 3 4 0
+two 1 2 0
+swlong 3 4 0
+call 10 3 5 42
+long 0 1 0
+data 5 13 12
+ptr 99
+math -384 384 187 198
+cond 8 -3 0 1
+imm 9 9 1
+float 55
+string codegen

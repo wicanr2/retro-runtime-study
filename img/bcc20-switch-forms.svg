@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect width="1000" height="700" fill="#ffffff"/>
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/></marker><marker id="ag" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker></defs>
+<text x="30" y="38" font-size="20" font-weight="bold" fill="#222">switch 的三種產生碼：表放在 ret 之後的程式碼段</text>
+<text x="30" y="64" font-size="14" fill="#555">由上往下是程式碼段裡的位址順序。灰框是指令，橘框是表（資料，不是指令）。預設選項，small 模型。</text>
+<text x="170" y="104" font-size="17" font-weight="bold" text-anchor="middle" fill="#222">比較鏈</text>
+<text x="170" y="124" font-size="13" text-anchor="middle" fill="#555">case 3、9（很少）</text>
+<rect x="30" y="145" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="170.0" y="163.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">cmp ax,3 / je</text>
+<text x="170.0" y="179.0" font-size="11" text-anchor="middle" fill="#666">3D 03 00 74 xx</text>
+<rect x="30" y="190" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="170.0" y="208.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">cmp ax,9 / je</text>
+<text x="170.0" y="224.0" font-size="11" text-anchor="middle" fill="#666">3D 09 00 74 xx</text>
+<rect x="30" y="235" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="170.0" y="253.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">jmp default</text>
+<text x="170.0" y="269.0" font-size="11" text-anchor="middle" fill="#666">EB xx</text>
+<rect x="30" y="280" width="280" height="30" rx="4" fill="#ffffff" stroke="#bbb" stroke-width="1"/>
+<text x="170.0" y="300.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">case 3 本體</text>
+<rect x="30" y="315" width="280" height="30" rx="4" fill="#ffffff" stroke="#bbb" stroke-width="1"/>
+<text x="170.0" y="335.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">case 9 本體</text>
+<rect x="30" y="350" width="280" height="30" rx="4" fill="#ffffff" stroke="#bbb" stroke-width="1"/>
+<text x="170.0" y="370.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">default 本體</text>
+<rect x="30" y="385" width="280" height="36" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="170.0" y="401.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">… pop bp / ret</text>
+<text x="170.0" y="417.0" font-size="11" text-anchor="middle" fill="#666">5D C3</text>
+<text x="170" y="450" font-size="13" text-anchor="middle" fill="#555">沒有表</text>
+<text x="500" y="104" font-size="17" font-weight="bold" text-anchor="middle" fill="#222">跳躍表</text>
+<text x="500" y="124" font-size="13" text-anchor="middle" fill="#555">case 0–5（連續）</text>
+<rect x="360" y="145" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="500.0" y="163.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">cmp bx,5 / ja default</text>
+<text x="500.0" y="179.0" font-size="11" text-anchor="middle" fill="#666">83 FB 05 77 xx</text>
+<rect x="360" y="190" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="500.0" y="208.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">shl bx,1</text>
+<text x="500.0" y="224.0" font-size="11" text-anchor="middle" fill="#666">D1 E3</text>
+<rect x="360" y="235" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="500.0" y="253.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">jmp cs:[bx+表]</text>
+<text x="500.0" y="269.0" font-size="11" text-anchor="middle" fill="#666">2E FF A7 ?? ??</text>
+<rect x="360" y="280" width="280" height="30" rx="4" fill="#ffffff" stroke="#bbb" stroke-width="1"/>
+<text x="500.0" y="300.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">case 0 本體</text>
+<rect x="360" y="315" width="280" height="30" rx="4" fill="#ffffff" stroke="#bbb" stroke-width="1"/>
+<text x="500.0" y="335.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">case 1 本體</text>
+<rect x="360" y="350" width="280" height="30" rx="4" fill="#ffffff" stroke="#bbb" stroke-width="1"/>
+<text x="500.0" y="370.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">case 2 本體</text>
+<text x="500" y="400" font-size="13" text-anchor="middle" fill="#999">⋮</text>
+<rect x="360" y="410" width="280" height="36" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="500.0" y="426.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">… pop bp / ret</text>
+<text x="500.0" y="442.0" font-size="11" text-anchor="middle" fill="#666">5D C3</text>
+<rect x="400" y="460" width="200" height="26" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="500.0" y="478.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 0</text>
+<rect x="400" y="490" width="200" height="26" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="500.0" y="508.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 1</text>
+<rect x="400" y="520" width="200" height="26" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="500.0" y="538.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 2</text>
+<rect x="400" y="550" width="200" height="26" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="500.0" y="568.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 3</text>
+<rect x="400" y="580" width="200" height="26" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="500.0" y="598.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 4</text>
+<rect x="400" y="610" width="200" height="26" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="500.0" y="628.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 5</text>
+<text x="500" y="660" font-size="13" text-anchor="middle" fill="#444">6 個 word 位址，BX×2 當索引</text>
+<path d="M 640 255 C 690 300, 690 470, 602 473" fill="none" stroke="#E8710A" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M 398 473 C 350 470, 350 295, 362 295" fill="none" stroke="#888" stroke-width="1.2" marker-end="url(#ag)"/>
+<path d="M 398 503 C 350 500, 350 330, 362 330" fill="none" stroke="#888" stroke-width="1.2" marker-end="url(#ag)"/>
+<path d="M 398 533 C 350 530, 350 365, 362 365" fill="none" stroke="#888" stroke-width="1.2" marker-end="url(#ag)"/>
+<text x="830" y="104" font-size="17" font-weight="bold" text-anchor="middle" fill="#222">值表搜尋</text>
+<text x="830" y="124" font-size="13" text-anchor="middle" fill="#555">case −7、1、100、1000、5000</text>
+<rect x="690" y="145" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="830.0" y="163.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">mov cx,5 / mov bx,表</text>
+<text x="830.0" y="179.0" font-size="11" text-anchor="middle" fill="#666">B9 05 00 BB ?? ??</text>
+<rect x="690" y="190" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="830.0" y="208.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">mov ax,cs:[bx] / cmp / je 找到</text>
+<text x="830.0" y="224.0" font-size="11" text-anchor="middle" fill="#666">2E 8B 07 3B 46 FE 74 06</text>
+<rect x="690" y="235" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="830.0" y="253.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">inc bx ×2 / loop / jmp default</text>
+<text x="830.0" y="269.0" font-size="11" text-anchor="middle" fill="#666">43 43 E2 F4 EB xx</text>
+<rect x="690" y="280" width="280" height="40" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="830.0" y="298.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">找到：jmp cs:[bx+10]</text>
+<text x="830.0" y="314.0" font-size="11" text-anchor="middle" fill="#666">2E FF 67 0A</text>
+<rect x="690" y="325" width="280" height="30" rx="4" fill="#ffffff" stroke="#bbb" stroke-width="1"/>
+<text x="830.0" y="345.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">各 case 本體</text>
+<rect x="690" y="360" width="280" height="36" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="830.0" y="376.0" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">… mov sp,bp / pop bp / ret</text>
+<text x="830.0" y="392.0" font-size="11" text-anchor="middle" fill="#666">8B E5 5D C3</text>
+<rect x="730" y="410" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="425.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw −7</text>
+<rect x="730" y="434" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="449.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw 1</text>
+<rect x="730" y="458" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="473.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw 100</text>
+<rect x="730" y="482" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="497.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw 1000</text>
+<rect x="730" y="506" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="521.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw 5000</text>
+<rect x="730" y="532" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="547.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case −7</text>
+<rect x="730" y="556" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="571.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 1</text>
+<rect x="730" y="580" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="595.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 100</text>
+<rect x="730" y="604" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="619.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 1000</text>
+<rect x="730" y="628" width="200" height="21" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="830.0" y="643.5" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">dw case 5000</text>
+<text x="830" y="668" font-size="13" text-anchor="middle" fill="#444">前 5 個是值，後 5 個是位址</text>
+<text x="830" y="686" font-size="13" text-anchor="middle" fill="#444">第 i 個值在 [bx]，它的位址在 [bx+10]</text>
+<path d="M 932 469 C 990 480, 990 575, 932 590" fill="none" stroke="#E8710A" stroke-width="2" marker-end="url(#ar)"/>
+<text x="948" y="535" font-size="12" fill="#E8710A">+10</text>
+</svg>

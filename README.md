@@ -33,6 +33,7 @@
 | [一份原始碼怎麼編出五個記憶體模型](docs/10-borland-crtl/memory-model-macros.md) | Borland RTL 的三層機制：批次檔、編譯器、`LDATA`／`LPROG` 巨集；huge 模型為什麼自己設定 DS；f 開頭的 far 版函式；在執行檔裡怎麼判斷模型 |
 | [編譯器 helper：程式裡看不到的函式呼叫](docs/10-borland-crtl/compiler-helpers.md) | `LXMUL@`、`LDIV@`、長整數位移、huge 指標正規化、結構複製、堆疊檢查、`FTOL@` 的呼叫慣例、辨識方式與邊界行為（實跑） |
 | [啟動與結束鏈：從載入到 main、從 exit 回到 DOS](docs/10-borland-crtl/startup-and-exit.md) | C0 在 `main` 之前做的事、初始化表與結束表的挑選規則、`exit`／`_exit`／`abort` 的差別、空指標檢查、Windows 版 C0W 的對照 |
+| [BCC 2.0 產生的程式碼在反組譯裡長什麼樣](docs/60-re-fingerprints/bcc20-codegen.md) | 函式進出、暫存器變數、呼叫與清堆疊、`switch` 的跳躍表與值表搜尋、各記憶體模型的資料存取、立即值編碼、浮點修正；從產生碼判斷編譯選項 |
 | [在 dosgolem 裡用 Borland C++ 2.0 編譯](docs/70-toolchain/bcc20-on-dosgolem.md) | 從安裝磁片映像到可重跑的命令列編譯；BGI 俄羅斯方塊範例在瀏覽器裡玩；dosgolem 為 BCC 補的七條規格 |
 
 後續篇目、各階段目標與完成條件見 [`docs/goal/`](docs/goal/README.md)；進度看 issues。
@@ -45,6 +46,7 @@
 | `tools/bcpp20/bcc.sh` | 在 [dosgolem](https://github.com/wicanr2/dosgolem) 裡執行 BCC、TASM、TLINK 等工具 |
 | `examples/tetris/` | BGI 俄羅斯方塊：自己寫的範例程式與編譯、遊玩腳本 |
 | `examples/helpers/` | 編譯器 helper 的邊界值測試程式與預期輸出 |
+| `examples/codegen/` | 各種語法構造在五個模型與各選項下的產生碼測試程式與預期輸出 |
 | `examples/startup/` | `#pragma startup`／`exit` 與 `atexit` 執行順序的測試程式 |
 
 ## 邊界

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect width="1000" height="560" fill="#ffffff"/>
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker></defs>
+<text x="30" y="38" font-size="20" font-weight="bold" fill="#222">浮點指令：目的檔只有一種，連結時決定是 8087 指令還是軟體中斷</text>
+<text x="30" y="64" font-size="14" fill="#555">例：fild word ptr [bp-2]。9B 那個位置帶外部符號 FIDRQQ 的修正，連結器把符號值加到這個 word 上。</text>
+<text x="60" y="118" font-size="16" font-weight="bold" fill="#222">目的檔（BCC 產生，-f87 與否都一樣）</text>
+<rect x="60" y="135" width="56" height="44" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="88" y="164" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">9B</text>
+<rect x="122" y="135" width="56" height="44" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="150" y="164" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">DF</text>
+<rect x="184" y="135" width="56" height="44" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="212" y="164" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">46</text>
+<rect x="246" y="135" width="56" height="44" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="274" y="164" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">FE</text>
+<text x="184" y="203" font-size="14" text-anchor="middle" fill="#444">fwait ＋ fild word ptr [bp-2]</text>
+<text x="60" y="235" font-size="14" fill="#444">修正位置的 word（小端序）＝ DF9Bh</text>
+<path d="M 320 170 C 420 170, 440 150, 520 150" fill="none" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M 320 175 C 420 175, 440 390, 520 390" fill="none" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+<text x="540" y="108" font-size="16" font-weight="bold" fill="#222">連結浮點模擬器（預設）</text>
+<text x="540" y="132" font-size="14" fill="#444">FIDRQQ ＝ 5C32h</text>
+<text x="540" y="156" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#444">DF9Bh ＋ 5C32h ＝ 1_3BCDh → 3BCDh</text>
+<rect x="540" y="175" width="56" height="44" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="568" y="204" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">CD</text>
+<rect x="602" y="175" width="56" height="44" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="630" y="204" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">3B</text>
+<rect x="664" y="175" width="56" height="44" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="692" y="204" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">46</text>
+<rect x="726" y="175" width="56" height="44" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="754" y="204" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">FE</text>
+<text x="664" y="243" font-size="14" text-anchor="middle" fill="#444">int 3Bh，後面兩個 bytes 由模擬器解讀</text>
+<text x="540" y="276" font-size="13" fill="#666">相加的進位（最前面的 1）超出 16 位元，被捨去</text>
+<text x="540" y="350" font-size="16" font-weight="bold" fill="#222">連結 8087 函式庫（-f87）</text>
+<text x="540" y="374" font-size="14" fill="#444">FIDRQQ ＝ 0</text>
+<rect x="540" y="395" width="56" height="44" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="568" y="424" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">9B</text>
+<rect x="602" y="395" width="56" height="44" rx="4" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="630" y="424" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">DF</text>
+<rect x="664" y="395" width="56" height="44" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="692" y="424" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">46</text>
+<rect x="726" y="395" width="56" height="44" rx="4" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="754" y="424" font-size="19" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">FE</text>
+<text x="664" y="463" font-size="14" text-anchor="middle" fill="#444">指令原樣保留，由 8087 執行</text>
+<text x="60" y="330" font-size="15" font-weight="bold" fill="#222">9B 之後的 8087 操作碼（D8–DF）對應的中斷</text>
+<text x="70" y="355" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">9B D8</text>
+<text x="300" y="355" font-size="14" fill="#999">→</text>
+<text x="330" y="355" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">CD 34</text>
+<text x="70" y="385" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">9B D9</text>
+<text x="300" y="385" font-size="14" fill="#999">→</text>
+<text x="330" y="385" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">CD 35</text>
+<text x="70" y="415" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">…</text>
+<text x="300" y="415" font-size="14" fill="#999">→</text>
+<text x="330" y="415" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">…</text>
+<text x="70" y="445" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">9B DF</text>
+<text x="300" y="445" font-size="14" fill="#999">→</text>
+<text x="330" y="445" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">CD 3B</text>
+<text x="70" y="475" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">90 9B（FIWRQQ ＝ A23Dh）</text>
+<text x="300" y="475" font-size="14" fill="#999">→</text>
+<text x="330" y="475" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" fill="#333">CD 3D</text>
+<text x="60" y="530" font-size="13" fill="#555">FIDRQQ、FIWRQQ 的值見 Borland C++ 2.0 RTL 的 EMU/FPINIT.ASM；位元組取自同一程式以兩種方式連結的 small 模型執行檔。</text>
+</svg>
