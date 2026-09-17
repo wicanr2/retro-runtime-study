@@ -47,19 +47,36 @@ open-watcom-v2 裡預計要讀的位置（2026-09-17 查 `master` 的檔案樹�
 open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年的出貨函式庫差了十幾年。
 它只用來幫助解讀；任何關於當年版本的結論，都要以該版本的出貨檔案（反組譯、函式庫模組、文件）為證據。
 
-## 開工前要先決定的事
+## 已決定的事項
 
-| 事項 | 預設做法 | 需要你決定的點 |
+2026-09-17 由使用者決定：
+
+| 事項 | 決定 | 執行時要做的事 |
 |---|---|---|
-| Watcom 6.5～9.5 的出貨檔案 | 只放私有工作區，記錄下載來源與 SHA-256，不進公開 repo；公開文章只寫機制與行為，比照 Borland 與 Microsoft | 權利狀態由你判斷可否用於研究 |
-| 位元組簽章 | 預設不做，等授權判斷後再決定 | Watcom 9.x 附的 DOS/4GW 若禁止逆向，比照 DSMI 只做介面層級 |
-| open-watcom-v2 原始碼能不能在公開文章引用 | 沿用「不放原文」，引用時連到上游 GitHub 固定 commit 的檔案 | Sybase Open Watcom Public License 1.0 對散布有附條款、提供原始碼等義務；若要引用片段需要你判斷 |
-| 私有工作區 | 延用 `~/cht/borland/`，新增 `originals/watcom/`、`toolchains/watcom/`、`vendor/open-watcom-v2/` | 若要與 Borland 分開，改開新的私有 repo |
+| Watcom 6.5～9.5 的出貨檔 | 可用於研究；只放私有工作區，記錄下載來源與 SHA-256，不進公開 repo。公開文章只寫機制與行為 | 私有 `CLAUDE.md` 的授權邊界表加上 Watcom 各版 |
+| 位元組簽章 | 本階段不做 | 公開 repo `CLAUDE.md` 的簽章規則維持「只做 Borland 與 Microsoft」 |
+| open-watcom-v2 原始碼 | 公開文章**可以引用片段**，每段都標明授權（Sybase Open Watcom Public License 1.0）並連到上游 GitHub 固定 commit 的檔案與行號 | 見下方「引用 open-watcom-v2 的規則」 |
+| 私有工作區 | 沿用 `~/cht/borland/`，新增 `originals/watcom/`、`toolchains/watcom/`、`vendor/open-watcom-v2/` | 私有 `CLAUDE.md` 的目錄表與 `tools/extract.sh` 同步 |
+
+### 引用 open-watcom-v2 的規則
+
+- **只有 open-watcom-v2 可以引用。** Borland、Microsoft、DMX、DSMI 與 Watcom 6.5～9.5 的出貨檔仍然一行都不放。
+- **片段要短、要有必要。** 只引用解釋機制非引用不可的幾行；能用文字或虛擬碼說清楚的就不引用。
+- **每段都附出處。** 程式碼區塊下方寫明「open-watcom-v2 `<commit 前 12 碼>`，`<路徑>:<起>-<迄>`，Sybase Open Watcom Public License 1.0」，連到 `https://github.com/open-watcom/open-watcom-v2/blob/<commit>/<路徑>#L<起>-L<迄>`。
+- **commit 固定。** 全階段用 `ow2-source-pin` 選定的同一個 commit，連結不會因上游更新而失效。
+- **不拿引用當當年版本的證據。** 引用的是 2000 年代以後的原始碼，文章要寫清楚它和 1988–1993 年出貨版的關係與推論等級。
+
+登記 M4 時要一起改：
+
+1. 公開 repo `CLAUDE.md` 的「[HARD] 不放原文」：加上 open-watcom-v2 的例外與上面的引用格式。
+2. 外洩閘門：`vendor/open-watcom-v2/` 不放進 `leak_check.py` 的比對來源，或在閘門加上「帶 open-watcom-v2 出處註記的區塊可放行」的規則；
+   同時加一個正反對照測試，確認 Borland、Microsoft 的原文照樣會被擋。
+3. `README.md` 的邊界段與 `CONTEXT.md` 的來源代號。
 
 ## 工作項目
 
 先登記：私有與公開 repo 的 `worklist.json` 建立下列條目，開 GitHub milestone「M4 Watcom：從 16 位元到 DOS extender」與對應 issue；
-公開 repo 的 `CLAUDE.md`、`README.md`、`CONTEXT.md` 補上新的來源代號與授權邊界（依上一節的決定）。
+並完成上一節「登記 M4 時要一起改」的三項。
 
 ### A. 取得與盤點（私有）
 
@@ -96,7 +113,7 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 
 ## 建議順序
 
-1. 「開工前要先決定的事」→ A 組全部。下載與盤點是後面所有項目的前提。
+1. 「登記 M4 時要一起改」的三項 → A 組全部。下載與盤點是後面所有項目的前提。
 2. `watcom65-runtime` → `article-watcom65-runtime`（1990 年前的重點，可直接和 M1 的 Borland 對照）。
 3. `watcom70-386` → `watcom80-delta` → `article-watcom386-extenders`。
 4. `watcom9-extender`、`le-lx-format`、`dmx-dpmi-usage` → `article-dos4gw-dpmi-le`。
@@ -116,7 +133,7 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 
 - A、B、C 各項完成，M4 milestone 的 issue 全部關閉。
 - 四篇公開文章通過審查修訂並推送；每篇的證據表逐條標出版本。
-- 「開工前要先決定的事」四項都有記錄在案的決定。
+- 引用 open-watcom-v2 的規則已寫進公開 repo `CLAUDE.md`，外洩閘門的例外有正反對照測試。
 - 讀者照 `article-watcom-lineage` 能從一支執行檔的格式、版權字串、啟動碼特徵，判斷它大約來自哪一代 Watcom 工具鏈。
 
 ## 不在本階段範圍
