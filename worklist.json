@@ -6,18 +6,6 @@
   },
   "items": [
     {
-      "id": "borland-compiler-helpers",
-      "layer": "article",
-      "title": "Borland 編譯器 helper：原始碼、呼叫慣例、執行檔裡的樣子",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/10-borland-crtl/compiler-helpers.md"
-        ]
-      },
-      "issue": "#2"
-    },
-    {
       "id": "borland-startup-exit",
       "layer": "article",
       "title": "啟動與結束鏈：從載入到 main、從 exit 回到 DOS（Borland，並與 MS 比較）",

@@ -10,7 +10,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R0 | 骨架 | `CLAUDE.md`、`README.md`、`CONTEXT.md`、`worklist.json`、`tools/worklist.py` |
 | R1 | 總覽（完成） | `docs/00-overview/era-and-libraries.md`、兩張 SVG |
 | R2 | Borland 記憶體模型機制（完成，已過專家與學生審查） | `docs/10-borland-crtl/memory-model-macros.md`、兩張 SVG |
-| R3 | 編譯器 helper | 長整數乘除、結構複製、堆疊檢查：原始碼、呼叫慣例、執行檔裡的樣子 |
+| R3 | 編譯器 helper（完成） | `docs/10-borland-crtl/compiler-helpers.md`、兩張 SVG、`examples/helpers/` |
 | R4 | 啟動與結束鏈 | Borland 與 MS 的比較 |
 | R5 以後 | 依 worklist 排序 | heap、printf 引擎、檔案 I/O、iostream、DMX、DSMI |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |

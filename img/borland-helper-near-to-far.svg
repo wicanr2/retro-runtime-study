@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="470" viewBox="0 0 1000 470" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="470" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#222">N_ 入口：把 near 呼叫改寫成 far 呼叫，共用同一份本體</text>
+  <text x="30" y="64" font-size="14" fill="#555">以 N_LDIV@ 為例。堆疊由上往下長，最上面一格是 SP 指的位置。</text>
+
+  <!-- column 1 -->
+  <text x="150" y="104" font-size="16" font-weight="bold" text-anchor="middle" fill="#222">① near 呼叫剛進來</text>
+  <g font-size="15">
+    <rect x="60" y="120" width="180" height="36" fill="#e5e7eb" stroke="#888"/><text x="150" y="144" text-anchor="middle" fill="#222">返回 IP</text>
+    <rect x="60" y="156" width="180" height="36" fill="#f3f4f6" stroke="#888"/><text x="150" y="180" text-anchor="middle" fill="#222">被除數（4 bytes）</text>
+    <rect x="60" y="192" width="180" height="36" fill="#f3f4f6" stroke="#888"/><text x="150" y="216" text-anchor="middle" fill="#222">除數（4 bytes）</text>
+  </g>
+  <text x="50" y="144" font-size="13" text-anchor="end" fill="#E8710A">SP →</text>
+
+  <!-- arrow 1 -->
+  <line x1="265" y1="174" x2="335" y2="174" stroke="#555" marker-end="url(#arr)"/>
+  <text x="300" y="258" font-size="14" text-anchor="middle" fill="#333">彈出返回 IP</text>
+  <text x="300" y="280" font-size="14" text-anchor="middle" fill="#333">推入 CS</text>
+  <text x="300" y="302" font-size="14" text-anchor="middle" fill="#333">推回返回 IP</text>
+
+  <!-- column 2 -->
+  <text x="450" y="104" font-size="16" font-weight="bold" text-anchor="middle" fill="#222">② 看起來像 far 呼叫</text>
+  <g font-size="15">
+    <rect x="360" y="120" width="180" height="36" fill="#e5e7eb" stroke="#888"/><text x="450" y="144" text-anchor="middle" fill="#222">返回 IP</text>
+    <rect x="360" y="156" width="180" height="36" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/><text x="450" y="180" text-anchor="middle" fill="#222">CS（剛推入）</text>
+    <rect x="360" y="192" width="180" height="36" fill="#f3f4f6" stroke="#888"/><text x="450" y="216" text-anchor="middle" fill="#222">被除數（4 bytes）</text>
+    <rect x="360" y="228" width="180" height="36" fill="#f3f4f6" stroke="#888"/><text x="450" y="252" text-anchor="middle" fill="#222">除數（4 bytes）</text>
+  </g>
+
+  <!-- arrow 2 -->
+  <line x1="565" y1="174" x2="635" y2="174" stroke="#555" marker-end="url(#arr)"/>
+  <text x="600" y="258" font-size="14" text-anchor="middle" fill="#333">跳進共用本體</text>
+  <text x="600" y="280" font-size="14" text-anchor="middle" fill="#333">計算完畢</text>
+
+  <!-- column 3 -->
+  <text x="810" y="104" font-size="16" font-weight="bold" text-anchor="middle" fill="#222">③ 本體以 retf 8 結束</text>
+  <rect x="660" y="120" width="300" height="146" rx="10" fill="#f9fafb" stroke="#bbb"/>
+  <text x="810" y="150" font-size="15" text-anchor="middle" fill="#333">retf 彈出 IP 與 CS（共 4 bytes）</text>
+  <text x="810" y="176" font-size="15" text-anchor="middle" fill="#333">再丟掉 8 bytes 參數</text>
+  <text x="810" y="210" font-size="15" text-anchor="middle" fill="#333">CS 本來就是呼叫端的段，</text>
+  <text x="810" y="234" font-size="15" text-anchor="middle" fill="#333">所以回到原處</text>
+
+  <line x1="30" y1="336" x2="970" y2="336" stroke="#ddd"/>
+  <text x="30" y="370" font-size="16" font-weight="bold" fill="#222">換到什麼</text>
+  <text x="30" y="398" font-size="15" fill="#333">near 與 far 呼叫共用一份本體，每個 helper 只存一份；near 呼叫多付三個指令。</text>
+  <text x="30" y="430" font-size="16" font-weight="bold" fill="#222">例外</text>
+  <text x="30" y="456" font-size="15" fill="#333">沒有堆疊參數的 LXMUL@、PCMP@ 各有 near、far 兩份本體；Windows 版函式庫的 N_SCOPY@ 也另寫一份。</text>
+</svg>

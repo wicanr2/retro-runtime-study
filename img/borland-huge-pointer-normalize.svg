@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 1000 500" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="500" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#222">huge 指標：每次運算後都正規化，比大小才不會出錯</text>
+
+  <!-- top: many names for one address -->
+  <text x="30" y="80" font-size="16" font-weight="bold" fill="#222">① 同一個實體位址有很多種段:位移寫法</text>
+  <rect x="60" y="96" width="170" height="44" rx="8" fill="#f3f4f6" stroke="#888"/><text x="145" y="124" font-size="16" text-anchor="middle" fill="#222">1234:0010</text>
+  <rect x="60" y="150" width="170" height="44" rx="8" fill="#f3f4f6" stroke="#888"/><text x="145" y="178" font-size="16" text-anchor="middle" fill="#222">1235:0000</text>
+  <rect x="60" y="204" width="170" height="44" rx="8" fill="#f3f4f6" stroke="#888"/><text x="145" y="232" font-size="16" text-anchor="middle" fill="#222">1200:0350</text>
+  <line x1="235" y1="118" x2="335" y2="170" stroke="#555" marker-end="url(#arr)"/>
+  <line x1="235" y1="172" x2="335" y2="172" stroke="#555" marker-end="url(#arr)"/>
+  <line x1="235" y1="226" x2="335" y2="176" stroke="#555" marker-end="url(#arr)"/>
+  <rect x="340" y="148" width="170" height="48" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="425" y="178" font-size="16" text-anchor="middle" fill="#222">實體 0x12350</text>
+  <text x="560" y="130" font-size="14" fill="#333">直接比「段，再比位移」：</text>
+  <text x="560" y="154" font-size="14" fill="#333">1234:0010 &lt; 1235:0000 為真，</text>
+  <text x="560" y="178" font-size="14" fill="#333">但兩者其實是同一個位址。</text>
+  <text x="560" y="210" font-size="14" fill="#333">位移加法溢位也不會自動進位到段。</text>
+
+  <line x1="30" y1="268" x2="970" y2="268" stroke="#ddd"/>
+
+  <!-- bottom: normalization -->
+  <text x="30" y="302" font-size="16" font-weight="bold" fill="#222">② 正規化：位移只留 0～0Fh，其餘都算進段</text>
+  <rect x="60" y="322" width="190" height="48" rx="8" fill="#f3f4f6" stroke="#888"/>
+  <text x="155" y="352" font-size="16" text-anchor="middle" fill="#222">1234:0008</text>
+  <text x="300" y="336" font-size="14" text-anchor="middle" fill="#333">＋ 0x10000</text>
+  <line x1="255" y1="346" x2="345" y2="346" stroke="#555" marker-end="url(#arr)"/>
+  <rect x="350" y="322" width="190" height="48" rx="8" fill="#f9fafb" stroke="#bbb"/>
+  <text x="445" y="352" font-size="16" text-anchor="middle" fill="#222">實體 0x22348</text>
+  <line x1="545" y1="346" x2="635" y2="346" stroke="#E8710A" marker-end="url(#arrO)"/>
+  <text x="590" y="336" font-size="14" text-anchor="middle" fill="#E8710A">拆開</text>
+  <rect x="640" y="322" width="190" height="48" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="735" y="352" font-size="16" text-anchor="middle" fill="#222">2234:0008</text>
+
+  <text x="445" y="400" font-size="14" text-anchor="middle" fill="#555">段 ＝ 位址 ÷ 16 的整數部分，位移 ＝ 位址 mod 16</text>
+  <text x="30" y="440" font-size="15" fill="#333">正規化之後，一個位址只剩一種寫法，比較、相減都可以直接做。</text>
+  <text x="30" y="466" font-size="15" fill="#333">代價是 huge 指標的每次 +、−、比較、++ 都要呼叫 PADD@、PSBP@、PCMP@、PADA@ 這類 helper。</text>
+  <text x="30" y="490" font-size="13" fill="#888">② 的數值是在 dosgolem 實跑自寫測試程式得到的結果。</text>
+</svg>
