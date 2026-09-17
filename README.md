@@ -44,6 +44,8 @@
 | 路徑 | 內容 |
 |---|---|
 | `tools/build_index.py` | 從各篇前置欄位產生 `kb-index.json`，並檢查欄位、id 唯一與 `related` 連結 |
+| `tools/gen_signatures.py` | 從你自己的 OMF 函式庫產生遮罩過修正位置的短位元組簽章，並拿它掃執行檔、對 map 檔核對 |
+| `signatures/borland-crtl-2.0/` | BC++ 2.0 DOS 函式庫的簽章與準確度說明（正反對照、未對拍模組） |
 | `tools/bcpp20/install.sh` | 從你自己的 BC++ 2.0 安裝磁片映像裝出 BORLANDC 目錄（容器內執行） |
 | `tools/bcpp20/bcc.sh` | 在 [dosgolem](https://github.com/wicanr2/dosgolem) 裡執行 BCC、TASM、TLINK 等工具 |
 | `examples/tetris/` | BGI 俄羅斯方塊：自己寫的範例程式與編譯、遊玩腳本 |

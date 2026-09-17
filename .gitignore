@@ -2,3 +2,4 @@
 *.png
 !img/tetris-webplay.png
 .scratch/
+__pycache__/

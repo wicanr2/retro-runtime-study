@@ -6,20 +6,6 @@
   },
   "items": [
     {
-      "id": "signatures-borland",
-      "layer": "infra",
-      "title": "Borland C++ 2.0 RTL 的短位元組簽章與產生工具",
-      "acceptance": "簽章只收 64 bytes 以內、遮罩 relocation 的樣式；有正對照命中率",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "tools/gen_signatures.py",
-          "signatures/borland-crtl-2.0"
-        ]
-      },
-      "issue": "#5"
-    },
-    {
       "id": "re-identify-vendor",
       "layer": "article",
       "title": "執行檔裡怎麼判斷用的是哪一家、哪種記憶體模型的 runtime",
