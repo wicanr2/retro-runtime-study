@@ -6,6 +6,19 @@
   },
   "items": [
     {
+      "id": "examples-all-models",
+      "layer": "infra",
+      "title": "範例補齊五個記憶體模型，換掉文章裡的模型推論",
+      "verify": {
+        "kind": "present",
+        "paths": [
+          "docs/10-borland-crtl"
+        ],
+        "pattern": "由資料指標寬度推論"
+      },
+      "issue": "#8"
+    },
+    {
       "id": "bcc20-codegen-fingerprints",
       "layer": "article",
       "title": "BCC 2.0 產生的程式碼在執行檔裡長什麼樣",
