@@ -3,14 +3,14 @@ id: borland-crtl/compiler-helpers
 title: 編譯器 helper：程式裡看不到的函式呼叫
 libraries: [borland-crtl-2.0]
 goals: [craft, re, oracle]
-evidence: 強推論
+evidence: 假說
 triggers:
   - 反組譯 Borland C++ 2.0 編譯的 16 位元程式，看到 N_LXMUL@、F_LDIV@、N_SCOPY@ 這類以 @ 結尾的呼叫
   - 高 fan-in 的小函式裡有 32 次迴圈的移位減法、xchg 加 mul、rep movsw 加 adc cx,cx，想知道是不是 RTL
   - remake 要重現 long 的除法、取餘、位移、float 轉 long 在邊界值的結果
   - 程式用了 huge 指標，想知道 +、-、< 在執行檔裡變成什麼
   - 程式結束時印出 Divide error、Stack overflow! 或 Abnormal program termination
-symbols: [N_LXMUL@, F_LXMUL@, LXMUL@, N_LDIV@, F_LDIV@, N_LUDIV@, N_LMOD@, N_LUMOD@, N_LXLSH@, N_LXRSH@, N_LXURSH@, N_PADD@, N_PSUB@, N_PSBP@, N_PCMP@, N_PADA@, N_PSBA@, N_PINA@, N_PDEA@, F_PSBH@, N_SCOPY@, F_SCOPY@, N_SPUSH@, N_OVERFLOW@, F_OVERFLOW@, N_CHKSTK@, __aNchkstk, N_FTOL@, F_FTOL@, __AHSHIFT, __AHINCR, ___brklvl, __stklen, "Divide error", "Stack overflow!", "-N"]
+symbols: [N_LXMUL@, F_LXMUL@, LXMUL@, N_LDIV@, F_LDIV@, N_LUDIV@, N_LMOD@, N_LUMOD@, N_LXLSH@, N_LXRSH@, N_LXURSH@, N_PADD@, N_PSUB@, N_PSBP@, N_PCMP@, N_PADA@, N_PSBA@, N_PINA@, N_PDEA@, F_PSBH@, N_SCOPY@, F_SCOPY@, N_SPUSH@, N_OVERFLOW@, F_OVERFLOW@, N_CHKSTK@, __aNchkstk, __aFchkstk, N_FTOL@, F_FTOL@, __AHSHIFT, __AHINCR, ___brklvl, __stklen, "Divide error", "Stack overflow!", "-N"]
 related: [borland-crtl/memory-model-macros, overview/era-and-libraries]
 ---
 
@@ -38,7 +38,7 @@ helper 的名稱以 `@` 結尾，大多有兩個版本：`N_` 開頭給 near 呼
 
 本文的結論來自三種證據：RTL 原始碼、以原廠工具鏈重編後與出貨函式庫的比對（helper 所在的模組全部相同），
 以及一支自寫測試程式（[`examples/helpers/`](../../examples/helpers/)）在 small、large、huge 三個模型編譯、
-在 dosgolem 以 8086 與 186 兩種 CPU 模式執行的結果。
+在 dosgolem 以 8086 與 186 兩種 CPU 模式執行的結果（dosgolem 可以選擇模擬的處理器世代，用來觀察位移這類隨 CPU 而異的行為）。
 
 ## 根本問題
 
@@ -62,7 +62,7 @@ C 函式的參數一律放在堆疊上、由呼叫端清除。helper 是編譯�
 | `LXLSH@` 家族 | DX:AX 為被位移的值，CL 為位移量 | DX:AX | 沒有堆疊參數 |
 | `PADD@`、`PSUB@` | DX:AX 為指標，CX:BX 為 32 位元增量 | DX:AX | 沒有堆疊參數 |
 | `PCMP@` | DX:AX 與 CX:BX 兩個指標 | 旗標，呼叫端接 `jb`、`jnb` | 沒有堆疊參數 |
-| `SCOPY@` | 堆疊：目的與來源兩個 far 指標；CX 為位元組數 | — | helper 自己（`retf 8`） |
+| `SCOPY@` | 堆疊：來源與目的兩個 far 指標；CX 為位元組數 | — | helper 自己（`retf 8`） |
 | `SPUSH@` | DX:AX 為來源結構，CX 為大小 | 結構留在呼叫端的堆疊上 | — |
 | `FTOL@` | 數學輔助處理器堆疊頂端的值 | DX:AX | — |
 
@@ -76,11 +76,11 @@ DX:AX 的寫法表示「DX 放高 16 位元、AX 放低 16 位元」。反組譯
 near 呼叫只推 2 bytes 的返回位址，far 呼叫推 4 bytes（段與位移），兩者結尾要用不同的返回指令，
 正常情況下得寫兩份。RTL 的大部分 helper 只寫一份以 `retf` 結尾的本體，`N_` 入口先把堆疊改成 far 呼叫的樣子：
 彈出返回位址、推入目前的 CS、再把返回位址推回去。
-near 呼叫的呼叫端和 helper 在同一個程式碼段，推入的 CS 正好就是呼叫端的段，`retf` 回得去。
+near 呼叫只能呼叫同一個程式碼段裡的位址、不會換 CS，所以呼叫端和 helper 必然在同一段，推入的 CS 正好就是呼叫端的段，`retf` 回得去。
 
 代價是 near 呼叫每次多三個指令，換到的是每個 helper 只存一份。例外有兩類：
 
-- `LXMUL@` 與 `PCMP@` 沒有堆疊參數、本體很短，near 與 far 版各寫一份完整的本體。
+- `LXMUL@`、`PCMP@`、`PSBH@` 沒有堆疊參數、本體很短，near 與 far 版各寫一份完整的本體。
 - Windows 版函式庫另外寫了一份 `N_SCOPY@`，本體以 near 返回結束，不改寫堆疊。
   可能的原因是 Windows 會搬移程式碼段並修正堆疊上的 far 返回位址，偽造的 far 框架可能與這個機制衝突（假說，未查證）。
 
@@ -122,9 +122,9 @@ C 的 `long` 乘法只要低 32 位元，2³² 那一項整個溢出，所以只
 | 0x80000000 % −1 | 0 | |
 | 0xFFFFFFFF / 7（無號） | 613566756 | |
 
-`0x80000000 / −1` 在數學上是 2³¹，放不進有號 `long`。helper 先把兩者轉正：0x80000000 取負還是 0x80000000，
+`0x80000000 / −1` 在數學上是 2³¹，放不進有號 `long`。−1 的位元組合是 0xFFFFFFFF，高位字不是 0，不符合捷徑條件，走的是一般路徑。helper 先把兩者轉正：0x80000000 取負還是 0x80000000，
 當成無號數就是 2³¹；除以 1 得 2³¹；兩者都是負數所以商不變號，回傳的位元組合 0x80000000 解讀成有號數就是最小的 `long`。
-過程中沒有任何 `div` 會溢位，所以不會觸發例外。
+一般路徑只用移位與減法，不執行 `div` 指令，所以不會觸發處理器的除法例外。
 
 除數為 0 時會觸發中斷 0。Borland 的啟動碼在程式開始時就接管這個中斷，處理程序在標準錯誤輸出寫出 `Divide error`，
 接著以結束碼 3 結束程式，**不執行 `atexit` 註冊的函式、不寫出緩衝區**。實跑：先 `printf` 一段沒有換行的文字再除以 0，
@@ -136,7 +136,7 @@ C 的 `long` 乘法只要低 32 位元，2³² 那一項整個溢出，所以只
 
 位移量放在 CL 這個 8 位元暫存器，helper 不檢查範圍。位移量 ≥ 32 時，結果取決於 CPU 怎麼處理位移指令：
 
-- **8086**：`shl`、`shr`、`sar` 用完整的 CL，移 16 位以上就把 16 位元暫存器移光。
+- **8086**：`shl`、`shr`、`sar` 用完整的 CL，移 16 位以上就把 16 位元暫存器移光：`shl`、`shr` 補進來的是 0，所以結果是 0；`sar`（算術右移）補進來的是符號位，所以正數變 0、負數變 −1。
   實跑（dosgolem 的 8086 模式）：`0x12345678 << 32`、`<< 40`、`<< 48` 都得 0；`−1 >> 40`（有號）得 −1；`0x12345678 >> 48` 得 0。
 - **80286 以上**：處理器把位移量遮罩成低 5 位元。依 helper 的寫法推算，位移 48～63 時第二次位移的量變成 0～15，
   `0x12345678 << 48` 會得到 0x56780000 而不是 0。這是由 CPU 規格推得的強推論，沒有實跑：dosgolem 目前沒有 286 模式，
@@ -166,22 +166,24 @@ huge 指標的做法是每次運算之後都**正規化**：把實體位址（�
 實跑（small、large、huge 結果相同）：`1234:0008` 加 0x10000 得 `2234:0008`；兩者相減得 65536；`p < p+1` 為真；
 `p++` 得 `1234:0009`。反組譯顯示 `(*pp)++` 呼叫的是 `PADA@`（增量 1），`PINA@`、`PDEA@` 在什麼運算下出現還沒查到。
 
-`PSBH@` 是另一種指標相減：它用 `__AHSHIFT` 這個符號代表「段值每加 1 位址加多少」的位移量。
-DOS 的啟動碼把它定義成 12（段加 1000h 等於位址加 65536），Windows 則由系統核心提供保護模式下的值，
-所以同一份目的碼在兩個環境都能用。它在什麼運算下被呼叫，還沒查到。
+`PSBH@` 是另一種指標相減，參數由兩個符號決定。DOS 的啟動碼定義了兩個常數：`__AHINCR` 為 1000h，
+是「位址加 65536 時段值要加多少」；`__AHSHIFT` 為 12，是 1000h 以 2 為底的指數。Windows 則由系統核心提供保護模式下的值。
+`PSBH@` 把兩個指標的段值各右移 `__AHSHIFT` 位再相減，結果當成 32 位元差值的高位字，位移相減當成低位字。
+這個算法對應的是「位移用滿 16 位元、段值每次加 `__AHINCR`」的 huge 指標寫法，與上面 `PADD@` 那組「位移只留 0～0Fh」的正規化不同（強推論）。
+用符號而不寫死常數，同一份目的碼在 DOS 與 Windows 都能連結。它在什麼運算下被呼叫，還沒查到。
 
 ### 結構複製與以值傳遞
 
 8086 沒有「複製一整塊記憶體」的單一指令，只有配合 CX 重複執行的 `rep movsb`（一次 1 byte）與 `rep movsw`（一次 2 bytes）。
 
 - **`SCOPY@`** 用在結構指派 `a = b` 與回傳結構。它從堆疊取來源與目的兩個 far 指標，把 CX 除以 2 做 `rep movsw`，
-  除 2 時移出去的那一位（奇數時為 1）存在進位旗標裡，`adc cx,cx` 把它變回 CX，再做一次 `rep movsb` 補最後 1 byte。
+  除 2 時移出去的那一位（奇數時為 1）存在進位旗標裡；`rep movsw` 做完時 CX 已經是 0，`adc cx,cx`（CX 加 CX 再加進位旗標）的結果就是那一位，再做一次 `rep movsb` 補最後 1 byte。
   **不論記憶體模型，兩個指標一律是 far**，small 程式的呼叫端也會推入段值。
 - **`SPUSH@`** 用在以值傳遞結構參數。它彈出自己的返回位址、`sub sp,cx` 在呼叫端的堆疊上挖出結構的空間、放回返回位址，
   再把結構複製進那塊空間。返回之後，結構就像被一個一個 byte 推上堆疊的參數一樣。
 - 回傳結構時，呼叫端先準備一塊空間、傳入它的位址，函式把結果 `SCOPY@` 到那裡，並以 AX 回傳該位址。
 
-反組譯測試程式的 37 bytes 結構：指派與回傳時 CX = 37；以值傳遞時 CX = 38，多 1 byte 湊成偶數，讓堆疊維持在 2 的倍數。
+反組譯測試程式的 37 bytes 結構：指派與回傳時 CX = 37，只是在一般記憶體之間搬移；以值傳遞時 CX = 38，因為那塊空間是從 SP 挖出來的，多 1 byte 湊成偶數，讓堆疊維持在 2 的倍數。
 多小的結構會改用直接搬移、不呼叫 `SCOPY@`，本文沒有測。
 
 ### 堆疊溢位檢查（`-N`）
@@ -205,8 +207,8 @@ helper 檢查「SP 減掉這個量之後，是否仍高於 Windows 記錄的堆�
 
 ### 浮點轉整數
 
-C 規定浮點轉整數要捨去小數（向 0 截斷），但數學輔助處理器預設的捨入方式是「四捨六入五成雙」。
-`FTOL@` 先讀出處理器的控制字，把捨入方式暫時改成向 0 截斷，轉成 64 位元整數，還原控制字，回傳低 32 位元。
+C 規定浮點轉整數要捨去小數（向 0 截斷），但數學輔助處理器（8087 系列浮點晶片，沒有晶片時由軟體模擬）預設的捨入方式是「取最接近的整數，剛好一半時取偶數」。
+`FTOL@` 先讀出處理器的控制字（決定捨入方式、精度與例外遮罩的 16 位元設定），把捨入方式暫時改成向 0 截斷，轉成 64 位元整數，還原控制字，回傳低 32 位元。
 
 實跑：−1.5 → −1；2.999 → 2；3.0e9 → −1294967296；−3.0e9 → 1294967296。
 後兩個是超出 `long` 範圍時只取 64 位元結果的低 32 位元造成的，不會觸發例外。
