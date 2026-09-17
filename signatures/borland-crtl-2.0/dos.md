@@ -23,10 +23,10 @@ python tools/gen_signatures.py scan signatures/borland-crtl-2.0/dos.json GAME.EX
 
 | 欄位 | 意思 |
 |---|---|
-| `offset` | 檔案位移（含 MZ 檔頭）。換成載入後的段:位移要減掉檔頭大小（`e_cparhdr` × 16） |
+| `offset` | 檔案位移（含 MZ 檔頭）。減掉檔頭大小（MZ 檔頭 `08h` 的 `e_cparhdr` × 16）得到載入映像內的位移；IDA 預設把映像放在 `1000:0000`，IDA 位址 ＝ `10000h` ＋ 這個值 |
 | `names` | 這個樣式對應的公開符號；別名或前 64 bytes 相同的函式會列好幾個 |
 | `fixed` | 樣式裡固定（未遮罩）的位元組數，越多越可信 |
-| `libs` | 樣式出現在哪些 `.LIB`，可以拿來推記憶體模型（`CS`＝small、`CC`＝compact、`CM`＝medium、`CL`＝large、`CH`＝huge） |
+| `libs` | 樣式出現在哪些 `.LIB`，可以拿來推記憶體模型（`CS`＝small、`CC`＝compact、`CM`＝medium、`CL`＝large、`CH`＝huge）。`scan` 另外印出並在輸出檔的 `single_lib_hits` 記下每個函式庫「只屬於它」的命中數 |
 | `alternatives` | 同一位置也命中、但固定位元組較少的其他樣式 |
 
 **推記憶體模型**：把所有命中的 `libs` 取交集。只出現在單一模型的樣式越多，結論越強；
@@ -52,7 +52,7 @@ python tools/gen_signatures.py scan signatures/borland-crtl-2.0/dos.json GAME.EX
 | 測試 | 內容 | 結果 |
 |---|---|---|
 | 正對照 | 本 repo 的 `examples/codegen`、`helpers`、`startup`、`tetris` 各以五個記憶體模型重編，共 20 支執行檔；逐筆與 TLINK 的 map 檔核對 | 1,171 個命中位置**全部正確**；map 裡有樣式的函式名稱 1,315 個，命中 1,283 個（97.6%） |
-| 反對照 | 60 支以其他工具鏈連結的 DOS 程式（runtime 版權字串為 Microsoft C 44 支、Watcom C 13 支、Turbo Pascal 3 支） | 命中 0 |
+| 反對照 | 60 支以其他工具鏈連結的 DOS 程式（runtime 版權字串為 Microsoft C 44 支、Watcom C 13 支、Turbo Pascal 3 支；Microsoft 裡 9 支是 EXEPACK 壓縮檔） | 命中 0 |
 | 反對照 | 1 MB 決定性假亂數 | 命中 0 |
 
 正對照漏掉的 32 個名稱：compact、large、huge 模型的 `_malloc`、`_realloc` 是短小的轉接函式，太短未收；
@@ -95,4 +95,6 @@ BCC、TLINK、TASM 的命中很少，也沒有 printf 引擎、錯誤訊息表�
   對錯未核對。
 - **1991-08 版只有 `SCROLL` 不同。** 那一版的 `__SCROLL` 不會命中本檔，另見 [`scroll-1991-08.json`](scroll-1991-08.md)。
 - 305 個函式太短不收（`skipped`），多半是只有一個跳躍或回傳常數的轉接函式。
+- `--self-test` 只合成了一種修正記錄格式；實際函式庫各種修正格式的解析正確性，靠上面的正對照（1,171 個命中、0 誤判）間接確認。
+- 「其他 Borland 程式」的統計不含本機工作目錄裡 BC++ 2.0 附帶工具的複本與自編測試程式。
 - 樣式只比函式開頭。兩個函式開頭 64 bytes 完全相同時合併成一筆（`names` 會有多個），命中時無法分辨是哪一個。

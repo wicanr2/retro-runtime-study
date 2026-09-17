@@ -15,6 +15,7 @@ scan：
     在整個檔案裡找每個樣式，回報檔案位移、名稱、固定位元組數。同一位移有多個樣式命中時，
     固定位元組最多的排第一，其餘列在 alternatives。
     --map 給 TLINK 的 map 檔時，逐筆核對命中位置的公開符號名稱，算出正確、錯誤與漏掉的數目。
+    single_lib_hits 數每個函式庫「只出現在它裡面」的命中數；BC++ 2.0 的 CS／CC／CM／CL／CH 最多的那個就是記憶體模型。
 
 本工具不含任何函式庫內容；簽章檔只有遮罩過的短樣式與符號名。
 """
@@ -209,6 +210,14 @@ def scan(sigs, data):
     return out
 
 
+def single_lib_hits(matches):
+    votes = {}
+    for m in matches:
+        if len(m['libs']) == 1:
+            votes[m['libs'][0]] = votes.get(m['libs'][0], 0) + 1
+    return dict(sorted(votes.items(), key=lambda kv: -kv[1]))
+
+
 def read_map(path, header_size):
     """TLINK map 檔的「Publics by Value」→ {檔案位移: 名稱}。"""
     pubs, inside = {}, False
@@ -357,8 +366,11 @@ def main():
     sigs = json.load(open(args.sigs, encoding='utf-8'))
     data = open(args.binary, 'rb').read()
     matches = scan(sigs, data)
-    result = {'binary': os.path.basename(args.binary), 'size': len(data), 'matches': matches}
+    votes = single_lib_hits(matches)
+    result = {'binary': os.path.basename(args.binary), 'size': len(data), 'single_lib_hits': votes, 'matches': matches}
     line = f'{len(matches)} 個位置命中'
+    if votes:
+        line += '；只屬於單一函式庫的命中：' + '、'.join(f'{k} {v}' for k, v in votes.items())
     if args.map:
         ev = evaluate(matches, read_map(args.map, mz_header_size(data)), sigs)
         result['evaluation'] = ev

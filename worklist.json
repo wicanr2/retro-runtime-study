@@ -4,19 +4,5 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": [
-    {
-      "id": "re-identify-vendor",
-      "layer": "article",
-      "title": "執行檔裡怎麼判斷用的是哪一家、哪種記憶體模型的 runtime",
-      "body": "總覽的「在執行檔裡怎麼用這張全景」只列了順序，判準要另寫專文。",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/60-re-fingerprints/identify-vendor-and-model.md"
-        ]
-      },
-      "issue": "#6"
-    }
-  ]
+  "items": []
 }

@@ -49,24 +49,25 @@ Microsoft C 與 Watcom C 的判準要等取得 Visual C++ 1.0 之後才寫；目
 ### 第零步：先確認不是壓縮過的執行檔
 
 1990 年代很多 DOS 程式出貨前用 EXEPACK、PKLITE、LZEXE 壓縮。壓縮後，原本的程式碼變成資料，檔頭換成解壓程式自己的，
-下面每一層證據都看不到。本機蒐集的樣本裡，帶 Microsoft 字串的程式有 8 支含 EXEPACK 的錯誤訊息 `Packed file is corrupt`，
-它們的重定位項目數是 0。遇到這類檔，先用解壓工具還原，再往下判斷。
+下面每一層證據都看不到。本機蒐集的樣本裡，帶 Microsoft 字串的 44 支程式有 9 支含 EXEPACK 的錯誤訊息 `Packed file is corrupt`，
+它們的重定位項目數（MZ 檔頭 `06h` 的 `e_crlc`）都是 0。遇到這類檔，先用解壓工具還原，再往下判斷。
 
 **解壓工具也會重寫檔頭。** 本機有 8 支帶 `Turbo C++ - Copyright 1990` 字串、`1Ch` 為 `01 00 00 00` 的程式（其中 7 支的檔名註明是解壓還原的檔），
 沒有 `FB` 標記，但簽章照樣命中 4–49 個函式。所以「沒有 `FB`」不能當作「不是 Borland」的證據。
 
 ### 第一步：檔頭的連結器標記
 
-MZ 檔頭的前 28 bytes（`00h`–`1Bh`）是 DOS 載入程式要讀的欄位，`1Ch` 起到重定位表之前的空間，連結器可以自由使用。
+DOS 執行檔開頭的 `4D 5A`（ASCII 的 `MZ`）是格式識別碼，這種格式因此叫 MZ。MZ 檔頭的前 28 bytes（`00h`–`1Bh`）是 DOS 載入程式要讀的欄位，`1Ch` 起到重定位表之前的空間，連結器可以自由使用。
 TLINK 在這裡寫 `01 00 FB xx`，並把重定位表放在 `3Eh`（檔頭 `18h` 的 `e_lfarlc` 欄位）。
 
-| 樣本（本機蒐集的 DOS 執行檔，同內容只算一次） | 支數 | `1Ch`–`1Fh` | `e_lfarlc` |
+| 樣本（本機蒐集的 DOS 執行檔，同內容只算一次；「其他程式」不含 BC++ 2.0 附帶工具的複本與本 repo 自編的測試程式） | 支數 | `1Ch`–`1Fh` | `e_lfarlc` |
 |---|---:|---|---|
 | 本 repo 範例以 BC++ 2.0 編譯（TLINK 4.0） | 20 | 全部 `01 00 FB 30` | 全部 `3Eh` |
 | BC++ 2.0 的 BCC.EXE、TLINK.EXE | 2 | `01 00 FB 30` | `3Eh` |
 | BC++ 2.0 的 TLIB.EXE、TASM.EXE | 2 | `01 00 FB 20` | `22h` |
 | 帶 `Borland C++ - Copyright 1991` 字串的其他程式 | 23 | `FB 50` 19 支、`FB 30` 3 支、`00 00 00 00` 1 支 | 多為 `3Eh` |
 | 帶 `Borland C++ - Copyright 1993` 字串 | 2 | `FB 50`、`FB 61` | |
+| 帶 `Turbo C++ - Copyright 1990` 字串 | 13 | `FB 30` 5 支、`01 00 00 00` 8 支（解壓還原的檔，見第零步） | |
 | 帶 Microsoft C runtime 字串 | 44 | 全部沒有 `FB`；`e_lfarlc` 34 支是 `1Eh` | |
 | 帶 Watcom C runtime 字串 | 13 | 全部沒有 `FB`；`e_lfarlc` 11 支是 `40h` | |
 
@@ -76,6 +77,8 @@ TLIB、TASM 本身帶 `FB 20`，表示 Borland 出貨的工具也不是全部用
 
 ### 第二步：啟動碼的字串與進入點
 
+進入點是 DOS 載入程式後第一條執行的指令。用 IDA 開檔時游標就停在進入點；自己算的話，MZ 檔頭 `14h` 是 `e_ip`、`16h` 是 `e_cs`，
+檔案位移 ＝ 檔頭大小（`08h` 的 `e_cparhdr` × 16）＋ `e_cs` × 16 ＋ `e_ip`。
 Borland C 程式的進入點是 C0 啟動碼（見[啟動與結束鏈](../10-borland-crtl/startup-and-exit.md)），它有幾個固定特徵：
 
 | 特徵 | small、compact、medium、large、huge | tiny |
@@ -89,7 +92,7 @@ Borland C 程式的進入點是 C0 啟動碼（見[啟動與結束鏈](../10-bor
 其他模型要等載入時由 DOS 修正段值，所以是帶修正的 `mov dx,立即值`。
 
 IDA 也是靠這段進入點決定要不要自動套用 Borland 的函式庫簽章。**進入點不是 C0 的程式，IDA 不會自動套**，library 函式數會是 0：
-BC++ 2.0 自己的 BCC、TLINK、TASM 就是這樣（三支的進入點都不是 C0 的樣式；BCC 是 overlay 程式）。這時要手動套簽章，或改用下一步。
+BC++ 2.0 自己的 BCC、TLINK、TASM 就是這樣（三支的進入點都不是 C0 的樣式；BCC 是 overlay 程式，overlay 是執行時才從檔案讀進記憶體的程式碼區塊）。這時要手動套簽章，或改用下一步。
 
 **字串的年份不等於版本。** `Turbo C++ - Copyright 1990` 出現在 BC++ 2.0 出貨的 TLIB.EXE 裡；
 `Borland C++ - Copyright 1991` 在本機樣本裡同時出現在 `FB 30` 與 `FB 50` 的程式上。
@@ -105,19 +108,31 @@ BC++ 2.0 自己的 BCC、TLINK、TASM 就是這樣（三支的進入點都不是
 python tools/gen_signatures.py scan signatures/borland-crtl-2.0/dos.json GAME.EXE -o matches.json
 ```
 
-從 `matches.json` 裡挑出 `libs` 只有一個 C 函式庫的命中，數每個模型各幾個，最多的就是答案；再確認其他模型的數量是 0。
+五個 C 函式庫對應的模型是 `CS`＝small、`CC`＝compact、`CM`＝medium、`CL`＝large、`CH`＝huge。`scan` 印出的最後一段就是計數：
+
+```
+63 個位置命中；只屬於單一函式庫的命中：CC 32、EMU 4、MATHC 1
+```
+
+只看 `CS`、`CC`、`CM`、`CL`、`CH` 這五個（數學庫、`EMU`、`OVERLAY` 不算），最多的就是答案，其他四個應該是 0。
+`alternatives` 不必理會；計數用的是每個位置固定位元組最多的那個樣式。
 
 | 驗證 | 結果 |
 |---|---|
-| `examples/codegen`、`helpers`、`startup`、`tetris` × 五個模型，共 20 支 | 20 支全對；每支只屬於單一模型的命中 19–48 個，其他模型 0 個 |
+| `examples/codegen`、`helpers`、`startup`、`tetris` × 五個模型，共 20 支 | 20 支全對；每支只屬於正確模型的命中 19–45 個，其他模型 0 個 |
 | BC++ 2.0 的 TLIB.EXE | 只屬於 `CC.LIB` 的命中 59 個，其他模型 0 個 → compact |
 
 tiny 與 small 用同一個函式庫（`CS.LIB`），簽章分不出來，要回到第二步看進入點是不是 `8C CA`，或檔案是不是 `.COM`。
 
-**版本**：同時掃 `dos.json` 與 [`scroll-1991-08.json`](../../signatures/borland-crtl-2.0/scroll-1991-08.md)。
+**版本**：對 `dos.json` 與 [`scroll-1991-08.json`](../../signatures/borland-crtl-2.0/scroll-1991-08.md) 各掃一次，比較兩份輸出有沒有 `__SCROLL`：
+
+```sh
+python tools/gen_signatures.py scan signatures/borland-crtl-2.0/scroll-1991-08.json GAME.EXE
+```
+
 `__SCROLL` 命中前者是 1991-04 版、命中後者是 1991-08 版；兩者都不中表示程式沒用到 conio 的視窗捲動，分不出來。
 
-**命中數本身也有資訊。** 本機樣本裡，`FB 30` 的 8 支程式每支命中 29–124 個，`FB 50` 的 20 支 3–41 個（兩組的檔案大小都在數 KB 到數百 KB）。
+**命中數本身也有資訊。** 本機「其他程式」裡，`FB 30` 的 8 支（1991 字串 3 支、1990 字串 5 支）每支命中 29–124 個，`FB 50` 的 20 支（1991 字串 19 支、1993 字串 1 支）3–41 個（兩組的檔案大小都在數 KB 到數百 KB）。
 強推論：`FB 50` 是較新的 TLINK（隨 Borland C++ 3.x 出貨）連結的，函式庫與 2.0 有較多不同。沒有這些程式的 map 檔，命中的對錯未核對。
 
 ### 沒有簽章可用時：從程式碼判斷模型
@@ -145,7 +160,7 @@ tiny 與 small 用同一個函式庫（`CS.LIB`），簽章分不出來，要回
 
 | 步驟 | 看什麼 | 得到什麼 |
 |---|---|---|
-| 0 | 字串 `Packed file is corrupt`、`PKLITE`、`LZ91`；重定位項目數 0 | 是否壓縮，要先還原 |
+| 0 | 字串 `Packed file is corrupt`、`PKLITE`、`LZ91`；重定位項目數（`06h`）0 | 是否壓縮，要先還原 |
 | 1 | 檔頭 `1Ch` 的 `01 00 FB xx`、`e_lfarlc` ＝ `3Eh` | 用 TLINK 連結；`FB 30` ＝ BC++ 2.0 附的 TLINK |
 | 2 | C0 版權字串、進入點 `BA ?? ?? 2E 89 16 … B4 30 CD 21` 或 `8C CA …` | Borland C 的啟動碼；tiny 或其他模型 |
 | 2 | `Null pointer assignment` 字串 | 有：small 或 medium |
@@ -161,6 +176,7 @@ tiny 與 small 用同一個函式庫（`CS.LIB`），簽章分不出來，要回
 - **overlay 程式的進入點可能不是 C0。** BC++ 2.0 的 BCC.EXE 是 VROOMM overlay 程式（檔案尾端有 `FBOV`），進入點不是 C0 的樣式，第二步認不出來；其他 overlay 程式是否都如此未驗證。
 - **函式庫用得少的程式簽章命中少。** BCC、TLINK、TASM 各只命中 9、8、0 個，因為它們幾乎不用標準 C 函式庫，不是因為它們不是 Borland 編的。
 - **far 版函式讓 small 程式看起來像 large。** 見上一節。
+- **兩個模型都有明顯的單一命中。** 用本 repo 的測試沒遇過；若發生，表示程式混合連結了不同模型編譯的目的碼，或簽章本身有誤判，不能直接取最大值，要回到第四步逐函式看。
 - **命中少不代表不是 Borland。** 簽章只認得與 BC++ 2.0 逐位元組相同的函式；Turbo C 2.0、Borland C++ 3.x 的函式庫有一部分不同。
 
 ## 證據與未知

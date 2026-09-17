@@ -13,7 +13,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R3 | 編譯器 helper（完成，已過專家與學生審查） | `docs/10-borland-crtl/compiler-helpers.md`、兩張 SVG、`examples/helpers/` |
 | R4 | 啟動與結束鏈（完成，已過專家與學生審查；MS 比較待 M3） | `docs/10-borland-crtl/startup-and-exit.md`、兩張 SVG、`examples/startup/` |
 | R5 | BCC 2.0 產生碼特徵（完成，已過專家與學生審查） | `docs/60-re-fingerprints/bcc20-codegen.md`、三張 SVG、`examples/codegen/` |
-| R6 | 判斷廠牌、版本與記憶體模型（審查中） | `docs/60-re-fingerprints/identify-vendor-and-model.md`、流程圖、`signatures/borland-crtl-2.0/` |
+| R6 | 判斷廠牌、版本與記憶體模型（完成，已過專家與學生審查） | `docs/60-re-fingerprints/identify-vendor-and-model.md`、流程圖、`signatures/borland-crtl-2.0/` |
 | R7 以後 | 依 worklist 排序 | heap、printf 引擎、檔案 I/O、iostream、DMX、DSMI |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
