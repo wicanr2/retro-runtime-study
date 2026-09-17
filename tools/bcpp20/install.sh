@@ -73,7 +73,7 @@ unpack() {  # $1 目的地子目錄，其餘為 ZIP 主檔名
     done
 }
 unpack BIN CMDLINE BCC TASM BIN
-unpack INCLUDE INCLUDE
+unpack INCLUDE INCLUDE WINCLUDE
 unpack LIB SLIB CLIB MLIB LLIB HLIB XLIB WINLIB
 unpack STARTUP STARTUP
 unpack BGI BGI
