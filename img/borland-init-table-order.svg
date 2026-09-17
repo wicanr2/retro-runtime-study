@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="560" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#222">啟動／結束表：連結器把各模組的紀錄接在一起，C0 依優先序挑</text>
+
+  <!-- table -->
+  <text x="30" y="78" font-size="16" font-weight="bold" fill="#222">① 連結後的 _INIT_ 段（每筆 6 bytes）</text>
+  <g font-size="14">
+    <rect x="30" y="92" width="420" height="30" fill="#e5e7eb" stroke="#888"/>
+    <text x="90" y="112" text-anchor="middle" fill="#222">來自模組</text>
+    <text x="210" y="112" text-anchor="middle" fill="#222">類型</text>
+    <text x="290" y="112" text-anchor="middle" fill="#222">優先序</text>
+    <text x="390" y="112" text-anchor="middle" fill="#222">位址</text>
+
+    <rect x="30" y="122" width="420" height="30" fill="#fff" stroke="#bbb"/>
+    <text x="90" y="142" text-anchor="middle" fill="#222">T.OBJ</text><text x="210" y="142" text-anchor="middle">near</text><text x="290" y="142" text-anchor="middle">100</text><text x="390" y="142" text-anchor="middle">a</text>
+    <rect x="30" y="152" width="420" height="30" fill="#fff" stroke="#bbb"/>
+    <text x="90" y="172" text-anchor="middle" fill="#222">T.OBJ</text><text x="210" y="172" text-anchor="middle">near</text><text x="290" y="172" text-anchor="middle">100</text><text x="390" y="172" text-anchor="middle">b</text>
+    <rect x="30" y="182" width="420" height="30" fill="#fff" stroke="#bbb"/>
+    <text x="90" y="202" text-anchor="middle" fill="#222">T.OBJ</text><text x="210" y="202" text-anchor="middle">near</text><text x="290" y="202" text-anchor="middle">70</text><text x="390" y="202" text-anchor="middle">c</text>
+    <rect x="30" y="212" width="420" height="30" fill="#fff" stroke="#bbb"/>
+    <text x="90" y="232" text-anchor="middle" fill="#222">SETUPIO</text><text x="210" y="232" text-anchor="middle">near</text><text x="290" y="232" text-anchor="middle">2</text><text x="390" y="232" text-anchor="middle">_setupio</text>
+  </g>
+  <text x="240" y="266" font-size="13" text-anchor="middle" fill="#666">表中的前後順序 ＝ 連結順序（本圖只示意，不代表實際排列）</text>
+
+  <!-- algorithm -->
+  <text x="520" y="78" font-size="16" font-weight="bold" fill="#222">② 每一輪：掃完整張表，挑一筆</text>
+  <g font-size="15" fill="#333">
+    <text x="520" y="110">1. 跳過已執行的（類型 ＝ 0FFh）</text>
+    <text x="520" y="138">2. 啟動時留下優先序數字最小的；</text>
+    <text x="540" y="162">比較用「大於就跳過」，所以同分時</text>
+    <text x="540" y="186">後面那筆會蓋掉前面那筆</text>
+    <text x="520" y="214">3. 標成已執行、呼叫它，回到 1</text>
+    <text x="520" y="242">4. 一輪下來沒挑到就結束</text>
+  </g>
+
+  <line x1="30" y1="290" x2="970" y2="290" stroke="#ddd"/>
+
+  <!-- self modify -->
+  <text x="30" y="324" font-size="16" font-weight="bold" fill="#222">③ 啟動完成後改寫自己，同一段程式拿去跑結束表</text>
+  <rect x="60" y="342" width="340" height="80" rx="10" fill="#f3f4f6" stroke="#888"/>
+  <text x="230" y="370" font-size="15" text-anchor="middle" fill="#222">啟動：起始值 0FFh</text>
+  <text x="230" y="396" font-size="15" text-anchor="middle" fill="#222">比較指令 ja（大於就跳過）</text>
+  <line x1="405" y1="382" x2="555" y2="382" stroke="#555" marker-end="url(#arr)"/>
+  <text x="480" y="370" font-size="13" text-anchor="middle" fill="#E8710A">改一個操作碼</text>
+  <text x="480" y="402" font-size="13" text-anchor="middle" fill="#E8710A">改一個常數</text>
+  <rect x="560" y="342" width="340" height="80" rx="10" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+  <text x="730" y="370" font-size="15" text-anchor="middle" fill="#222">結束：起始值 0</text>
+  <text x="730" y="396" font-size="15" text-anchor="middle" fill="#222">比較指令 jb（小於就跳過）</text>
+
+  <!-- result -->
+  <text x="30" y="462" font-size="16" font-weight="bold" fill="#222">實跑結果（小寫是 startup、大寫是 exit、數字是 atexit、M 是 main）</text>
+  <rect x="60" y="478" width="880" height="44" rx="8" fill="#f9fafb" stroke="#bbb"/>
+  <text x="500" y="507" font-size="18" text-anchor="middle" fill="#222">c(70) → b(100) → a(100) → M → 2 → 1 → B(100) → A(100) → C(70) → 最後一個 exit(64)</text>
+  <text x="30" y="548" font-size="13" fill="#888">啟動數字小的先、結束數字大的先；同分時兩個方向都是宣告在後的先執行。Windows 版 C0W 用兩個獨立程序，不改寫程式碼。</text>
+</svg>

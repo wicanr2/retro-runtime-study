@@ -6,18 +6,6 @@
   },
   "items": [
     {
-      "id": "borland-startup-exit",
-      "layer": "article",
-      "title": "啟動與結束鏈：從載入到 main、從 exit 回到 DOS（Borland，並與 MS 比較）",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/10-borland-crtl/startup-and-exit.md"
-        ]
-      },
-      "issue": "#3"
-    },
-    {
       "id": "bcc20-codegen-fingerprints",
       "layer": "article",
       "title": "BCC 2.0 產生的程式碼在執行檔裡長什麼樣",

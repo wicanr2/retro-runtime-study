@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="640" fill="#ffffff"/>
+  <text x="30" y="38" font-size="20" font-weight="bold" fill="#222">DOS 程式從載入到結束：啟動碼 C0 與 RTL 的分工</text>
+
+  <!-- startup column -->
+  <text x="250" y="78" font-size="17" font-weight="bold" text-anchor="middle" fill="#222">啟動（C0 的進入點）</text>
+  <g font-size="15">
+    <rect x="80" y="92" width="340" height="40" rx="8" fill="#f3f4f6" stroke="#888"/>
+    <text x="250" y="117" text-anchor="middle" fill="#222">記下 DOS 版本、PSP、環境區</text>
+    <line x1="250" y1="132" x2="250" y2="146" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="80" y="148" width="340" height="40" rx="8" fill="#f3f4f6" stroke="#888"/>
+    <text x="250" y="173" text-anchor="middle" fill="#222">存中斷 0、4、5、6，接管除以零</text>
+    <line x1="250" y1="188" x2="250" y2="202" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="80" y="204" width="340" height="40" rx="8" fill="#f3f4f6" stroke="#888"/>
+    <text x="250" y="229" text-anchor="middle" fill="#222">算要留多少記憶體，多的還給 DOS</text>
+    <line x1="250" y1="244" x2="250" y2="258" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="80" y="260" width="340" height="40" rx="8" fill="#f3f4f6" stroke="#888"/>
+    <text x="250" y="285" text-anchor="middle" fill="#222">設定堆疊、清零未初始化資料</text>
+    <line x1="250" y1="300" x2="250" y2="314" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="80" y="316" width="340" height="56" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+    <text x="250" y="340" text-anchor="middle" fill="#222">依優先序呼叫 _INIT_ 表</text>
+    <text x="250" y="362" font-size="13" text-anchor="middle" fill="#666">stdio 緩衝、argv、envp、conio、浮點⋯⋯</text>
+    <line x1="250" y1="372" x2="250" y2="386" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="80" y="388" width="340" height="40" rx="8" fill="#f3f4f6" stroke="#888"/>
+    <text x="250" y="413" text-anchor="middle" fill="#222">main(argc, argv, envp)</text>
+  </g>
+
+  <!-- arrow to exit -->
+  <line x1="420" y1="408" x2="575" y2="112" stroke="#555" marker-end="url(#arr)"/>
+  <text x="520" y="250" font-size="14" text-anchor="middle" fill="#333">回傳值</text>
+  <text x="520" y="270" font-size="14" text-anchor="middle" fill="#333">交給 exit</text>
+
+  <!-- exit column -->
+  <text x="750" y="78" font-size="17" font-weight="bold" text-anchor="middle" fill="#222">結束（exit）</text>
+  <g font-size="15">
+    <rect x="580" y="92" width="340" height="40" rx="8" fill="#f3f4f6" stroke="#888"/>
+    <text x="750" y="117" text-anchor="middle" fill="#222">atexit 函式，後註冊先執行</text>
+    <line x1="750" y1="132" x2="750" y2="146" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="580" y="148" width="340" height="56" rx="8" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+    <text x="750" y="172" text-anchor="middle" fill="#222">依相反的優先序呼叫 _EXIT_ 表</text>
+    <text x="750" y="194" font-size="13" text-anchor="middle" fill="#666">同一段掃描程式，改寫過比較指令</text>
+    <line x1="750" y1="204" x2="750" y2="218" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="580" y="220" width="340" height="56" rx="8" fill="#f3f4f6" stroke="#888"/>
+    <text x="750" y="244" text-anchor="middle" fill="#222">三個函式指標：寫出緩衝、</text>
+    <text x="750" y="266" text-anchor="middle" fill="#222">關閉串流、關閉檔案</text>
+    <line x1="750" y1="276" x2="750" y2="290" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="580" y="292" width="340" height="40" rx="8" fill="#f9fafb" stroke="#555" stroke-dasharray="6 4"/>
+    <text x="750" y="317" text-anchor="middle" fill="#222">_exit：還原中斷 0、4、5、6</text>
+    <line x1="750" y1="332" x2="750" y2="346" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="580" y="348" width="340" height="40" rx="8" fill="#f9fafb" stroke="#555" stroke-dasharray="6 4"/>
+    <text x="750" y="373" text-anchor="middle" fill="#222">small、medium：空指標寫入檢查</text>
+    <line x1="750" y1="388" x2="750" y2="402" stroke="#555" marker-end="url(#arr)"/>
+    <rect x="580" y="404" width="340" height="40" rx="8" fill="#f9fafb" stroke="#555" stroke-dasharray="6 4"/>
+    <text x="750" y="429" text-anchor="middle" fill="#222">int 21h AH=4Ch 回到 DOS</text>
+  </g>
+
+  <!-- side entries -->
+  <line x1="30" y1="476" x2="970" y2="476" stroke="#ddd"/>
+  <text x="30" y="508" font-size="16" font-weight="bold" fill="#222">從中途進來的結束路徑（虛線框）</text>
+  <g font-size="15" fill="#333">
+    <text x="30" y="538">_exit(c)：直接進虛線框，跳過 atexit、_EXIT_ 表與緩衝區寫出。</text>
+    <text x="30" y="566">abort()、除以零：先在標準錯誤輸出寫一行訊息，再以結束碼 3 進虛線框。</text>
+    <text x="30" y="594">所以異常結束時，還留在緩衝區裡的 printf 輸出會遺失。</text>
+  </g>
+  <text x="30" y="626" font-size="13" fill="#888">依據：STARTUP.ZIP 的 C0.ASM、RTL 的 EXIT.C；順序在 dosgolem 以自寫測試程式實跑確認。</text>
+</svg>
