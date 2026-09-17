@@ -303,6 +303,53 @@
    ]
   },
   {
+   "id": "re-fingerprints/identify-vendor-and-model",
+   "path": "docs/60-re-fingerprints/identify-vendor-and-model.md",
+   "title": "從執行檔判斷 runtime 廠牌、版本與記憶體模型",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "re"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "拿到一支 16 位元 DOS 程式，想先知道它是不是 Borland C++ 編的、用哪個版本、哪個記憶體模型，再決定怎麼讀",
+    "MZ 檔頭 1Ch 的位置是 01 00 FB 30 或 FB 50，想知道這代表什麼",
+    "程式裡有 Borland C++ - Copyright 1991 Borland Intl. 字串，但不確定是 2.0 還是 3.0",
+    "IDA 沒有自動套用任何函式庫簽章，library 函式數是 0",
+    "想判斷程式是 small、compact、medium、large 還是 huge，而手上沒有符號"
+   ],
+   "symbols": [
+    "FB 30",
+    "FB 50",
+    "e_lfarlc",
+    "Borland C++ - Copyright 1991 Borland Intl.",
+    "Turbo C++ - Copyright 1990 Borland Intl.",
+    "MS Run-Time Library - Copyright",
+    "WATCOM C Run-Time",
+    "Null pointer assignment",
+    "8C CA",
+    "B4 30 CD 21",
+    "FBOV",
+    "Packed file is corrupt",
+    "dos.json",
+    "scroll-1991-08.json",
+    "gen_signatures.py",
+    "CS.LIB",
+    "CC.LIB",
+    "CM.LIB",
+    "CL.LIB",
+    "CH.LIB"
+   ],
+   "related": [
+    "re-fingerprints/bcc20-codegen",
+    "borland-crtl/memory-model-macros",
+    "borland-crtl/startup-and-exit",
+    "borland-crtl/compiler-helpers"
+   ]
+  },
+  {
    "id": "toolchain/bcc20-on-dosgolem",
    "path": "docs/70-toolchain/bcc20-on-dosgolem.md",
    "title": "在 dosgolem 裡用 Borland C++ 2.0 編譯，並在瀏覽器裡玩編出來的 BGI 程式",
