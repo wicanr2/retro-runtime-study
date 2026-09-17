@@ -45,6 +45,8 @@
   <text x="745" y="394" font-size="15" text-anchor="middle" fill="#333">每個函式進入：push ds，載入「自己模組的資料段」</text>
   <text x="745" y="415" font-size="15" text-anchor="middle" fill="#333">離開：pop ds（RTL 函式載入的就是 DGROUP）</text>
   <line x1="640" y1="366" x2="640" y2="300" stroke="#E8710A" stroke-dasharray="5 4" marker-end="url(#arrO)"/>
+  <text x="650" y="340" font-size="13" fill="#E8710A">RTL 函式</text>
+  <text x="885" y="340" font-size="13" fill="#555">使用者模組的函式</text>
   <line x1="875" y1="366" x2="875" y2="300" stroke="#555" stroke-dasharray="5 4" marker-end="url(#arr)"/>
 
   <text x="30" y="470" font-size="14" fill="#555">呼叫進來時 DS 可能還是呼叫端模組的段，所以 huge 的函式不能假設 DS 已經指向 DGROUP。</text>

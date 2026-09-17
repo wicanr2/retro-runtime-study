@@ -10,7 +10,7 @@ triggers:
   - 看到 _fstrlen、_fmemcpy 這類 f 開頭的函式，想知道它和 strlen 的關係
   - huge 模型的函式開頭有 push ds、mov ds,ax，不知道為什麼
   - remake 要重現 strlen(NULL) 這類邊界行為，而原程式的記憶體模型不同
-symbols: [LDATA, LPROG, MMODEL, __MMODEL, DGROUP, DGROUP@, DATASEG@, __FARFUNCS__, _fstrlen, RULES.ASI, ASMRULES.H, _FARFUNC.H, LES_, LDS_, pushDS_, popDS_, DPTR_, CPTR_, Proc@, PubProc@, _DSSTACK_, C0T.OBJ, C0FS.OBJ, CS.LIB, CH.LIB, "-zR_DATA", "-zTDATA", "-zC_TEXT"]
+symbols: [LDATA, LPROG, MMODEL, __MMODEL, DGROUP, DGROUP@, DATASEG@, __FARFUNCS__, _fstrlen, __fstrlen, _strlen, _ftoupper, RULES.ASI, ASMRULES.H, _FARFUNC.H, LES_, LDS_, pushDS_, popDS_, DPTR_, CPTR_, Proc@, PubProc@, _DSSTACK_, C0T.OBJ, C0FS.OBJ, CS.LIB, CH.LIB, "-zR_DATA", "-zTDATA", "-zC_TEXT"]
 related: [overview/era-and-libraries, toolchain/bcc20-on-dosgolem]
 ---
 
@@ -22,14 +22,18 @@ Borland C++ 2.0 的執行時期函式庫（RTL）用三層機制，讓一份原�
 
 1. **批次檔**對每個模型各編一次。
 2. **編譯器**負責大部分差異：函式怎麼進出、參數在堆疊上的位置、指標放不放得進暫存器、huge 模型要不要重設 DS。
-   純 C 的模組完全不用為模型寫任何東西。
+   絕大多數純 C 模組不必為五個模型寫任何東西。
 3. **手寫組語**的地方編譯器幫不上忙，改用兩個布林開關描述差異：`LDATA`（資料指標是 far）與 `LPROG`（函式呼叫是 far），
    再配一組隨開關展開的巨集。
 
 另外有兩個常被誤解的變體：f 開頭的 far 版字串函式是 large 模型重編、改名後放進全部五個庫；
 huge 模型則是在 large 的基礎上，讓每個函式進入時自己設定 DS。
 
-這些說法都用原廠工具鏈對拍過：C 函式庫 2,455 次、far 版字串函式 310 次、啟動碼 20 個目的檔，重編結果與出貨版相同。
+這些說法都用原廠工具鏈對拍過：C 函式庫 2,455 次、far 版函式 310 次、啟動碼 20 個目的檔，重編結果與 1991-04 出貨版相同
+（1991-08 改版的 C 函式庫只有 `SCROLL` 一個模組不同，與記憶體模型無關）。
+
+本文的函式名稱用 C 原始碼裡的寫法（`strlen`、`_fstrlen`）；BCC 會替 C 符號再加一個底線，
+所以在目的檔、`.LIB` 或 map 檔裡看到的是 `_strlen`、`__fstrlen`。
 
 ## 根本問題
 
@@ -46,7 +50,7 @@ huge 模型則是在 large 的基礎上，讓每個函式進入時自己設定 D
 
 建置批次檔對每個模型把全部原始檔重編一次，C 檔帶 `-m<模型>`，組語檔帶 `/D__<模型>__`，
 各自收成 `CS`、`CC`、`CM`、`CL`、`CH.LIB`。tiny 模型沒有自己的庫：在 [dosgolem](../70-toolchain/bcc20-on-dosgolem.md) 裡用 `BCC -mt` 編連一支程式，
-BCC 叫 TLINK 開啟的是 `C0T.OBJ` 與 `CS.LIB`。tiny 與 small 的程式碼和資料指標都是 near，函式庫程式碼可以共用，
+BCC 叫 TLINK（Borland 的連結器）開啟的是 `C0T.OBJ`（tiny 的啟動碼，見下文「啟動碼的變體」）與 `CS.LIB`。tiny 與 small 的程式碼和資料指標都是 near，函式庫程式碼可以共用，
 差別只在啟動碼讓程式碼與資料落在同一段。
 
 ### 第二層：編譯器吸收大部分差異
@@ -59,20 +63,21 @@ BCC 叫 TLINK 開啟的是 `C0T.OBJ` 與 `CS.LIB`。tiny 與 small 的程式碼�
 |---|---|---|---|---|
 | small | `ret` | `[bp+4]` | 把 DS 複製到 ES，取 2 bytes 位移 | 不檢查 |
 | medium | `retf` | `[bp+6]` | 同 small | 不檢查 |
-| compact | `ret` | `[bp+4]` | `les` 一次載入段與位移 | 段與位移都為 0 就回傳 0 |
+| compact | `ret` | `[bp+4]` | `les`（一次從記憶體載入段與位移的指令）取 4 bytes | 段與位移都為 0 就回傳 0 |
 | large | `retf` | `[bp+6]` | 同 compact | 同 compact |
 | huge | `retf` | `[bp+6]` | 同 compact；另外在進入時 `push ds`、設定 DS，離開前 `pop ds` | 同 compact |
 
 表的前兩欄完全由編譯器產生，原始碼裡沒有任何關於 `ret`／`retf` 或參數位移的字。
 far 呼叫多推了 2 bytes 的返回段值，所以參數往下挪 2。small 與 medium 的函式主體逐位元組相同，只有這兩處不同。
 
-純 C 的模組更徹底。`strcspn`（`.C`）的原始碼沒有任何模型相關的條件式，編出來卻有明顯差異：
+純 C 的模組更徹底。`strcspn`（`.C`）的原始碼裡，唯一和模型有關的條件式是 far 版建置用的（見下文「f 開頭的 far 版函式」），
+在五個模型的一般建置裡不生效；編出來卻有明顯差異：
 
 - small、medium：兩個字串指標放進 SI、DI 暫存器，迴圈很緊湊。
 - large、huge：far 指標有 4 bytes，放不進 16 位元暫存器；編譯器改把其中一個存在堆疊上的區域變數，
   每次比對都重新用 `les bx` 載入，主體長了約一倍。
 
-`CLIB1`、`CLIB2` 的 150 個 `.C` 檔中，132 個沒有任何模型相關的巨集或 include。這一層吸收得越多，第三層要處理的就越少。
+`CLIB1` 的 150 個 `.C` 檔中，132 個沒有任何模型相關的巨集或 include；其餘 18 個多半只有 far 版建置用的條件式。這一層吸收得越多，第三層要處理的就越少。
 
 ### 第三層：手寫組語的兩個開關
 
@@ -120,20 +125,20 @@ ES:DI ← 字串的段:位移
 若 段 == 0 且 位移 == 0：回傳 0
 ```
 
-之後兩條路線共用同一段掃描：方向旗標清零、CX 設為 −1、`repne scasb` 找 0，再由 CX 算出長度。
-這是 x86 教材常見的字串長度寫法。
+之後兩條路線共用同一段掃描：方向旗標清零、CX 設為 −1、`repne scasb` 逐一比對直到遇到 0。
+CX 每比一個位元組就減 1，所以掃完之後由 CX 減掉的次數就能算出長度。這是 x86 教材常見的字串長度寫法。
 
 ### far 資料版多了空指標檢查
 
 只有 far 資料的分支檢查空指標。near 資料時空指標等於 `DS:0000`，而啟動碼刻意讓那裡是 4 個 0 位元組：
-C0 的資料段以 4 個 0 位元組開頭、接著版權字串，程式結束時計算這一塊的 checksum，對不上就印出空指標寫入的錯誤訊息
-（small、medium 的 DGROUP 從這裡開始）。所以 near 資料的 `strlen(NULL)` 讀到的第一個位元組就是 0，自然回傳 0，不需要另外檢查。
-far 資料時空指標是 `0000:0000`，也就是中斷向量表，內容由系統決定，只能明確檢查（強推論：這是只在 far 分支加檢查的理由）。
+C0 的資料段以 4 個 0 位元組開頭、接著版權字串，程式結束時計算這一塊的 checksum，對不上就印出空指標寫入的錯誤訊息。
+small、medium 的 DGROUP（連結器把 `_DATA`、`_BSS` 等資料段合成的一個 64 KB 以內的群組，DS 平常就指向它）從這裡開始。所以 near 資料的 `strlen(NULL)` 讀到的第一個位元組就是 0，自然回傳 0，不需要另外檢查。
+far 資料時空指標是 `0000:0000`，也就是中斷向量表（記憶體最前面 1 KB，存放 256 個中斷處理程序的位址，由 BIOS 與 DOS 填入，不是 0），只能明確檢查（強推論：這是只在 far 分支加檢查的理由）。
 
 tiny 模型的程式碼與資料同段，啟動碼不做這項檢查，`DS:0000` 是什麼要看連結成哪種格式：
 
-- **EXE（BCC 的預設）**：DS 指向載入映像的開頭。tiny 的程式碼以 `ORG 100h` 起始，映像前 256 bytes 是填充的 0，
-  所以 `DS:0000` 也是 0。
+- **EXE（BCC 的預設）**：DS 指向載入映像的開頭。tiny 的程式碼以 `ORG 100h` 起始（`.COM` 程式緊接在 256 bytes 的 PSP 後面，
+  位移從 100h 開始；啟動碼為了兩種格式通用而保留這個起點），EXE 映像的前 256 bytes 因此是填充的 0，`DS:0000` 也是 0（實跑確認，見下）。
 - **`.COM`（TLINK 加 `/t`）**：DOS 把程式載在 PSP（DOS 放在程式前面的 256 bytes 控制區）後面，DS 等於 PSP 的段，
   `DS:0000` 是 PSP 開頭的 `int 20h` 指令，不是 0（強推論，未實跑）。
 
@@ -147,12 +152,12 @@ small 版印出 `DS:0000` 起的位元組是 4 個 0 接著版權字串的開頭
 large 與 huge 的指標寬度相同，差別在靜態資料：
 
 - **large**：所有模組的靜態資料都放進 DGROUP 這一段，最多 64 KB。啟動碼把 DS 設成 DGROUP 之後就不再動。
-- **huge**：讓靜態資料總量可以超過 64 KB，每個模組的資料各放一段。代價是呼叫進來的時候，
-  DS 可能還指著呼叫端模組的那一段，所以**每個函式進入時都要把 DS 換成自己模組的資料段**，離開時換回來。
+- **huge**：讓靜態資料總量可以超過 64 KB，每個模組的資料各放一段。代價是：far 呼叫只換 CS 與 IP，不會連帶換 DS，
+  呼叫進來的時候 DS 還指著呼叫端模組的那一段，所以**每個函式進入時都要把 DS 換成自己模組的資料段**，離開時換回來。
 
-RTL 在 huge 模型下沒有真的把資料拆成幾百段。RTL 的編譯設定固定了資料段的名稱與類別（`-zR_DATA -zTDATA`），
+RTL 在 huge 模型下沒有真的把資料拆成幾百段。RTL 的編譯設定固定了資料段的名稱與類別（class，目的檔裡段落的一個屬性，連結器依它決定哪些段落排在一起；`-zR_DATA -zTDATA`），
 組語模組也用同樣的名稱與類別宣告資料段，連結器就把整個 RTL 的資料合成一段 `_DATA`，再由 huge 啟動碼併入 DGROUP。
-實際連結一支 huge 程式，map 檔顯示 RTL 的資料全在同一段 `_DATA`、程式碼全在同一段 `_TEXT`；
+實際連結一支 huge 程式，map 檔（連結器輸出的段落配置清單）顯示 RTL 的資料全在同一段 `_DATA`、程式碼全在同一段 `_TEXT`；
 使用者自己的 `T.C` 則照編譯器預設，各自有 `T_TEXT` 與類別為 `FAR_DATA` 的 `T_DATA`。
 所以 RTL 函式在 huge 模型下載入的 DS 就是 DGROUP；它們仍然要自己載入，因為呼叫它們的是使用者模組。
 
@@ -166,7 +171,7 @@ huge 模型還有兩處差別：
 
 ### f 開頭的 far 版函式
 
-RTL 有 31 個字串與記憶體函式另有 far 版：`_fstrlen`、`_fmemcpy`、`_fstrcpy` 等。做法是：
+RTL 有 31 個字串、記憶體與字元轉換函式另有 far 版：`_fstrlen`、`_fmemcpy`、`_fstrcpy`、`_ftoupper` 等。做法是：
 
 1. 這些原始檔在「large 模型且定義了 `__FARFUNCS__`」時多引入一個標頭 `_FARFUNC.H`，
    它把 `strlen` 這類名稱重新定義成 `_fstrlen`（`strdup` 需要的配置函式也換成 far 版）。
@@ -177,6 +182,8 @@ RTL 有 31 個字串與記憶體函式另有 far 版：`_fstrlen`、`_fmemcpy`�
 
 同一份 large 版目的碼能給五個模型用，是因為它的介面與呼叫端的模型無關：一律 far 呼叫、一律收 far 指標，
 而且這類函式不讀寫函式庫自己的靜態資料，不在乎 DS 指向哪裡（強推論）。
+呼叫端之所以會產生 far 呼叫，是因為出貨的 `STRING.H` 把 `_fstrlen` 宣告成 far 函式、參數是 far 指標。
+Borland C 允許個別函式用 `far`／`near` 關鍵字蓋過記憶體模型的預設，編譯器依宣告產生呼叫，不依整支程式的模型。
 它解決的是 near 資料模型的程式透過 `farmalloc` 拿到資料段以外的記憶體之後，一般的 `strlen` 處理不了的問題。
 
 ### 啟動碼的變體：`C0F` 系列
@@ -209,7 +216,7 @@ huge 沒有 `C0F` 變體（`C0FH` 與 `C0H` 相同）。
 
 | 行為 | small、medium | compact、large、huge | tiny（EXE） | tiny（`.COM`） |
 |---|---|---|---|---|
-| `strlen(NULL)` | 讀 `DS:0000`；正常情況那裡是 0，回傳 0 | 不讀記憶體，回傳 0 | 讀到 `ORG 100h` 前的填充 0，回傳 0 | 從 PSP 開頭掃到第一個 0 位元組，回傳那段距離 |
+| `strlen(NULL)` | 讀 `DS:0000`；正常情況那裡是 0，回傳 0 | 不讀記憶體，回傳 0 | 讀到 `ORG 100h` 前的填充 0，回傳 0 | 從 PSP 開頭掃到第一個 0 位元組，回傳那段距離（推論，未實跑） |
 
 small、medium 的「正常情況」指程式沒有寫過空指標：寫過的話 `DS:0000` 的內容會變，`strlen(NULL)` 的結果跟著變，
 而程式結束時會印出空指標寫入的錯誤訊息。
@@ -220,12 +227,12 @@ small、medium 的「正常情況」指程式沒有寫過空指標：寫過的�
 
 | 結論 | 出處 | 等級 |
 |---|---|---|
-| RTL 的 C 函式庫以五個模型各編一次、與出貨版相同 | 原廠 BCC 2.0 在 dosgolem 重編 2,455 次，比對 OMF 語意記錄 | 已證實（對拍） |
+| RTL 的 C 函式庫以五個模型各編一次、與 1991-04 出貨版相同 | 原廠 BCC 2.0 在 dosgolem 重編 2,455 次，比對 OMF 語意記錄 | 已證實（對拍） |
 | `LDATA`、`LPROG`、`MMODEL` 的定義與模型對應 | Borland C++ 2.0 RTL，`ASMRULES.H`、`RULES.ASI` | 已證實（原文） |
 | `LES_`、`pushDS_`、`Proc@` 等名稱的展開 | 同上 | 已證實（原文） |
 | `strlen` 五個模型的進出、取參數、空指標檢查 | `STRLEN.CAS`；IDA 9.4 反組譯出貨 `CS`～`CH.LIB` | 已證實（原文＋反組譯） |
-| `strcspn` 的模型差異全由編譯器產生 | `STRCSPN.C` 無條件式；反組譯四個模型 | 已證實（原文＋反組譯） |
-| 150 個 `.C` 中 132 個不含模型相關的巨集或 include | `CLIB1`、`CLIB2` 原始檔搜尋 | 已證實（計數） |
+| `strcspn` 的模型差異全由編譯器產生 | `STRCSPN.C` 除 far 版建置的條件式外沒有模型相關條件式；反組譯四個模型 | 已證實（原文＋反組譯） |
+| 150 個 `.C` 中 132 個不含模型相關的巨集或 include | `CLIB1` 原始檔搜尋（`CLIB2` 沒有 `.C` 檔） | 已證實（計數） |
 | near 資料模型的 `DS:0000` 是 4 個 0 位元組、結束時檢查 checksum | 編譯器套件 `STARTUP.ZIP` 的 `C0.ASM` | 已證實（原文） |
 | tiny（EXE）、small、large 的 `strlen(NULL)` 回傳 0；small 的 `DS:0000` 是 4 個 0 接版權字串 | 在 dosgolem 編連並執行自寫測試程式 | 已證實（實跑） |
 | far 資料版才檢查空指標的理由；tiny 連成 `.COM` 時的 `strlen(NULL)` | 由位址配置推得，未實跑 | 強推論 |

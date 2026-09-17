@@ -28,6 +28,10 @@
 | `LPROG`／`LDATA` | Borland RTL 內部用的兩個條件編譯開關：程式碼指標是否為 far、資料指標是否為 far。同一份原始碼靠它們切出各記憶體模型的版本 |
 | `.CAS` | Borland RTL 的「C 加內嵌組語」原始檔，編譯時要經過 TASM |
 | TASM | Turbo Assembler，Borland 的組譯器 |
+| TLINK | Borland 的連結器；BCC 編譯完會自動呼叫它，`/t` 產生 `.COM`、`/m` 產生 map 檔 |
+| PSP | Program Segment Prefix，DOS 載入程式時放在程式前面的 256 bytes 控制區，含命令列、環境區段值、記憶體上限 |
+| 中斷向量表 | 真實模式記憶體最前面 1 KB（`0000:0000` 起），256 個中斷處理程序的 far 位址，由 BIOS 與 DOS 填入 |
+| 段落類別（class） | OMF 目的檔裡段落的屬性之一（`CODE`、`DATA`、`FAR_DATA`⋯⋯），連結器依它決定段落的排列；和程式語言的 class 無關 |
 | TLIB／`.RSP` | Borland 的 library 管理工具，與它讀的回應檔（列出要收進 `.LIB` 的模組） |
 | CRT | C runtime，C 程式執行時需要的函式庫與啟動碼 |
 | helper（編譯器輔助函式） | 編譯器遇到硬體沒有直接指令的運算（32 位元乘除、結構整塊複製、堆疊檢查）時自動插入的呼叫，原始程式碼裡看不到它 |

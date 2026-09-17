@@ -64,5 +64,5 @@
   <rect x="660" y="454" width="310" height="84" rx="8" fill="#fff4ea" stroke="#E8710A"/>
   <text x="815" y="482" font-size="15" text-anchor="middle" fill="#333">LDATA = 1：les 一次載入段與位移</text>
   <text x="815" y="508" font-size="15" text-anchor="middle" fill="#333">段與位移都是 0 → 直接回傳 0</text>
-  <text x="815" y="530" font-size="13" text-anchor="middle" fill="#666">compact／large／huge</text>
+  <text x="815" y="530" font-size="13" text-anchor="middle" fill="#666">compact／large／huge（compact 參數仍在 bp+4）</text>
 </svg>
