@@ -14,7 +14,8 @@
         "paths": [
           "docs/10-borland-crtl/memory-model-macros.md"
         ]
-      }
+      },
+      "issue": "#1"
     },
     {
       "id": "borland-compiler-helpers",
@@ -25,7 +26,46 @@
         "paths": [
           "docs/10-borland-crtl/compiler-helpers.md"
         ]
-      }
+      },
+      "issue": "#2"
+    },
+    {
+      "id": "borland-startup-exit",
+      "layer": "article",
+      "title": "啟動與結束鏈：從載入到 main、從 exit 回到 DOS（Borland，並與 MS 比較）",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/10-borland-crtl/startup-and-exit.md"
+        ]
+      },
+      "issue": "#3"
+    },
+    {
+      "id": "bcc20-codegen-fingerprints",
+      "layer": "article",
+      "title": "BCC 2.0 產生的程式碼在執行檔裡長什麼樣",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/60-re-fingerprints/bcc20-codegen.md"
+        ]
+      },
+      "issue": "#4"
+    },
+    {
+      "id": "signatures-borland",
+      "layer": "infra",
+      "title": "Borland C++ 2.0 RTL 的短位元組簽章與產生工具",
+      "acceptance": "簽章只收 64 bytes 以內、遮罩 relocation 的樣式；有正對照命中率",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "tools/gen_signatures.py",
+          "signatures/borland-crtl-2.0"
+        ]
+      },
+      "issue": "#5"
     },
     {
       "id": "re-identify-vendor",
@@ -37,7 +77,8 @@
         "paths": [
           "docs/60-re-fingerprints/identify-vendor-and-model.md"
         ]
-      }
+      },
+      "issue": "#6"
     },
     {
       "id": "kb-index",
@@ -50,7 +91,8 @@
           "tools/build_index.py",
           "kb-index.json"
         ]
-      }
+      },
+      "issue": "#7"
     }
   ]
 }

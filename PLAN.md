@@ -1,6 +1,7 @@
 # 計畫
 
-未完成項的權威是 `worklist.json`，本檔只放分輪安排與勘誤。
+未完成項的權威是 `worklist.json`，本檔只放分輪安排與勘誤。每條 worklist 對應一個 GitHub issue（`issue` 欄位），
+issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 其他函式庫。
 
 ## 分輪
 
