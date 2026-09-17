@@ -86,6 +86,7 @@ related: [borland-crtl/compiler-helpers]
 | `PLAN.md` | 分輪進度、勘誤段 |
 | `worklist.json` | 未完成項（權威）；`tools/worklist.py` 跑 verify |
 | `docs/NN-主題/*.md` | 文章 |
+| `docs/goal/` | 總目標與各 milestone 的完成條件、依賴；不是文章，沒有前置欄位，不列入 `kb-index.json`，不記進度 |
 | `img/` | SVG；程式執行畫面的截圖可以用 PNG，檔名要在 `.gitignore` 明列例外（驗證用 PNG 走 scratchpad，不進版控） |
 | `tools/` | 可公開的腳本；不含、也不下載任何受授權限制的檔案 |
 | `examples/` | 自己寫的範例程式；只能引用原廠標頭與函式庫，不能改寫原廠原始碼 |
