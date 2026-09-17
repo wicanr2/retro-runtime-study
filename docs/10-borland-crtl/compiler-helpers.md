@@ -23,7 +23,7 @@ Borland C++ 2.0 的編譯器（BCC）遇到這些運算時不展開成一長串�
 這些被呼叫的函式就是 helper（編譯器輔助函式）。原始程式碼裡看不到它們，反組譯時卻到處都是。
 
 helper 的名稱以 `@` 結尾，大多有兩個版本：`N_` 開頭給 near 呼叫、`F_` 開頭給 far 呼叫。
-**編譯器依記憶體模型選用**：small 程式呼叫 `N_LXMUL@`，large、huge 程式呼叫 `F_LXMUL@`。
+**編譯器依程式碼指標的寬度選用**：small、compact 程式呼叫 `N_LXMUL@`，medium、large、huge 程式呼叫 `F_LXMUL@`。
 這些名稱是組語寫的，連結後的符號就長這樣，不像 C 函式另外多一個底線。
 
 | 群組 | helper | 用在 |
@@ -37,7 +37,7 @@ helper 的名稱以 `@` 結尾，大多有兩個版本：`N_` 開頭給 near 呼
 | 浮點 | `FTOL@` | `double` 轉 `long` 或 `int` |
 
 本文的結論來自三種證據：RTL 原始碼、以原廠工具鏈重編後與出貨函式庫的比對（helper 所在的模組全部相同），
-以及一支自寫測試程式（[`examples/helpers/`](../../examples/helpers/)）在 small、large、huge 三個模型編譯、
+以及一支自寫測試程式（[`examples/helpers/`](../../examples/helpers/)）在五個記憶體模型編譯、
 在 dosgolem 以 8086 與 186 兩種 CPU 模式執行的結果（dosgolem 可以選擇模擬的處理器世代，用來觀察位移這類隨 CPU 而異的行為）。
 
 ## 根本問題
@@ -163,7 +163,7 @@ huge 指標的做法是每次運算之後都**正規化**：把實體位址（�
 | `PADA@`、`PSBA@` | `p += n`、`p -= n` | DX:AX 指向指標變數，CX:BX 增量；就地改寫 |
 | `PINA@`、`PDEA@` | 指標變數加減 16 位元的量 | ES:BX 指向指標變數，AX 增量；就地改寫 |
 
-實跑（small、large、huge 結果相同）：`1234:0008` 加 0x10000 得 `2234:0008`；兩者相減得 65536；`p < p+1` 為真；
+實跑（五個模型結果相同）：`1234:0008` 加 0x10000 得 `2234:0008`；兩者相減得 65536；`p < p+1` 為真；
 `p++` 得 `1234:0009`。反組譯顯示 `(*pp)++` 呼叫的是 `PADA@`（增量 1），`PINA@`、`PDEA@` 在什麼運算下出現還沒查到。
 
 `PSBH@` 是另一種指標相減，參數由兩個符號決定。DOS 的啟動碼定義了兩個常數：`__AHINCR` 為 1000h，
@@ -192,11 +192,11 @@ huge 指標的做法是每次運算之後都**正規化**：把實體位址（�
 
 | 模型 | 比較 | 意思 |
 |---|---|---|
-| near 資料（實測 small） | `___brklvl` 與 SP；SP 較大才通過 | 堆疊從 DGROUP 頂端往下長、heap 從底部往上長；SP 碰到 heap 的頂端就是溢位 |
-| far 資料（實測 large、huge） | `__stklen` 與 SP；`__stklen` 較大才通過 | 堆疊自成一段，SP 從 `__stklen` 往 0 數；溢位時 SP 繞回 0FFFFh 附近，反而大於 `__stklen` |
+| near 資料（實測 small、medium） | `___brklvl` 與 SP；SP 較大才通過 | 堆疊從 DGROUP 頂端往下長、heap 從底部往上長；SP 碰到 heap 的頂端就是溢位 |
+| far 資料（實測 compact、large、huge） | `__stklen` 與 SP；`__stklen` 較大才通過 | 堆疊自成一段，SP 從 `__stklen` 往 0 數；溢位時 SP 繞回 0FFFFh 附近，反而大於 `__stklen` |
 
 huge 模型的函式進入時 DS 已換成模組自己的資料段，所以比較前多一步把 `__stklen` 所在的段載入 ES。
-compact、medium 的形式由資料指標寬度推論，沒有反組譯。
+呼叫的 `OVERFLOW@` 則和其他 helper 一樣依程式碼指標寬度選 `N_` 或 `F_`：compact 比較 `__stklen` 但呼叫 `N_OVERFLOW@`，medium 比較 `___brklvl` 但呼叫 `F_OVERFLOW@`。
 
 DOS 版的 `OVERFLOW@` 用 DOS 的「印出以 `$` 結尾的字串」功能在標準輸出寫出 `Stack overflow!`，接著跳到結束程式的函式，不返回。
 
@@ -253,14 +253,13 @@ C 規定浮點轉整數要捨去小數（向 0 截斷），但數學輔助處理
 |---|---|---|
 | helper 名稱、`N_`／`F_` 版本、所在模組 | Borland C++ 2.0 RTL，`CLIB2` 的 `H_*.ASM`、`N_LXMUL.ASM`、`F_LXMUL.ASM`、`N_PCMP.ASM`、`STACK.ASM`，`WINLIB` 的 `H_CHKSTK.ASM`、`N_SCOPY.ASM`，`MATH` 的 `FTOL.ASM` | 已證實（原文） |
 | 這些模組與出貨函式庫相同 | 原廠工具重編，C 函式庫 2,455 次、數學函式庫、Windows 版函式庫的對拍（`FTOL` 兩版皆相同） | 已證實（對拍） |
-| 依模型選 `N_` 或 `F_`、各 helper 的參數放法 | 自寫測試程式以 `-ms`、`-ml`、`-mh` 編譯後反組譯呼叫端 | 已證實（反組譯） |
+| 依程式碼指標寬度選 `N_` 或 `F_`、各 helper 的參數放法 | 自寫測試程式以五個模型編譯後反組譯呼叫端 | 已證實（反組譯） |
 | `N_` 入口改寫成 far 框架 | 原文 | 已證實（原文） |
 | Windows 版 `N_SCOPY@` 另寫一份的原因 | 無直接證據 | 假說 |
-| 乘法、除法、取餘、位移（8086）、`double` 轉 `long`、huge 指標的實際結果 | 測試程式在 dosgolem 以 8086 與 186 模式、small／large／huge 執行，結果相同 | 已證實（實跑） |
+| 乘法、除法、取餘、位移（8086）、`double` 轉 `long`、huge 指標的實際結果 | 測試程式在 dosgolem 以 8086 與 186 模式、五個記憶體模型執行，結果相同 | 已證實（實跑） |
 | 除以零的訊息、結束碼與不 flush 的行為 | 啟動碼 `C0.ASM` 原文＋實跑 | 已證實（原文＋實跑） |
 | 286 以上位移量 ≥ 48 的結果 | 由 CPU 規格與 helper 寫法推算 | 強推論 |
-| `-N` 在 near 資料與 far 資料模型的兩種形式 | 反組譯 small、large、huge | 已證實（反組譯） |
-| compact、medium 的 `-N` 形式 | 由資料指標寬度推論 | 強推論 |
+| `-N` 在 near 資料與 far 資料模型的兩種形式 | 反組譯五個模型 | 已證實（反組譯） |
 | `__AHSHIFT` 在 DOS 是 12 | `STARTUP.ZIP` 的 `C0.ASM` | 已證實（原文） |
 | `CHKSTK@` 的 Microsoft 相容名稱的用途 | 名稱比對 | 強推論 |
 

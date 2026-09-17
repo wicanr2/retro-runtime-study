@@ -104,7 +104,7 @@ C0 挑選的方法：
 改寫發生在初始化表跑完、呼叫 `main` 之前；之後不會再用到初始化的挑選方式，所以一次改好就行。
 Windows 版的啟動碼 `C0W.ASM` 則寫成兩個獨立的程序，不改寫程式碼（強推論：Windows 保護模式下的程式碼段不能寫入，這個技巧在那裡不可行）。
 
-以自寫測試程式實跑（small、large、huge 結果相同）：兩個優先序 100、一個 70 的 `#pragma startup`，兩個 100、一個 70、一個 64 的 `#pragma exit`，
+以自寫測試程式實跑（五個記憶體模型結果相同）：兩個優先序 100、一個 70 的 `#pragma startup`，兩個 100、一個 70、一個 64 的 `#pragma exit`，
 `main` 裡兩次 `atexit`。執行順序是：
 
 startup 70 → startup 100（後宣告）→ startup 100（先宣告）→ `main` → 後註冊的 `atexit` → 先註冊的 `atexit` → exit 100（後宣告）→ exit 100（先宣告）→ exit 70 → exit 64
@@ -210,7 +210,7 @@ Visual C++ 1.0 的 16 位元 CRT 原始碼也有 DOS 與 Windows 各自的啟動
 |---|---|---|
 | C0 的各步驟、表格式、挑選演算法、改寫程式碼 | 編譯器套件 `STARTUP.ZIP` 的 `C0.ASM` | 已證實（原文） |
 | 啟動碼原始檔與出貨的 20 個 `C0*.OBJ` 相同 | 以 `BUILD-C0.BAT` 在 dosgolem 組譯後比對 | 已證實（對拍） |
-| 初始化、結束、`atexit` 的執行順序（含同優先序） | `examples/startup/` 在 small、large、huge 實跑 | 已證實（實跑） |
+| 初始化、結束、`atexit` 的執行順序（含同優先序） | `examples/startup/` 在五個記憶體模型 實跑 | 已證實（實跑） |
 | `main` 的參數決定是否連結 `SETARGV`、`SETENVP` | 編譯三種 `main` 寫法後檢查目的檔的外部參照；`SETARGV.ASM` 原文註解 | 已證實（實跑＋原文） |
 | RTL 登記的表項與優先序 | RTL 的 `SETUPIO.C`、`SETARGV.ASM`、`SETENVP.ASM`、`WILDARGS.ASM`、`CRTINIT.CAS`、`EMU/FPINIT.ASM`、`IOSTSTD.CPP` | 已證實（原文） |
 | `exit` 的步驟、三個清理函式指標與設定它們的函式；`system`、`exec` 先寫出緩衝區 | RTL 的 `EXIT.C`、`ATEXIT.C`、`SETVBUF.C`、`FOPEN.C`、`CREAT.CAS`、`DUP2.CAS`、`LOADPROG.C`、`SYSTEM.C` | 已證實（原文） |

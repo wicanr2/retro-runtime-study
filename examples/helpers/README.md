@@ -19,7 +19,7 @@ export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem
 ```
 
 `run.sh` 以 `-m<模型> -N` 編譯，在 dosgolem 執行，印出 `OUT.TXT` 並與 `expected.txt` 比對。
-small、large、huge 三個模型與 8086、186 兩種模式的輸出都與 `expected.txt` 相同。
+五個記憶體模型與 8086、186 兩種模式的輸出都與 `expected.txt` 相同。
 
 想看 helper 的呼叫端，用 `tools/bcpp20/bcc.sh . BCC.EXE -c -m<模型> -N HELPERS.C` 只編譯，再把 `out/helpers.obj` 交給反組譯工具。
 

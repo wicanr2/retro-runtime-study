@@ -18,7 +18,7 @@ export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem
 ./run.sh h      # huge 模型
 ```
 
-small、large、huge 的輸出都是 `cbaM21BAC`，與 `expected.txt` 相同。
+五個記憶體模型的輸出都是 `cbaM21BAC`，與 `expected.txt` 相同。
 
 ## 字元的意思
 
