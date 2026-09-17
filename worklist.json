@@ -43,20 +43,6 @@
         ]
       },
       "issue": "#6"
-    },
-    {
-      "id": "kb-index",
-      "layer": "infra",
-      "title": "由前置欄位產生 kb-index.json，並檢查 id 唯一、related 指得到",
-      "acceptance": "tools/build_index.py 可重跑；前置欄位缺欄或 related 斷鏈時 exit 1",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "tools/build_index.py",
-          "kb-index.json"
-        ]
-      },
-      "issue": "#7"
     }
   ]
 }

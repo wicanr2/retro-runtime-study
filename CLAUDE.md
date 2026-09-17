@@ -91,10 +91,10 @@ related: [borland-crtl/compiler-helpers]
 | `tools/` | 可公開的腳本；不含、也不下載任何受授權限制的檔案 |
 | `examples/` | 自己寫的範例程式；只能引用原廠標頭與函式庫，不能改寫原廠原始碼 |
 | `signatures/` | 由工具從對拍產物產生的短位元組樣式（JSON）＋同名 `.md` 的語意說明 |
-| `kb-index.json` | 由前置欄位產生的索引，給 AI 讀者路由（尚未建置，見 worklist） |
+| `kb-index.json` | 由前置欄位產生的索引，給 AI 讀者路由；`tools/build_index.py` 產生，不手改 |
 
 ## Git
 
 - 開工先確認 `git config user.email` 是 `wicanr2@gmail.com`，並看一次 `git log --format=%ae | sort -u`。
 - commit message 繁體中文，結尾只留 `Co-Authored-By`，不放 `Claude-Session:`。
-- 每輪收尾：外洩閘門 → `tools/worklist.py` → commit → push。
+- 每輪收尾：外洩閘門 → `tools/build_index.py`（改過前置欄位就重產，`--check` 要通過）→ `tools/worklist.py` → commit → push。

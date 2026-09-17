@@ -1,0 +1,347 @@
+{
+ "schema": "retro-runtime-study.kb-index.v1",
+ "articles": [
+  {
+   "id": "overview/era-and-libraries",
+   "path": "docs/00-overview/era-and-libraries.md",
+   "title": "五份函式庫的全景：指標寬度決定了函式庫的形狀",
+   "libraries": [
+    "borland-crtl-2.0",
+    "msvc-1.0-crt",
+    "msvc-2.0-crt",
+    "dmx",
+    "dsmi"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "第一次使用本知識庫，想知道五份函式庫各自涵蓋什麼、差在哪裡",
+    "反組譯 1990 年代的 DOS 或 Windows 執行檔，要先判斷它連結的是哪家函式庫的哪個變體",
+    "看到 CS.LIB、CL.LIB、CWINL.LIB、SLIBCER.LIB、LLIBCEW.LIB、LIBCMT.LIB、dmx.lib 這類檔名，想知道它們怎麼切分",
+    "remake 目標是 Doom、Heretic、Hexen、Raptor 或 Disney 的 The Lion King，想知道它們用的音效函式庫",
+    "要判斷 Borland C++ 2.0 的 runtime 原始碼能不能代表某個執行檔裡連結的版本"
+   ],
+   "symbols": [
+    "SCROLL",
+    "retf",
+    "les",
+    "lds",
+    "MZ",
+    "NE",
+    "LE",
+    "PE",
+    "LPROG",
+    "LDATA",
+    "__FARFUNCS__",
+    "CMACROS.INC",
+    "RULES.ASI",
+    "CS.LIB",
+    "CL.LIB",
+    "CWINL.LIB",
+    "MATHL.LIB",
+    "SLIBCER.LIB",
+    "LLIBCEW.LIB",
+    "LIBC.LIB",
+    "LIBCMT.LIB",
+    "dmx.lib",
+    "wcc386p",
+    "bpc"
+   ],
+   "related": []
+  },
+  {
+   "id": "borland-crtl/compiler-helpers",
+   "path": "docs/10-borland-crtl/compiler-helpers.md",
+   "title": "編譯器 helper：程式裡看不到的函式呼叫",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "假說",
+   "triggers": [
+    "反組譯 Borland C++ 2.0 編譯的 16 位元程式，看到 N_LXMUL@、F_LDIV@、N_SCOPY@ 這類以 @ 結尾的呼叫",
+    "高 fan-in 的小函式裡有 32 次迴圈的移位減法、xchg 加 mul、rep movsw 加 adc cx,cx，想知道是不是 RTL",
+    "remake 要重現 long 的除法、取餘、位移、float 轉 long 在邊界值的結果",
+    "程式用了 huge 指標，想知道 +、-、< 在執行檔裡變成什麼",
+    "程式結束時印出 Divide error、Stack overflow! 或 Abnormal program termination"
+   ],
+   "symbols": [
+    "N_LXMUL@",
+    "F_LXMUL@",
+    "LXMUL@",
+    "N_LDIV@",
+    "F_LDIV@",
+    "N_LUDIV@",
+    "N_LMOD@",
+    "N_LUMOD@",
+    "N_LXLSH@",
+    "N_LXRSH@",
+    "N_LXURSH@",
+    "N_PADD@",
+    "N_PSUB@",
+    "N_PSBP@",
+    "N_PCMP@",
+    "N_PADA@",
+    "N_PSBA@",
+    "N_PINA@",
+    "N_PDEA@",
+    "F_PSBH@",
+    "N_SCOPY@",
+    "F_SCOPY@",
+    "N_SPUSH@",
+    "N_OVERFLOW@",
+    "F_OVERFLOW@",
+    "N_CHKSTK@",
+    "__aNchkstk",
+    "__aFchkstk",
+    "N_FTOL@",
+    "F_FTOL@",
+    "__AHSHIFT",
+    "__AHINCR",
+    "___brklvl",
+    "__stklen",
+    "Divide error",
+    "Stack overflow!",
+    "-N"
+   ],
+   "related": [
+    "borland-crtl/memory-model-macros",
+    "overview/era-and-libraries"
+   ]
+  },
+  {
+   "id": "borland-crtl/memory-model-macros",
+   "path": "docs/10-borland-crtl/memory-model-macros.md",
+   "title": "一份原始碼怎麼編出五個記憶體模型",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "反組譯 Borland C++ 2.0 編譯的 16 位元程式，同一個函式庫函式在不同執行檔裡長得不一樣",
+    "要判斷一支 BC++ 2.0 程式用的是哪種記憶體模型",
+    "看到 _fstrlen、_fmemcpy 這類 f 開頭的函式，想知道它和 strlen 的關係",
+    "huge 模型的函式開頭有 push ds、mov ds,ax，不知道為什麼",
+    "remake 要重現 strlen(NULL) 這類邊界行為，而原程式的記憶體模型不同"
+   ],
+   "symbols": [
+    "LDATA",
+    "LPROG",
+    "MMODEL",
+    "__MMODEL",
+    "DGROUP",
+    "DGROUP@",
+    "DATASEG@",
+    "__FARFUNCS__",
+    "_fstrlen",
+    "__fstrlen",
+    "_strlen",
+    "_ftoupper",
+    "RULES.ASI",
+    "ASMRULES.H",
+    "_FARFUNC.H",
+    "LES_",
+    "LDS_",
+    "pushDS_",
+    "popDS_",
+    "DPTR_",
+    "CPTR_",
+    "Proc@",
+    "PubProc@",
+    "_DSSTACK_",
+    "C0T.OBJ",
+    "C0FS.OBJ",
+    "CS.LIB",
+    "CH.LIB",
+    "-zR_DATA",
+    "-zTDATA",
+    "-zC_TEXT"
+   ],
+   "related": [
+    "overview/era-and-libraries",
+    "toolchain/bcc20-on-dosgolem"
+   ]
+  },
+  {
+   "id": "borland-crtl/startup-and-exit",
+   "path": "docs/10-borland-crtl/startup-and-exit.md",
+   "title": "啟動與結束鏈：從載入到 main、從 exit 回到 DOS",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "反組譯 Borland C++ 2.0 編譯的 DOS 程式，要從進入點找到 main",
+    "看到一段每次加 6 走訪表格、依某個 byte 比大小再呼叫的迴圈，想知道是什麼",
+    "程式用了 #pragma startup、#pragma exit 或 atexit，remake 要重現執行順序",
+    "程式結束時印出 Null pointer assignment、Divide error 或 Abnormal program termination",
+    "程式異常結束時 printf 的輸出不見了",
+    "反組譯 Windows 3.x 程式，進入點呼叫 INITTASK"
+   ],
+   "symbols": [
+    "C0.ASM",
+    "C0W.ASM",
+    "C0S.OBJ",
+    "C0WS.OBJ",
+    "_INIT_",
+    "_EXIT_",
+    "_INITEND_",
+    "_EXITEND_",
+    "InitStart",
+    "InitEnd",
+    "ExitStart",
+    "ExitEnd",
+    "StartExit",
+    "#pragma startup",
+    "#pragma exit",
+    "atexit",
+    "exit",
+    "_exit",
+    "abort",
+    "_exitclean",
+    "__exitclean",
+    "_exitbuf",
+    "_exitfopen",
+    "_exitopen",
+    "_setupio",
+    "_setargv",
+    "__setargv__",
+    "_setenvp",
+    "__setenvp__",
+    "_wildargv",
+    "_c0crtinit",
+    "__turboCrt",
+    "_stklen",
+    "_heaplen",
+    "DGROUP@",
+    "INITTASK",
+    "INITAPP",
+    "WinMain",
+    "__acrtused",
+    "Null pointer assignment",
+    "Divide error",
+    "Abnormal program termination"
+   ],
+   "related": [
+    "borland-crtl/memory-model-macros",
+    "borland-crtl/compiler-helpers"
+   ]
+  },
+  {
+   "id": "re-fingerprints/bcc20-codegen",
+   "path": "docs/60-re-fingerprints/bcc20-codegen.md",
+   "title": "BCC 2.0 產生的程式碼在反組譯裡長什麼樣",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "re",
+    "craft"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "反組譯一支 16 位元 DOS 程式，懷疑是 Borland C++ 2.0 編譯的，想知道編譯器自己產生的指令長什麼樣",
+    "函式結尾前出現 EB 00（jmp short $+2）、call 後面緊跟 59（pop cx），想知道這是哪家編譯器的習慣",
+    "ret 後面跟著一段反組譯不出來的資料，前面有 2E FF A7 或 2E 8B 07 … E2 的迴圈",
+    "同一個模組裡的呼叫是 0E E8（push cs; call near），而不是 9A far call",
+    "浮點運算在執行檔裡是 CD 34 到 CD 3D 的軟體中斷，在目的檔裡卻是 9B D8 開頭的 8087 指令",
+    "想從產生碼判斷編譯時用了 -O、-G、-1 還是 -r- 這些選項"
+   ],
+   "symbols": [
+    "BCC.EXE",
+    "EB 00",
+    "jmp short $+2",
+    "pop cx",
+    "push cs",
+    "0E E8",
+    "2E FF A7",
+    "E2 F4",
+    "81 E3",
+    "83 C4",
+    "enter",
+    "leave",
+    "cbw",
+    "FIDRQQ",
+    "FIWRQQ",
+    "int 34h",
+    "int 3Dh",
+    "N_FTOL@",
+    "F_FTOL@",
+    "_TEXT",
+    "FAR_DATA",
+    "-O",
+    "-G",
+    "-Z",
+    "-r-",
+    "-k-",
+    "-1",
+    "-f87",
+    "-S"
+   ],
+   "related": [
+    "borland-crtl/memory-model-macros",
+    "borland-crtl/compiler-helpers",
+    "toolchain/bcc20-on-dosgolem"
+   ]
+  },
+  {
+   "id": "toolchain/bcc20-on-dosgolem",
+   "path": "docs/70-toolchain/bcc20-on-dosgolem.md",
+   "title": "在 dosgolem 裡用 Borland C++ 2.0 編譯，並在瀏覽器裡玩編出來的 BGI 程式",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "oracle",
+    "craft"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "想用原廠的 Borland C++ 2.0 重新編譯一段 C 程式，拿產物對拍文章或反組譯的說法",
+    "手上有 BC++ 2.0 的安裝磁片映像，想在 Linux 上以命令列、可重跑的方式使用 BCC、TASM、TLINK",
+    "想看自己用 BGI（graphics.h）寫的 DOS 圖形程式實際畫出什麼，而且能用鍵盤操作",
+    "BCC 在模擬器裡編完卻當掉、TASM 無聲地以回傳碼 7 結束、BGI 畫面全黑或缺字"
+   ],
+   "symbols": [
+    "BCC.EXE",
+    "TASM.EXE",
+    "TLINK.EXE",
+    "GRAPHICS.LIB",
+    "EGAVGA.BGI",
+    "CS.LIB",
+    "C0S.OBJ",
+    "initgraph",
+    "graphresult",
+    "bioskey",
+    "biostime",
+    "dosrun",
+    "webplay",
+    "IRQ0Base",
+    "DTA",
+    "NUL",
+    "F000:FA6E"
+   ],
+   "related": [
+    "overview/era-and-libraries"
+   ]
+  }
+ ]
+}
