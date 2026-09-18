@@ -37,6 +37,7 @@
 | [檔案 I/O：FILE、緩衝區、文字模式與錯誤碼](docs/10-borland-crtl/stdio-file-io.md) | 三層架構與 `level` 的雙向語意、緩衝策略、文字模式的 CR／LF 與 `Ctrl-Z`、`ftell` 的補償、DOS 錯誤碼到 `errno`；附五個模型實跑的行為規格 |
 | [printf 家族：一個引擎、三個出口，與浮點的連結開關](docs/10-borland-crtl/printf-engine.md) | `__vprinter` 與三個輸出函式、表格驅動的解析、格式寫錯時的行為、浮點轉換為什麼是連結時才接上；附五個模型實跑的格式化與 `scanf` 行為規格 |
 | [near heap 與 far heap：兩套配置器，一條與堆疊的邊界](docs/10-borland-crtl/heap.md) | 兩套配置器的區塊頭與單位、first fit 與漫遊指標、切割從尾端切、`realloc` 為什麼一律搬家、near heap 與堆疊之間的 512 bytes、far heap 怎麼向 DOS 要空間；附五個模型實跑的行為規格 |
+| [conio：一個結構、三個原語、兩條路](docs/10-borland-crtl/conio-screen.md) | `_video` 結構、`__cputn`／`__scroll`／`__screenio` 三個原語、直接寫顯示記憶體與走 BIOS 的岔路、CGA 雪花的偵測條件、兩套座標系；附五個模型實跑的行為規格 |
 | [BCC 2.0 產生的程式碼在反組譯裡長什麼樣](docs/60-re-fingerprints/bcc20-codegen.md) | 函式進出、暫存器變數、呼叫與清堆疊、`switch` 的跳躍表與值表搜尋、各記憶體模型的資料存取、立即值編碼、浮點修正；從產生碼判斷編譯選項 |
 | [從執行檔判斷 runtime 廠牌、版本與記憶體模型](docs/60-re-fingerprints/identify-vendor-and-model.md) | 壓縮檢查、TLINK 的檔頭標記、C0 進入點與字串、用簽章推記憶體模型與出貨版本、沒有簽章時從產生碼判斷 |
 | [在 dosgolem 裡用 Borland C++ 2.0 編譯](docs/70-toolchain/bcc20-on-dosgolem.md) | 從安裝磁片映像到可重跑的命令列編譯；BGI 俄羅斯方塊範例在瀏覽器裡玩；dosgolem 為 BCC 補的七條規格 |
@@ -57,6 +58,7 @@
 | `examples/stdio/` | 檔案 I/O 邊界行為的測試程式與預期輸出 |
 | `examples/printf/` | 格式化與 `scanf` 邊界行為的測試程式與預期輸出 |
 | `examples/heap/` | heap 配置策略的測試程式與預期輸出 |
+| `examples/conio/` | 文字畫面行為的測試程式、預期輸出與預期畫面 |
 | `examples/codegen/` | 各種語法構造在五個模型與各選項下的產生碼測試程式與預期輸出 |
 | `examples/startup/` | `#pragma startup`／`exit` 與 `atexit` 執行順序的測試程式 |
 

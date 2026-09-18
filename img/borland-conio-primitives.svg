@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="600" viewBox="0 0 920 600" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="920" height="600" fill="#ffffff"/>
+
+  <defs>
+    <marker id="c1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#8a94a6"/>
+    </marker>
+    <marker id="c2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">二十幾個函式，三個原語，兩條路</text>
+
+  <!-- 上層 API -->
+  <text x="26" y="62" font-size="12" fill="#5a6472">呼叫端用的函式</text>
+  <g font-size="12.5" fill="#1f2933">
+    <rect x="26" y="72" width="196" height="64" rx="8" fill="#f8f9fb" stroke="#d0d5dd"/>
+    <text x="40" y="94">putch、cputs、cprintf</text>
+    <text x="40" y="114" font-size="11.5" fill="#5a6472">寫字元（cprintf 借用</text>
+    <text x="40" y="129" font-size="11.5" fill="#5a6472">printf 的格式化引擎）</text>
+
+    <rect x="238" y="72" width="216" height="64" rx="8" fill="#f8f9fb" stroke="#d0d5dd"/>
+    <text x="252" y="94">clrscr、clreol</text>
+    <text x="252" y="113">delline、insline</text>
+    <text x="252" y="130" font-size="11.5" fill="#5a6472">清除與捲動</text>
+
+    <rect x="470" y="72" width="200" height="64" rx="8" fill="#f8f9fb" stroke="#d0d5dd"/>
+    <text x="484" y="94">gettext、puttext</text>
+    <text x="484" y="113">movetext</text>
+    <text x="484" y="130" font-size="11.5" fill="#5a6472">搬區塊（絕對座標）</text>
+  </g>
+
+  <path d="M124,136 L124,166" stroke="#8a94a6" fill="none" marker-end="url(#c1)"/>
+  <path d="M346,136 L346,166" stroke="#8a94a6" fill="none" marker-end="url(#c1)"/>
+  <path d="M570,136 L570,166" stroke="#8a94a6" fill="none" marker-end="url(#c1)"/>
+  <path d="M180,136 C 200,150 300,152 330,166" stroke="#8a94a6" fill="none" stroke-dasharray="4 3" marker-end="url(#c1)"/>
+  <text x="196" y="160" font-size="11" fill="#5a6472">寫到視窗底部時</text>
+
+  <!-- 三個原語 -->
+  <text x="26" y="188" font-size="12" fill="#5a6472">三個原語</text>
+  <g>
+    <rect x="26" y="172" width="196" height="70" rx="8" fill="#fff8f0" stroke="#d97706" stroke-width="1.5"/>
+    <text x="124" y="196" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#8a4b00">__cputn</text>
+    <text x="40" y="216" font-size="11.5" fill="#1f2933">逐字元寫，自己管游標、</text>
+    <text x="40" y="232" font-size="11.5" fill="#1f2933">換行與捲動</text>
+
+    <rect x="238" y="172" width="216" height="70" rx="8" fill="#fff8f0" stroke="#d97706" stroke-width="1.5"/>
+    <text x="346" y="196" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#8a4b00">__scroll</text>
+    <text x="252" y="216" font-size="11.5" fill="#1f2933">對一塊矩形捲 n 列；</text>
+    <text x="252" y="232" font-size="11.5" fill="#1f2933">n = 0 就是用目前屬性清空</text>
+
+    <rect x="470" y="172" width="200" height="70" rx="8" fill="#fff8f0" stroke="#d97706" stroke-width="1.5"/>
+    <text x="570" y="196" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#8a4b00">__screenio</text>
+    <text x="484" y="216" font-size="11.5" fill="#1f2933">搬一段，兩端誰是畫面</text>
+    <text x="484" y="232" font-size="11.5" fill="#1f2933">由段值判斷</text>
+  </g>
+
+  <!-- 岔路 -->
+  <rect x="26" y="264" width="644" height="40" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="348" y="289" text-anchor="middle" font-size="12.5" fill="#1f2933">不是圖形模式，而且 directvideo 不是 0 ？</text>
+
+  <path d="M124,242 L124,262" stroke="#8a94a6" fill="none" marker-end="url(#c1)"/>
+  <path d="M346,242 L346,262" stroke="#8a94a6" fill="none" marker-end="url(#c1)"/>
+  <path d="M570,242 L570,262" stroke="#8a94a6" fill="none" marker-end="url(#c1)"/>
+
+  <path d="M200,304 L200,332" stroke="#d97706" fill="none" marker-end="url(#c2)"/>
+  <text x="210" y="322" font-size="12" fill="#8a4b00">是</text>
+  <path d="M500,304 L500,332" stroke="#8a94a6" fill="none" marker-end="url(#c1)"/>
+  <text x="510" y="322" font-size="12" fill="#5a6472">否</text>
+
+  <!-- 兩條路 -->
+  <rect x="26" y="338" width="320" height="118" rx="8" fill="#fff8f0" stroke="#d97706"/>
+  <text x="44" y="362" font-size="13" font-weight="bold" fill="#8a4b00">直接寫顯示記憶體</text>
+  <text x="44" y="384" font-size="12" fill="#1f2933">一格兩個位元組：低位字元、高位屬性</text>
+  <text x="44" y="404" font-size="12" fill="#1f2933">彩色卡 0xB800、單色卡 0xB000</text>
+  <text x="44" y="426" font-size="12" fill="#8a2b2b">_video.snow 開著時，每次存取前</text>
+  <text x="44" y="444" font-size="12" fill="#8a2b2b">先輪詢 0x3DA 等水平回歸</text>
+
+  <rect x="358" y="338" width="312" height="118" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="376" y="362" font-size="13" font-weight="bold" fill="#1f2933">走 BIOS 的 int 10h</text>
+  <text x="376" y="384" font-size="12" fill="#1f2933">AH=02h 設游標、08h 讀一格、09h 寫一格</text>
+  <text x="376" y="404" font-size="12" fill="#1f2933">AH=06h／07h 上捲、下捲</text>
+  <text x="376" y="426" font-size="12" fill="#5a6472">一次一格，搬一個 80×25 畫面</text>
+  <text x="376" y="444" font-size="12" fill="#5a6472">就是兩千多次呼叫</text>
+
+  <!-- _video -->
+  <rect x="690" y="72" width="204" height="384" rx="8" fill="#eef4fb" stroke="#b9cfe6"/>
+  <text x="792" y="96" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f2933">_video</text>
+  <text x="792" y="114" text-anchor="middle" font-size="11.5" fill="#5a6472">整個 conio 的狀態都在這裡</text>
+
+  <g font-size="12" fill="#1f2933">
+    <text x="706" y="142">視窗四角（0 起算）</text>
+    <text x="706" y="166">目前屬性、初始屬性</text>
+    <text x="706" y="190">目前模式</text>
+    <text x="706" y="214">螢幕寬、螢幕高</text>
+    <text x="706" y="238">是不是圖形模式</text>
+    <text x="706" y="262">要不要防雪花</text>
+    <text x="706" y="286">顯示記憶體位址</text>
+  </g>
+
+  <text x="706" y="322" font-size="11.5" fill="#5a6472">由 _c0crtinit 在 main 之前填：</text>
+  <text x="706" y="340" font-size="11.5" fill="#5a6472">問 BIOS 目前模式、讀游標那格</text>
+  <text x="706" y="357" font-size="11.5" fill="#5a6472">的屬性（清掉閃爍位元）。</text>
+  <text x="706" y="382" font-size="11.5" fill="#5a6472">雪花＝不是單色卡</text>
+  <text x="706" y="399" font-size="11.5" fill="#5a6472">　　　＋ ROM 裡沒有 COMPAQ</text>
+  <text x="706" y="416" font-size="11.5" fill="#5a6472">　　　＋ 沒裝 EGA</text>
+  <text x="706" y="440" font-size="11.5" fill="#5a6472">也就是「只有原始 IBM CGA」。</text>
+
+  <rect x="26" y="476" width="868" height="100" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="42" y="500" font-size="12.5" fill="#1f2933">兩套座標系並存：gotoxy、cputs、clrscr 用視窗座標（1 起算、相對視窗）；</text>
+  <text x="42" y="520" font-size="12.5" fill="#1f2933">gettext、puttext、movetext 用絕對螢幕座標。座標無效時整個呼叫被忽略，不回報也不夾到邊界。</text>
+  <text x="42" y="546" font-size="12.5" fill="#1f2933">__cputn 的 \n 只換列不回欄；_wscroll 設成 0 之後寫到右界不換列，而是回到同一列左界繼續蓋。</text>
+  <text x="42" y="566" font-size="12.5" fill="#1f2933">捲動範圍永遠是目前視窗，不是整個螢幕。</text>
+</svg>

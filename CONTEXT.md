@@ -89,6 +89,9 @@
 | DAC | VGA 把色號轉成實際 RGB 的調色盤硬體；每格 R、G、B 各 6 位元 |
 | DTA | Disk Transfer Area，DOS 的 FindFirst／FindNext 寫搜尋結果的緩衝區 |
 | EXEC | `int 21h AX=4B00h`，由一支程式載入並執行另一支程式（BCC 用它叫 TLINK、TASM） |
+| 雪花（snow） | 原始 IBM CGA 上 CPU 與顯示控制器搶匯流排造成的畫面白點；避開的方法是等水平回歸再存取 |
+| 水平回歸（horizontal retrace） | 顯示器掃完一列、回到下一列起點的空檔；這段時間存取顯示記憶體不會干擾畫面 |
+| 屬性（attribute） | 文字模式每格的第二個位元組：低 4 位元前景色、次 3 位元背景色、最高位元閃爍 |
 | break level | heap 目前的上緣；`brk`／`sbrk` 改的就是這個值，`malloc` 要不到空間時先試著把它推高 |
 | 漫遊指標（rover） | 配置器記住的「上次找到哪裡」，下一次搜尋從那裡接著走，不必每次從頭掃 |
 | 段落（paragraph） | 16 bytes，DOS 記憶體配置的單位；far heap 的區塊大小以它計 |

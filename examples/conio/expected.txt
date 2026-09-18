@@ -1,0 +1,27 @@
+directvideo 1 1 0
+screen 80 25 3
+win.full 1 1 80
+attr.init 0 0 0
+win.set 10 5 40
+win.cursor 1 1 15
+goto.in 3 2 0
+goto.out 3 2 0
+win.bad 10 5 40
+cputs 3 1 0
+cell.A 65 0
+cell.B 66 0
+lf 4 2 0
+cell.Z 90 0
+cr 1 1 0
+bs.left 1 1 0
+wrap 1 3 0
+scroll.pos 1 4 0
+scroll.top 32 0
+scroll.win 5 3 6
+attr.fgbg 26 26 0
+attr.blink 206 206 0
+attr.clrscr 206 32 0
+gettext 1 49 7
+puttext 49 7
+movetext 49 7
+nowrap 4 1 0

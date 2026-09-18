@@ -1,0 +1,5 @@
+# 編出的執行檔、DOS 根目錄與建置紀錄不進版控
+out/
+.dosroot/
+build.log
+conio.asm.tmp
