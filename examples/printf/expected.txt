@@ -1,0 +1,48 @@
+d |0 -1 32767| 10
+d.width |[   42][42   ][00042]| 21
+d.prec |[005][     005][]| 17
+d.sign |[+7][ 7][-7]| 12
+u.x.o |65535 beef BEEF 10| 18
+alt |[0xff][0XFF][010][0]| 20
+long |-2147483648 4294967295 12345678| 31
+star |[    42][42    ][0042]| 22
+negstar |[42    ]| 8
+i |123 -5| 6
+s |[abc][     abc][abc     ]| 25
+s.prec |[ab][      ab][]| 16
+s.null |[(null)]| 8
+c |[A][  A][A  ]| 13
+c.zero |[| 4
+pct |[%][%5%]| 8
+p.far |1234:5678| 9
+p.near |1234| 4
+p.default 4
+bad.q |a%qb| 4
+bad.end |a%| 2
+bad.width |a%5| 3
+n 6 3 6
+wide200 200 200   7
+wide120 121 121  
+f |1.500000| 8
+f.prec |[2][2.5][   0.333][0.333   ]| 28
+e |[1.234568e+03][1.23e+03][1.200000E-04]| 38
+g |[1234.57][1.23e+03][0.00012]| 28
+round |[0][2][2][4]| 12
+zero |[0.000000][0][0.000000e+00]| 27
+neg |[-0.12][+0.12]| 14
+big |[3.000e+09]| 11
+scan.d 2 12 34
+scan.skip 2 7 |abc|
+scan.width 2 12 345
+scan.fail 0
+scan.empty -1
+scan.radix 3 31 15 99
+scan.long 1 2147483647
+scan.s 2 |hello| |world|
+scan.c 2 x y
+scan.set 2 |abc| |123|
+scan.star 1 7
+scan.lit 1 42
+scan.litfail 0 -1
+scan.f 1 350.0
+scan.n 1 12 2

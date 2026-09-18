@@ -15,7 +15,8 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R5 | BCC 2.0 產生碼特徵（完成，已過專家與學生審查） | `docs/60-re-fingerprints/bcc20-codegen.md`、三張 SVG、`examples/codegen/` |
 | R6 | 判斷廠牌、版本與記憶體模型（完成，已過專家與學生審查） | `docs/60-re-fingerprints/identify-vendor-and-model.md`、流程圖、`signatures/borland-crtl-2.0/` |
 | R7 | 檔案 I/O 與緩衝（完成，已過專家與學生審查） | `docs/10-borland-crtl/stdio-file-io.md`、兩張 SVG、`examples/stdio/` |
-| R8–R10 | Borland 函式庫主題文章（M1 第二批） | `printf` 家族、heap、conio 與文字畫面，各配範例程式與 SVG |
+| R8 | printf／scanf 引擎與浮點的連結開關（審查前第一版） | `docs/10-borland-crtl/printf-engine.md`、兩張 SVG、`examples/printf/` |
+| R9–R10 | Borland 函式庫主題文章（M1 第二批剩下的） | heap、conio 與文字畫面，各配範例程式與 SVG |
 | R11 以後 | 依 worklist 排序 | 亂數與時間、iostream、VC++ 1.0 CRT、DMX、DSMI |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
