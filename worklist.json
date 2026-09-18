@@ -6,19 +6,6 @@
   },
   "items": [
     {
-      "id": "stdio-file-io",
-      "layer": "article",
-      "title": "檔案 I/O 與緩衝：FILE 結構、文字模式、代號層、errno",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/10-borland-crtl/stdio-file-io.md",
-          "examples/stdio"
-        ]
-      },
-      "issue": "#9"
-    },
-    {
       "id": "printf-engine",
       "layer": "article",
       "title": "printf 家族的格式化引擎與 scanf",

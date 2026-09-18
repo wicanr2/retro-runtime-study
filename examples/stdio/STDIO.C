@@ -184,7 +184,7 @@ static void pushback_and_lines(void)
     FILE *f;
     char line[16];
     long t0, t1, t2;
-    int c;
+    int c, c2;
 
     f = fopen("TC.TXT", "wb");
     fwrite("ab\r\ncd", 1, 6, f);              /* 最後一行沒有換行 */
@@ -195,9 +195,10 @@ static void pushback_and_lines(void)
     t0 = ftell(f);
     ungetc(c, f);                             /* 推回一個字元 */
     t1 = ftell(f);
-    c = fgetc(f);
+    c2 = fgetc(f);
     t2 = ftell(f);
     note("ungetc", t0, t1, t2);
+    note("ungetc.char", c, c2, c == c2 ? 1 : 0);
     fclose(f);
 
     f = fopen("TC.TXT", "r");

@@ -176,6 +176,59 @@
    ]
   },
   {
+   "id": "borland-crtl/printf-engine",
+   "path": "docs/10-borland-crtl/printf-engine.md",
+   "title": "printf 家族：一個引擎、四個出口，與浮點的連結開關",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "remake 要重現原版的畫面文字，數字的寬度、補零、四捨五入必須一模一樣",
+    "原版程式跑出 printf : floating point formats not linked 然後結束",
+    "反組譯看到一個很大的函式，開頭是一張 96 bytes 的表，被 printf、sprintf、cprintf 一起呼叫",
+    "想知道 %.0f 印 2.5 會得到 2 還是 3",
+    "想知道格式字串寫錯時 BC++ 2.0 的 printf 會做什麼",
+    "scanf 的回傳值在輸入是空的時候是 0 還是 −1"
+   ],
+   "symbols": [
+    "__vprinter",
+    "_scanner",
+    "__longtoa",
+    "__realcvt",
+    "__xcvt",
+    "_RealCvtVector",
+    "_ScanTodVector",
+    "_CVTSEG",
+    "_SCNSEG",
+    "__turboCvt",
+    "__cvtfak",
+    "printf",
+    "fprintf",
+    "sprintf",
+    "vsprintf",
+    "cprintf",
+    "scanf",
+    "sscanf",
+    "fscanf",
+    "floating point formats not linked",
+    "(null)",
+    "%n",
+    "%Fp",
+    "%Np"
+   ],
+   "related": [
+    "borland-crtl/stdio-file-io",
+    "borland-crtl/startup-and-exit",
+    "borland-crtl/compiler-helpers"
+   ]
+  },
+  {
    "id": "borland-crtl/startup-and-exit",
    "path": "docs/10-borland-crtl/startup-and-exit.md",
    "title": "啟動與結束鏈：從載入到 main、從 exit 回到 DOS",

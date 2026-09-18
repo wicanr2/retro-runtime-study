@@ -17,6 +17,7 @@ smallbuf 10 10 0
 append 31 32 33 34 58
 update 31 59 33 34 58
 ungetc 1 0 1
+ungetc.char 97 97 1
 fgets1 3 1 4
 fgets2 2 0 6
 fgets3 1 1 0

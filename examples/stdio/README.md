@@ -39,7 +39,7 @@ far 資料模型（compact、large、huge）對 `expected-far.txt`。兩個檔�
 | `readpasteof`、`eofflag`、`clearerr` | 讀到檔尾之後的 `ftell`、`feof`、`ferror` |
 | `fullbuf`、`nobuf`、`smallbuf` | 三種緩衝方式下，資料什麼時候真的進檔案 |
 | `append`、`update` | `"ab"` 與 `"r+b"` 模式的寫入位置 |
-| `ungetc` | 推回一個字元前後的 `ftell` |
+| `ungetc`、`ungetc.char` | 推回一個字元前後的 `ftell`；推回前後讀到的字元是不是同一個 |
 | `fgets1`–`fgets3` | 有換行的一行、檔尾沒換行的一行、檔尾再讀一次 |
 | `appendpos` | `"ab"` 開檔後的 `ftell` 與檔案長度 |
 | `noent`、`badmode`、`open.noent`、`read.badfd` | 四種失敗路徑的回傳值、`errno`、`_doserrno` |

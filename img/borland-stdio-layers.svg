@@ -48,10 +48,11 @@
 <text x="623" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
 <rect x="644" y="290" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
 <text x="661" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
-<rect x="682" y="290" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<rect x="682" y="290" width="34" height="34" rx="3" fill="#ffffff" stroke="#999" stroke-dasharray="4 3"/>
+<text x="724" y="312" font-size="11" fill="#888">這一格要走函式版</text>
 <text x="699" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
-<text x="530" y="346" font-size="13" fill="#333">已放 2 個，還能放 2 個（−level − 1）</text>
-<text x="530" y="366" font-size="13" fill="#666">putc：level 加 1，直接寫 *curp++</text>
+<text x="530" y="346" font-size="13" fill="#333">已放 2 個；快路徑還能放 2 個（−level − 1）</text>
+<text x="530" y="366" font-size="13" fill="#666">putc：level 加 1；加完仍 &lt; 0 才走快路徑</text>
 <text x="530" y="422" font-size="14" fill="#444">空的：level ＝ 0</text>
 <rect x="530" y="430" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
 <text x="547" y="453" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
