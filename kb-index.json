@@ -191,7 +191,7 @@
    "triggers": [
     "remake 要重現原版的畫面文字，數字的寬度、補零、四捨五入必須一模一樣",
     "原版程式跑出 printf : floating point formats not linked 然後結束",
-    "反組譯看到一個很大的函式，開頭是一張 96 bytes 的表，被 printf、sprintf、cprintf 一起呼叫",
+    "反組譯看到一個很大的函式被 printf、sprintf、cprintf 一起呼叫，它去資料段查一張 96 bytes 的常數表",
     "想知道 cprintf 為什麼不受 stdout 的緩衝設定影響",
     "想知道 %.0f 印 2.5 會得到 2 還是 3",
     "想知道格式字串寫錯時 BC++ 2.0 的 printf 會做什麼",
@@ -203,6 +203,11 @@
     "__fputn",
     "strputn",
     "__cputn",
+    "vprintf",
+    "vfprintf",
+    "vsprintf",
+    "cscanf",
+    "FIDRQQ",
     "__longtoa",
     "__realcvt",
     "__xcvt",
@@ -229,7 +234,9 @@
    "related": [
     "borland-crtl/stdio-file-io",
     "borland-crtl/startup-and-exit",
-    "borland-crtl/compiler-helpers"
+    "borland-crtl/compiler-helpers",
+    "borland-crtl/memory-model-macros",
+    "re-fingerprints/bcc20-codegen"
    ]
   },
   {

@@ -7,33 +7,35 @@ evidence: 強推論
 triggers:
   - remake 要重現原版的畫面文字，數字的寬度、補零、四捨五入必須一模一樣
   - 原版程式跑出 printf : floating point formats not linked 然後結束
-  - 反組譯看到一個很大的函式，開頭是一張 96 bytes 的表，被 printf、sprintf、cprintf 一起呼叫
+  - 反組譯看到一個很大的函式被 printf、sprintf、cprintf 一起呼叫，它去資料段查一張 96 bytes 的常數表
   - 想知道 cprintf 為什麼不受 stdout 的緩衝設定影響
   - 想知道 %.0f 印 2.5 會得到 2 還是 3
   - 想知道格式字串寫錯時 BC++ 2.0 的 printf 會做什麼
   - scanf 的回傳值在輸入是空的時候是 0 還是 −1
-symbols: [__vprinter, _scanner, __fputn, strputn, __cputn, __longtoa, __realcvt, __xcvt, _RealCvtVector, _ScanTodVector, _CVTSEG, _SCNSEG, __turboCvt, __cvtfak, printf, fprintf, sprintf, vsprintf, cprintf, scanf, sscanf, fscanf, "floating point formats not linked", "(null)", "%n", "%Fp", "%Np"]
-related: [borland-crtl/stdio-file-io, borland-crtl/startup-and-exit, borland-crtl/compiler-helpers]
+symbols: [__vprinter, _scanner, __fputn, strputn, __cputn, vprintf, vfprintf, vsprintf, cscanf, FIDRQQ, __longtoa, __realcvt, __xcvt, _RealCvtVector, _ScanTodVector, _CVTSEG, _SCNSEG, __turboCvt, __cvtfak, printf, fprintf, sprintf, vsprintf, cprintf, scanf, sscanf, fscanf, "floating point formats not linked", "(null)", "%n", "%Fp", "%Np"]
+related: [borland-crtl/stdio-file-io, borland-crtl/startup-and-exit, borland-crtl/compiler-helpers, borland-crtl/memory-model-macros, re-fingerprints/bcc20-codegen]
 ---
 
 # printf 家族：一個引擎、三個出口，與浮點的連結開關
 
 ## 結論
 
-`printf` 家族的十個函式共用同一個格式化引擎 `__vprinter`；差別只在傳給它的「輸出函式」，而輸出函式一共只有三個——
+`printf` 家族的七個函式（`printf`、`fprintf`、`vprintf`、`vfprintf`、`sprintf`、`vsprintf`、`cprintf`）
+共用同一個格式化引擎 `__vprinter`；差別只在傳給它的「輸出函式」，而輸出函式一共只有三個——
 寫進 `FILE` 的 `__fputn`、寫進字串的 `strputn`、送到主控台的 `__cputn`。`scanf` 家族同樣共用一個 `_scanner`，
 用「取一個字元／推回一個字元」一對函式指標抽象輸入來源，同樣只有三對。
 
 對 remake 影響最大的幾條行為：
 
-- **`%.0f` 用四捨六入五成雙**：0.5 印 `0`、1.5 印 `2`、2.5 印 `2`、3.5 印 `4`。
+- **`%.0f` 用四捨六入五成雙**（小數剛好是 0.5 時，捨入到最接近的偶數，不是一律進位）：
+  0.5 印 `0`、1.5 印 `2`、2.5 印 `2`、3.5 印 `4`。
 - **格式字串寫錯不會報錯**：遇到不認得的轉換，從那個 `%` 開始把格式字串當一般文字印出來。
 - **`%s` 收到空指標印 `(null)`**；`%c` 印 0 會把一個 `\0` 寫進輸出。
 - **`scanf` 在輸入是空的時候回 −1**（EOF），型別不合才回 0。
 - **浮點格式化是連結時才接上的**：`printf` 裡的 `%f` 走一個間接跳躍；程式沒有任何浮點運算時，那個向量可能是空的。
   那句有名的 `printf : floating point formats not linked` 就是備用模組填進去的樁印出來的。
 
-本文的機制來自原始碼與對拍（引用的模組都在「重編後與出貨版逐模組相同」的範圍內，數學函式庫的浮點轉換模組除外），
+本文的機制來自原始碼與對拍（引用的模組都在「重編後與出貨版逐模組相同」的範圍內；數學函式庫裡只有「字串轉浮點」那個模組對不上），
 行為規格來自一支自寫測試程式（[`examples/printf/`](../../examples/printf/)）在五個記憶體模型下、在 dosgolem 裡的實跑結果。
 
 ## 根本問題
@@ -50,7 +52,8 @@ related: [borland-crtl/stdio-file-io, borland-crtl/startup-and-exit, borland-crt
 
 ### 浮點轉換很大，而很多程式根本不用
 
-把 `double` 轉成十進位字串要處理指數、精度、進位，程式碼比整數轉換大得多；沒有 8087 的機器還要靠模擬器。
+把 `double` 轉成十進位字串要處理指數、精度、進位，程式碼比整數轉換大得多；
+沒有 8087（當年另外插在主機板上的浮點運算晶片）的機器還要靠一套軟體模擬器，那又是一份程式碼。
 如果 `printf` 直接呼叫它，每支用 `printf` 的程式都會把浮點模擬器與轉換程式一起拖進執行檔。
 
 ## 推導
@@ -70,9 +73,13 @@ related: [borland-crtl/stdio-file-io, borland-crtl/startup-and-exit, borland-crt
 | `cprintf` | `__cputn` | 送到 conio 的主控台輸出 | 不需要，參數被忽略 |
 
 `printf` 與 `vprintf` 只是把 `stdout` 當成輸出對象傳進去，所以它們與 `fprintf` 共用同一個輸出函式；
-十個進入點最後收斂成三條路徑。
+七個進入點最後收斂成三條路徑。`scanf` 側的七個（`scanf`、`fscanf`、`sscanf`、`vscanf`、`vfscanf`、`vsscanf`、`cscanf`）同理。
 
-`scanf` 側是對稱的：`_scanner` 拿「取一個字元」與「推回一個字元」一對函式指標，也是三組——
+`scanf` 的格式字串是另一套語法，規格表裡會用到這幾個：`%5s` 的數字是**最多讀幾個字元**；
+`%*d` 的星號表示「讀了但不存」，也不計入回傳值；`%[abc]` 是字元集合，只吃列出來的字元；
+`%n` 與 `printf` 的一樣不消耗輸入，只回報已經讀掉幾個字元。回傳值是**成功填好的變數個數**。
+
+`scanf` 側的引擎是對稱的：`_scanner` 拿「取一個字元」與「推回一個字元」一對函式指標，也是三組——
 `sscanf` 給走字串的一對（定義在那個檔案裡的靜態函式）、`fscanf` 與 `scanf` 給 `_Nfgetc`／`_Nungetc`、
 `cscanf` 給 `_Ngetche`／`_Nungetch`。
 
@@ -81,60 +88,101 @@ related: [borland-crtl/stdio-file-io, borland-crtl/startup-and-exit, borland-crt
 引擎把 `0x20`–`0x7F` 的每個字元先分類（旗標、數字、長度修飾、各種轉換、不管），主迴圈查表跳到對應的處理區塊。
 `0x20` 以下與高位元設起來的字元一律歸「不管」類。解析分成七個階段：旗標 → 補零 → 寬度 → 小數點 → 精度 → 長度修飾 → 型別。
 
-支援的語法（原文寫在引擎的說明區塊裡）：
+引擎說明區塊裡宣稱的語法（只寫到 `l`），與分類表和程式碼實際支援的合起來是這樣——
+`N`、`F` 在那段說明裡被列進「型別」，但實作上它們是指標寬度修飾：
 
 ```
 %  [旗標]*  [寬度]  [.精度]  [長度修飾]  型別
 旗標     - + 空白 # 0
 寬度     數字 或 *（由引數給）
 精度     .數字 或 .*（由引數給）
-長度修飾 l（long）、h（short；也用來表示堆疊上是 4 bytes 的 float）、L（long double）
+長度修飾 l（long）、h（short）、L（long double）
 型別     d i o u x X n f e E g G c s p N F
+         其中 n 不產生輸出：它把「到目前為止已經輸出幾個字元」寫進引數指向的 int
 ```
 
-`N`、`F` 是 Borland 的擴充：`%Np` 印 near 指標（四位十六進位）、`%Fp` 印 far 指標（`段:位移`）。
+`N`、`F` 是 Borland 的擴充，作用是指定**引數的指標寬度**，`%p`、`%s`、`%n` 都吃這個修飾。
+16 位元的 8086 一次只能定址 64 KB，要摸到更大的空間得用兩個 16 位元的數湊——段（segment）與位移（offset），
+實際位址是段乘 16 再加位移。只存位移的指標叫 near（印出來四位十六進位），兩個都存的叫 far（印成 `段:位移`）。
+程式用哪一種由記憶體模型決定（far 資料模型預設就是 far），細節見[一份原始碼怎麼編出五個記憶體模型](memory-model-macros.md)。
+huge 模型下 `%Ns`、`%Nn` 會被當成壞格式——那個模型不能假設 `DS` 是什麼。
 
-**寫錯格式沒有錯誤回傳。** 引擎認不得某個轉換時，會從引發問題的那個 `%` 開始，把格式字串當一般文字輸出。
+**寫錯格式沒有錯誤回傳。** 引擎認不得某個轉換時，先送出一個 `%`，再從那個 `%` 的下一個字元一路抄到格式字串結尾——
+**剩下的整個格式字串都變成一般文字，後面的 `%` 全部失效，引數也不再消耗**。
 理由很實際：引數指標已經對不齊了，繼續解析只會讀到錯誤的資料。
 
 ### 浮點轉換的連結開關
 
-<p align="center"><img src="../../img/borland-float-linkage.svg" width="900" alt="printf 的 %f 經過一行 jmp 間接跳躍，向量在 _CVTSEG 段開頭；數學函式庫填真正的轉換函式，CVTFAK 模組填印訊息後 abort 的樁，程式沒有浮點時向量是空的"></p>
+<p align="center"><img src="../../img/borland-float-linkage.svg" width="900" alt="printf 的 %f 經過一行 jmp 間接跳躍，向量在 _CVTSEG 段開頭；有浮點時數學函式庫填真正的轉換函式，用了 scanf 時備用模組填印訊息後 abort 的樁，兩者都沒有時向量長度是 0"></p>
 
-C 函式庫裡的浮點轉換入口 `__REALCVT` 只有一行：跳到一個向量所指的位址。那個向量是 `_CVTSEG` 這個特殊資料段的第一個字，
-啟動碼 C0 負責宣告段與標籤，**內容由連結進來的模組決定**：
+這裡的「浮點修正符號」是編譯器的手法：程式裡出現浮點運算時，它在目的檔留下 `FIDRQQ`、`FIWRQQ` 這類外部符號，
+連結器看到就把浮點模擬器（或直接用 8087 的版本）接進來。辨識方式見[BCC 2.0 產生的程式碼在反組譯裡長什麼樣](../60-re-fingerprints/bcc20-codegen.md)。
 
-| 連結進來的模組 | 向量指向 | 什麼時候 |
+C 函式庫裡的浮點轉換入口 `__REALCVT` 只有一行：跳到一個向量所指的位址
+（huge 模型多兩個動作：先從 `CS` 取出 `DGROUP` 的段值載入 `ES`，再跳 `ES:[向量]`）。
+那個向量是 `_CVTSEG` 這個特殊資料段的**第一個字**，啟動碼 C0 只負責宣告段與標籤，
+**內容由連結進來的模組決定**：
+
+| 填向量的模組 | 向量指向 | 什麼把它拉進來 |
 |---|---|---|
-| 數學函式庫的浮點轉換模組 | 真正的轉換函式 | 程式裡有浮點運算：浮點修正符號把模擬器拉進來，模擬器再把轉換模組拉進來 |
-| C 函式庫的備用模組 | 印 `printf : floating point formats not linked` 後 `abort` 的樁 | 備用模組被連結時 |
-| 都沒有 | 空的（段長度 0） | 程式完全沒有浮點，也沒有拉進備用模組 |
+| 數學函式庫的浮點轉換模組 | 真正的轉換函式 | 程式裡出現浮點：浮點修正符號把模擬器拉進來，模擬器參照 `__turboCvt`，那個符號在轉換模組裡 |
+| C 函式庫的備用模組 `CVTFAK` | 印 `printf : floating point formats not linked` 後 `abort` 的樁 | **用到 `scanf` 家族**：`SCANNER` 參照 `__scantod`，它在 `SCANTOD` 模組裡，而 `SCANTOD` 參照 `__cvtfak` |
+| 都沒有 | 段長度 0，向量根本不存在 | 程式完全沒有浮點型別，也沒有用 `scanf` |
 
 這是「按用量付費」的做法：`printf` 本身不參照真正的轉換函式，所以不用浮點的程式不會把它與模擬器拖進來。
-`scanf` 側有同樣的一組（`_SCNSEG` 與 `_ScanTodVector`）。
+`scanf` 側是同一套機制，段換成 `_SCNSEG`，而且那裡是**三個字的向量表**（轉換、取結果、清堆疊），由同一個模組一次填滿。
 
-實測（`.MAP` 檔的段長度與執行檔內容）：
+**兩個模組可以同時進來。** 這時 `_CVTSEG` 有兩個字，誰排在段首誰生效——
+實測的順序是真正的轉換函式在前，備用模組填的那個字排在後面，永遠跳不到。
+所以執行檔裡有那句訊息，不等於程式會印它。
 
-| 程式 | `_CVTSEG` 長度 | 執行檔裡有那句訊息嗎 | 實跑 |
-|---|---|---|---|
-| 有浮點運算、用 `%f` | 2 bytes | 沒有 | 正常印出數字 |
-| 完全沒有浮點運算，把 8 個位元組當兩個 `long` 推給 `%f` | **0 bytes** | 沒有 | 以回傳碼 3 結束、印出 `Abnormal program termination`，**沒有**那句浮點訊息 |
+實測（[`link-experiment.sh`](../../examples/printf/link-experiment.sh)，small 與 large 模型結果相同）：
 
-所以「看到那句訊息」代表備用模組被連結了；本 repo 還沒找出 DOS 版函式庫在什麼條件下會拉進它（見未知）。
+| 程式 | 用了什麼 | `_CVTSEG` | `_SCNSEG` | 執行檔裡有訊息 |
+|---|---|---|---|---|
+| `NOCVT.C` | 整支不出現 `double`／`float`，`%f` 的資料用兩個 `long` 湊、格式字串執行時才組出來 | **0** | 0 | 沒有 |
+| `FLOATONLY.C` | 有浮點運算、用 `%f`，不碰 `scanf` | 2 | 0 | 沒有 |
+| `NOFLOAT.C` | 有 `double` 變數但沒有運算（值是 `fread` 進來的），不碰 `scanf` | 2 | 6 | 沒有 |
+| `CVTFAKE.C` | 用了 `sscanf`，整支不出現 `double`／`float` | 2 | 6 | **有** |
+| `PRINTF.C` | 浮點與 `scanf` 都有 | 4 | 12 | **有** |
+
+段長度本身不是判準：`NOFLOAT.C` 與 `CVTFAKE.C` 的兩個段一樣長，但填的模組完全不同（前者是數學函式庫的兩個模組，
+後者是備用模組一個人填兩段）。要分辨得看執行檔裡有沒有那句訊息。
+
+兩支會走到「向量沒有真正的轉換函式」的程式實跑結果：
+
+| 程式 | 結果 |
+|---|---|
+| `CVTFAKE.C`（只有備用模組填向量） | 印出 `printf : floating point formats not linked`，接著 `Abnormal program termination`，回傳碼 3 |
+| `NOCVT.C`（段長度 0，向量不存在） | 只印 `Abnormal program termination`，回傳碼 3；**這是未定義行為**——跳躍目標是段後面那塊資料的內容，換支程式或換個模型結果可能不同 |
+
+對讀者最有用的一句：**那句訊息真正被印出來的條件，是程式用了 `scanf` 家族、而且整支程式沒有任何浮點型別，
+偏偏又拿 `%f` 之類的轉換去印東西。** 光是在執行檔裡看到字串，只代表它用了 `scanf`。
 
 ## 在執行檔裡怎麼認
 
 | 看到 | 推論 |
 |---|---|
-| 一個大函式，開頭附近有一張 96 bytes 的表，被多個不同的呼叫端以「第一個參數是函式位址」的形式呼叫 | `__vprinter`；那張表是字元分類表 |
+| 資料段裡有一塊 96 bytes 的常數（`0x20`–`0x7F` 每個字元一個分類值），被一個大函式以「基底加索引」的方式讀取 | 那是字元分類表，讀它的大函式是 `__VPRINTER`；表在 DGROUP 不在程式碼段 |
+| 那個大函式體內另有一張 24 項的跳躍表 | 分類值到處理區塊的 switch |
 | 同一個大函式被多處呼叫，第一個參數只出現三個不同的函式位址 | 那三個位址就是 `__fputn`、`strputn`、`__cputn`；第二個參數是 `FILE *`、字串指標的指標，或被忽略 |
 | 呼叫時第二個參數是一個固定的資料位址（`stdout`），其餘欄位與 `fprintf` 的呼叫相同 | `printf`；`stdout` 是 `_streams[1]` 的位址 |
-| 一行 `jmp [某個資料位址]` 的函式，被格式化程式碼呼叫 | 浮點轉換的間接入口；那個資料位址就是 `_CVTSEG` 的向量 |
+| 一行 `jmp [某個資料位址]` 的函式，被格式化程式碼呼叫 | 浮點轉換的間接入口 `__REALCVT`；那個資料位址就是 `_CVTSEG` 的向量。**huge 模型不是一行**：先 `mov es, cs:[…]` 再 `jmp es:[向量]`，只找「一行 jmp」會漏掉 |
 | 資料段裡有 `(null)` 這個字串，附近是格式化程式碼 | `%s` 的空指標輸出 |
 | 字串 `printf : floating point formats not linked`（訊息分成兩段：`print` 或 ` scan` 加上共同的後半段） | 備用模組被連結了 |
 
-用 [`signatures/borland-crtl-2.0/dos.json`](../../signatures/borland-crtl-2.0/dos.md) 掃描會命中 `__vprinter`、`__longtoa`、
-`_printf`、`_fprintf`、`_sprintf`、`_cprintf`、`_scanf`、`_sscanf`、`_fscanf` 等名稱。
+用 [`signatures/borland-crtl-2.0/dos.json`](../../signatures/borland-crtl-2.0/dos.md) 掃描會命中 `__VPRINTER`、`__LONGTOA`、
+`__FPUTN`、`__CPUTN`、`__XCVT`、`__scanner`、`_printf`、`_fprintf`、`_sprintf`、`_vsprintf`、`_cprintf`、`_scanf`、`_sscanf`、`_fscanf`。
+
+**名字的大小寫有規則**：`pascal` 呼叫慣例的函式，連結器符號一律大寫（`__VPRINTER`、`__FPUTN`、`__LONGTOA`、`__REALCVT`），
+`cdecl` 的維持原樣（`__scanner`、`_printf`）。拿小寫去 `.map` 或簽章檔裡找會落空。
+`__longtoa` 住在 `LTOA` 模組，不是 `LONGTOA`。
+
+兩個好用的結構特徵：
+
+- **即使 large／huge 模型，`printf` 呼叫 `__VPRINTER` 也是 near call**（RTL 全部擠在同一個 `_TEXT`），
+  而使用者程式呼叫 `printf` 是 far call。一段 far call 進來、內部全是 near call 的區域，通常就是 RTL。
+- **傳給引擎的輸出函式指標永遠是 2 bytes 的 near 指標**，不管什麼模型。
 
 容易誤判的地方：
 
@@ -145,6 +193,7 @@ C 函式庫裡的浮點轉換入口 `__REALCVT` 只有一行：跳到一個向�
 ## 給 remake 的行為規格
 
 以下每一條都有實跑支持（`examples/printf`，五個記憶體模型結果相同；`%p` 的預設寬度隨資料指標寬度不同）。
+量測條件：輸出走 `sprintf`、輸入走 `sscanf`，在 dosgolem 以 `-cpu 186` 執行，浮點全部走軟體模擬（沒有加 `-f87`）。
 
 ### 整數與字串
 
@@ -166,6 +215,7 @@ C 函式庫裡的浮點轉換入口 `__REALCVT` 只有一行：跳到一個向�
 | 不認得的轉換（`a%qb`） | 原樣輸出 `a%qb`，回傳 4 |
 | 格式字串以 `%` 或 `%5` 結尾 | 原樣輸出 |
 | `%200d` | 輸出 200 個字元（引擎分多次送出） |
+| 輸出端寫失敗（例如磁碟滿） | `printf`／`fprintf` 回 −1，不是已輸出的位元組數；`sprintf` 不會走這條（它的輸出函式永遠成功） |
 
 ### 浮點
 
@@ -181,6 +231,12 @@ C 函式庫裡的浮點轉換入口 `__REALCVT` 只有一行：跳到一個向�
 | `%.2f` 對 −0.125 | `-0.12` |
 
 ### `scanf`
+
+回傳值的規則只有一條：**遇到輸入結束、而且一個欄位都還沒轉換成功，回 −1；其他情況一律回已經填好的欄位數（可以是 0）**。
+`%d %d` 對 `"12"` 因此回 1。輸入結束時引擎會對來源推回一個 EOF；`sscanf` 的推回就是把指標退一格。
+
+**大寫型別字母在 `scanf` 側等於 long**（`%D`、`%O`、`%U`、`%X`、`%I` 一律寫 4 bytes）——
+傳 `int *` 給 `%D` 會寫穿兩個位元組。`printf` 側相反：`%D` 不是合法轉換，會觸發前面說的「整段照抄」。
 
 | 格式與輸入 | 回傳值與結果 |
 |---|---|
@@ -202,21 +258,26 @@ C 函式庫裡的浮點轉換入口 `__REALCVT` 只有一行：跳到一個向�
 
 | 結論 | 出處 | 等級 |
 |---|---|---|
-| 十個進入點收斂成三個輸出函式、輸出函式的介面 | RTL 的 `PRINTF.C`、`FPRINTF.C`、`VPRINTF.C`、`VFPRINTF.C`、`SPRINTF.C`、`CPRINTF.C`、`VPRINTER.CAS` | 已證實（原文） |
-| 表格驅動的解析、支援的語法、寫錯就當字面輸出 | RTL 的 `VPRINTER.CAS` 說明區塊與程式碼 | 已證實（原文） |
-| `scanf` 用 Get／UnGet 一對函式指標，三組來源 | RTL 的 `SCANNER.CAS`、`SSCANF.C`、`FSCANF.C`、`CSCANF.C` | 已證實（原文） |
-| 浮點轉換走 `_CVTSEG` 的向量、C 函式庫端只有一行間接跳躍 | RTL 的 `REALCVT.ASM`、`CVTFAK.ASM`、`MATH/REALCVT.CAS`、出貨的 `C0.ASM` | 已證實（原文） |
+| 七個進入點收斂成三個輸出函式、輸出函式的介面 | RTL 的 `PRINTF.C`、`FPRINTF.C`、`VPRINTF.C`、`VFPRINTF.C`、`SPRINTF.C`、`CPRINTF.C`、`VPRINTER.CAS` | 已證實（原文） |
+| 表格驅動的解析、階段順序、寫錯就整段照抄 | RTL 的 `VPRINTER.CAS` | 已證實（原文） |
+| 分類表在資料段、體內另有 24 項跳躍表 | 同上（表宣告為 `static`）＋ 在編出的執行檔載入映像裡定位到表的位置 | 已證實（實測） |
+| `scanf` 用 Get／UnGet 一對函式指標，三組來源；回傳值規則；大寫型別字母當 long | RTL 的 `SCANNER.CAS`、`SSCANF.C`、`FSCANF.C`、`CSCANF.C` | 已證實（原文） |
+| 浮點轉換走 `_CVTSEG` 的向量、C 函式庫端是一行間接跳躍（huge 三行） | RTL 的 `REALCVT.ASM`、`CVTFAK.ASM`、`SCANTOD.ASM`、`MATH/REALCVT.CAS`、出貨的 `C0.ASM` | 已證實（原文） |
+| 備用模組是被 `scanf` 那條鏈拉進來的 | 上列原始碼的外部符號 ＋ [`link-experiment.sh`](../../examples/printf/link-experiment.sh) 五支程式的 `.MAP` 段長度、執行檔字串與實跑 | 已證實（實測） |
 | `VPRINTER` 模組對外只參照兩個符號 | 拆出貨的 `CS.LIB` 看目的檔的外部符號表 | 已證實（實測） |
 | 上述 C 函式庫模組與出貨版相同 | 以原廠工具鏈重編 2,455 次的對拍 | 已證實（對拍） |
-| 數學函式庫的浮點轉換與字串轉數字模組 | 重編後與出貨版不同，無法對拍 | 已證實（原文） |
+| 浮點**格式化**模組（`__realcvt`、`__xcvt`）與出貨版相同 | 數學函式庫的對拍：五個模型皆同（huge 要用原廠實際使用的 `-zTDATA`） | 已證實（對拍） |
+| 字串**轉浮點**模組（`scanf` 的 `%f`／`%lf`） | 重編後與出貨版有差（尾段暫存器用法不同），無法對拍 | 已證實（原文）＋行為以實跑為準 |
 | 行為規格各條 | `examples/printf` × 五個模型，在 dosgolem 執行 | 已證實（實測） |
-| 兩種連結情況下 `_CVTSEG` 的長度與執行結果 | 範例的 `.MAP` 與自寫的無浮點程式 | 已證實（實測） |
 | 辨識特徵 | 由機制推得，未逐一在第三方程式上驗證 | 強推論 |
 
 未知：
 
-- **DOS 版函式庫在什麼條件下會連結備用模組**，也就是那句 `floating point formats not linked` 的實際觸發條件。
-  DOS 版的其他模組都沒有參照它（Windows 版的浮點初始化模組有）；本 repo 的無浮點測試只得到「向量是空的、程式 abort」。
-- 沒測：`%Lf`（long double）、`%hf`、huge 模型下 `%p` 的段值規格化、`scanf` 的 `%[^…]` 反向集合與 `%D`／`%O`／`%U`。
+- **`%h` 的第二個用途在 BC++ 2.0 沒有作用**。函式庫的內部標頭描述過「用 `h` 表示堆疊上是 4 bytes 的 `float`」這個設計，
+  但引擎裡對應的旗標從頭到尾沒有被設定或測試過，所以 `%hg` 的實際行為等同 `%g`（照樣吃 8 bytes）。沒有實跑驗證這一點。
+- 浮點行為是在軟體模擬（沒有 8087）下量的。**真機或 `-f87` 的 x87 下，`%.0f` 的進位是否完全一樣沒有驗過**——
+  本文用的四個測點（0.5、1.5、2.5、3.5）都是二進位精確值，理論上不受影響，但沒有實測支持。
+- `NOCVT.C` 那個「向量長度 0」的情況是未定義行為，觀察到的 `Abnormal program termination` 不是規格。
+- 沒測：`%Lf`（long double）、huge 模型下 `%p` 的段值規格化、`scanf` 的 `%[^…]` 反向集合。
 - `cprintf` 與 conio 的互動（換行、視窗邊界）留給 conio 那一篇。
 - Microsoft C 的對應做法要等 M3。

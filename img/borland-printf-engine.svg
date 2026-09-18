@@ -37,7 +37,7 @@
   <text x="428" y="99" text-anchor="middle" font-size="12" fill="#5a6472">( 輸出函式, 輸出對象, 格式字串, 引數區 )</text>
 
   <rect x="266" y="110" width="324" height="30" rx="6" fill="#ffffff" stroke="#e3c79b"/>
-  <text x="280" y="130" font-size="12.5" fill="#1f2933">字元分類表：0x20–0x7F 共 96 項，查表跳轉</text>
+  <text x="280" y="130" font-size="12.5" fill="#1f2933">查資料段的字元分類表（96 項）→ 體內 24 項跳躍表</text>
 
   <rect x="266" y="146" width="324" height="46" rx="6" fill="#ffffff" stroke="#e3c79b"/>
   <text x="280" y="165" font-size="12.5" fill="#1f2933">解析七階段：旗標 → 補零 → 寬度 → 小數點</text>

@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
-  <rect width="900" height="600" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="900" height="620" fill="#ffffff"/>
 
   <defs>
     <marker id="a2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
@@ -17,9 +17,9 @@
 
   <path d="M226,74 L288,74" stroke="#8a94a6" fill="none" marker-end="url(#a2)"/>
 
-  <rect x="296" y="52" width="240" height="44" rx="8" fill="#f8f9fb" stroke="#d0d5dd"/>
-  <text x="416" y="72" text-anchor="middle" font-size="13" fill="#1f2933">C 函式庫的 __REALCVT</text>
-  <text x="416" y="88" text-anchor="middle" font-size="12" fill="#5a6472">整個函式只有一行：跳到向量所指的位址</text>
+  <rect x="296" y="46" width="240" height="56" rx="8" fill="#f8f9fb" stroke="#d0d5dd"/>
+  <text x="416" y="68" text-anchor="middle" font-size="13" fill="#1f2933">C 函式庫的 __REALCVT</text>
+  <text x="416" y="86" text-anchor="middle" font-size="12" fill="#5a6472">一行：跳到向量所指的位址（huge 三行）</text>
 
   <path d="M536,74 L598,74" stroke="#8a94a6" fill="none" marker-end="url(#a2)"/>
 
@@ -27,12 +27,12 @@
   <text x="738" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#8a4b00">_CVTSEG 段的第一個字</text>
   <text x="738" y="87" text-anchor="middle" font-size="12" fill="#5a6472">啟動碼 C0 宣告段與標籤，內容留白</text>
 
-  <text x="30" y="136" font-size="13.5" fill="#1f2933">誰填那個字，由連結器拉進來什麼模組決定：</text>
+  <text x="30" y="136" font-size="13.5" fill="#1f2933">誰填那個字，由連結器拉進來什麼模組決定；兩個都進來時，排在段首的那個才生效：</text>
 
   <!-- 三種情況 -->
   <g>
-    <rect x="30" y="152" width="264" height="300" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
-    <text x="48" y="176" font-size="13" font-weight="bold" fill="#1f2933">一　程式裡有浮點運算</text>
+    <rect x="30" y="152" width="264" height="316" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+    <text x="48" y="176" font-size="13" font-weight="bold" fill="#1f2933">一　程式裡出現浮點</text>
 
     <rect x="48" y="190" width="228" height="34" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
     <text x="62" y="211" font-size="12" fill="#1f2933">編譯器放下浮點修正符號 FI?RQQ</text>
@@ -50,52 +50,57 @@
     <text x="62" y="371" font-size="12" fill="#1f2933">數學函式庫的轉換模組被連結，</text>
     <text x="62" y="388" font-size="12" fill="#1f2933">向量指向真正的轉換函式</text>
 
-    <text x="48" y="420" font-size="12" fill="#5a6472">實測：_CVTSEG 長度 2 bytes</text>
-    <text x="48" y="438" font-size="12" fill="#5a6472">執行結果：正常印出數字</text>
+    <text x="48" y="420" font-size="12" fill="#5a6472">實測（FLOATONLY.C）：</text>
+    <text x="48" y="438" font-size="12" fill="#5a6472">_CVTSEG 2、_SCNSEG 0、無訊息</text>
+    <text x="48" y="456" font-size="12" fill="#5a6472">執行：正常印出數字</text>
   </g>
 
   <g>
-    <rect x="318" y="152" width="264" height="300" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
-    <text x="336" y="176" font-size="13" font-weight="bold" fill="#1f2933">二　備用模組被連結</text>
+    <rect x="318" y="152" width="264" height="316" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+    <text x="336" y="176" font-size="13" font-weight="bold" fill="#1f2933">二　程式用了 scanf 家族</text>
 
     <rect x="336" y="190" width="228" height="34" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
-    <text x="350" y="211" font-size="12" fill="#1f2933">C 函式庫的備用模組 CVTFAK</text>
+    <text x="350" y="211" font-size="12" fill="#1f2933">SCANNER → SCANTOD → CVTFAK</text>
     <path d="M450,224 L450,240" stroke="#d97706" fill="none" marker-end="url(#a2o)"/>
 
     <rect x="336" y="244" width="228" height="44" rx="6" fill="#fff8f0" stroke="#d97706"/>
-    <text x="350" y="263" font-size="12" fill="#1f2933">向量指向一個樁：印訊息後</text>
-    <text x="350" y="280" font-size="12" fill="#1f2933">abort</text>
+    <text x="350" y="263" font-size="12" fill="#1f2933">備用模組填進一個樁：</text>
+    <text x="350" y="280" font-size="12" fill="#1f2933">印訊息後 abort</text>
 
-    <rect x="336" y="302" width="228" height="52" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
-    <text x="350" y="322" font-size="11.5" fill="#1f2933">printf : floating point</text>
-    <text x="350" y="340" font-size="11.5" fill="#1f2933">formats not linked</text>
+    <rect x="336" y="300" width="228" height="52" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
+    <text x="350" y="320" font-size="11.5" fill="#1f2933">printf : floating point</text>
+    <text x="350" y="338" font-size="11.5" fill="#1f2933">formats not linked</text>
 
-    <text x="336" y="378" font-size="12" fill="#5a6472">訊息在執行檔裡分兩段存：</text>
-    <text x="336" y="396" font-size="12" fill="#5a6472">「print」或「 scan」加共同後半段</text>
-    <text x="336" y="424" font-size="12" fill="#5a6472">DOS 版什麼條件會拉進這個模組，</text>
-    <text x="336" y="440" font-size="12" fill="#5a6472">本 repo 尚未確認</text>
+    <text x="336" y="374" font-size="12" fill="#5a6472">實測（CVTFAKE.C，用 sscanf、</text>
+    <text x="336" y="392" font-size="12" fill="#5a6472">整支沒有 double／float）：</text>
+    <text x="336" y="410" font-size="12" fill="#5a6472">_CVTSEG 2、_SCNSEG 6、有訊息</text>
+    <text x="336" y="434" font-size="12" fill="#8a4b00">執行：真的印出那句話，</text>
+    <text x="336" y="452" font-size="12" fill="#8a4b00">回傳碼 3</text>
   </g>
 
   <g>
-    <rect x="606" y="152" width="264" height="300" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+    <rect x="606" y="152" width="264" height="316" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
     <text x="624" y="176" font-size="13" font-weight="bold" fill="#1f2933">三　兩個模組都沒進來</text>
 
     <rect x="624" y="190" width="228" height="52" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
-    <text x="638" y="210" font-size="12" fill="#1f2933">程式完全沒有浮點運算，</text>
-    <text x="638" y="228" font-size="12" fill="#1f2933">格式字串在執行時才組出來</text>
+    <text x="638" y="210" font-size="12" fill="#1f2933">整支程式沒有 double／float，</text>
+    <text x="638" y="228" font-size="12" fill="#1f2933">也沒有用 scanf</text>
     <path d="M738,242 L738,258" stroke="#8a94a6" fill="none" marker-end="url(#a2)"/>
 
     <rect x="624" y="262" width="228" height="44" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="5 3"/>
     <text x="638" y="281" font-size="12" fill="#1f2933">_CVTSEG 長度 0，</text>
     <text x="638" y="298" font-size="12" fill="#1f2933">向量根本不存在</text>
 
-    <text x="624" y="334" font-size="12" fill="#5a6472">實跑：以回傳碼 3 結束，</text>
-    <text x="624" y="352" font-size="12" fill="#5a6472">印 Abnormal program termination</text>
-    <text x="624" y="370" font-size="12" fill="#5a6472">——不是那句浮點訊息</text>
+    <text x="624" y="330" font-size="12" fill="#5a6472">實測（NOCVT.C）：</text>
+    <text x="624" y="348" font-size="12" fill="#5a6472">_CVTSEG 0、_SCNSEG 0、無訊息</text>
+    <text x="624" y="366" font-size="12" fill="#5a6472">執行：Abnormal program</text>
+    <text x="624" y="384" font-size="12" fill="#5a6472">termination、回傳碼 3</text>
+    <text x="624" y="410" font-size="12" fill="#8a4b00">——這是未定義行為：跳躍目標</text>
+    <text x="624" y="428" font-size="12" fill="#8a4b00">是段後面那塊資料的內容</text>
   </g>
 
-  <rect x="30" y="472" width="840" height="98" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
-  <text x="46" y="496" font-size="12.5" fill="#1f2933">這樣做擋住的是「按用量付費」的反面：printf 若直接呼叫轉換函式，每支用到 printf 的程式都會把</text>
-  <text x="46" y="516" font-size="12.5" fill="#1f2933">浮點轉換與模擬器一起拖進執行檔，而 1991 年一支程式的預算是幾十 KB。</text>
-  <text x="46" y="542" font-size="12.5" fill="#1f2933">scanf 側有同一組機制：_SCNSEG 段與 _ScanTodVector 向量，字串轉浮點的函式同樣是連結時才接上。</text>
+  <rect x="30" y="492" width="840" height="98" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="46" y="516" font-size="12.5" fill="#1f2933">這樣做擋住的是「按用量付費」的反面：printf 若直接呼叫轉換函式，每支用到 printf 的程式都會把</text>
+  <text x="46" y="536" font-size="12.5" fill="#1f2933">浮點轉換與模擬器一起拖進執行檔，而 1991 年一支程式的預算是幾十 KB。</text>
+  <text x="46" y="562" font-size="12.5" fill="#1f2933">scanf 側是同一套：_SCNSEG 段開頭是三個字的向量表（轉換、取結果、清堆疊），由同一個模組一次填滿。</text>
 </svg>

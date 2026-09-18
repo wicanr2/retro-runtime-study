@@ -6,19 +6,6 @@
   },
   "items": [
     {
-      "id": "printf-engine",
-      "layer": "article",
-      "title": "printf 家族的格式化引擎與 scanf",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/10-borland-crtl/printf-engine.md",
-          "examples/printf"
-        ]
-      },
-      "issue": "#10"
-    },
-    {
       "id": "heap",
       "layer": "article",
       "title": "heap：near 與 far 兩套配置器與 malloc 家族的行為",
