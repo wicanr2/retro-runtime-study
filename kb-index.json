@@ -551,6 +551,55 @@
    ]
   },
   {
+   "id": "dmx/version-history",
+   "path": "docs/30-dmx/version-history.md",
+   "title": "DMX 的五份封存：版本號、建置設定與呼叫慣例是三件事",
+   "libraries": [
+    "dmx"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "手上有 DMX 的多份原始碼封存，想知道目錄名之間到底差在哪",
+    "遊戲資料裡有 GENMIDI、DMXGUS、MUS 這些東西，想知道它們是誰定的格式",
+    "想知道 1993 年的 DOS 遊戲怎麼把音效卡支援外包出去",
+    "同一套函式庫為什麼要出 `dmx.lib` 與 `dmxs.lib` 兩個版本",
+    "要 remake 用 DMX 的遊戲，想知道 OPL3、GUS 記憶體分級這些行為從哪來"
+   ],
+   "symbols": [
+    "DMX_Init",
+    "DMX_DeInit",
+    "DmxOption",
+    "DmxTrace",
+    "USE_OPL3",
+    "USE_PHASE",
+    "AHW_CODEC",
+    "AHW_ENSONIQ",
+    "AHW_FM_OPL3",
+    "AL_Detect",
+    "SB_Detect",
+    "GF1_Detect",
+    "MPU_Detect",
+    "MV_Detect",
+    "CODEC_Detect",
+    "ENS_Detect",
+    "MUS_Init",
+    "SFX_Init",
+    "WAV_Init",
+    "GENMIDI",
+    "DMXGUS",
+    "MIDI2MUS",
+    "pawe32"
+   ],
+   "related": [
+    "dsmi/interface-split",
+    "overview/era-and-libraries"
+   ]
+  },
+  {
    "id": "dsmi/interface-split",
    "path": "docs/40-dsmi/interface-split.md",
    "title": "DSMI：一份組語核心，三種語言接得上",

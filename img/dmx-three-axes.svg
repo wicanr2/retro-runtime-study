@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="700" viewBox="0 0 940 700" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="940" height="700" fill="#ffffff"/>
+
+  <defs>
+    <marker id="a1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#8a94a6"/>
+    </marker>
+  </defs>
+
+  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">五份封存看起來像五個版本，其實是三個軸各動各的</text>
+
+  <!-- 封存列 -->
+  <rect x="26" y="52" width="888" height="118" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="42" y="74" font-size="12.5" font-weight="bold" fill="#1f2933">封存目錄</text>
+
+  <rect x="42" y="84" width="160" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="52" y="103" font-size="12.5" font-weight="bold" fill="#1f2933">dmx33b</text>
+  <text x="52" y="122" font-size="11" fill="#5a6472">最完整：含載入器、</text>
+  <text x="52" y="138" font-size="11" fill="#5a6472">MIDI／WAV 素材、序列埠</text>
+  <text x="52" y="152" font-size="11" fill="#8a4b00">附庫的符號對照表</text>
+
+  <rect x="212" y="84" width="150" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="222" y="103" font-size="12.5" font-weight="bold" fill="#1f2933">dmx33d</text>
+  <text x="222" y="122" font-size="11" fill="#5a6472">多一組 PC 中斷介面</text>
+  <text x="222" y="138" font-size="11" fill="#5a6472">與即時混音器</text>
+
+  <rect x="372" y="84" width="150" height="72" rx="6" fill="#fff8f0" stroke="#d97706"/>
+  <text x="382" y="103" font-size="12.5" font-weight="bold" fill="#8a4b00">dmx33gs</text>
+  <text x="382" y="122" font-size="11" fill="#5a6472">與 33d 幾乎同源，</text>
+  <text x="382" y="138" font-size="11" fill="#5a6472">Gravis 那支加滿追蹤</text>
+  <text x="382" y="152" font-size="11" fill="#8a4b00">工作拷貝，不是發行版</text>
+
+  <rect x="532" y="84" width="150" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="542" y="103" font-size="12.5" font-weight="bold" fill="#1f2933">dmx34a</text>
+  <text x="542" y="122" font-size="11" fill="#5a6472">CODEC 卡、FM 驅動、</text>
+  <text x="542" y="138" font-size="11" fill="#5a6472">GUS 樣本分級表</text>
+
+  <rect x="692" y="84" width="150" height="72" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="702" y="103" font-size="12.5" font-weight="bold" fill="#5a6472">dmx37lib</text>
+  <text x="702" y="122" font-size="11" fill="#5a6472">只有兩個標頭、兩個庫</text>
+  <text x="702" y="138" font-size="11" fill="#5a6472">沒有原始碼</text>
+
+  <rect x="852" y="84" width="52" height="72" rx="6" fill="#fdecec" stroke="#d98080"/>
+  <text x="878" y="108" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#8a2b2b">fmfix</text>
+  <text x="878" y="128" text-anchor="middle" font-size="10.5" fill="#8a2b2b">一支</text>
+  <text x="878" y="143" text-anchor="middle" font-size="10.5" fill="#8a2b2b">補丁</text>
+
+  <path d="M470,170 L470,192" stroke="#8a94a6" fill="none" marker-end="url(#a1)"/>
+  <text x="482" y="188" font-size="11" fill="#5a6472">差異拆開來看，落在三個互不相干的軸上</text>
+
+  <!-- 三個軸 -->
+  <rect x="26" y="200" width="288" height="192" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="42" y="224" font-size="13" font-weight="bold" fill="#1f2933">軸一　功能版本</text>
+  <text x="42" y="248" font-size="11.5" fill="#1f2933">3.3b → 3.7 的公開介面，以同樣</text>
+  <text x="42" y="266" font-size="11.5" fill="#1f2933">兩個標頭比對只多兩個函式。</text>
+  <text x="42" y="292" font-size="11.5" fill="#5a6472">3.3d：PC 中斷介面</text>
+  <text x="42" y="310" font-size="11.5" fill="#5a6472">3.4a：CODEC、FM、GUS 設定</text>
+  <text x="42" y="328" font-size="11.5" fill="#5a6472">3.7：CODEC／Ensoniq 偵測</text>
+  <text x="42" y="358" font-size="11.5" fill="#8a4b00">變的是支援哪些卡，</text>
+  <text x="42" y="376" font-size="11.5" fill="#8a4b00">不是介面的形狀。</text>
+
+  <rect x="326" y="200" width="288" height="192" rx="8" fill="#fff8f0" stroke="#d97706"/>
+  <text x="342" y="224" font-size="13" font-weight="bold" fill="#8a4b00">軸二　建置設定</text>
+  <text x="342" y="248" font-size="11.5" fill="#1f2933">一個環境變數選三檔：</text>
+  <text x="342" y="272" font-size="11.5" fill="#5a6472">debug　　關最佳化＋完整除錯資訊</text>
+  <text x="342" y="292" font-size="11.5" fill="#5a6472">beta　　　最佳化＋行號，給客戶測</text>
+  <text x="342" y="312" font-size="11.5" fill="#5a6472">production　最佳化，追蹤碼編掉</text>
+  <text x="342" y="342" font-size="11.5" fill="#1f2933">33gs 與 33d 的差別就在這裡：</text>
+  <text x="342" y="360" font-size="11.5" fill="#1f2933">Gravis 驅動的追蹤點 1 處 → 26 處</text>
+  <text x="342" y="378" font-size="11.5" fill="#8a4b00">（全庫 17 → 41）</text>
+
+  <rect x="626" y="200" width="288" height="192" rx="8" fill="#eef4fb" stroke="#b9cfe6"/>
+  <text x="642" y="224" font-size="13" font-weight="bold" fill="#1f2933">軸三　呼叫慣例</text>
+  <text x="642" y="248" font-size="11.5" fill="#1f2933">同一份原始碼編兩次：</text>
+  <text x="642" y="272" font-size="11.5" fill="#5a6472">參數走暫存器　快，但綁編譯器</text>
+  <text x="642" y="292" font-size="11.5" fill="#5a6472">參數走堆疊　　慢一點，誰都連得進</text>
+  <text x="642" y="322" font-size="11.5" fill="#1f2933">客戶的編譯器不一定跟你一樣，</text>
+  <text x="642" y="340" font-size="11.5" fill="#1f2933">所以兩種都出。</text>
+  <text x="642" y="368" font-size="11.5" fill="#8a4b00">33gs：dmx.lib ＋ dmxs.lib</text>
+  <text x="642" y="386" font-size="11.5" fill="#8a4b00">3.7：dmx_r.lib ／ dmx_s.lib</text>
+
+  <!-- 庫的組成 -->
+  <rect x="26" y="406" width="440" height="136" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="42" y="430" font-size="13" font-weight="bold" fill="#1f2933">出貨的庫不等於樹裡的原始碼</text>
+  <text x="42" y="456" font-size="11.5" fill="#1f2933">符號對照表：212 個公開符號、28 個模組。</text>
+  <text x="42" y="478" font-size="11.5" fill="#1f2933">其中 9 個模組在原始碼樹裡沒有對應檔——</text>
+  <text x="42" y="496" font-size="11.5" fill="#1f2933">建置時另外附加了一個第三方庫（AWE32 支援）。</text>
+  <text x="42" y="522" font-size="11.5" fill="#8a2b2b">那一塊的行為讀原始碼推不出來，它不在樹裡。</text>
+
+  <!-- 遊戲資料裡的足跡 -->
+  <rect x="478" y="406" width="436" height="136" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="494" y="430" font-size="13" font-weight="bold" fill="#1f2933">遊戲資料檔裡留下的痕跡</text>
+  <text x="494" y="456" font-size="11.5" fill="#1f2933">GENMIDI　檔頭 #OPL_II#，175 個樂器，</text>
+  <text x="560" y="474" font-size="11.5" fill="#5a6472">整份 11,908 bytes</text>
+  <text x="494" y="496" font-size="11.5" fill="#1f2933">DMXGUS　依卡上記憶體四級的樣本對應表</text>
+  <text x="494" y="518" font-size="11.5" fill="#1f2933">MUS　　　封存附的 MIDI2MUS 就是產生器</text>
+
+  <!-- 底部總結 -->
+  <rect x="26" y="556" width="888" height="128" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="42" y="580" font-size="12.5" fill="#1f2933">1993 年的 DOS 沒有音效 API：認卡、設 DMA 與 IRQ、混音全要自己來，而且沒有硬體就驗不了。</text>
+  <text x="42" y="602" font-size="12.5" fill="#1f2933">這種程式碼不構成遊戲的差異化，卻很貴——於是它被外包成一套授權的商品，由專人維護。</text>
+  <text x="42" y="628" font-size="12.5" fill="#1f2933">外包接著決定了軸二與軸三：客戶要的是能除錯的版本與能連結的版本，不是新功能。</text>
+  <text x="42" y="656" font-size="12" fill="#8a2b2b">本圖只根據原始碼、建置檔與封存的符號清單；這套庫標示機密與專有，本專案不做反組譯。</text>
+</svg>
