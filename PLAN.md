@@ -16,7 +16,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R6 | 判斷廠牌、版本與記憶體模型（完成，已過專家與學生審查） | `docs/60-re-fingerprints/identify-vendor-and-model.md`、流程圖、`signatures/borland-crtl-2.0/` |
 | R7 | 檔案 I/O 與緩衝（完成，已過專家與學生審查） | `docs/10-borland-crtl/stdio-file-io.md`、兩張 SVG、`examples/stdio/` |
 | R8 | printf／scanf 引擎與浮點的連結開關（完成，已過專家與學生審查） | `docs/10-borland-crtl/printf-engine.md`、兩張 SVG、`examples/printf/` |
-| R9 | near heap 與 far heap（審查前第一版） | `docs/10-borland-crtl/heap.md`、兩張 SVG、`examples/heap/` |
+| R9 | near heap 與 far heap（完成，已過專家與學生審查） | `docs/10-borland-crtl/heap.md`、兩張 SVG、`examples/heap/` |
 | R10 | conio 與文字畫面 | 範例程式與 SVG |
 | R11 以後 | 依 worklist 排序 | 亂數與時間、iostream、VC++ 1.0 CRT、DMX、DSMI |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |

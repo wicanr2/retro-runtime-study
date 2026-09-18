@@ -61,6 +61,10 @@ static void block_layout(void)
 
     /* malloc(0) 給不給東西 */
     note3("zero", malloc(0) == NULL ? 1 : 0, 0, 0);
+
+    /* free(NULL) 應該靜默略過 */
+    free(NULL);
+    note3("free.null", heapcheck(), 0, 0);
 }
 
 static void reuse_and_split(void)
@@ -184,36 +188,80 @@ static void walk_and_check(void)
     free(b);
 }
 
+/* 在任何配置發生之前，用全新的 far heap 量一次：配一塊、放掉，
+   看 farcoreleft 有沒有回到原點、heap 是不是真的空了。 */
+static void far_clean(void)
+{
+    struct farheapinfo fhi;
+    unsigned long before, mid, after;
+    char far *f1;
+    int n1 = 0, n2 = 0, r;
+
+    before = farcoreleft();
+    f1 = (char far *)farmalloc(1000L);
+    mid = farcoreleft();
+
+    fhi.ptr = NULL;
+    while ((r = farheapwalk(&fhi)) == _HEAPOK && n1 < 32)
+        n1++;
+
+    farfree(f1);
+    after = farcoreleft();
+
+    fhi.ptr = NULL;
+    while ((r = farheapwalk(&fhi)) == _HEAPOK && n2 < 32)
+        n2++;
+
+    note3("far.clean", f1 != NULL ? 1 : 0, (long)(before - mid),
+          (long)(before - after));
+    note3("far.clean.walk", n1, n2, r);
+}
+
+/* 同樣在乾淨的 far heap 上，但這次配兩塊，逐步放掉看可用量怎麼變 */
+static void far_two(void)
+{
+    struct farheapinfo fhi;
+    unsigned long before, a2, b1, b2;
+    char far *f1, *f2;
+    int n = 0, freed = 0, r;
+
+    before = farcoreleft();
+    f1 = (char far *)farmalloc(1000L);
+    f2 = (char far *)farmalloc(1000L);
+    a2 = farcoreleft();
+
+    farfree(f2);                  /* 先放尾端那塊 */
+    b1 = farcoreleft();
+    farfree(f1);                  /* 再放剩下的唯一一塊 */
+    b2 = farcoreleft();
+
+    fhi.ptr = NULL;
+    while ((r = farheapwalk(&fhi)) == _HEAPOK && n < 32) {
+        if (!fhi.in_use)
+            freed++;
+        n++;
+    }
+
+    note3("far.two", (long)(before - a2), (long)(before - b1),
+          (long)(before - b2));
+    note3("far.two.walk", n, freed, r);
+}
+
 static void far_heap(void)
 {
     char far *f1, *f2;
-    unsigned long before, after, back;
+    unsigned long before, after;
 
+    /* 此時 far heap 裡已經有 far_two 留下的 free 空間 */
     before = farcoreleft();
     f1 = (char far *)farmalloc(1000L);
     after = farcoreleft();
-    /* 段落對齊：far heap 配出來的位移是區塊頭的大小，不是 0 */
-    note3("far.malloc", f1 != NULL ? 1 : 0, (long)FP_OFF(f1),
-          (long)(before - after));
+    note3("far.reuse", f1 != NULL ? 1 : 0, (long)(before - after), (long)FP_OFF(f1));
 
     f2 = (char far *)farmalloc(1000L);
-    /* 段差交給 far.walk 量；這裡只看第二塊的位移是不是同樣的區塊頭大小 */
-    note3("far.gap", (long)FP_OFF(f2), 0, 0);
+    note3("far.gap", f2 != NULL ? 1 : 0, (long)FP_OFF(f2), 0);
     farfree(f2);
     farfree(f1);
-
-    /* 放掉之後可用量回到哪裡 */
-    back = farcoreleft();
-    note3("far.restore", back == before ? 1 : 0, (long)(before - back), 0);
-
-    /* 只配一塊再放掉，看 break level 有沒有降回去 */
-    before = farcoreleft();
-    f1 = (char far *)farmalloc(1000L);
-    after = farcoreleft();
-    farfree(f1);
-    back = farcoreleft();
-    note3("far.one", (long)(before - after), (long)(before - back),
-          back == before ? 1 : 0);
 }
 
 /* 走一遍 far heap 的區塊序列：段是遞增還是遞減、每塊多大、用中還是自由 */
@@ -227,15 +275,14 @@ static void far_walk(void)
     f1 = (char far *)farmalloc(1000L);
     f2 = (char far *)farmalloc(1000L);
     fhi.ptr = NULL;
-    while ((r = farheapwalk(&fhi)) == _HEAPOK && n < 6) {
+    while ((r = farheapwalk(&fhi)) == _HEAPOK && n < 32) {
         if (n == 0)
             firstseg = FP_SEG(fhi.ptr);
         fprintf(rep, "far.walk%d %ld %lu %d\n", n,
                 (long)FP_SEG(fhi.ptr) - (long)firstseg, fhi.size, fhi.in_use);
         n++;
     }
-    note3("far.walk", n, r, 0);
-    (void)f1; (void)f2;
+    note3("far.walk", n, r, (f1 != NULL) + (f2 != NULL));
     farfree(f2);
     farfree(f1);
 }
@@ -269,6 +316,8 @@ int main(void)
     realloc_behaviour();
     calloc_and_errors();
     walk_and_check();
+    far_clean();
+    far_two();
     far_heap();
     far_walk();
     coreleft_shape();

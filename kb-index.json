@@ -118,6 +118,64 @@
    ]
   },
   {
+   "id": "borland-crtl/conio-screen",
+   "path": "docs/10-borland-crtl/conio-screen.md",
+   "title": "conio：一個結構、三個原語、兩條路",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "remake 要重現原版的文字畫面，游標位置、換行與捲動必須一模一樣",
+    "原版在某些機器上畫面會閃爍或出現雪花",
+    "想知道 cputs 的 \\n 會不會順便回到行首",
+    "反組譯看到一個十幾個位元組的全域結構，被一大群畫面函式讀寫",
+    "想知道原版怎麼決定要直接寫 B800 還是走 BIOS",
+    "remake 的視窗座標與原版對不上、捲動範圍不對"
+   ],
+   "symbols": [
+    "_video",
+    "VIDEOREC",
+    "__screenio",
+    "__vram",
+    "__cputn",
+    "__scroll",
+    "__validatexy",
+    "__vptr",
+    "directvideo",
+    "_wscroll",
+    "window",
+    "gotoxy",
+    "clrscr",
+    "clreol",
+    "delline",
+    "insline",
+    "cputs",
+    "cprintf",
+    "putch",
+    "gettext",
+    "puttext",
+    "movetext",
+    "textattr",
+    "textcolor",
+    "textbackground",
+    "gettextinfo",
+    "text_info",
+    "BLINK",
+    "_c0crtinit"
+   ],
+   "related": [
+    "borland-crtl/printf-engine",
+    "borland-crtl/startup-and-exit",
+    "borland-crtl/memory-model-macros"
+   ]
+  },
+  {
    "id": "borland-crtl/heap",
    "path": "docs/10-borland-crtl/heap.md",
    "title": "near heap 與 far heap：兩套配置器，一條與堆疊的邊界",

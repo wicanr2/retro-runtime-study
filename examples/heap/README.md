@@ -47,8 +47,10 @@ far 資料模型（compact、large、huge）對 `expected-far.txt`。
 | `calloc.overflow` | `calloc(30000, 4)` 的乘積溢位 |
 | `heapcheck` | `heapcheck()`、對用中區塊與已放掉區塊各做一次 `heapchecknode()` |
 | `heapwalk` | 走完整個 heap 的用中／自由區塊數與結束碼 |
-| `far.malloc`、`far.gap` | `farmalloc` 回傳位址的位移（區塊頭大小）與 `farcoreleft` 的減少量 |
-| `far.restore`、`far.one` | `farfree` 之後可用量回不回升、再配置會不會重用 |
+| `free.null` | `free(NULL)` 之後 `heapcheck` 的結果 |
+| `far.clean`、`far.clean.walk` | 在全新的 far heap 上配一塊再放掉：可用量回不回原點、heap 有沒有清空 |
+| `far.two`、`far.two.walk` | 配兩塊再依序放掉，三個時間點的可用量差 |
+| `far.reuse`、`far.gap` | 在留著 free 區塊的 heap 上再配置會不會重用；回傳位址的位移 |
 | `far.walk0`…、`far.walk` | `farheapwalk` 走出來的區塊序列（相對段、大小、用中與否）與結束碼 |
 | `coreleft` | `coreleft()` 有沒有隨配置變少、放掉後回來、是不是 16 的倍數 |
 
@@ -61,5 +63,6 @@ far 資料模型（compact、large、huge）對 `expected-far.txt`。
 
 ## 已知限制
 
-`far.restore` 這類數字與 heap 當下的狀態有關（前面的測試在 far heap 裡留下了什麼），
-所以兩份預期輸出在這幾行不同，且**不能當成通用規格**——通用的部分寫在文章的行為規格一節。
+`far.*` 那幾行與 heap 當下的狀態有關（前面的測試在 far heap 裡留下了什麼），兩份預期輸出在這幾行差很多。
+`far.clean` 與 `far.two` 是刻意安排在所有其他配置之前、在全新的 far heap 上量的，那兩組才適合當規格；
+其餘幾行只說明「狀態不同結果就不同」。通用的部分寫在文章的行為規格一節。

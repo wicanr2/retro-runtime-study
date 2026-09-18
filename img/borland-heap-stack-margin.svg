@@ -20,11 +20,11 @@
 
   <rect x="46" y="106" width="380" height="56" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
   <text x="60" y="130" font-size="12.5" fill="#1f2933">靜態資料（已初始化＋未初始化）</text>
-  <text x="60" y="150" font-size="11.5" fill="#5a6472">結尾就是 heap 的起點，C0 在啟動時寫進 break level</text>
+  <text x="60" y="150" font-size="11.5" fill="#5a6472">結尾就是 heap 的起點；near heap 的 break level 初值在連結時就定好</text>
 
   <rect x="46" y="170" width="380" height="60" rx="6" fill="#fff8f0" stroke="#d97706"/>
   <text x="60" y="194" font-size="12.5" fill="#1f2933">near heap（malloc 拿到的區塊）</text>
-  <text x="60" y="214" font-size="11.5" fill="#8a4b00">往下長 ↓　break level 就是它的上緣</text>
+  <text x="60" y="214" font-size="11.5" fill="#8a4b00">往空地的方向長 ↓　break level 是它面向空地的那一側</text>
 
   <rect x="46" y="238" width="380" height="46" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="5 3"/>
   <text x="60" y="266" font-size="12.5" fill="#5a6472">還沒被任何一邊用掉的空地</text>
@@ -34,7 +34,7 @@
 
   <rect x="46" y="334" width="380" height="56" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
   <text x="60" y="358" font-size="12.5" fill="#1f2933">堆疊</text>
-  <text x="60" y="378" font-size="11.5" fill="#5a6472">往上長 ↑　SP 是它當下的下緣</text>
+  <text x="60" y="378" font-size="11.5" fill="#5a6472">往空地的方向長 ↑　SP 是堆疊當下面向空地的那一側</text>
 
   <path d="M436,200 L436,300" stroke="#d97706" fill="none" marker-end="url(#m2)"/>
   <path d="M436,360 L436,300" stroke="#8a94a6" fill="none" marker-end="url(#m1)"/>
@@ -42,11 +42,11 @@
   <!-- 說明 -->
   <rect x="470" y="76" width="404" height="330" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
   <text x="488" y="102" font-size="13" font-weight="bold" fill="#1f2933">護欄只擋一個方向</text>
-  <text x="488" y="126" font-size="12.5" fill="#1f2933">heap 要長高時，配置器檢查</text>
-  <text x="488" y="146" font-size="12.5" fill="#1f2933">「新的上緣離當下的 SP 還有沒有 512 bytes」，</text>
+  <text x="488" y="126" font-size="12.5" fill="#1f2933">heap 要變大時，配置器檢查</text>
+  <text x="488" y="146" font-size="12.5" fill="#1f2933">「新的邊界離當下的 SP 還有沒有 512 bytes」，</text>
   <text x="488" y="166" font-size="12.5" fill="#1f2933">不夠就失敗，errno 設成 ENOMEM。</text>
 
-  <text x="488" y="196" font-size="12.5" fill="#8a2b2b">堆疊往下長沒有人檢查。</text>
+  <text x="488" y="196" font-size="12.5" fill="#8a2b2b">堆疊往空地長沒有人檢查。</text>
   <text x="488" y="216" font-size="12.5" fill="#1f2933">遞迴太深就直接踩進 heap 的資料，</text>
   <text x="488" y="236" font-size="12.5" fill="#1f2933">而且當場不會出錯——壞掉的是之後</text>
   <text x="488" y="256" font-size="12.5" fill="#1f2933">某一次 malloc 走到被改掉的區塊頭。</text>
@@ -65,7 +65,7 @@
   <rect x="34" y="460" width="150" height="32" rx="4" fill="#f4f6f8" stroke="#dfe3e8"/>
   <text x="109" y="481" text-anchor="middle" font-size="12" fill="#1f2933">PSP ＋ 程式映像</text>
   <rect x="188" y="460" width="330" height="32" rx="4" fill="#fff8f0" stroke="#d97706"/>
-  <text x="353" y="481" text-anchor="middle" font-size="12" fill="#1f2933">far heap（_heapbase 起，break level 是上緣）</text>
+  <text x="353" y="481" text-anchor="middle" font-size="12" fill="#1f2933">far heap（從 _heapbase 起，break level 是目前邊界）</text>
   <rect x="522" y="460" width="150" height="32" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="5 3"/>
   <text x="597" y="481" text-anchor="middle" font-size="12" fill="#5a6472">_heaptop 為止</text>
   <rect x="676" y="460" width="190" height="32" rx="4" fill="#f4f6f8" stroke="#dfe3e8"/>

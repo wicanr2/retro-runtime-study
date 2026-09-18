@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="920" height="656" viewBox="0 0 920 656" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
-  <rect width="920" height="656" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="676" viewBox="0 0 920 676" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="920" height="676" fill="#ffffff"/>
 
   <defs>
     <marker id="h1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
@@ -80,7 +80,7 @@
   <text x="488" y="324" font-size="12" fill="#5a6472">管理變數放在程式碼段，省下切換 DS。</text>
 
   <!-- free 佇列 -->
-  <rect x="26" y="352" width="868" height="216" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <rect x="26" y="352" width="868" height="236" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
   <text x="44" y="378" font-size="13.5" font-weight="bold" fill="#1f2933">free 佇列：雙向環狀，順序與實體位置無關</text>
 
   <g font-size="12" fill="#1f2933">
@@ -99,16 +99,17 @@
   </g>
   <text x="56" y="408" font-size="11.5" fill="#5a6472">實體順序（heap 由低到高）</text>
 
-  <path d="M231,468 C 300,508 440,508 505,468" stroke="#b9cfe6" fill="none" marker-end="url(#h1)"/>
-  <path d="M511,468 C 590,512 720,512 783,468" stroke="#b9cfe6" fill="none" marker-end="url(#h1)"/>
-  <path d="M789,468 C 700,546 320,546 237,468" stroke="#b9cfe6" fill="none" marker-end="url(#h1)"/>
+  <path d="M237,468 C 300,508 440,508 505,468" stroke="#b9cfe6" fill="none" marker-start="url(#h1)" marker-end="url(#h1)"/>
+  <path d="M517,468 C 590,512 720,512 783,468" stroke="#b9cfe6" fill="none" marker-start="url(#h1)" marker-end="url(#h1)"/>
+  <path d="M795,468 C 700,546 320,546 231,468" stroke="#b9cfe6" fill="none" marker-start="url(#h1)" marker-end="url(#h1)"/>
 
   <path d="M511,396 L511,412" stroke="#d97706" fill="none" marker-end="url(#h2)"/>
   <text x="455" y="408" font-size="11.5" fill="#8a4b00">漫遊指標</text>
 
-  <text x="56" y="552" font-size="12" fill="#5a6472">malloc 從漫遊指標指的那塊開始沿佇列繞一圈，第一個裝得下的就用；下一次從上次停的地方接著找。</text>
+  <text x="56" y="552" font-size="12" fill="#5a6472">malloc 從漫遊指標指的那塊開始沿佇列繞一圈，第一個裝得下的就用。漫遊指標只是佇列的把手——切割配置不會移動它。</text>
+  <text x="56" y="572" font-size="12" fill="#5a6472">這裡把佇列畫成與實體順序一致只是為了看得清楚——佇列本身不保證如此，配置與釋放的順序決定它長什麼樣。</text>
 
-  <rect x="26" y="582" width="868" height="56" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
-  <text x="42" y="606" font-size="12.5" fill="#1f2933">切割從空洞的尾端切：留在佇列裡的是前半段，位址沒變，前後指標都不用改。</text>
-  <text x="42" y="626" font-size="12.5" fill="#1f2933">多出來的空間放不下一個 free 區塊頭時就不切，整塊給出去（內部碎片）。</text>
+  <rect x="26" y="602" width="868" height="56" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="42" y="626" font-size="12.5" fill="#1f2933">切割從空洞的尾端切：留在佇列裡的是前半段，位址沒變，前後指標都不用改。</text>
+  <text x="42" y="646" font-size="12.5" fill="#1f2933">near heap 在多出來的空間放不下一個 free 區塊頭時就不切，整塊給出去（內部碎片）；far heap 多一個段落就切。</text>
 </svg>
