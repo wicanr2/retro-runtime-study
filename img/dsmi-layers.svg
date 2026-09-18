@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="920" height="620" viewBox="0 0 920 620" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
-  <rect width="920" height="620" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="700" viewBox="0 0 940 700" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="940" height="700" fill="#ffffff"/>
 
   <defs>
     <marker id="d1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
@@ -10,77 +10,91 @@
     </marker>
   </defs>
 
-  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">把會變的東西關在最外圈</text>
+  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">CDI 在中央：上面只認一張裝置表，下面掛三種發聲方式</text>
 
-  <!-- 三種語言的介面 -->
-  <rect x="26" y="52" width="290" height="116" rx="10" fill="#eef4fb" stroke="#b9cfe6"/>
-  <text x="44" y="76" font-size="13" font-weight="bold" fill="#1f2933">三種語言，一份實作</text>
-  <g font-size="12" fill="#1f2933">
-    <rect x="44" y="88" width="80" height="30" rx="5" fill="#ffffff" stroke="#b9cfe6"/>
-    <text x="84" y="108" text-anchor="middle">.H（C）</text>
-    <rect x="132" y="88" width="88" height="30" rx="5" fill="#ffffff" stroke="#b9cfe6"/>
-    <text x="176" y="108" text-anchor="middle">.PAS（Pascal）</text>
-    <rect x="228" y="88" width="72" height="30" rx="5" fill="#ffffff" stroke="#b9cfe6"/>
-    <text x="264" y="108" text-anchor="middle">.INC（組語）</text>
-  </g>
-  <text x="44" y="138" font-size="11.5" fill="#5a6472">同一批型別與函式宣告的三種寫法；</text>
-  <text x="44" y="156" font-size="11.5" fill="#5a6472">Pascal 那份的檔頭寫明譯自 C 標頭。</text>
+  <rect x="26" y="52" width="600" height="46" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="42" y="72" font-size="12.5" fill="#1f2933">載入器　MOD（兩個變體）、STM、S3M、669、MTM、FAR、AMF——七種接進派送器</text>
+  <text x="42" y="90" font-size="11.5" fill="#5a6472">讀成記憶體裡統一的模組結構；UltraTracker 與 Oktalyzer 樹裡有原始碼，但沒接上</text>
 
-  <path d="M171,168 L171,196" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
-  <text x="180" y="188" font-size="11.5" fill="#8a4b00">都指向同一份目的碼</text>
+  <path d="M326,98 L326,116" stroke="#8a94a6" fill="none" marker-end="url(#d1)"/>
 
-  <!-- 五層 -->
-  <rect x="26" y="204" width="560" height="298" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
-  <text x="44" y="228" font-size="13" font-weight="bold" fill="#1f2933">五層架構</text>
+  <rect x="26" y="120" width="290" height="52" rx="8" fill="#fff8f0" stroke="#d97706"/>
+  <text x="42" y="142" font-size="12.5" fill="#1f2933">AMP　模組音樂播放</text>
+  <text x="42" y="161" font-size="11.5" fill="#5a6472">佔一段聲道</text>
 
-  <rect x="44" y="240" width="524" height="46" rx="6" fill="#fff8f0" stroke="#d97706"/>
-  <text x="58" y="260" font-size="12.5" fill="#1f2933">播放核心　MCP（多聲道播放）、AMP（模組音樂）</text>
-  <text x="58" y="277" font-size="11.5" fill="#5a6472">只認內部的 AMF 格式</text>
+  <rect x="336" y="120" width="290" height="52" rx="8" fill="#fff8f0" stroke="#d97706"/>
+  <text x="352" y="142" font-size="12.5" fill="#1f2933">SFXENG　音效</text>
+  <text x="352" y="161" font-size="11.5" fill="#5a6472">佔另一段聲道——兩邊切範圍，不是動態搶</text>
 
-  <path d="M306,286 L306,300" stroke="#8a94a6" fill="none" marker-end="url(#d1)"/>
+  <path d="M171,172 C 171,190 300,190 318,198" stroke="#8a94a6" fill="none" marker-end="url(#d1)"/>
+  <path d="M481,172 C 481,190 352,190 334,198" stroke="#8a94a6" fill="none" marker-end="url(#d1)"/>
 
-  <rect x="44" y="304" width="524" height="38" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
-  <text x="58" y="328" font-size="12.5" fill="#1f2933">聲道分配　CDI　誰拿到哪個聲道；音效與音樂搶資源時的仲裁</text>
+  <rect x="26" y="202" width="600" height="56" rx="8" fill="#eef4fb" stroke="#b9cfe6" stroke-width="1.6"/>
+  <text x="326" y="226" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f2933">CDI（Channel Distributor）</text>
+  <text x="326" y="246" text-anchor="middle" font-size="12" fill="#5a6472">一張二十幾個函式指標的裝置表，加上「把這個裝置註冊到第 n 到第 m 號聲道」</text>
 
-  <path d="M306,342 L306,356" stroke="#8a94a6" fill="none" marker-end="url(#d1)"/>
+  <path d="M119,258 L119,282" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
+  <path d="M325,258 L325,282" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
+  <path d="M532,258 L532,282" stroke="#8a94a6" fill="none" marker-end="url(#d1)"/>
+  <text x="340" y="276" font-size="11" fill="#5a6472">初始化時依偵測結果註冊其中一個</text>
 
-  <rect x="44" y="360" width="524" height="62" rx="6" fill="#fff8f0" stroke="#d97706"/>
-  <text x="58" y="380" font-size="12.5" fill="#1f2933">裝置介面　SDI_*　每張卡一份</text>
-  <text x="58" y="399" font-size="11.5" fill="#5a6472">SB、SB16、Pro Audio Spectrum、Windows Sound System、DAC、ARIA，</text>
-  <text x="58" y="415" font-size="11.5" fill="#5a6472">還有一個「寫到磁碟」的版本——除錯用，能塞進同一個介面就是切得夠乾淨的證據</text>
+  <rect x="26" y="286" width="186" height="96" rx="8" fill="#fff8f0" stroke="#d97706"/>
+  <text x="119" y="308" text-anchor="middle" font-size="13" font-weight="bold" fill="#8a4b00">MCP</text>
+  <text x="40" y="330" font-size="11.5" fill="#1f2933">主機把多軌樣本混成</text>
+  <text x="40" y="347" font-size="11.5" fill="#1f2933">一條音訊流</text>
+  <text x="40" y="368" font-size="11.5" fill="#5a6472">樣本放一般記憶體或 EMS</text>
 
-  <path d="M172,422 L172,428" stroke="#8a94a6" fill="none" stroke-dasharray="4 3" marker-end="url(#d1)"/>
-  <rect x="44" y="430" width="256" height="30" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="4 3"/>
-  <text x="58" y="450" font-size="12.5" fill="#1f2933">硬體偵測　DET*　啟動時跑一次</text>
+  <rect x="232" y="286" width="186" height="96" rx="8" fill="#fdecec" stroke="#d98080"/>
+  <text x="325" y="308" text-anchor="middle" font-size="13" font-weight="bold" fill="#8a2b2b">GUS</text>
+  <text x="246" y="330" font-size="11.5" fill="#1f2933">樣本上傳到卡上，</text>
+  <text x="246" y="347" font-size="11.5" fill="#1f2933">由卡自己混音</text>
+  <text x="246" y="368" font-size="11.5" fill="#5a6472">卡上記憶體用代號不用指標</text>
 
-  <rect x="312" y="430" width="256" height="30" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="4 3"/>
-  <text x="326" y="450" font-size="12" fill="#1f2933">服務　各層共用：計時、音量、DMA、記憶體</text>
+  <rect x="438" y="286" width="188" height="96" rx="8" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="532" y="308" text-anchor="middle" font-size="13" font-weight="bold" fill="#5a6472">無聲</text>
+  <text x="452" y="330" font-size="11.5" fill="#5a6472">同一張表的空實作，</text>
+  <text x="452" y="347" font-size="11.5" fill="#5a6472">讓上層不必分支</text>
 
-  <text x="44" y="482" font-size="12" fill="#5a6472">換一張音效卡只換裝置介面那一層，其餘幾層看到的是同一組抽象。</text>
+  <path d="M119,382 L119,404" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
+  <text x="128" y="399" font-size="11" fill="#8a4b00">只有 MCP 底下有</text>
 
-  <!-- 載入器 -->
-  <rect x="602" y="204" width="292" height="150" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
-  <text x="620" y="228" font-size="13" font-weight="bold" fill="#1f2933">載入器：一種格式一支</text>
-  <text x="620" y="252" font-size="12" fill="#1f2933">MOD、S3M、STM、669、MTM、</text>
-  <text x="620" y="270" font-size="12" fill="#1f2933">FAR、ULT、OCT⋯⋯</text>
-  <path d="M700,282 L700,300" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
-  <rect x="620" y="304" width="256" height="34" rx="6" fill="#fff8f0" stroke="#d97706"/>
-  <text x="634" y="326" font-size="12.5" fill="#1f2933">一律轉成內部的 AMF 格式</text>
-  <path d="M618,321 C 596,321 590,268 572,264" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
-  <text x="470" y="250" font-size="11.5" fill="#8a4b00">餵給播放核心</text>
+  <rect x="26" y="408" width="600" height="56" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="42" y="430" font-size="12.5" fill="#1f2933">SDI_*（Sound Device Interface）　SB、SB16、Pro Audio Spectrum、</text>
+  <text x="42" y="450" font-size="12.5" fill="#1f2933">Windows Sound System、DAC、ARIA，另有一個「寫到磁碟」的除錯裝置</text>
 
-  <!-- GUS -->
-  <path d="M600,400 L572,396" stroke="#d98080" fill="none" stroke-dasharray="5 3" marker-end="url(#d1)"/>
-  <rect x="602" y="366" width="292" height="136" rx="10" fill="#fdecec" stroke="#d98080"/>
-  <text x="620" y="390" font-size="13" font-weight="bold" fill="#8a2b2b">GUS：裝置介面層的另一條路</text>
-  <text x="620" y="412" font-size="12" fill="#1f2933">其他卡：主機混好一條音訊流餵過去</text>
-  <text x="620" y="432" font-size="12" fill="#1f2933">GUS：樣本先上傳到卡上，卡自己混音</text>
-  <text x="620" y="458" font-size="11.5" fill="#5a6472">SDI_* 那組沒有 GUS；它另有一整套</text>
-  <text x="620" y="476" font-size="11.5" fill="#5a6472">卡上記憶體管理與專屬混音控制，</text>
-  <text x="620" y="494" font-size="11.5" fill="#5a6472">播放核心用一個裝置編號認它。</text>
+  <path d="M326,464 L326,484" stroke="#8a94a6" fill="none" marker-end="url(#d1)"/>
+  <rect x="26" y="488" width="600" height="30" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="326" y="508" text-anchor="middle" font-size="12.5" fill="#5a6472">音效卡硬體</text>
 
-  <rect x="26" y="518" width="868" height="84" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
-  <text x="42" y="542" font-size="12.5" fill="#1f2933">兩處用的是同一個手法：變動的部分（音效卡、模組格式）各自一支，中間用一個穩定的介面或格式擋住，</text>
-  <text x="42" y="562" font-size="12.5" fill="#1f2933">核心只面對那個穩定的東西。支援一種新格式的成本是「寫一支載入器」，不是「改播放核心」。</text>
-  <text x="42" y="588" font-size="12" fill="#8a2b2b">本圖只根據原始碼的結構與標頭。</text>
+  <rect x="644" y="52" width="270" height="176" rx="10" fill="#eef4fb" stroke="#b9cfe6"/>
+  <text x="662" y="76" font-size="13" font-weight="bold" fill="#1f2933">一份原始碼，兩套目的碼</text>
+  <text x="662" y="100" font-size="11.5" fill="#1f2933">核心（MCP、AMP、CDI、GUS、SDI、</text>
+  <text x="662" y="117" font-size="11.5" fill="#1f2933">DET、TIMESERV）是組語寫的一份。</text>
+  <text x="662" y="140" font-size="11.5" fill="#5a6472">組譯時定義 Pascal 專用符號 → Pascal 版；</text>
+  <text x="662" y="157" font-size="11.5" fill="#5a6472">不定義 → C 版。兩套目的檔各自連。</text>
+  <text x="662" y="181" font-size="11.5" fill="#1f2933">載入器、記憶體管理、膠水層</text>
+  <text x="662" y="198" font-size="11.5" fill="#1f2933">則是 C 與 Pascal 各寫一份。</text>
+  <text x="662" y="219" font-size="11" fill="#8a4b00">檔頭寫 header 是翻譯，寫 version 是另一份實作</text>
+
+  <rect x="644" y="240" width="270" height="142" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="662" y="264" font-size="13" font-weight="bold" fill="#1f2933">旁掛的服務（不在主鏈上）</text>
+  <text x="662" y="288" font-size="11.5" fill="#1f2933">DET*　每張卡一支，啟動時跑一次</text>
+  <text x="662" y="308" font-size="11.5" fill="#1f2933">TIMESERV　計時</text>
+  <text x="662" y="328" font-size="11.5" fill="#1f2933">MIXER　音效卡硬體混音器的音量</text>
+  <text x="678" y="345" font-size="11" fill="#5a6472">（與 MCP 的取樣疊加是兩回事）</text>
+  <text x="662" y="366" font-size="11.5" fill="#1f2933">VDS　虛擬 DMA 服務</text>
+
+  <rect x="644" y="394" width="270" height="124" rx="10" fill="#fdecec" stroke="#d98080"/>
+  <text x="662" y="418" font-size="13" font-weight="bold" fill="#8a2b2b">同一個抽象的兩個後端</text>
+  <text x="662" y="442" font-size="11.5" fill="#1f2933">GUS 的卡上記憶體、EMS 的擴充記憶體</text>
+  <text x="662" y="460" font-size="11.5" fill="#1f2933">都不在直接定址範圍內，</text>
+  <text x="662" y="478" font-size="11.5" fill="#1f2933">配置器回傳的是代號不是指標。</text>
+  <text x="662" y="502" font-size="11" fill="#5a6472">GUS 不是例外，是同一個問題的另一個解。</text>
+
+  <rect x="26" y="534" width="888" height="150" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="42" y="558" font-size="12.5" fill="#1f2933">三處用的是同一個手法：變動的部分各自一支，中間用一個穩定的東西擋住，核心只面對那個穩定的東西。</text>
+  <text x="42" y="578" font-size="12.5" fill="#1f2933">模組格式 → 統一的模組結構；音效卡 → SDI 的函式表；發聲方式 → CDI 的裝置表。</text>
+  <text x="42" y="604" font-size="12.5" fill="#1f2933">代價各有一個：Pascal 那邊得自備一層 C 支援函式；三份介面的同步沒有編譯器替你檢查。</text>
+  <text x="42" y="630" font-size="12.5" fill="#1f2933">「寫到磁碟」那個除錯裝置是這個設計最好的證據——它由不碰組語核心的人、用另一種語言接上去。</text>
+  <text x="42" y="658" font-size="12" fill="#8a2b2b">本圖只根據原始碼的結構與標頭；授權禁止逆向這套函式庫。</text>
 </svg>

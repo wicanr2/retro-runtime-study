@@ -16,18 +16,6 @@
         ]
       },
       "issue": "#14"
-    },
-    {
-      "id": "dsmi-interface-split",
-      "layer": "article",
-      "title": "DSMI 的 C、組語、Pascal 三套介面怎麼分工",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/40-dsmi/interface-split.md"
-        ]
-      },
-      "issue": "#15"
     }
   ]
 }

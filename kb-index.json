@@ -553,36 +553,59 @@
   {
    "id": "dsmi/interface-split",
    "path": "docs/40-dsmi/interface-split.md",
-   "title": "DSMI：一份實作，三種語言接得上",
+   "title": "DSMI：一份組語核心，三種語言接得上",
    "libraries": [
     "dsmi"
    ],
    "goals": [
     "craft"
    ],
-   "evidence": "強推論",
+   "evidence": "已證實",
    "triggers": [
     "老遊戲的音樂是 DSMI 放的，想知道那套函式庫分成哪些層",
     "想知道 1990 年代初的 DOS 音效函式庫怎麼同時服務 C、組語、Pascal 三種語言",
     "手上有 DSMI 的原始碼封存，想知道哪些檔是介面、哪些是實作、哪些根本不是原始碼",
     "想知道 Gravis UltraSound 為什麼在這類函式庫裡總是特例",
-    "要做 remake，想知道模組音樂的載入器與混音核心怎麼分家"
+    "要做 remake，想知道模組音樂的載入器、混音核心與音效引擎怎麼分家"
    ],
    "symbols": [
     "MCP",
     "AMP",
     "CDI",
-    "SDI",
+    "CDIDEVICE",
+    "CDI_MCP",
+    "CDI_GUS",
+    "SOUNDDEVICE",
+    "SDI_SB",
+    "SDI_SB16",
+    "SDI_PAS",
+    "SDI_WSS",
+    "SDI_DAC",
+    "SDI_ARIA",
+    "SFXENG",
+    "NOSOUND",
     "TIMESERV",
     "MIXER",
     "VDS",
     "GUS",
     "GUSHM",
+    "GUSHEAP",
+    "EMHM",
+    "MCPEMS",
+    "MCPREALA",
+    "DETGUS",
     "AMF",
+    "M2AMF",
     "MODLOAD",
     "S3MLOAD",
     "STMLOAD",
-    "DSMIDEF"
+    "LOADM",
+    "DSMIDEF",
+    "MCPLAYER",
+    "AMPLAYER",
+    "DMP",
+    "PMP",
+    "GMP"
    ],
    "related": [
     "overview/era-and-libraries"
