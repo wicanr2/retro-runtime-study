@@ -26,7 +26,8 @@ related: [watcom/watcom65-runtime, watcom/watcom386-extenders, watcom/dos4gw-sta
    沒有但有一整排前置底線的函式，可能是它的堆疊慣例版本，或根本不是 Watcom。
 2. **程式是 16 位元還是 32 位元？** 看段的定址寬度與指標大小。
 3. **有沒有那組 far 指標 helper（`__PTS`、`__PTC`、`__PIA`、`__PCA`）？**
-   有就是 16 位元那一代；32 位元版完全沒有——**這組符號是分水嶺**。
+   有就是 16 位元那一代——**這組符號是分水嶺**。
+   但它只能單向用：**沒看到不代表是 32 位元**，可能只是那支程式沒做過 far 指標運算。
 
 <p align="center"><img src="../../img/watcom-lineage.svg" width="880" alt="三代 Watcom 的判斷流程與各自的特徵符號、段名與執行環境"></p>
 
@@ -38,9 +39,9 @@ related: [watcom/watcom65-runtime, watcom/watcom386-extenders, watcom/dos4gw-sta
 | 記憶體模型 | 六種（位元旗標組合） | flat | flat |
 | 執行環境 | 純 DOS | Phar Lap 或 A.I. Architects，**自己買** | DOS/4GW **隨附**，另支援 Phar Lap 與 Ergo |
 | 函式符號 | `strlen_` | `strlen_` | `strlen_` |
-| 指標 helper `__PTS`／`__PTC`／`__PIA`／`__PCA` | **有** | 沒有 | 沒有 |
+| 指標 helper `__PTS`／`__PTC`／`__PIA`／`__PCA` | **有**（程式用到才連進來） | 沒有 | 沒有 |
 | 32 位元乘除 helper `__I4M`／`__I4D` | **有** | 沒有 | 沒有 |
-| 堆疊檢查 `__STK` | 有 | 有 | 有 |
+| 堆疊檢查 `__STK` | 有（可用編譯選項關掉） | 有 | 有 |
 | 浮點轉換 `__I4FS`／`__ModF` | 有 | 有 | 有 |
 | `__StartTime`（給 `clock` 用） | 沒有 | **有** | 有 |
 | 程式碼段名 | medium 是 `CLIBM_TEXT`；large／huge 是「模組名＋`_TEXT`」 | （庫解不開） | （庫解不開） |
@@ -65,8 +66,20 @@ related: [watcom/watcom65-runtime, watcom/watcom386-extenders, watcom/dos4gw-sta
 **所以看到 `__PTS`／`__PIA` 就是 16 位元那一代**，而且這個判準比「指標大小」好用：
 指標大小要先正確判斷段的定址寬度，符號名則是直接讀得到的。
 
-留下來的那幾個（堆疊檢查、浮點轉換、`ctype` 表）在三代都有，**不能用來分代**，
-但可以用來確認「這是 Watcom」。
+### ⚠ 這個判準只能單向用
+
+helper 是**按需連結**的：程式沒做 far 指標的減法或比較，連結器就不會把那個模組拉進來。
+所以：
+
+- **看到 `__PTS`／`__PIA` → 可以斷定是 16 位元那一代。**
+- **沒看到 → 什麼都不能斷定。** 可能是 32 位元，也可能是一支根本沒碰 far 指標運算的 16 位元程式
+  （small 模型的程式尤其容易整組都沒有）。
+
+同樣的道理也適用於 `__STK`：它是編譯器在函式開場插入的檢查，而堆疊檢查是**可以關掉的編譯選項**。
+沒看到 `__STK` 不代表不是 Watcom，只代表那支程式編的時候關掉了它。
+
+**能單向用的判準仍然有價值**，只是要記得它答的是「是」而不是「不是」。
+真的沒看到任何 helper 時，退回去看啟動碼那兩件事與執行檔結構。
 
 ### 二、啟動碼做不做那兩件事
 

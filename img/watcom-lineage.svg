@@ -26,10 +26,10 @@
 
   <rect x="642" y="70" width="272" height="64" rx="6" fill="#fff8f0" stroke="#d97706"/>
   <text x="658" y="92" font-size="12.5" font-weight="bold" fill="#8a4b00">③ 有沒有 __PTS ／ __PIA？</text>
-  <text x="658" y="114" font-size="11.5" fill="#5a6472">這組 far 指標 helper 是分水嶺</text>
+  <text x="658" y="114" font-size="11.5" fill="#5a6472">有就是 16 位元；沒有則不能反推</text>
 
   <text x="42" y="160" font-size="12" fill="#1f2933">第三個問題最好用：它只要讀符號名，不必先判斷段的定址寬度。</text>
-  <text x="42" y="184" font-size="11.5" fill="#5a6472">留下來的 __STK、浮點轉換、__IsTable 三代都有——能確認「這是 Watcom」，但不能分代。</text>
+  <text x="42" y="184" font-size="11.5" fill="#5a6472">留下來的 __STK、浮點轉換、__IsTable 三代都有——能確認「這是 Watcom」，但不能分代（而且 __STK 可以關掉）。</text>
   <text x="42" y="210" font-size="11.5" fill="#5a6472">尾端底線的函式符號在三代都一樣，所以它只回答「是不是 Watcom」，不回答「哪一代」。</text>
 
   <!-- 三代 -->
