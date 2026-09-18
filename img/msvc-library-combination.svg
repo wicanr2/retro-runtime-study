@@ -40,7 +40,7 @@
   <rect x="256" y="194" width="268" height="60" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
   <text x="270" y="214" font-size="12" fill="#1f2933">⑥–⑨ Windows：同樣四個模型</text>
   <text x="270" y="232" font-size="11.5" fill="#5a6472">每輪兩組：EXE（?LIBCW）與 DLL（?DLLCW），</text>
-  <text x="270" y="248" font-size="11.5" fill="#5a6472">另加 ?NOCRTW（不帶 CRT，只有兩個目的檔）</text>
+  <text x="270" y="248" font-size="11.5" fill="#5a6472">另加 ?NOCRTW（不帶 CRT，與 DOS 的 CRTCOM 同類）</text>
 
   <text x="256" y="274" font-size="11.5" fill="#5a6472">DOS 四輪共用一份回應檔，靠工作目錄區分模型。</text>
 
@@ -64,7 +64,7 @@
     <rect x="620" y="218" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
     <text x="632" y="235">SLIBCXX　iostream</text>
     <rect x="620" y="246" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
-    <text x="632" y="263">PCD ＋ VM　p-code 與虛擬記憶體支援</text>
+    <text x="632" y="263">PCD ＋ VM　p-code 與「虛擬記憶體」（沒有原始碼）</text>
   </g>
 
   <!-- 命名規則 -->
