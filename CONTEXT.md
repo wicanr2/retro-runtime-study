@@ -15,6 +15,7 @@
 | `dsmi` | DSMI（Digital Sound and Music Interface） | 以 DSMI 為基礎的 DMP 播放器 |
 | `watcom-6.5` | Watcom C 6.5（1988）的出貨磁片；版本以 `README.1ST` 自述為準 | 16 位元 DOS 程式 |
 | `watcom-7.0` | Watcom C 386 7.0（1989）的出貨磁片；版本以 `READ.ME` 自述為準 | 早期 32 位元保護模式程式 |
+| `watcom-9.01` | Watcom C/C++ 9.01（1992）的六張磁片；版本依據較弱（安裝腳本的產品名＋收藏目錄名）| DOS/4GW 年代的遊戲 |
 | `open-watcom-v2` | 2000 年代以後的開源 Watcom，只當解讀輔助，不是當年版本的證據 | — |
 
 ## 術語
@@ -115,6 +116,10 @@
 | CODEC（音效卡上的） | 負責類比與數位訊號互轉、兼管取樣率的晶片；1990 年代中期大量相容卡用它 |
 | DSP（Sound Blaster 的） | 那系列卡上接收命令、管數位音訊播放的處理晶片；與泛稱的「數位訊號處理」不同 |
 | DOS extender | 讓 DOS 程式切進 386 保護模式、用完整 32 位元位址空間的執行環境（Phar Lap、OS/386、DOS/4GW） |
+| DPMI | DOS Protected Mode Interface，保護模式程式向 extender 要記憶體、掛中斷、呼叫真實模式碼的標準介面，走 `int 31h` |
+| DOS/4GW | Rational 的 DOS extender，從 Watcom 9.x 起隨編譯器附；1993 年以後的 DOS 遊戲常見 |
+| stub | 「16 位元引導程式 ＋ 32 位元本體」黏成一個執行檔時前面那一小段，負責找到 extender 並交出控制權 |
+| `.WPK` | Watcom 安裝磁片的壓縮封裝（簽章 `0x2403`）；Shannon-Fano 碼加 4 KB 字典的 LZSS |
 | 選擇器（selector） | 保護模式下段暫存器裡放的值：描述符表的索引，不是位址。Watcom 7.0 取 PSP 用的是 extender 約定的固定編號 |
 | Easy OMF-386 | Phar Lap 的 32 位元 OMF 變體，COMENT 帶 `80386=` 標記；與 16 位元 OMF 不完全相容 |
 | `.LBJ` | Watcom 7.0 給 Lahey 連結器用的啟動目的檔；內容就是 OMF 目的檔，只是換了副檔名 |

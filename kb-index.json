@@ -812,6 +812,47 @@
    ]
   },
   {
+   "id": "watcom/dos4gw-startup",
+   "path": "docs/80-watcom/dos4gw-startup.md",
+   "title": "DPMI 與 DOS/4GW：32 位元 DOS 程式不必再為每家 extender 編一次",
+   "libraries": [
+    "watcom-9.01",
+    "dmx"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "遊戲執行時螢幕閃過 DOS/4GW 的字樣，想知道那一層在做什麼",
+    "想知道 1993 年的 DOS 遊戲怎麼在保護模式下處理音效卡中斷",
+    "看到程式裡有 16 位元的 `_TEXT16` 段夾在 32 位元碼中間，想知道為什麼",
+    "想知道 DPMI 解決了什麼問題、它之前是什麼樣子",
+    "手上有 Watcom 9.x 的磁片，想知道 `.WPK` 是什麼格式"
+   ],
+   "symbols": [
+    "DOS4GW",
+    "dos4gw.exe",
+    "wstub.c",
+    "WSTUBSRC",
+    "CLIB3R",
+    "cstart3r",
+    "INSTALL.SCR",
+    "WPK",
+    "_TEXT16",
+    "rmInt_",
+    "rmEnd_",
+    "rmFixup_",
+    "int31h"
+   ],
+   "related": [
+    "watcom/watcom386-extenders",
+    "watcom/watcom65-runtime",
+    "dmx/version-history"
+   ]
+  },
+  {
    "id": "watcom/watcom386-extenders",
    "path": "docs/80-watcom/watcom386-extenders.md",
    "title": "Watcom C/386 7.0：編譯器賣你，保護模式那層得跟別人買",
