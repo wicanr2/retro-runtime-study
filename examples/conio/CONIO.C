@@ -169,6 +169,45 @@ static void scroll_flag(void)
     _wscroll = 1;
 }
 
+/* 把 directvideo 關掉，同樣的動作改走 BIOS，看結果一不一樣 */
+static void bios_path(void)
+{
+    unsigned buf[4], buf2[4];
+    int i, same = 1;
+
+    window(1, 1, 80, 25);
+    textattr(7);
+    clrscr();
+
+    /* 先用直接寫顯示記憶體的路徑寫一次 */
+    directvideo = 1;
+    gotoxy(1, 18);
+    cputs("BIOS");
+    gettext(1, 18, 4, 18, buf);
+
+    /* 同樣的動作改走 BIOS */
+    directvideo = 0;
+    gotoxy(1, 19);
+    cputs("BIOS");
+    gettext(1, 19, 4, 19, buf2);
+
+    for (i = 0; i < 4; i++)
+        if (buf[i] != buf2[i])
+            same = 0;
+    note3("biospath", same, buf2[0] & 0xFF, (buf2[0] >> 8) & 0xFF);
+
+    /* 捲動與清除也走一次 BIOS 路徑 */
+    window(60, 18, 70, 20);
+    clrscr();
+    gotoxy(1, 1);
+    cputs("x");
+    gettext(60, 18, 60, 18, buf2);
+    note3("biosclr", buf2[0] & 0xFF, (buf2[0] >> 8) & 0xFF, 0);
+
+    directvideo = 1;
+    window(1, 1, 80, 25);
+}
+
 int main(void)
 {
     rep = fopen("OUT.TXT", "wb");
@@ -178,6 +217,7 @@ int main(void)
     attributes();
     blocks();
     scroll_flag();
+    bios_path();
     window(1, 1, 80, 25);
     gotoxy(1, 20);
     fclose(rep);

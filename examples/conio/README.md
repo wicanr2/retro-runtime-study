@@ -40,13 +40,14 @@ export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem
 | `attr.fgbg`、`attr.blink`、`attr.clrscr` | 屬性位元的組法；`clrscr` 用目前屬性 |
 | `gettext`、`puttext`、`movetext` | 區塊操作（絕對座標）與緩衝區內容 |
 | `nowrap` | `_wscroll = 0` 時寫超過視窗寬度會發生什麼 |
+| `biospath`、`biosclr` | 把 `directvideo` 關掉改走 BIOS，同樣的動作結果一不一樣 |
 
 `cell.*` 那幾行印的是「字元碼 屬性」，從 `gettext` 取回來。
 
 ## 已知限制
 
-- **只測了 `directvideo` 的預設值（1，直接寫顯示記憶體）**。走 BIOS 的那條路徑沒有驗過，
-  dosgolem 支援的 `int 10h` 服務夠不夠跑完整條路還不確定。
+- **走 BIOS 那條路只測了寫字元、清除與捲動**（結果與直接寫顯示記憶體相同）；
+  區塊搬移的 BIOS 版本沒單獨測。
 - **`attr.init` 是 0，那是 dosgolem 的畫面初始狀態**，真機上啟動時通常不是 0。
   這一行記錄的是「初始屬性來自畫面上游標那格」這個機制，不是某個固定值。
 - 雪花那條路在模擬器裡無從驗證（沒有 CGA 的狀態埠行為）。

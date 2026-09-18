@@ -25,3 +25,5 @@ gettext 1 49 7
 puttext 49 7
 movetext 49 7
 nowrap 4 1 0
+biospath 1 66 7
+biosclr 120 7 0
