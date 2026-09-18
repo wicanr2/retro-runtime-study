@@ -21,6 +21,11 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R11 以後 | 依 worklist 排序 | 亂數與時間、iostream、VC++ 1.0 CRT、DMX、DSMI |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
+**M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），
+第二批是遊戲真正會呼叫的四組——檔案 I/O、`printf` 家族、heap、conio（R7–R10）。
+四組都有研究筆記、公開文章、五個記憶體模型可重跑的範例，兩個 repo 的 worklist 與 issue 都清空。
+選配的亂數與時間（`rand`、`time` 家族）沒做，留在 R11 以後。
+
 每輪收尾：外洩閘門 → 專家與學生審查 → 套修正 → `tools/worklist.py` → commit → push。
 
 ## 預定目錄
