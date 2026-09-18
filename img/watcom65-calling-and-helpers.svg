@@ -102,13 +102,13 @@
   <rect x="470" y="512" width="444" height="176" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
   <text x="486" y="536" font-size="13" font-weight="bold" fill="#1f2933">啟動碼做的事（與 Borland C0 對照）</text>
   <text x="486" y="560" font-size="11.5" fill="#1f2933">存 PSP → 算堆疊頂 → 記憶體夠不夠 →</text>
-  <text x="486" y="578" font-size="11.5" fill="#1f2933">設四個記憶體邊界 → <tspan font-weight="bold">把多的記憶體還給 DOS</tspan> →</text>
-  <text x="486" y="596" font-size="11.5" fill="#1f2933">搬命令列 → 取 DOS 版本 → 偵測 8087 → 進 C 側</text>
+  <text x="486" y="578" font-size="11.5" fill="#1f2933">設兩個記憶體邊界 → <tspan font-weight="bold">把多的記憶體還給 DOS</tspan> →</text>
+  <text x="486" y="596" font-size="11.5" fill="#1f2933">搬命令列 → 取 DOS 版本 → 設另兩個邊界 → 進 C 側</text>
   <text x="486" y="622" font-size="11.5" fill="#5a6472">前四步與 Borland 幾乎一樣——那是 DOS 這個環境</text>
   <text x="486" y="640" font-size="11.5" fill="#5a6472">強加的要求，不是誰的設計偏好。</text>
-  <text x="486" y="664" font-size="11.5" fill="#8a2b2b">差別：沒有初始化表與結束表，也沒有空指標檢查。</text>
+  <text x="486" y="664" font-size="11.5" fill="#8a2b2b">差別：沒有初始化表與結束表；空指標檢查兩家都有，做法不同。</text>
 
   <rect x="26" y="704" width="888" height="60" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
-  <text x="42" y="728" font-size="12.5" fill="#1f2933">這條慣例活得很久：1989 年的 C/386 起同一套庫出兩份，檔名用 r 與 s 區分暫存器版與堆疊版；</text>
+  <text x="42" y="728" font-size="12.5" fill="#1f2933">這條慣例活得很久：1989 年的 C/386 起同一套庫出兩份，檔名用 r 與 s 區分兩種呼叫慣例（r 是暫存器，原廠寫明）；</text>
   <text x="42" y="750" font-size="12.5" fill="#1f2933">1993 年 DOOM 那批遊戲用的 DMX 仍然是 dmx_r.lib 與 dmx_s.lib。看到這種命名，多半就是這條線上的東西。</text>
 </svg>

@@ -825,7 +825,7 @@
    "evidence": "已證實",
    "triggers": [
     "反組譯一支 DOS 程式，函式名尾端帶一個底線，想知道那是什麼編譯器",
-    "看到 `CLIBM_TEXT`、`CLIBL_TEXT` 這種段名，想知道它代表什麼",
+    "看到 `CLIBM_TEXT`、`STRLEN_TEXT` 這種段名，想知道它代表什麼",
     "想知道 Watcom 的暫存器呼叫慣例是從哪一版開始的",
     "遇到 `__PTS`、`__PIA`、`__STK` 這種符號，想知道編譯器替程式偷偷呼叫了什麼",
     "要做 remake，想對照 Borland 與 Watcom 的啟動碼做了哪些事"
@@ -833,6 +833,10 @@
    "symbols": [
     "__STK",
     "__STKOVERFLOW_",
+    "__I4FD",
+    "__U4FD",
+    "__ZBuf2F",
+    "STRLEN_TEXT",
     "__PTS",
     "__PTC",
     "__PIA",

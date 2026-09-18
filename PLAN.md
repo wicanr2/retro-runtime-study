@@ -21,7 +21,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R11 | VC++ 1.0 的函式庫怎麼切份（完成，已過專家與學生審查） | `docs/20-msvc-crt/library-combination.md`、一張 SVG |
 | R12 | DSMI 的三套介面（完成，已過專家與學生審查） | `docs/40-dsmi/interface-split.md`、一張 SVG |
 | R13 | DMX 的五份封存（完成，已過專家與學生審查） | `docs/30-dmx/version-history.md`、一張 SVG |
-| R14 | Watcom C 6.5 的 runtime（審查前第一版） | `docs/80-watcom/watcom65-runtime.md`、一張 SVG |
+| R14 | Watcom C 6.5 的 runtime（完成，已過專家與學生審查） | `docs/80-watcom/watcom65-runtime.md`、一張 SVG |
 | R15 以後 | 依 worklist 排序 | Watcom 7.0 與 extender、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
@@ -35,6 +35,13 @@ DMX 的五份封存（R13），三篇都過了專家與學生審查，公開與�
 第二批兩條也有結論：DMX 的權利狀態查不到任何釋出聲明，以「已窮盡可取得的公開來源」結案；
 VC++ 1.0 的工具鏈沒有合法的公開下載來源，剩 MSDN 訂閱封存區與二手實體媒體兩條路，
 私有 #14 保持開啟。因此**對拍與位元組簽章這一輪沒做，也不該做**。
+
+**M4 第一批完成**：Watcom C 6.5 與 C/386 7.0 的素材取得、盤點與一篇 6.5 的 runtime 文章（R14）。
+過程中修正了 goal 的一個前提（Watcom 附了啟動碼的原始碼，只有函式庫本體沒有），
+並把 open-watcom-v2 放在私有工作區的 `refs/` 而不是 `vendor/`——閘門因此一行都不用改。
+6.5 在 dosgolem 下「能讀不能編」：`WCC` 前端、`WLIB`、`WDISASM` 都跑得動，碼產生階段卡在 E142，
+另開 worklist 追。這份封存的 `CLIBS.LIB` 與 `CLIBC.LIB` 損壞（原廠工具也拒讀），
+模型比較只用 medium／large／huge。
 
 **M3 的簽章規劃有一條硬限制**：VC++ 1.0 的原廠說明檔自己預告，用這份原始碼重建出來的 `.LIB`
 不保證與出貨版逐位元組相同（出貨庫是 pre-production 工具建的）。所以就算日後取得工具鏈，
