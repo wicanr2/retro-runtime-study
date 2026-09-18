@@ -6,18 +6,6 @@
   },
   "items": [
     {
-      "id": "msvc-library-combination",
-      "layer": "article",
-      "title": "VC++ 1.0 的函式庫怎麼切份（一套原始碼 → 三十幾個 .LIB）",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/20-msvc-crt/library-combination.md"
-        ]
-      },
-      "issue": "#13"
-    },
-    {
       "id": "dmx-version-history",
       "layer": "article",
       "title": "DMX 各版改了什麼（3.3b → 3.3d → 3.3gs → 3.4a）",

@@ -26,7 +26,7 @@
   <text x="180" y="122" font-size="11" fill="#5a6472">換旗標</text>
 
   <!-- 建置流程 -->
-  <rect x="240" y="48" width="300" height="240" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <rect x="240" y="48" width="300" height="256" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
   <text x="256" y="72" font-size="13" font-weight="bold" fill="#1f2933">建置：九輪，每輪只換旗標與輸出目錄</text>
 
   <rect x="256" y="84" width="268" height="34" rx="6" fill="#fff8f0" stroke="#d97706"/>
@@ -34,15 +34,16 @@
 
   <rect x="256" y="126" width="268" height="60" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
   <text x="270" y="146" font-size="12" fill="#1f2933">②–⑤ DOS：small／medium／compact／large</text>
-  <text x="270" y="164" font-size="11.5" fill="#5a6472">每輪產出 ?LIBCR（CRT）、?LIBCXX（iostream）</text>
-  <text x="270" y="180" font-size="11.5" fill="#5a6472">與 CRTCOM（.COM 啟動碼）</text>
+  <text x="270" y="164" font-size="11.5" fill="#5a6472">每輪產出 ?LIBCR（CRT）與 ?LIBCXX（iostream）；</text>
+  <text x="270" y="180" font-size="11.5" fill="#5a6472">CRTCOM（.COM 啟動碼）只在 small 那一輪建一次</text>
 
   <rect x="256" y="194" width="268" height="60" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
   <text x="270" y="214" font-size="12" fill="#1f2933">⑥–⑨ Windows：同樣四個模型</text>
-  <text x="270" y="232" font-size="11.5" fill="#5a6472">每輪兩組：EXE（?LIBCW）與 DLL（?DLLCW），</text>
-  <text x="270" y="248" font-size="11.5" fill="#5a6472">另加 ?NOCRTW（不帶 CRT，與 DOS 的 CRTCOM 同類）</text>
+  <text x="270" y="232" font-size="11.5" fill="#5a6472">每輪兩組：EXE（?LIBCW）與 DLL 的半成品；</text>
+  <text x="270" y="248" font-size="11.5" fill="#5a6472">另加 ?NOCRTW／?NOCRTDW（不帶 CRT，與 CRTCOM 同類）</text>
 
-  <text x="256" y="274" font-size="11.5" fill="#5a6472">DOS 四輪共用一份回應檔，靠工作目錄區分模型。</text>
+  <text x="256" y="272" font-size="11.5" fill="#5a6472">DOS 四輪共用一份回應檔，靠工作目錄區分模型。</text>
+  <text x="256" y="288" font-size="11.5" fill="#8a4b00">收尾：把 EXE 庫複製後刪掉約七十個目的檔，再併出 DLL 庫（減法）</text>
 
   <path d="M540,168 L596,168" stroke="#d97706" fill="none" marker-end="url(#v2)"/>
   <text x="542" y="160" font-size="11" fill="#8a4b00">元件庫</text>
@@ -64,7 +65,7 @@
     <rect x="620" y="218" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
     <text x="632" y="235">SLIBCXX　iostream</text>
     <rect x="620" y="246" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
-    <text x="632" y="263">PCD ＋ VM　p-code 與「虛擬記憶體」（沒有原始碼）</text>
+    <text x="632" y="263">PCD ＋ VM　p-code 與虛擬記憶體（後者只有 DOS 有）</text>
   </g>
 
   <!-- 命名規則 -->
@@ -96,7 +97,7 @@
   <!-- LIBH -->
   <rect x="540" y="304" width="374" height="182" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
   <text x="556" y="328" font-size="13" font-weight="bold" fill="#1f2933">LIBH 怎麼做到模型無關</text>
-  <text x="556" y="350" font-size="12" fill="#1f2933">同一支 helper 原始碼組四次，用前綴區分：</text>
+  <text x="556" y="350" font-size="12" fill="#1f2933">做複合指派的四份（多一個資料指標維度）：</text>
 
   <g font-size="12">
     <rect x="556" y="360" width="82" height="30" rx="5" fill="#ffffff" stroke="#dfe3e8"/>
@@ -109,15 +110,15 @@
     <text x="861" y="380" text-anchor="middle" fill="#1f2933">aFF…</text>
   </g>
 
-  <text x="556" y="410" font-size="11.5" fill="#5a6472">兩個字母＝程式指標、資料指標各是 near 還是 far。</text>
-  <text x="556" y="428" font-size="11.5" fill="#5a6472">small 用 aNN、compact 用 aNF、medium 用 aFN、large 用 aFF。</text>
-  <text x="556" y="452" font-size="12" fill="#1f2933">四套全部收進同一個 LIBH.LIB，</text>
-  <text x="556" y="470" font-size="12" fill="#1f2933">編譯器產生呼叫時挑對應前綴的符號。</text>
+  <text x="556" y="408" font-size="11.5" fill="#5a6472">第一個字母＝程式指標，第二個＝資料指標。</text>
+  <text x="556" y="428" font-size="12" fill="#1f2933">它們都跳進「不做指派」的兩份核心：</text>
+  <text x="556" y="450" font-size="12.5" fill="#8a4b00">aN…（近程式碼）　aF…（遠程式碼）</text>
+  <text x="556" y="470" font-size="11.5" fill="#5a6472">六份全部收進同一個 LIBH.LIB。</text>
 
   <rect x="26" y="502" width="888" height="132" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
   <text x="42" y="526" font-size="12.5" fill="#1f2933">Borland 的取捨相反：讓連結器在最後一刻決定接什麼（浮點走向量、覆疊走連結器選項），</text>
   <text x="42" y="546" font-size="12.5" fill="#1f2933">出廠的庫每個模型就一個；Microsoft 讓安裝程式先把組合鋪好，連結時只是挑一個現成的庫。</text>
   <text x="42" y="572" font-size="12.5" fill="#1f2933">圖形庫只有 small 與 medium 兩種，依程式指標寬度分配：compact 配 small 的、large 配 medium 的。</text>
-  <text x="42" y="592" font-size="12.5" fill="#1f2933">覆疊管理只出現在 medium 與 large 的 DOS 合併庫裡——遠程式碼模型才用得上。</text>
+  <text x="42" y="592" font-size="12.5" fill="#1f2933">覆疊管理有新舊兩代：舊的在四個模型的 DOS CRT 裡都有，新的 MOVE 只給 medium 與 large。</text>
   <text x="42" y="618" font-size="12" fill="#8a2b2b">本圖來自原廠建置檔與說明檔；沒有工具鏈可以對拍，不能當成「出貨的庫確實這樣組」。</text>
 </svg>

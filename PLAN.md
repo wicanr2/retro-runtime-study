@@ -18,7 +18,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R8 | printf／scanf 引擎與浮點的連結開關（完成，已過專家與學生審查） | `docs/10-borland-crtl/printf-engine.md`、兩張 SVG、`examples/printf/` |
 | R9 | near heap 與 far heap（完成，已過專家與學生審查） | `docs/10-borland-crtl/heap.md`、兩張 SVG、`examples/heap/` |
 | R10 | conio 與文字畫面（完成，已過專家與學生審查） | `docs/10-borland-crtl/conio-screen.md`、一張 SVG、`examples/conio/` |
-| R11 | VC++ 1.0 的函式庫怎麼切份（審查前第一版） | `docs/20-msvc-crt/library-combination.md`、一張 SVG |
+| R11 | VC++ 1.0 的函式庫怎麼切份（完成，已過專家與學生審查） | `docs/20-msvc-crt/library-combination.md`、一張 SVG |
 | R12 以後 | 依 worklist 排序 | DSMI 三套介面、DMX 版本差異、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
@@ -26,6 +26,10 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 第二批是遊戲真正會呼叫的四組——檔案 I/O、`printf` 家族、heap、conio（R7–R10）。
 四組都有研究筆記、公開文章、五個記憶體模型可重跑的範例，兩個 repo 的 worklist 與 issue 都清空。
 選配的亂數與時間（`rand`、`time` 家族）沒做，留在 R11 以後。
+
+**M3 的簽章規劃有一條硬限制**：VC++ 1.0 的原廠說明檔自己預告，用這份原始碼重建出來的 `.LIB`
+不保證與出貨版逐位元組相同（出貨庫是 pre-production 工具建的）。所以就算日後取得工具鏈，
+**位元組簽章必須取自真正的出貨 `.LIB`，不能用重建產物**。
 
 每輪收尾：外洩閘門 → 專家與學生審查 → 套修正 → `tools/worklist.py` → commit → push。
 
