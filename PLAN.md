@@ -22,7 +22,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R12 | DSMI 的三套介面（完成，已過專家與學生審查） | `docs/40-dsmi/interface-split.md`、一張 SVG |
 | R13 | DMX 的五份封存（完成，已過專家與學生審查） | `docs/30-dmx/version-history.md`、一張 SVG |
 | R14 | Watcom C 6.5 的 runtime（完成，已過專家與學生審查） | `docs/80-watcom/watcom65-runtime.md`、一張 SVG |
-| R15 | 第一代 32 位元 Watcom 與 DOS extender（審查前第一版） | `docs/80-watcom/watcom386-extenders.md`、一張 SVG |
+| R15 | 第一代 32 位元 Watcom 與 DOS extender（完成，已過專家與學生審查） | `docs/80-watcom/watcom386-extenders.md`、一張 SVG |
 | R16 以後 | 依 worklist 排序 | Watcom 8.0 與 9.x、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
@@ -43,6 +43,11 @@ VC++ 1.0 的工具鏈沒有合法的公開下載來源，剩 MSDN 訂閱封存�
 6.5 在 dosgolem 下「能讀不能編」：`WCC` 前端、`WLIB`、`WDISASM` 都跑得動，碼產生階段卡在 E142，
 另開 worklist 追。這份封存的 `CLIBS.LIB` 與 `CLIBC.LIB` 損壞（原廠工具也拒讀），
 模型比較只用 medium／large／huge。
+
+**M4 第二批完成**：7.0 的 runtime 研究與一篇文章（R15）。與第一批相反的是，
+7.0 的 32 位元工具在 dosgolem 下跑得動（編譯器本身是 16 位元 MZ 程式，只是產生 32 位元碼），
+所以這篇有實測撐著。未解的是出貨庫讀不動（Phar Lap 的 Easy OMF-386 變體），
+以及沒有連結器就沒有可執行檔。
 
 **M3 的簽章規劃有一條硬限制**：VC++ 1.0 的原廠說明檔自己預告，用這份原始碼重建出來的 `.LIB`
 不保證與出貨版逐位元組相同（出貨庫是 pre-production 工具建的）。所以就算日後取得工具鏈，
