@@ -6,18 +6,6 @@
   },
   "items": [
     {
-      "id": "m4-contract-and-gate",
-      "layer": "infra",
-      "title": "open-watcom-v2 的引用例外寫進契約，閘門加正反對照測試",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "tools/leak_check_selftest.md"
-        ]
-      },
-      "issue": "#16"
-    },
-    {
       "id": "article-watcom65-runtime",
       "layer": "article",
       "title": "Watcom C 6.5 的 runtime：呼叫慣例、helper 與啟動碼",

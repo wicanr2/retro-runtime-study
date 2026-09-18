@@ -27,8 +27,13 @@ M4 分批做，**本輪只做第一批**：
 - **後續批次（本輪不做）**：7.0／8.0 的第一代 32 位元與 extender、9.x 的 DOS/4GW 與 DPMI、
   LE／LX 格式、版本演進總表。這些等第一批把流程跑順再排。
 
-這一輪與 M1 最大的差別是**沒有現成的函式庫原始碼**。Borland 那邊是「原始碼＋對拍」，
-Watcom 出貨包裡只有編譯器、函式庫與文件，沒有 runtime 的原始碼。所以：
+這一輪與 M1 最大的差別是**函式庫本體沒有原始碼**。Borland 那邊是「原始碼＋對拍」，
+Watcom 出貨包裡的 `CLIB*.LIB`、`MATH*.LIB` 只有目的碼。
+
+不過 2026-09-18 盤點時發現**啟動碼是附原始碼的**：6.5 的 `DISK2/SRC/STARTUP/` 有
+`CSTART.ASM`、`CMAIN.C` 與六個模型各一支的 wrapper，7.0 也有對應的兩份（暫存器版與堆疊版）。
+所以啟動碼那一段的證據等級比原先預期的高，可以到「已證實（原文）」，甚至有機會對拍。
+其餘部分仍然是：
 
 - 結論主要來自**反組譯出貨的函式庫模組**與**原廠文件**，不是讀原始碼。
 - open-watcom-v2（2000 年代以後的開源版本）只當解讀輔助，不當當年版本的證據。
@@ -39,7 +44,7 @@ Watcom 出貨包裡只有編譯器、函式庫與文件，沒有 runtime 的原�
 
 | 項目 | 狀態 |
 |---|---|
-| Watcom 各版出貨檔 | **還沒有**。要從 archive.org 的收藏下載（見下表），這是本輪第一件事 |
+| Watcom 各版出貨檔 | 6.5 與 7.0 **已取得**（2026-09-18，雜湊與收藏的 `SHA256SUMS` 相符），已解出並產 manifest；來歷與版本判定見私有 `notes/watcom-6.5/PROVENANCE.md` |
 | open-watcom-v2 | 還沒有。要 sparse checkout 固定 commit |
 | DPMI 規格書 | 還沒有。後續批次才需要，本輪不找 |
 | 反組譯環境 | 有。IDA Pro 9.4 容器與 `tools/ida/` 流程沿用 M2 |
@@ -50,8 +55,8 @@ Watcom 出貨包裡只有編譯器、函式庫與文件，沒有 runtime 的原�
 
 | 代號（預定） | 內容 | 取得方式 | 本輪要不要 |
 |---|---|---|---|
-| `watcom-6.5` | `watcom-6.5/Watcom C.ver.6.5.English.zip` | archive.org 收藏 [watcom-c-cpp-compilers-collection](https://archive.org/details/watcom-c-cpp-compilers-collection) | **要**，本輪主角 |
-| `watcom-7.0` | `watcom-7.0/Watcom C 386.ver.7.0.English.zip` | 同上 | **要**，盤點用；研究留到後續批次 |
+| `watcom-6.5` | `watcom-6.5/Watcom C.ver.6.5.English.zip` | archive.org 收藏 [watcom-c-cpp-compilers-collection](https://archive.org/details/watcom-c-cpp-compilers-collection) | **已取得**，本輪主角 |
+| `watcom-7.0` | `watcom-7.0/Watcom C 386.ver.7.0.English.zip` | 同上 | **已取得**，盤點用；研究留到後續批次 |
 | `watcom-8.0` | `watcom-8.0/CNW386-1.ZIP`～`CNW386-6.ZIP` | 同上 | 不下載，後續批次再取 |
 | `watcom-9.01` | `watcom-9.01/floppies/Disk01.img`～`Disk06.img`（未打補丁的基礎版） | 同上 | 不下載，後續批次再取 |
 | `watcom-9.5` | `watcom-9.5/discmaster/Sybase - Watcom C++ 9.5b.zip` | 同上 | 不下載，後續批次再取 |

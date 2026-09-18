@@ -11,7 +11,9 @@ Microsoft Visual C++ 1.0／2.0 CRT、DMX、DSMI。主要讀者是正在做老遊
 
 ## [HARD] 不放原文
 
-四份來源的授權都禁止散布原始碼（條文整理在私有工作區 `CLAUDE.md`「授權邊界」）。
+四份原始碼來源的授權都禁止散布原始碼；Watcom C 6.5 與 C/386 7.0 是商業出貨品、
+沒有任何再散布條款，一併比照辦理（條文整理在私有工作區 `CLAUDE.md`「授權邊界」）。
+唯一的例外是 open-watcom-v2，見本節最後一條。
 
 - **一行原始碼都不放**，包括「只有幾行」的片段、改了變數名的片段、放在圖裡的片段。
 - 可以寫：函式名、檔名、巨集名、helper 符號、參數與回傳值的意義、演算法步驟、
@@ -27,8 +29,18 @@ Microsoft Visual C++ 1.0／2.0 CRT、DMX、DSMI。主要讀者是正在做老遊
     python /p/tools/leak_check.py /p/vendor /pub
   ```
 
+- **閘門本身也要被測試**：`--self-test` 逐來源做正反對照（乾淨文件不得命中、每一份來源
+  各植入一行原文都必須命中）。做法與預期輸出見 [`tools/leak_check_selftest.md`](tools/leak_check_selftest.md)。
 - **位元組簽章只做 Borland 與 MS**，而且只放短樣式（64 bytes 以內、relocation 與位址遮罩），
-  不放完整函式的位元組。DSMI 的授權禁止逆向該套件、DMX 權利狀態不明，這兩份只寫原始碼層級的機制。
+  不放完整函式的位元組。DSMI 的授權禁止逆向該套件、DMX 權利狀態不明、Watcom 這一階段不做簽章，
+  這三份只寫原始碼與文件層級的機制。
+- **例外：open-watcom-v2 可以引用短片段。** 它的授權（Sybase Open Watcom Public License 1.0）
+  允許引用；片段要短、非引用不可才引，每段在程式碼區塊下方標明
+  「open-watcom-v2 `<commit 前 12 碼>`，`<路徑>:<起>-<迄>`，Sybase Open Watcom Public License 1.0」，
+  並連到上游固定 commit 的行號。它住在私有工作區的 `refs/`（不是 `vendor/`），
+  所以不在閘門的比對來源裡——這樣閘門不必為了引用開後門。
+  **不拿它當 1988–1993 年出貨版的證據**：那是 2000 年代以後持續修改的版本，
+  用它解讀時任何「當年就是這樣」的句子都要標推論等級。
 
 ## 文章格式
 

@@ -13,6 +13,9 @@
 | `msvc-2.0-crt` | Visual C++ 2.0 的 Win32 CRT 原始碼（1994）；本封存有 x86 與 Alpha 兩包（RISC 版另有 MIPS，不在封存內） | 16 位元 CRT |
 | `dmx` | DMX 音效函式庫；版本另外標（3.3b、3.3d、3.3gs、3.4a、3.7） | 用 DMX 的遊戲自帶的 `.LIB` 版本 |
 | `dsmi` | DSMI（Digital Sound and Music Interface） | 以 DSMI 為基礎的 DMP 播放器 |
+| `watcom-6.5` | Watcom C 6.5（1988）的出貨磁片；版本以 `README.1ST` 自述為準 | 16 位元 DOS 程式 |
+| `watcom-7.0` | Watcom C 386 7.0（1989）的出貨磁片；版本以 `READ.ME` 自述為準 | 早期 32 位元保護模式程式 |
+| `open-watcom-v2` | 2000 年代以後的開源 Watcom，只當解讀輔助，不是當年版本的證據 | — |
 
 ## 術語
 
@@ -108,6 +111,9 @@
 | 符號修飾（name decoration） | 編譯器把函式名寫進目的檔時加上的裝飾；呼叫慣例一變，同一個函式的符號名也跟著變 |
 | CODEC（音效卡上的） | 負責類比與數位訊號互轉、兼管取樣率的晶片；1990 年代中期大量相容卡用它 |
 | DSP（Sound Blaster 的） | 那系列卡上接收命令、管數位音訊播放的處理晶片；與泛稱的「數位訊號處理」不同 |
+| DOS extender | 讓 DOS 程式切進 386 保護模式、用完整 32 位元位址空間的執行環境（Phar Lap、OS/386、DOS/4GW） |
+| 暫存器呼叫慣例（`/3r`、`-4r`） | Watcom 的預設：參數盡量放暫存器。函式庫名帶 `r`，符號修飾與堆疊版不同 |
+| 堆疊呼叫慣例（`/3s`、`-4s`） | 參數走堆疊，讓別家編譯器接得上。函式庫名帶 `s` |
 | 呼叫慣例（calling convention） | 參數怎麼傳、誰清堆疊、符號名怎麼修飾的約定；Watcom 32 位元有暫存器與堆疊兩種，兩者的目的碼不能互連 |
 | DOS extender | 讓 DOS 程式跑在 386 保護模式、用平坦 32 位元位址空間的執行環境（如 DOS/4GW）；DMX 預設在這種環境下運作 |
 | GENMIDI／OP2 | DMX 的 FM 音色表格式，檔頭是 `#OPL_II#`，175 個樂器各 36 bytes 再加 32 bytes 名稱 |

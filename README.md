@@ -10,6 +10,8 @@
 | `msvc-2.0-crt` | Microsoft Visual C++ 2.0 Run-Time Library Sources | 1994 | Win32 CRT（x86 與 Alpha） |
 | `dmx` | DMX（Paul J. Radek） | 1993–1994 | DOS 音效卡驅動與音樂／音效播放 |
 | `dsmi` | DSMI（Otto Chrons） | 1992–1994 | DOS 模組音樂與音效混音 |
+| `watcom-6.5` | Watcom C Optimizing Compiler and Tools V6.5 | 1988 | 16 位元 DOS 編譯器、函式庫與工具 |
+| `watcom-7.0` | Watcom C 386 V7.0 | 1989 | 第一代 32 位元編譯器；搭 Phar Lap 或 OS/386 的 DOS extender |
 
 ## 用途
 
