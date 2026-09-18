@@ -49,13 +49,14 @@
   <text x="58" y="399" font-size="11.5" fill="#5a6472">SB、SB16、Pro Audio Spectrum、Windows Sound System、DAC、ARIA，</text>
   <text x="58" y="415" font-size="11.5" fill="#5a6472">還有一個「寫到磁碟」的版本——除錯用，能塞進同一個介面就是切得夠乾淨的證據</text>
 
-  <rect x="44" y="430" width="256" height="30" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
-  <text x="58" y="450" font-size="12.5" fill="#1f2933">硬體偵測　DET*　每張卡一支</text>
+  <path d="M172,422 L172,428" stroke="#8a94a6" fill="none" stroke-dasharray="4 3" marker-end="url(#d1)"/>
+  <rect x="44" y="430" width="256" height="30" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="4 3"/>
+  <text x="58" y="450" font-size="12.5" fill="#1f2933">硬體偵測　DET*　啟動時跑一次</text>
 
-  <rect x="312" y="430" width="256" height="30" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
-  <text x="326" y="450" font-size="12.5" fill="#1f2933">服務　計時、混音器、虛擬 DMA、記憶體</text>
+  <rect x="312" y="430" width="256" height="30" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="4 3"/>
+  <text x="326" y="450" font-size="12" fill="#1f2933">服務　各層共用：計時、音量、DMA、記憶體</text>
 
-  <text x="44" y="482" font-size="12" fill="#5a6472">換一張音效卡只換裝置介面那一層，上面三層看到的是同一組抽象。</text>
+  <text x="44" y="482" font-size="12" fill="#5a6472">換一張音效卡只換裝置介面那一層，其餘幾層看到的是同一組抽象。</text>
 
   <!-- 載入器 -->
   <rect x="602" y="204" width="292" height="150" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
@@ -65,18 +66,21 @@
   <path d="M700,282 L700,300" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
   <rect x="620" y="304" width="256" height="34" rx="6" fill="#fff8f0" stroke="#d97706"/>
   <text x="634" y="326" font-size="12.5" fill="#1f2933">一律轉成內部的 AMF 格式</text>
+  <path d="M618,321 C 596,321 590,268 572,264" stroke="#d97706" fill="none" marker-end="url(#d2)"/>
+  <text x="470" y="250" font-size="11.5" fill="#8a4b00">餵給播放核心</text>
 
   <!-- GUS -->
+  <path d="M600,400 L572,396" stroke="#d98080" fill="none" stroke-dasharray="5 3" marker-end="url(#d1)"/>
   <rect x="602" y="366" width="292" height="136" rx="10" fill="#fdecec" stroke="#d98080"/>
-  <text x="620" y="390" font-size="13" font-weight="bold" fill="#8a2b2b">GUS 是特例</text>
+  <text x="620" y="390" font-size="13" font-weight="bold" fill="#8a2b2b">GUS：裝置介面層的另一條路</text>
   <text x="620" y="412" font-size="12" fill="#1f2933">其他卡：主機混好一條音訊流餵過去</text>
   <text x="620" y="432" font-size="12" fill="#1f2933">GUS：樣本先上傳到卡上，卡自己混音</text>
-  <text x="620" y="458" font-size="11.5" fill="#5a6472">所以它另有一整套：卡上記憶體的配置</text>
-  <text x="620" y="476" font-size="11.5" fill="#5a6472">管理與專屬混音控制。同時期其他音效</text>
-  <text x="620" y="494" font-size="11.5" fill="#5a6472">函式庫也都得為它另闢一條路。</text>
+  <text x="620" y="458" font-size="11.5" fill="#5a6472">SDI_* 那組沒有 GUS；它另有一整套</text>
+  <text x="620" y="476" font-size="11.5" fill="#5a6472">卡上記憶體管理與專屬混音控制，</text>
+  <text x="620" y="494" font-size="11.5" fill="#5a6472">播放核心用一個裝置編號認它。</text>
 
   <rect x="26" y="518" width="868" height="84" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
   <text x="42" y="542" font-size="12.5" fill="#1f2933">兩處用的是同一個手法：變動的部分（音效卡、模組格式）各自一支，中間用一個穩定的介面或格式擋住，</text>
   <text x="42" y="562" font-size="12.5" fill="#1f2933">核心只面對那個穩定的東西。支援一種新格式的成本是「寫一支載入器」，不是「改播放核心」。</text>
-  <text x="42" y="588" font-size="12" fill="#8a2b2b">本圖只根據原始碼的結構與標頭；沒有編譯、沒有實跑，授權也不允許反組譯這套函式庫。</text>
+  <text x="42" y="588" font-size="12" fill="#8a2b2b">本圖只根據原始碼的結構與標頭。</text>
 </svg>
