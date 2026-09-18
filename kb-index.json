@@ -812,6 +812,58 @@
    ]
   },
   {
+   "id": "watcom/watcom386-extenders",
+   "path": "docs/80-watcom/watcom386-extenders.md",
+   "title": "Watcom C/386 7.0：編譯器賣你，作業系統得跟別人買",
+   "libraries": [
+    "watcom-7.0"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "想知道 1989 年的 DOS 程式怎麼跑在 32 位元保護模式",
+    "反組譯一支 32 位元 DOS 程式，看到 `__STK` 這種符號，想知道是哪家編譯器",
+    "想知道 Watcom 的暫存器版與堆疊版函式庫實際差在哪",
+    "手上有 `.LBJ` 這種副檔名的檔案，想知道那是什麼",
+    "好奇 16 位元那堆 far 指標 helper 到了 32 位元還在不在"
+   ],
+   "symbols": [
+    "__STK",
+    "__STKOVERFLOW_",
+    "__I4FS",
+    "__U4FS",
+    "__ModF",
+    "__IsTable",
+    "__psp",
+    "__osmajor",
+    "__STACKTOP",
+    "__STACKLOW",
+    "__curbrk",
+    "__dynend",
+    "__StartTime",
+    "__CMain",
+    "__nullarea",
+    "CLIB3R",
+    "CLIB3S",
+    "MATH3R",
+    "MATH387R",
+    "CSTART3R",
+    "WCC386",
+    "WCL386",
+    "WDISASM",
+    "PSP_SEG",
+    "LAHEY"
+   ],
+   "related": [
+    "watcom/watcom65-runtime",
+    "overview/era-and-libraries",
+    "dmx/version-history"
+   ]
+  },
+  {
    "id": "watcom/watcom65-runtime",
    "path": "docs/80-watcom/watcom65-runtime.md",
    "title": "Watcom C 6.5：1988 年就把參數放進暫存器",
