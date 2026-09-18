@@ -29,7 +29,7 @@
   <text x="658" y="114" font-size="11.5" fill="#5a6472">有就是 9.01 那一代；沒有多半是 7.0</text>
 
   <text x="42" y="160" font-size="12" fill="#1f2933">第二題最好用：只要讀符號名。沒有那組符號時，退回去看位元寬度（32 位元暫存器、66h／67h 前綴）。</text>
-  <text x="42" y="184" font-size="11.5" fill="#5a6472">留下來的 __STK、浮點轉換、__IsTable 三代都有——能確認「這是 Watcom」，但不能分代（__STK 還可以關掉）。</text>
+  <text x="42" y="184" font-size="11.5" fill="#5a6472">留下來的 __STK、浮點轉換、__IsTable 在 6.5 與 7.0 都有——能確認「這是 Watcom」，但不能分代。</text>
   <text x="42" y="210" font-size="11.5" fill="#5a6472">尾端底線的函式符號在三代都一樣，所以它只回答「是不是 Watcom」，不回答「哪一代」。</text>
 
   <!-- 三代 -->
@@ -65,10 +65,10 @@
   <text x="642" y="296" font-size="11.5" fill="#1f2933">DOS/4GW 隨編譯器附</text>
   <text x="642" y="318" font-size="11.5" fill="#1f2933">另支援 Phar Lap 與 Ergo</text>
   <text x="642" y="344" font-size="12" font-weight="bold" fill="#1f2933">看得到的</text>
-  <text x="642" y="366" font-size="11.5" fill="#5a6472">執行檔＝16 位元 stub ＋ 32 位元本體</text>
-  <text x="642" y="386" font-size="11.5" fill="#5a6472">同年代的程式大量用 int 31h（DPMI）</text>
+  <text x="642" y="366" font-size="11.5" fill="#5a6472">執行檔＝stub ＋ 本體（stub 內容未讀）</text>
+  <text x="642" y="386" font-size="11.5" fill="#5a6472">同年代的程式用 int 31h（DMX，非 9.01 本身）</text>
   <text x="642" y="406" font-size="11.5" fill="#5a6472">目標多了 OS/2 與 Windows</text>
-  <text x="642" y="432" font-size="11.5" fill="#8a2b2b">看不到的：啟動碼與函式庫的內容</text>
+  <text x="642" y="432" font-size="11.5" fill="#8a2b2b">看不到的：啟動碼、函式庫、stub 的內容</text>
   <text x="642" y="452" font-size="11.5" fill="#8a2b2b">（磁片是 Watcom 自家壓縮封裝，</text>
   <text x="642" y="470" font-size="11.5" fill="#8a2b2b">解碼器還沒寫完）</text>
   <text x="642" y="522" font-size="11" fill="#5a6472">證據：安裝腳本 ＋ 封包清單（較弱）</text>

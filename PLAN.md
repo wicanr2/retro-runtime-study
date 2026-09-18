@@ -24,7 +24,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R14 | Watcom C 6.5 的 runtime（完成，已過專家與學生審查） | `docs/80-watcom/watcom65-runtime.md`、一張 SVG |
 | R15 | 第一代 32 位元 Watcom 與 DOS extender（完成，已過專家與學生審查） | `docs/80-watcom/watcom386-extenders.md`、一張 SVG |
 | R16 | DPMI 與 DOS/4GW（完成，已過專家與學生審查） | `docs/80-watcom/dos4gw-startup.md`、一張 SVG |
-| R17 | Watcom 版本演進總表（審查前第一版） | `docs/80-watcom/watcom-lineage.md`、一張 SVG |
+| R17 | Watcom 版本演進總表（完成，已過專家與學生審查） | `docs/80-watcom/watcom-lineage.md`、一張 SVG |
 | R18 以後 | 依 worklist 排序 | WPK 解碼器、Watcom 8.0 與 9.5、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
@@ -57,6 +57,11 @@ VC++ 1.0 的工具鏈沒有合法的公開下載來源，剩 MSDN 訂閱封存�
 所以 9.01 的封包內容還讀不到，文章的證據因此不平均，已在正文與圖上標明。
 審查抓到三處實質錯誤：DMA 的 1 MB 因果寫反、實模式中斷常式只用在 IRQ 8–15
 （Sound Blaster 常用的 IRQ 5／7 沒有這層備援）、「複製到低位記憶體」其實有逐行證據不該標推論。
+
+**M4 第四批完成**：版本演進總表（R17），M4 的目標問題（拿到執行檔怎麼判斷是哪一代）有了答案。
+WPK 解碼器再試一輪仍未成功——照原廠的 qsort 完整移植後結果沒變，所以「排序順序是卡點」
+這個假設被證偽，剩下三個可疑處寫進筆記。審查抓到的最大問題是結構性的：
+原本的「三個問題」分不出 7.0 與 9.01，補上第四題（執行檔有沒有 DOS/4GW 的 stub）才收得起來。
 
 **M3 的簽章規劃有一條硬限制**：VC++ 1.0 的原廠說明檔自己預告，用這份原始碼重建出來的 `.LIB`
 不保證與出貨版逐位元組相同（出貨庫是 pre-production 工具建的）。所以就算日後取得工具鏈，
