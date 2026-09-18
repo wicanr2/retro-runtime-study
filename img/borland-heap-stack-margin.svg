@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="900" height="560" fill="#ffffff"/>
+
+  <defs>
+    <marker id="m1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#8a94a6"/>
+    </marker>
+    <marker id="m2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">兩個 heap 各自長在哪裡</text>
+
+  <!-- near heap：DS 那 64KB -->
+  <text x="26" y="62" font-size="13.5" font-weight="bold" fill="#1f2933">near heap：DS 的那 64 KB，和堆疊共用中間的空地</text>
+
+  <rect x="26" y="76" width="420" height="330" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="236" y="96" text-anchor="middle" font-size="12" fill="#5a6472">低位址在上，高位址在下</text>
+
+  <rect x="46" y="106" width="380" height="56" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="60" y="130" font-size="12.5" fill="#1f2933">靜態資料（已初始化＋未初始化）</text>
+  <text x="60" y="150" font-size="11.5" fill="#5a6472">結尾就是 heap 的起點，C0 在啟動時寫進 break level</text>
+
+  <rect x="46" y="170" width="380" height="60" rx="6" fill="#fff8f0" stroke="#d97706"/>
+  <text x="60" y="194" font-size="12.5" fill="#1f2933">near heap（malloc 拿到的區塊）</text>
+  <text x="60" y="214" font-size="11.5" fill="#8a4b00">往下長 ↓　break level 就是它的上緣</text>
+
+  <rect x="46" y="238" width="380" height="46" rx="6" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="5 3"/>
+  <text x="60" y="266" font-size="12.5" fill="#5a6472">還沒被任何一邊用掉的空地</text>
+
+  <rect x="46" y="292" width="380" height="34" rx="6" fill="#fdecec" stroke="#d98080"/>
+  <text x="60" y="314" font-size="12.5" fill="#8a2b2b">MARGIN：512 bytes 的護欄</text>
+
+  <rect x="46" y="334" width="380" height="56" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="60" y="358" font-size="12.5" fill="#1f2933">堆疊</text>
+  <text x="60" y="378" font-size="11.5" fill="#5a6472">往上長 ↑　SP 是它當下的下緣</text>
+
+  <path d="M436,200 L436,300" stroke="#d97706" fill="none" marker-end="url(#m2)"/>
+  <path d="M436,360 L436,300" stroke="#8a94a6" fill="none" marker-end="url(#m1)"/>
+
+  <!-- 說明 -->
+  <rect x="470" y="76" width="404" height="330" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="488" y="102" font-size="13" font-weight="bold" fill="#1f2933">護欄只擋一個方向</text>
+  <text x="488" y="126" font-size="12.5" fill="#1f2933">heap 要長高時，配置器檢查</text>
+  <text x="488" y="146" font-size="12.5" fill="#1f2933">「新的上緣離當下的 SP 還有沒有 512 bytes」，</text>
+  <text x="488" y="166" font-size="12.5" fill="#1f2933">不夠就失敗，errno 設成 ENOMEM。</text>
+
+  <text x="488" y="196" font-size="12.5" fill="#8a2b2b">堆疊往下長沒有人檢查。</text>
+  <text x="488" y="216" font-size="12.5" fill="#1f2933">遞迴太深就直接踩進 heap 的資料，</text>
+  <text x="488" y="236" font-size="12.5" fill="#1f2933">而且當場不會出錯——壞掉的是之後</text>
+  <text x="488" y="256" font-size="12.5" fill="#1f2933">某一次 malloc 走到被改掉的區塊頭。</text>
+
+  <text x="488" y="288" font-size="12.5" fill="#1f2933">檢查用的是<tspan font-weight="bold">呼叫當下</tspan>的 SP，</text>
+  <text x="488" y="308" font-size="12.5" fill="#1f2933">所以在很深的呼叫層次裡 malloc，</text>
+  <text x="488" y="328" font-size="12.5" fill="#1f2933">可用空間就比在 main 裡少一截。</text>
+
+  <text x="488" y="360" font-size="12" fill="#5a6472">coreleft（near 資料模型）＝</text>
+  <text x="488" y="380" font-size="12" fill="#5a6472">SP − break level − (512 + 32)，捨去到 16 的倍數。</text>
+
+  <!-- far heap -->
+  <text x="26" y="440" font-size="13.5" font-weight="bold" fill="#1f2933">far heap：程式那塊 DOS 記憶體的尾端，靠 setblock 伸縮</text>
+
+  <rect x="26" y="454" width="848" height="44" rx="6" fill="#ffffff" stroke="#d0d5dd"/>
+  <rect x="34" y="460" width="150" height="32" rx="4" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="109" y="481" text-anchor="middle" font-size="12" fill="#1f2933">PSP ＋ 程式映像</text>
+  <rect x="188" y="460" width="330" height="32" rx="4" fill="#fff8f0" stroke="#d97706"/>
+  <text x="353" y="481" text-anchor="middle" font-size="12" fill="#1f2933">far heap（_heapbase 起，break level 是上緣）</text>
+  <rect x="522" y="460" width="150" height="32" rx="4" fill="#ffffff" stroke="#dfe3e8" stroke-dasharray="5 3"/>
+  <text x="597" y="481" text-anchor="middle" font-size="12" fill="#5a6472">_heaptop 為止</text>
+  <rect x="676" y="460" width="190" height="32" rx="4" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="771" y="481" text-anchor="middle" font-size="12" fill="#5a6472">其他程式與 DOS 的記憶體</text>
+
+  <text x="26" y="522" font-size="12.5" fill="#1f2933">擴張時呼叫 DOS 的「調整記憶體區大小」改自己的 MCB，段落數先進位到 1 KB 的倍數，</text>
+  <text x="26" y="542" font-size="12.5" fill="#1f2933">而且記住上次的級距——同一級距就只改記錄，不再問 DOS 一次。</text>
+</svg>

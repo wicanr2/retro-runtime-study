@@ -118,6 +118,63 @@
    ]
   },
   {
+   "id": "borland-crtl/heap",
+   "path": "docs/10-borland-crtl/heap.md",
+   "title": "near heap 與 far heap：兩套配置器，一條與堆疊的邊界",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "remake 要重現原版的配置行為，或懷疑原版有 heap 破壞",
+    "反組譯看到三個全域字被一大群配置相關的函式共用",
+    "想知道 BC++ 2.0 的 malloc 會不會就地擴張、realloc 之後舊指標還能不能用",
+    "想知道 malloc 失敗時 errno 是什麼、coreleft 的數字怎麼來的",
+    "同一支程式換記憶體模型之後配置行為整個變了",
+    "老程式在某台機器上配置失敗，而可用記憶體看起來還很多"
+   ],
+   "symbols": [
+    "malloc",
+    "free",
+    "realloc",
+    "calloc",
+    "coreleft",
+    "farmalloc",
+    "farfree",
+    "farrealloc",
+    "farcoreleft",
+    "__brk",
+    "__sbrk",
+    "_brk",
+    "_sbrk",
+    "__brklvl",
+    "_heapbase",
+    "_heaptop",
+    "heapcheck",
+    "heapchecknode",
+    "heapwalk",
+    "farheapwalk",
+    "allocmem",
+    "setblock",
+    "_HEAPOK",
+    "_HEAPCORRUPT",
+    "_BADNODE",
+    "_FREEENTRY",
+    "_USEDENTRY",
+    "MARGIN"
+   ],
+   "related": [
+    "borland-crtl/memory-model-macros",
+    "borland-crtl/startup-and-exit",
+    "borland-crtl/stdio-file-io"
+   ]
+  },
+  {
    "id": "borland-crtl/memory-model-macros",
    "path": "docs/10-borland-crtl/memory-model-macros.md",
    "title": "一份原始碼怎麼編出五個記憶體模型",

@@ -15,10 +15,17 @@ static void note3(char *tag, long a, long b, long c)
     fprintf(rep, "%s %ld %ld %ld\n", tag, a, b, c);
 }
 
-/* 兩個 near 指標的距離；near heap 的區塊頭大小就從這裡看出來 */
+/* 兩個區塊的實際距離；區塊頭大小就從這裡看出來。
+   far 資料模型不能直接相減——far 指標的減法只算位移，跨段就得出 0，
+   所以自己把段與位移攤成線性位址。 */
 static long gap(void *lo, void *hi)
 {
+#if defined(__SMALL__) || defined(__MEDIUM__)
     return (long)((char *)hi - (char *)lo);
+#else
+    return ((long)FP_SEG(hi) * 16L + (long)FP_OFF(hi))
+         - ((long)FP_SEG(lo) * 16L + (long)FP_OFF(lo));
+#endif
 }
 
 static void block_layout(void)
@@ -84,8 +91,10 @@ static void reuse_and_split(void)
     c = malloc(64);
     free(a);
     free(b);
+    /* a 與 b 實體相鄰，合併後的空間放得下 120；但 first fit 是從 rover 起算的，
+       所以還要看它實際落在哪 */
     d = malloc(120);
-    note3("coalesce", d == a ? 1 : 0, gap(a, c), 0);
+    note3("coalesce", d == a ? 1 : 0, gap(a, c), gap(a, d));
     free(d);
     free(c);
 }
@@ -196,6 +205,15 @@ static void far_heap(void)
     /* 放掉之後可用量回到哪裡 */
     back = farcoreleft();
     note3("far.restore", back == before ? 1 : 0, (long)(before - back), 0);
+
+    /* 只配一塊再放掉，看 break level 有沒有降回去 */
+    before = farcoreleft();
+    f1 = (char far *)farmalloc(1000L);
+    after = farcoreleft();
+    farfree(f1);
+    back = farcoreleft();
+    note3("far.one", (long)(before - after), (long)(before - back),
+          back == before ? 1 : 0);
 }
 
 /* 走一遍 far heap 的區塊序列：段是遞增還是遞減、每塊多大、用中還是自由 */

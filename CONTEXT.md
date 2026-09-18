@@ -89,6 +89,10 @@
 | DAC | VGA 把色號轉成實際 RGB 的調色盤硬體；每格 R、G、B 各 6 位元 |
 | DTA | Disk Transfer Area，DOS 的 FindFirst／FindNext 寫搜尋結果的緩衝區 |
 | EXEC | `int 21h AX=4B00h`，由一支程式載入並執行另一支程式（BCC 用它叫 TLINK、TASM） |
+| break level | heap 目前的上緣；`brk`／`sbrk` 改的就是這個值，`malloc` 要不到空間時先試著把它推高 |
+| 漫遊指標（rover） | 配置器記住的「上次找到哪裡」，下一次搜尋從那裡接著走，不必每次從頭掃 |
+| 段落（paragraph） | 16 bytes，DOS 記憶體配置的單位；far heap 的區塊大小以它計 |
+| MCB | Memory Control Block，DOS 記憶體區塊前面那 16 bytes 的管理結構，串成一條鏈 |
 | 輸出函式（putter） | 格式化引擎每湊滿一批位元組就呼叫的函式；換掉它就換掉輸出目的地（`__fputn`、`strputn`、`__cputn`） |
 | 向量段（`_CVTSEG`、`_SCNSEG`） | 只放一個函式位址的特殊資料段，由啟動碼宣告、由連結進來的模組填內容；用來讓浮點轉換按用量連結 |
 | 四捨六入五成雙 | 進位規則：剛好是 0.5 時往最接近的偶數靠（0.5→0、1.5→2、2.5→2），而不是一律進位 |
