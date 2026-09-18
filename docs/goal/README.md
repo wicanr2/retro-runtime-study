@@ -15,7 +15,7 @@
 |---|---|---|---|
 | M1 Borland runtime 分析 | 原始碼能不能代表出貨的函式庫？同一份原始碼怎麼變成五個記憶體模型？編譯器替程式偷偷呼叫了哪些函式？程式怎麼啟動、怎麼結束？遊戲真正呼叫的檔案 I/O、`printf`、heap、conio 行為是什麼？ | 第一批三篇文章；第二批四篇主題文章與範例程式 | [M1](M1-borland-runtime.md) |
 | M2 BCC 反組譯 | BCC 2.0 編出的程式碼在反組譯裡長什麼樣？怎麼自動認出函式庫函式？ | 一篇產生碼特徵、一篇廠牌與模型判斷、位元組簽章與產生工具、文章索引 | [M2](M2-bcc-disassembly.md) |
-| M3 其他函式庫 | VC++ 1.0 的函式庫怎麼切份？DMX 各版改了什麼？DSMI 的三套介面怎麼分工？ | 研究完成後再登記文章 | [M3](M3-other-libraries.md) |
+| M3 其他函式庫 | VC++ 1.0 的函式庫怎麼切份？DMX 各版改了什麼？DSMI 的三套介面怎麼分工？ | 三篇文章（切份、DMX 版本差異、DSMI 介面分工）；**沒有對拍，結論最高到「已證實（原文）」** | [M3](M3-other-libraries.md) |
 | M4 Watcom：從 16 位元到 DOS extender | Watcom C 6.5（1988）與 C/386 7.0（1989）怎麼產生碼、依附哪種 extender？到 9.x 的 DOS/4GW、DPMI、LE 格式改了什麼？ | 版本演進、6.5 runtime、第一代 32 位元與 extender、DOS/4GW 與 DPMI 四篇文章 | [M4](M4-watcom.md) |
 
 記憶體模型（memory model）是 16 位元程式選擇函式呼叫與資料指標要用 2 bytes 還是 4 bytes 的組合，

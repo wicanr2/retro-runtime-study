@@ -2,62 +2,112 @@
 
 ## 目標
 
-把 M1 的做法延伸到另外三份來源，並補上 M1、M2 暫時留白的 Microsoft 對照：
+把 M1 的做法延伸到另外三份來源：Microsoft Visual C++ 1.0 的 CRT、DOS 音效函式庫 DMX 與 DSMI。
 
-- **Microsoft Visual C++ 1.0 CRT**（16 位元，MS-DOS 與 Windows 3.x）：取得工具鏈，弄清楚元件庫怎麼組合成最終的 `.LIB`，
-  之後才能對拍，並和 Borland 的做法並列比較。
-- **DMX**（Paul J. Radek，DOS 音效卡驅動與音樂播放；二手來源記載 Doom、Heretic、Hexen 等遊戲使用）：整理各版本的修改。
-- **DSMI**（Otto Chrons，DOS 模組音樂混音）：整理 C、組語、Pascal 三套介面的分工。
+這一輪與 M1 最大的差別是**沒有對拍**。Borland 那邊每條結論背後都有「重編後與出貨版逐位元組相同」撐著；
+這三份來源目前都沒有可用的原廠工具鏈，所以結論最高只能到「已證實（原文）」，行為規格也不會有實跑支持。
+goal 因此分成兩批：
 
-## 為什麼放在最後
+- **第一批（本輪）**：三條只要有原始碼就能開工的研究，與各自的公開文章。
+  VC++ 1.0 的元件庫怎麼組合成最終 `.LIB`、DMX 各版改了什麼、DSMI 的三套介面怎麼分工。
+- **第二批（本輪並行，不擋第一批）**：找 VC++ 1.0 的工具鏈。到位之後才談對拍、位元組簽章，
+  以及回頭補 M1、M2 留白的 Microsoft 對照。
 
-- Borland 的原始碼、工具鏈、對拍流程都已備齊，先做完一家，方法確定後再套到下一家，成本最低。
-- VC++ 1.0 工具鏈還沒取得，沒有工具鏈就無法對拍，結論最高只能到「已證實（原文）」。
-- DMX、DSMI 受授權限制，只能做原始碼層級的研究，不做位元組簽章；對逆向讀者的直接幫助比 CRT 小。
+## 手上有什麼
 
-## 工作項目
+先盤點過，這一輪不必再找素材：
 
-### 研究項目（不公開）
-
-| worklist id | 內容 | 依賴 |
+| 來源 | 內容 | 這一輪用得到的部分 |
 |---|---|---|
-| `toolchain-msvc10` | 取得 VC++ 1.0 的 `CL`、`MASM`、`NMAKE` 與原廠 16 位元 `.LIB`，記下來歷與 SHA-256，在 dosgolem 執行 | 合法來源 |
-| `msvc10-library-combination` | 元件庫怎麼組合成最終 `.LIB`：記憶體模型 × 浮點方式 × DOS／Windows | 無（讀建置檔即可開始） |
-| `dmx-version-diff` | DMX 3.3b 到 3.4a 改了什麼，對照原始檔檔頭的 PVCS 修訂紀錄 | 無 |
-| `dsmi-interface-split` | DSMI 的 C、組語、Pascal 三套介面怎麼分工、共用哪些核心 | 無 |
-| `dmx-provenance` | DMX 原始碼封存的流出來源與目前權利人 | 一手來源 |
+| `vendor/msvc-1.0-crt` | `VCCRT1`（BUILD、CONVERT、DOS、EXEC、HEAP、HELPER、IOSTREAM、LOWIO、MISC、TIME）與 `VCCRT2`（CONIO、DIRECT、H、INC、STARTUP、STDIO、STRING） | `VCCRT1/BUILD/` 的 `.BLD`、`.MKF` 建置檔；`README.TXT` 的 Part 4（哪些 `.LIB`／`.OBJ` 建得出來、哪些建不出來）與 Part 5（合併庫） |
+| `vendor/msvc-2.0-crt` | VC++ 2.0（32 位元）的 CRT 原始碼 | 這一輪只當對照，不寫文章 |
+| `vendor/dmx` | 五個版本目錄：`dmx33b`、`dmx33d`、`dmx33gs`、`dmx34a`、`dmx37lib`，另有 `fmfix` | 版本之間的差異；`api/`、`inc/`、`ldr/`、`midi/`、`wav/`、`sercom/` 的分工；`bugs.lst` 與檔頭的修訂註解 |
+| `vendor/dsmi` | `src/` 下 43 個 `.C`、38 個 `.ASM`、96 個 `.PAS` | 三套介面怎麼對應同一組核心 |
 
-### 公開產出
+三份來源的授權邊界（條文在私有工作區 `CLAUDE.md`）：**一行原始碼都不放**；
+DMX 的權利狀態不明、DSMI 的授權禁止逆向該套件，這兩份**只寫原始碼層級的機制，不做位元組簽章、不反組譯**。
+Microsoft 這份可以做簽章，但要等工具鏈到位、能對拍之後才有意義。
 
-M3 還沒有公開 issue。研究項目完成後，依預定目錄登記文章：
+## 從 M1、M2 帶過來的前提
 
-| 預定目錄 | 內容 |
+| 前提 | 對這一輪的影響 |
 |---|---|
-| `docs/20-msvc-crt/` | VC++ 1.0／2.0 CRT |
-| `docs/30-dmx/` | DMX |
-| `docs/40-dsmi/` | DSMI |
-| `docs/50-cross-vendor/` | Borland 與 Microsoft 同一功能的做法比較 |
+| Borland 的四篇主題文章已經定出格式：結論 → 根本問題 → 推導 → 在執行檔裡怎麼認 → 行為規格 → 證據與未知 | 沿用。沒有實跑時「行為規格」那節改成只寫原始碼直接寫明的介面與邊界，並在節首標明沒有實跑支持 |
+| 證據分級（已證實（對拍）／已證實（原文）／已證實（實測）／強推論／假說） | 這一輪的機制結論多半落在「已證實（原文）」；跨版本比較若只有檔案差異支持，標「強推論」 |
+| 外洩閘門 `tools/leak_check.py` 掃的是 `vendor/` 全部四份來源 | 新文章一樣要過閘門，DMX 與 DSMI 的字串同樣不能出現 |
+| `tools/build_index.py` 會檢查前置欄位與 `related` 連結 | 新文章要填 `libraries` 代號，先在 `CONTEXT.md` 的來源代號表登記 |
+| M1 的範例程式形狀 `examples/<主題>/` | 這一輪**不建範例目錄**——沒有工具鏈就跑不出 `expected.txt`，寧可不放 |
 
-另外回頭補：R4 啟動與結束鏈的 Microsoft 對照（[#3](https://github.com/wicanr2/retro-runtime-study/issues/3)），
-判斷廠牌文章的 VC++ 1.0 判準（[#6](https://github.com/wicanr2/retro-runtime-study/issues/6)）。
+## 工作項目（第一批）
+
+每個主題一組：私有研究筆記 → 公開文章。兩邊的 `worklist.json` 與 GitHub issue 都已登記。
+
+| 主題 | 私有研究筆記 | 公開文章 | 要回答的問題 |
+|---|---|---|---|
+| A VC++ 1.0 的函式庫怎麼切份 | `msvc10-library-combination`（私有 #15） | [#13](https://github.com/wicanr2/retro-runtime-study/issues/13)：`docs/20-msvc-crt/library-combination.md` | 一套原始碼怎麼變成三十幾個 `.LIB`：記憶體模型 × DOS／Windows EXE／Windows DLL × 有沒有 CRT 三個維度怎麼交叉；`LIBH.LIB` 這種「模型無關」的庫裝什麼；哪些 `.LIB` 原廠沒附原始碼（浮點、圖形、qwin），為什麼；`CRTCOM.LIB` 這類合併庫的角色；與 Borland「五個模型各一份」的做法差在哪 |
+| B DMX 各版改了什麼 | `dmx-version-diff`（私有 #16） | [#14](https://github.com/wicanr2/retro-runtime-study/issues/14)：`docs/30-dmx/version-history.md` | 3.3b → 3.3d → 3.3gs → 3.4a 的差異：支援的音效卡、API 形狀、載入器與 MIDI／WAV 播放的改動；`dmx37lib` 為什麼只剩函式庫；`fmfix` 修的是什麼；各版的目錄分工（`api`／`ldr`／`midi`／`wav`／`sercom`）怎麼演變 |
+| C DSMI 的三套介面 | `dsmi-interface-split`（私有 #17） | [#15](https://github.com/wicanr2/retro-runtime-study/issues/15)：`docs/40-dsmi/interface-split.md` | C、組語、Pascal 三套介面各自涵蓋哪些功能、共用哪一份核心；模組格式（MOD、STM、669、AMF⋯⋯）的載入器怎麼組織；混音核心與硬體驅動的界線在哪；三套介面的命名與呼叫慣例差異 |
+
+### 工作項目（第二批，並行）
+
+| 主題 | 私有研究筆記 | 這一輪要做到 |
+|---|---|---|
+| D 取得 VC++ 1.0 工具鏈 | `toolchain-msvc10`（私有 #14，已登記） | 找到合法來源的 `CL`、`MASM`、`NMAKE` 與原廠 16 位元 `.LIB`，記下來歷與 SHA-256，在 dosgolem 跑起來。**到位就寫進筆記，這一輪不強求** |
+| E DMX 的權利狀態 | `dmx-provenance`（私有 #18，已登記） | 查封存的流出來源與目前權利人。查不到一手來源就以「已窮盡可取得的來源、仍待查證」結案，不擋其他項目 |
 
 ## 建議順序
 
-1. `msvc10-library-combination` 與 `toolchain-msvc10` 並行：前者只需要讀建置檔，後者要找來源。
-2. 工具鏈到位後，照 M1 的流程對拍 VC++ 1.0 CRT，再補 R4 與判斷文章的 Microsoft 部分。
-3. `dmx-version-diff`、`dsmi-interface-split` 可以隨時穿插。
-4. `dmx-provenance` 查不到一手來源時，維持「待查證」並回報，不擋其他項目。
+1. **A（VC++ 1.0 切份）先做**：素材最完整（建置檔＋README 的清單），而且它決定後續對拍要編哪些庫。
+2. **C（DSMI 三套介面）次之**：單一版本、結構清楚，適合在 A 的文章送審時並行。
+3. **B（DMX 版本差異）最後**：五個版本要逐目錄比對，工作量最大，而且結論多半是「強推論」。
+4. D 與 E 隨時穿插，不佔主線。
+
+## 每一項的做法
+
+- 研究在私有工作區 `~/cht/borland/`，公開文章在本 repo，照兩邊 `CLAUDE.md` 的契約；一行原始碼都不放。
+- 分析、比對、轉檔一律在 docker；只清自己建立的 container，不做任何 prune 或 `rmi`。
+- **沒有實跑就不要假裝有**：文章的「給 remake 的行為規格」一節，只寫原始碼直接寫明的介面、參數意義與邊界，
+  節首標明「這一節沒有實跑支持」。做不到「照規格重做就行為一致」時，寧可把那節縮小到能保證的範圍。
+- 跨版本比較（B）先用檔案層級的差異（哪些檔新增、刪除、改動）建立骨架，再挑改動最大的幾支讀進去；
+  **不要逐檔讀完五個版本**，把讀了哪些、沒讀哪些寫進筆記。
+- 「在執行檔裡怎麼認」這一節，DMX 與 DSMI **不寫**（授權不允許反組譯與簽章）；
+  VC++ 1.0 在工具鏈到位前只寫「從原始碼可以預期的符號名與結構」，並標明尚未在真實執行檔上驗證。
+- 結論分四級（已證實／強推論／假說／未知）；沒有對拍的一律不標「已證實（對拍）」。
+- 公開文章收尾：外洩閘門 → `tools/build_index.py` → **專家（`model: opus`）與學生（`model: sonnet`）兩個唯讀審查**
+  → 逐條查證後修正 → 再過閘門推送。
+  > M1 那一輪專家用 opus 抓到三個 sonnet 未必查得出的問題（備用浮點模組的連結條件、`SCROLL` 的版本差異、
+  > 漫遊指標不是 next fit），代價是每次約 20 分鐘。這一輪沿用。
+- 派審查 agent 時，prompt 要寫死邊界：唯讀、不 commit、不 push、不做任何 docker 清理、回報不得引用原始碼原文。
+- 某一項出現「怎麼查都對不上」時，最多換兩輪假設；仍解釋不了就把排除過的假設寫進筆記，另開一條 worklist。
+- 每完成一項：`tools/worklist.py` 確認該條已不成立 → commit（`Closes #N`）→ push → 從 worklist 移除。
 
 ## 完成條件
 
-- 上表研究項目完成；`dmx-provenance` 可以用「已窮盡可取得的來源、仍待查證」結案。
-- VC++ 1.0、DMX、DSMI 各至少登記一篇文章的 issue，並寫明依據哪個研究項目。
-- #3 與 #6 的 Microsoft 段落不再是未知，或寫明為什麼仍無法確認。
+- A、B、C 三組的研究筆記與公開文章完成，六個 issue（私有三個、公開三個）關閉，兩個 repo 的 worklist 沒有這一批的條目。
+- 三篇文章都有「證據與未知」，每條結論標得出等級與出處（來源名＋檔名）；沒有任何一條標成「已證實（對拍）」。
+- `README.md` 的文章表、`CONTEXT.md` 的來源代號與術語、`kb-index.json` 都已更新。
+- `docs/20-msvc-crt/`、`docs/30-dmx/`、`docs/40-dsmi/` 三個目錄建立，每個至少一篇。
+- D（工具鏈）與 E（權利狀態）各自有結論或明確的「查不到，理由是什麼」寫進筆記。
+
+## 這一輪不做
+
+- **不做 VC++ 1.0 的對拍與位元組簽章**：等工具鏈到位，另開一輪。
+- **不做 DMX、DSMI 的反組譯與簽章**：授權不允許。
+- **不寫 Borland 與 Microsoft 的並列比較文章**（`docs/50-cross-vendor/`）：
+  那要先有 VC++ 1.0 的對拍結果，否則兩邊的證據強度不對等。
+- **不補 M1、M2 留白的 Microsoft 段落**（公開 [#3](https://github.com/wicanr2/retro-runtime-study/issues/3) 的啟動與結束鏈對照、
+  [#6](https://github.com/wicanr2/retro-runtime-study/issues/6) 的 VC++ 1.0 判準）：同上，等對拍。
+- 不碰 VC++ 2.0（32 位元）與 iostream。
 
 ## 風險與未知
 
-- **VC++ 1.0 工具鏈可能取得不到合法來源。** 取得不到時，VC++ 1.0 的文章只能寫到「已證實（原文）」，
-  #6 的 Microsoft 判準只能依原始碼推論，不做位元組簽章。
-- **dosgolem 不一定支援 VC++ 1.0 的工具。** 缺的功能依 DOSBox-X 原始碼補進 dosgolem，先寫規格再實作。
-- **DSMI 的授權禁止逆向。** 任何研究都只讀原始碼，不反組譯 DSMI 編出的程式。
-- **DMX 的權利狀態不明。** 文章只寫機制，法律上的判斷交給使用者。
+- **VC++ 1.0 工具鏈可能取得不到合法來源。** 取得不到時，A 的文章停在「原始碼與建置檔說了什麼」，
+  不往「出貨的 `.LIB` 確實長這樣」推。這是這一輪最大的證據強度落差，文章要講明。
+- **建置檔可能與實際出貨不一致。** `.BLD`／`.MKF` 描述的是原廠**當時**的建置流程，出貨的 `.LIB` 不一定由這份流程產生；
+  沒有對拍就無法排除。結論標「已證實（原文）」時要限定在「建置檔這樣寫」，不要寫成「出貨的庫就是這樣組的」。
+- **DMX 的版本號不一定對應目錄名。** `dmx33gs`、`dmx37lib` 這種命名可能是封存者取的；
+  版本判斷要以檔案內容（檔頭註解、`bugs.lst`、API 變化）為準，不以目錄名為準。
+- **DSMI 的三套介面可能不是同一份快照。** `src/` 是單一目錄，C、組語、Pascal 檔混在一起，
+  不同語言的檔案可能來自不同時期；比對時要看檔頭日期與內容一致性，不假設它們同步。
+- **沒有實跑，邊界條件會查不出來。** M1 那四篇裡最有價值的結論（進位規則、切割方向、換行行為）都是實跑逼出來的；
+  這一輪拿不到同等強度的結論，文章的定位要誠實：機制與介面說明，不是行為規格。
