@@ -4,18 +4,5 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": [
-    {
-      "id": "dmx-version-history",
-      "layer": "article",
-      "title": "DMX 各版改了什麼（3.3b → 3.3d → 3.3gs → 3.4a）",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/30-dmx/version-history.md"
-        ]
-      },
-      "issue": "#14"
-    }
-  ]
+  "items": []
 }

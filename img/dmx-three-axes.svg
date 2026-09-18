@@ -15,14 +15,14 @@
 
   <rect x="42" y="84" width="160" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
   <text x="52" y="103" font-size="12.5" font-weight="bold" fill="#1f2933">dmx33b</text>
-  <text x="52" y="122" font-size="11" fill="#5a6472">最完整：含載入器、</text>
-  <text x="52" y="138" font-size="11" fill="#5a6472">MIDI／WAV 素材、序列埠</text>
+  <text x="52" y="122" font-size="11" fill="#5a6472">最完整：含 MIDI／WAV</text>
+  <text x="52" y="138" font-size="11" fill="#5a6472">素材與序列埠程式</text>
   <text x="52" y="152" font-size="11" fill="#8a4b00">附庫的符號對照表</text>
 
   <rect x="212" y="84" width="150" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
   <text x="222" y="103" font-size="12.5" font-weight="bold" fill="#1f2933">dmx33d</text>
-  <text x="222" y="122" font-size="11" fill="#5a6472">多一組 PC 中斷介面</text>
-  <text x="222" y="138" font-size="11" fill="#5a6472">與即時混音器</text>
+  <text x="222" y="122" font-size="11" fill="#5a6472">PC 中斷模組換新，</text>
+  <text x="222" y="138" font-size="11" fill="#5a6472">另加一支即時混音器</text>
 
   <rect x="372" y="84" width="150" height="72" rx="6" fill="#fff8f0" stroke="#d97706"/>
   <text x="382" y="103" font-size="12.5" font-weight="bold" fill="#8a4b00">dmx33gs</text>
@@ -32,13 +32,13 @@
 
   <rect x="532" y="84" width="150" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
   <text x="542" y="103" font-size="12.5" font-weight="bold" fill="#1f2933">dmx34a</text>
-  <text x="542" y="122" font-size="11" fill="#5a6472">CODEC 卡、FM 驅動、</text>
-  <text x="542" y="138" font-size="11" fill="#5a6472">GUS 樣本分級表</text>
+  <text x="542" y="122" font-size="11" fill="#5a6472">FM 驅動換新，多一支</text>
+  <text x="542" y="138" font-size="11" fill="#5a6472">CODEC 驅動沒接進建置</text>
 
   <rect x="692" y="84" width="150" height="72" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
   <text x="702" y="103" font-size="12.5" font-weight="bold" fill="#5a6472">dmx37lib</text>
-  <text x="702" y="122" font-size="11" fill="#5a6472">只有兩個標頭、兩個庫</text>
-  <text x="702" y="138" font-size="11" fill="#5a6472">沒有原始碼</text>
+  <text x="702" y="122" font-size="11" fill="#5a6472">兩個標頭、兩個庫，</text>
+  <text x="702" y="138" font-size="11" fill="#5a6472">外加一支示範程式</text>
 
   <rect x="852" y="84" width="52" height="72" rx="6" fill="#fdecec" stroke="#d98080"/>
   <text x="878" y="108" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#8a2b2b">fmfix</text>
@@ -53,8 +53,8 @@
   <text x="42" y="224" font-size="13" font-weight="bold" fill="#1f2933">軸一　功能版本</text>
   <text x="42" y="248" font-size="11.5" fill="#1f2933">3.3b → 3.7 的公開介面，以同樣</text>
   <text x="42" y="266" font-size="11.5" fill="#1f2933">兩個標頭比對只多兩個函式。</text>
-  <text x="42" y="292" font-size="11.5" fill="#5a6472">3.3d：PC 中斷介面</text>
-  <text x="42" y="310" font-size="11.5" fill="#5a6472">3.4a：CODEC、FM、GUS 設定</text>
+  <text x="42" y="292" font-size="11.5" fill="#5a6472">3.3d：PC 中斷模組換新</text>
+  <text x="42" y="310" font-size="11.5" fill="#5a6472">3.4a：FM 驅動換新</text>
   <text x="42" y="328" font-size="11.5" fill="#5a6472">3.7：CODEC／Ensoniq 偵測</text>
   <text x="42" y="358" font-size="11.5" fill="#8a4b00">變的是支援哪些卡，</text>
   <text x="42" y="376" font-size="11.5" fill="#8a4b00">不是介面的形狀。</text>
@@ -73,7 +73,7 @@
   <text x="642" y="224" font-size="13" font-weight="bold" fill="#1f2933">軸三　呼叫慣例</text>
   <text x="642" y="248" font-size="11.5" fill="#1f2933">同一份原始碼編兩次：</text>
   <text x="642" y="272" font-size="11.5" fill="#5a6472">參數走暫存器　快，但綁編譯器</text>
-  <text x="642" y="292" font-size="11.5" fill="#5a6472">參數走堆疊　　慢一點，誰都連得進</text>
+  <text x="642" y="292" font-size="11.5" fill="#5a6472">參數走堆疊　　慢一點，別的工具鏈接得上</text>
   <text x="642" y="322" font-size="11.5" fill="#1f2933">客戶的編譯器不一定跟你一樣，</text>
   <text x="642" y="340" font-size="11.5" fill="#1f2933">所以兩種都出。</text>
   <text x="642" y="368" font-size="11.5" fill="#8a4b00">33gs：dmx.lib ＋ dmxs.lib</text>
@@ -82,8 +82,8 @@
   <!-- 庫的組成 -->
   <rect x="26" y="406" width="440" height="136" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
   <text x="42" y="430" font-size="13" font-weight="bold" fill="#1f2933">出貨的庫不等於樹裡的原始碼</text>
-  <text x="42" y="456" font-size="11.5" fill="#1f2933">符號對照表：212 個公開符號、28 個模組。</text>
-  <text x="42" y="478" font-size="11.5" fill="#1f2933">其中 9 個模組在原始碼樹裡沒有對應檔——</text>
+  <text x="42" y="456" font-size="11.5" fill="#1f2933">符號對照表：215 個公開符號、28 個模組。</text>
+  <text x="42" y="478" font-size="11.5" fill="#1f2933">其中 8 個模組在原始碼樹裡沒有對應檔——</text>
   <text x="42" y="496" font-size="11.5" fill="#1f2933">建置時另外附加了一個第三方庫（AWE32 支援）。</text>
   <text x="42" y="522" font-size="11.5" fill="#8a2b2b">那一塊的行為讀原始碼推不出來，它不在樹裡。</text>
 

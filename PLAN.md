@@ -20,7 +20,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R10 | conio 與文字畫面（完成，已過專家與學生審查） | `docs/10-borland-crtl/conio-screen.md`、一張 SVG、`examples/conio/` |
 | R11 | VC++ 1.0 的函式庫怎麼切份（完成，已過專家與學生審查） | `docs/20-msvc-crt/library-combination.md`、一張 SVG |
 | R12 | DSMI 的三套介面（完成，已過專家與學生審查） | `docs/40-dsmi/interface-split.md`、一張 SVG |
-| R13 | DMX 的五份封存（審查前第一版） | `docs/30-dmx/version-history.md`、一張 SVG |
+| R13 | DMX 的五份封存（完成，已過專家與學生審查） | `docs/30-dmx/version-history.md`、一張 SVG |
 | R14 以後 | 依 worklist 排序 | 亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
