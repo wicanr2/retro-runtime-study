@@ -1,0 +1,30 @@
+BUFSIZ 512 20 20
+textwrite 61 0D 0A 62 0D 0A
+binwrite 61 0A 62 0A
+textread 5 1 8
+textread.bytes 78 0A 79 7A 0A
+ctrlz 3 1 3
+ctrlz.bytes 61 62 63
+ctrlz.bin 7 1 0
+ftell.text 4 4 4
+seekgap 41 42 00 00 00 00 5A
+readpasteof 4 7 0
+eofflag 1 0 0
+clearerr 0 0 0
+fullbuf 0 10 0
+nobuf 10 10 0
+smallbuf 10 10 0
+append 31 32 33 34 58
+update 31 59 33 34 58
+ungetc 1 0 1
+fgets1 3 1 4
+fgets2 2 0 6
+fgets3 1 1 0
+appendpos 0 6 0
+noent 0 2 2
+badmode 0 0 2
+open.noent -1 2 2
+read.badfd 0 0 2
+dup.pos 1 2 6
+fileno 1 0 0
+fmode 1 0 0

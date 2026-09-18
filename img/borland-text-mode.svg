@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect width="960" height="640" fill="#ffffff"/>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E8710A"/></marker></defs>
+<text x="30" y="38" font-size="20" font-weight="bold" fill="#222">文字模式：轉換發生在代號層</text>
+<text x="30" y="64" font-size="14" fill="#555">程式看到的是左邊，檔案裡是右邊。橘色是轉換加上或拿掉的位元組。</text>
+<text x="30" y="110" font-size="16" font-weight="bold" fill="#222">寫入</text>
+<text x="40" y="138" font-size="13" fill="#444">程式給 write 的位元組</text>
+<rect x="40" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="60" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">a</text>
+<rect x="84" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="104" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<rect x="128" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="148" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">b</text>
+<rect x="172" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="192" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<text x="560" y="138" font-size="13" fill="#444">檔案裡</text>
+<rect x="560" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="580" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">a</text>
+<rect x="604" y="148" width="40" height="34" rx="3" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="624" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\r</text>
+<rect x="648" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="668" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<rect x="692" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="712" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">b</text>
+<rect x="736" y="148" width="40" height="34" rx="3" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="756" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\r</text>
+<rect x="780" y="148" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="800" y="171" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<line x1="240" y1="165" x2="548" y2="165" stroke="#E8710A" stroke-width="2" marker-end="url(#a)"/>
+<text x="394.0" y="155" font-size="13" text-anchor="middle" fill="#E8710A">每個 \n 前面插入 \r（滿 128 bytes 送一次 DOS）</text>
+<text x="30" y="240" font-size="16" font-weight="bold" fill="#222">讀取</text>
+<text x="40" y="268" font-size="13" fill="#444">檔案裡</text>
+<rect x="40" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="60" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">x</text>
+<rect x="84" y="278" width="40" height="34" rx="3" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="104" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\r</text>
+<rect x="128" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="148" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<rect x="172" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="192" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">y</text>
+<rect x="216" y="278" width="40" height="34" rx="3" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="236" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\r</text>
+<rect x="260" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="280" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">z</text>
+<rect x="304" y="278" width="40" height="34" rx="3" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="324" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\r</text>
+<rect x="348" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="368" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<text x="600" y="268" font-size="13" fill="#444">程式拿到</text>
+<rect x="600" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="620" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">x</text>
+<rect x="644" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="664" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<rect x="688" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="708" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">y</text>
+<rect x="732" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="752" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">z</text>
+<rect x="776" y="278" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="796" y="301" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">\n</text>
+<line x1="400" y1="295" x2="588" y2="295" stroke="#E8710A" stroke-width="2" marker-end="url(#a)"/>
+<text x="494.0" y="285" font-size="13" text-anchor="middle" fill="#E8710A">丟掉所有 \r（孤立的也丟）</text>
+<text x="30" y="370" font-size="16" font-weight="bold" fill="#222">Ctrl-Z</text>
+<text x="40" y="398" font-size="13" fill="#444">檔案裡</text>
+<rect x="40" y="408" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="60" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">a</text>
+<rect x="84" y="408" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="104" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">b</text>
+<rect x="128" y="408" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="148" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">c</text>
+<rect x="172" y="408" width="40" height="34" rx="3" fill="#fff4ea" stroke="#E8710A" stroke-width="2"/>
+<text x="192" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">1A</text>
+<rect x="216" y="408" width="40" height="34" rx="3" fill="#ffffff" stroke="#ccc" stroke-width="1"/>
+<text x="236" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">d</text>
+<rect x="260" y="408" width="40" height="34" rx="3" fill="#ffffff" stroke="#ccc" stroke-width="1"/>
+<text x="280" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">e</text>
+<rect x="304" y="408" width="40" height="34" rx="3" fill="#ffffff" stroke="#ccc" stroke-width="1"/>
+<text x="324" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">f</text>
+<text x="600" y="398" font-size="13" fill="#444">程式拿到</text>
+<rect x="600" y="408" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="620" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">a</text>
+<rect x="644" y="408" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="664" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">b</text>
+<rect x="688" y="408" width="40" height="34" rx="3" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="708" y="431" font-size="13" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">c</text>
+<line x1="360" y1="425" x2="588" y2="425" stroke="#E8710A" stroke-width="2" marker-end="url(#a)"/>
+<text x="474.0" y="415" font-size="13" text-anchor="middle" fill="#E8710A">1Ah 當檔尾，之後不再讀</text>
+<text x="40" y="470" font-size="13" fill="#444">檔案位置倒回 1Ah 那一格（ftell ＝ 3），該代號設「已到檔尾」旗標；之後的寫入會清掉它。二進位模式不做這一切。</text>
+<rect x="40" y="480" width="880" height="130" rx="6" fill="#f3f4f6" stroke="#999"/>
+<text x="56" y="508" font-size="16" font-weight="bold" fill="#222">ftell 怎麼補償緩衝區</text>
+<text x="56" y="532" font-size="13" fill="#333">1. 問 DOS 目前的位置（緩衝區裡那一段還沒送出或還沒消化）</text>
+<text x="56" y="552" font-size="13" fill="#333">2. 算緩衝區裡未消化的位元組數：寫入方向是「緩衝區大小 ＋ level ＋ 1」，讀取方向是 |level|</text>
+<text x="56" y="572" font-size="13" fill="#333">3. 文字模式再掃一次緩衝區，每個 \n 加 1（它在檔案裡是兩個位元組）</text>
+<text x="56" y="592" font-size="13" fill="#333">4. 寫入方向把補償值加上去、讀取方向減掉 → 得到檔案裡的位置</text>
+</svg>

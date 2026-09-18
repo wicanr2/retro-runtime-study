@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect width="1000" height="640" fill="#ffffff"/>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#666"/></marker></defs>
+<text x="30" y="38" font-size="20" font-weight="bold" fill="#222">檔案 I/O 的三層，與 level 的兩種意義</text>
+<text x="30" y="64" font-size="14" fill="#555">左邊是資料經過的三層；右邊是同一個 level 欄位在讀與寫時各代表什麼。</text>
+<rect x="40" y="95" width="420" height="130" rx="6" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="56" y="121" font-size="16" font-weight="bold" fill="#222">FILE 串流層　fopen／fread／fputc</text>
+<text x="56" y="145" font-size="13" fill="#333">緩衝區（預設 512 bytes，malloc 配置）</text>
+<text x="56" y="165" font-size="13" fill="#333">level：緩衝區裡還剩多少（見右）</text>
+<text x="56" y="185" font-size="13" fill="#333">旗標：讀／寫、行緩衝、錯誤、檔尾、二進位</text>
+<text x="56" y="205" font-size="13" fill="#333">ungetc 的單一字元放在 hold</text>
+<rect x="40" y="255" width="420" height="130" rx="6" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="56" y="281" font-size="16" font-weight="bold" fill="#222">代號層　read／write／open／lseek</text>
+<text x="56" y="305" font-size="13" fill="#333">_openfd[20]：每個代號一格的旗標</text>
+<text x="56" y="325" font-size="13" fill="#333">文字模式：寫 \n → \r\n；讀掉所有 \r</text>
+<text x="56" y="345" font-size="13" fill="#333">讀到 Ctrl-Z 當檔尾，位置倒回該字元</text>
+<text x="56" y="365" font-size="13" fill="#333">失敗時查表設 errno，原始碼留在 _doserrno</text>
+<rect x="40" y="415" width="420" height="110" rx="6" fill="#f3f4f6" stroke="#999" stroke-width="1"/>
+<text x="56" y="441" font-size="16" font-weight="bold" fill="#222">DOS　int 21h</text>
+<text x="56" y="465" font-size="13" fill="#333">開檔 3Dh／3Ch、讀 3Fh、寫 40h、移動 42h、關檔 3Eh</text>
+<text x="56" y="485" font-size="13" fill="#333">一次一個服務；檔案位置由 DOS 保管</text>
+<line x1="250" y1="225" x2="250" y2="253" stroke="#666" stroke-width="1.6" marker-end="url(#a)"/>
+<line x1="200" y1="253" x2="200" y2="225" stroke="#666" stroke-width="1.6" marker-end="url(#a)"/>
+<line x1="250" y1="385" x2="250" y2="413" stroke="#666" stroke-width="1.6" marker-end="url(#a)"/>
+<line x1="200" y1="413" x2="200" y2="385" stroke="#666" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="262" y="245" font-size="12" fill="#666">送出</text>
+<text x="150" y="245" font-size="12" fill="#666">讀回</text>
+<text x="530" y="118" font-size="16" font-weight="bold" fill="#222">level 的兩種意義（同一個 short）</text>
+<text x="530" y="142" font-size="14" fill="#444">讀取中：level ＝ 3</text>
+<rect x="530" y="150" width="34" height="34" rx="3" fill="#e5e7eb" stroke="#999"/>
+<text x="547" y="173" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">a</text>
+<rect x="568" y="150" width="34" height="34" rx="3" fill="#e5e7eb" stroke="#999"/>
+<text x="585" y="173" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">b</text>
+<rect x="606" y="150" width="34" height="34" rx="3" fill="#fff4ea" stroke="#999"/>
+<text x="623" y="173" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">c</text>
+<rect x="644" y="150" width="34" height="34" rx="3" fill="#fff4ea" stroke="#999"/>
+<text x="661" y="173" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">d</text>
+<rect x="682" y="150" width="34" height="34" rx="3" fill="#fff4ea" stroke="#999"/>
+<text x="699" y="173" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">e</text>
+<text x="530" y="206" font-size="13" fill="#333">curp 指向第 3 格，後面還有 3 個可讀</text>
+<text x="530" y="226" font-size="13" fill="#666">getc：level 減 1，直接取 *curp++</text>
+<text x="530" y="282" font-size="14" fill="#444">寫入中：level ＝ −3</text>
+<rect x="530" y="290" width="34" height="34" rx="3" fill="#e5e7eb" stroke="#999"/>
+<text x="547" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">H</text>
+<rect x="568" y="290" width="34" height="34" rx="3" fill="#e5e7eb" stroke="#999"/>
+<text x="585" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222">i</text>
+<rect x="606" y="290" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="623" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<rect x="644" y="290" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="661" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<rect x="682" y="290" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="699" y="313" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<text x="530" y="346" font-size="13" fill="#333">已放 2 個，還能放 2 個（−level − 1）</text>
+<text x="530" y="366" font-size="13" fill="#666">putc：level 加 1，直接寫 *curp++</text>
+<text x="530" y="422" font-size="14" fill="#444">空的：level ＝ 0</text>
+<rect x="530" y="430" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="547" y="453" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<rect x="568" y="430" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="585" y="453" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<rect x="606" y="430" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="623" y="453" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<rect x="644" y="430" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="661" y="453" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<rect x="682" y="430" width="34" height="34" rx="3" fill="#ffffff" stroke="#999"/>
+<text x="699" y="453" font-size="14" font-family="'DejaVu Sans Mono','Consolas',monospace" text-anchor="middle" fill="#222"></text>
+<text x="530" y="486" font-size="13" fill="#333">方向還沒決定</text>
+<text x="530" y="506" font-size="13" fill="#666">第一次讀或寫時由函式決定方向</text>
+<rect x="40" y="545" width="920" height="70" rx="6" fill="#ffffff" stroke="#bbb" stroke-dasharray="6 4"/>
+<text x="56" y="571" font-size="14" font-weight="bold" fill="#222">為什麼只用一個欄位</text>
+<text x="56" y="594" font-size="13" fill="#444">FILE 有 20 個、常駐在資料段，每個欄位都要省。正負號同時記下方向與剩餘量，getc／putc 展開後只要一次加減與一次比較。</text>
+</svg>
