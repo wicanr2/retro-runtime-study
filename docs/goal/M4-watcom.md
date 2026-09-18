@@ -26,9 +26,24 @@ M4 分批做：
   （`docs/80-watcom/watcom65-runtime.md`，已過專家與學生審查）。
   6.5 是 16 位元的，可以直接和 M1 的 Borland 逐項對照，用它把流程跑順。
   第一批的完成條件與收穫記在 `PLAN.md`；未解的 `WCC` E142 另開私有 issue 追。
-- **第二批（本輪）**：**7.0 的第一代 32 位元與 extender**，一篇文章。素材已經在手，不必再下載。
-- **後續批次（本輪不做）**：8.0 的差異、9.x 的 DOS/4GW 與 DPMI、LE／LX 格式、版本演進總表。
-  這幾項都要再下載素材，等第二批做完再排。
+- **第二批（2026-09-18 完成）**：7.0 的第一代 32 位元與 extender
+  （`docs/80-watcom/watcom386-extenders.md`，已過兩個審查）。
+  意外收穫是 7.0 的工具在 dosgolem 下跑得動（它們本身是 16 位元程式），所以那篇有實測撐著。
+- **第三批（本輪）**：**9.x 的 DOS/4GW 與 DPMI**，一篇文章。這是整條線的終點，
+  也是 M3 那批遊戲（DMX 服務的 1993–1995 年 DOS 遊戲）實際跑的環境。要先下載 9.01。
+- **後續批次（本輪不做）**：8.0 的差異、LE／LX 格式細節、版本演進總表。
+
+### 第三批要回答的問題
+
+1. **DOS/4GW 是什麼關係**：9.x 綁的是 Rational Systems 的 DOS/4GW，它與 7.0 那兩家有什麼不同？
+   是隨編譯器附的還是要另外買？
+2. **stub 怎麼運作**：DOS/4GW 年代的執行檔是「16 位元的 stub ＋ 32 位元本體」黏在一起。
+   stub 做什麼、怎麼把控制權交給 extender？
+3. **DPMI 進來了沒有**：7.0 走的是各家自己的介面；9.x 是不是改走 DPMI 這個標準？
+   啟動碼看得出來嗎？
+4. **啟動碼又變了什麼**：9.x 的啟動碼與 7.0 差在哪；`__psp` 那組全域變數還在不在。
+5. **與 DMX 對得上嗎**：M3 已知 DMX 用 `wcc386p`、`SYSTEM dos4g` 建，
+   它的 `realint.asm`（真實模式中斷處理）對應的是這一層的哪個機制？
 
 ### 第二批要回答的問題
 
@@ -76,10 +91,10 @@ Watcom 出貨包裡的 `CLIB*.LIB`、`MATH*.LIB` 只有目的碼。
 | `watcom-6.5` | `watcom-6.5/Watcom C.ver.6.5.English.zip` | archive.org 收藏 [watcom-c-cpp-compilers-collection](https://archive.org/details/watcom-c-cpp-compilers-collection) | **已取得**，本輪主角 |
 | `watcom-7.0` | `watcom-7.0/Watcom C 386.ver.7.0.English.zip` | 同上 | **已取得**，盤點用；研究留到後續批次 |
 | `watcom-8.0` | `watcom-8.0/CNW386-1.ZIP`～`CNW386-6.ZIP` | 同上 | 不下載，後續批次再取 |
-| `watcom-9.01` | `watcom-9.01/floppies/Disk01.img`～`Disk06.img`（未打補丁的基礎版） | 同上 | 不下載，後續批次再取 |
+| `watcom-9.01` | `watcom-9.01/floppies/Disk01.img`～`Disk06.img`（未打補丁的基礎版） | 同上 | **第三批要下載** |
 | `watcom-9.5` | `watcom-9.5/discmaster/Sybase - Watcom C++ 9.5b.zip` | 同上 | 不下載，後續批次再取 |
 | `open-watcom-v2@3605d031a737` | 固定 commit 的四個目錄 | `git` sparse checkout | **已取得**，解讀輔助 |
-| `dpmi-0.9`、`dpmi-1.0` | DPMI 規格書 | 待找可信原文 | 不找，後續批次 |
+| `dpmi-0.9`、`dpmi-1.0` | DPMI 規格書 | 待找可信原文 | 第三批要試著找；找不到就以「查不到可信原文」結案 |
 
 整份收藏 4.8 GB，本輪只取 6.5 與 7.0 兩包，其餘等要用時再下載——磁碟與頻寬都是成本，
 而且沒有要研究的版本先放著只會讓盤點表變髒。收藏附了 `SHA256SUMS`、`SOURCES.md`
@@ -148,7 +163,16 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 - **commit 固定。** 全階段用 `ow2-source-pin` 選定的同一個 commit，連結不會因上游更新而失效。
 - **不拿引用當當年版本的證據。** 引用的是 2000 年代以後的原始碼，文章要寫清楚它和 1988–1993 年出貨版的關係與推論等級。
 
-## 工作項目（第二批，本輪）
+## 工作項目（第三批，本輪）
+
+| worklist id | 內容 | 在哪 |
+|---|---|---|
+| `watcom9-download` | 下載 9.01 的六個磁片映像（必要時加 9.5b），驗雜湊、解出、產 manifest 與盤點 | 私有 |
+| `watcom9-extender` | DOS/4GW：stub 怎麼載入本體、啟動碼交棒時的環境、有沒有走 DPMI；與 7.0、6.5 對照 | 私有研究筆記 |
+| `dmx-dpmi-usage` | DMX 怎麼與 extender 互動（真實模式中斷段、DPMI 呼叫、鎖定記憶體）；只做原始碼層級 | 私有 |
+| `article-dos4gw-dpmi-le` | 公開文章：DOS/4GW 年代的 32 位元 DOS 程式怎麼啟動 | `docs/80-watcom/` |
+
+## 工作項目（第二批，已完成）
 
 | worklist id | 內容 | 在哪 |
 |---|---|---|
@@ -185,11 +209,9 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 | worklist id | 內容 |
 |---|---|
 | `watcom80-delta` | 8.0 相對 7.0 的變化：保護模式版編譯器、函式庫與啟動碼的差異 |
-| `watcom9-extender` | 9.01／9.5 的 DOS/4GW：stub 怎麼載入 LE 本體、啟動碼交棒時的環境、DPMI 服務的使用子集 |
 | `le-lx-format` | LE 與 LX 的結構：物件表、分頁、fixup、入口 |
-| `dmx-dpmi-usage` | DMX 怎麼與 extender 互動：真實模式中斷處理段、DPMI 呼叫、鎖定記憶體；只做原始碼層級 |
 | `re-watcom-tools` | 各版編譯器與連結器的 IDA 匯出，當作辨識 Watcom runtime 與格式解析的實例 |
-| `article-dos4gw-dpmi-le`、`article-watcom-lineage` | 對應的兩篇公開文章 |
+| `article-watcom-lineage` | 版本演進總表那篇 |
 
 ## 每一項的做法
 
@@ -213,7 +235,14 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 - 某一項出現「怎麼查都對不上」時，最多換兩輪假設；仍解釋不了就把排除過的假設寫進筆記，另開一條 worklist。
 - 每完成一項：`tools/worklist.py` 確認該條已不成立 → commit（`Closes #N`）→ push → 從 worklist 移除。
 
-## 完成條件（第二批）
+## 完成條件（第三批）
+
+- 9.01 取得並驗過雜湊，`vendor/` 可由 `originals/` 重建，有盤點表與版本判定依據。
+- `watcom9-extender` 與 `dmx-dpmi-usage` 研究筆記完成，上面五個問題各有答案或明確的「查不到」。
+- `docs/80-watcom/` 多一篇 DOS/4GW 的文章，過外洩閘門與兩個審查（都用 `model: sonnet`）。
+- README、CONTEXT、kb-index 更新；兩邊 worklist 沒有第三批條目，issue 關閉。
+
+## 完成條件（第二批，已達成）
 
 - `watcom70-386` 研究筆記完成，上面五個問題各有答案或明確的「查不到，理由是什麼」。
 - `docs/80-watcom/` 多一篇 7.0 的文章，過外洩閘門與兩個審查（都用 `model: sonnet`）。
@@ -234,8 +263,9 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 
 ## 這一輪不做
 
-- **不做 8.0 以後的研究與文章**：那要先下載素材，等第二批做完再排。
-- **不下載 8.0、9.01、9.5b**：要用時再取。
+- **不做 8.0 的差異比較**：它夾在 7.0 與 9.x 中間，等這一輪做完再看值不值得補。
+- **不下載 8.0**：要用時再取。9.01 這一輪要下載。
+- **不做 LE／LX 格式的逐欄位解析**：先把啟動流程講清楚，格式細節另開一輪。
 - **不做 DPMI、LE／LX 格式**：那是 9.x 年代的事。
 - **不做 Watcom 的位元組簽章**：已決定本階段不做。
 - **不碰 VC++ 1.0 的對拍**：工具鏈仍取得不到（私有 #14 保持開啟）。
