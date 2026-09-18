@@ -498,6 +498,49 @@
    ]
   },
   {
+   "id": "msvc-crt/library-combination",
+   "path": "docs/20-msvc-crt/library-combination.md",
+   "title": "一套 CRT 原始碼怎麼變成三十幾個 .LIB",
+   "libraries": [
+    "msvc-1.0-crt"
+   ],
+   "goals": [
+    "craft"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "手上的老程式連結的是 SLIBCER.LIB 這種名字，想知道那個名字每個字母代表什麼",
+    "想知道同一支 C 函式在 16 位元時代為什麼要編出四份、甚至更多份",
+    "反組譯 Microsoft 編的 16 位元程式，想知道哪些部分與記憶體模型無關",
+    "要比較 Borland 與 Microsoft 對記憶體模型的處理差在哪",
+    "想知道 QuickWin、替代數學庫、覆疊管理各自在哪一層被接進來"
+   ],
+   "symbols": [
+    "LIBH",
+    "CRTCOM",
+    "NOCRTW",
+    "LIBCR",
+    "LIBCW",
+    "DLLCW",
+    "LIBCXX",
+    "OLDNAMES",
+    "DIFFHLP",
+    "QWIN",
+    "aNN",
+    "aNF",
+    "aFN",
+    "aFF",
+    "SLIBCER",
+    "SLIBCAR",
+    "SLIBC7R"
+   ],
+   "related": [
+    "borland-crtl/memory-model-macros",
+    "borland-crtl/compiler-helpers",
+    "overview/era-and-libraries"
+   ]
+  },
+  {
    "id": "re-fingerprints/bcc20-codegen",
    "path": "docs/60-re-fingerprints/bcc20-codegen.md",
    "title": "BCC 2.0 產生的程式碼在反組譯裡長什麼樣",

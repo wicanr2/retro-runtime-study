@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="660" viewBox="0 0 940 660" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="940" height="660" fill="#ffffff"/>
+
+  <defs>
+    <marker id="v1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#8a94a6"/>
+    </marker>
+    <marker id="v2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">建置產生元件，安裝才合併</text>
+
+  <!-- 一份原始碼 -->
+  <rect x="26" y="56" width="150" height="150" rx="10" fill="#f8f9fb" stroke="#d0d5dd"/>
+  <text x="101" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f2933">一份原始碼</text>
+  <text x="42" y="106" font-size="11.5" fill="#5a6472">convert、direct、dos</text>
+  <text x="42" y="124" font-size="11.5" fill="#5a6472">exec、heap、helper</text>
+  <text x="42" y="142" font-size="11.5" fill="#5a6472">iostream、conio、lowio</text>
+  <text x="42" y="160" font-size="11.5" fill="#5a6472">misc、startup、stdio</text>
+  <text x="42" y="178" font-size="11.5" fill="#5a6472">string、time⋯⋯</text>
+  <text x="42" y="196" font-size="11.5" fill="#8a4b00">一份都不複製</text>
+
+  <path d="M176,130 L232,130" stroke="#8a94a6" fill="none" marker-end="url(#v1)"/>
+  <text x="180" y="122" font-size="11" fill="#5a6472">換旗標</text>
+
+  <!-- 建置流程 -->
+  <rect x="240" y="48" width="300" height="240" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="256" y="72" font-size="13" font-weight="bold" fill="#1f2933">建置：九輪，每輪只換旗標與輸出目錄</text>
+
+  <rect x="256" y="84" width="268" height="34" rx="6" fill="#fff8f0" stroke="#d97706"/>
+  <text x="270" y="105" font-size="12" fill="#1f2933">① 模型無關那一輪 → LIBH.LIB</text>
+
+  <rect x="256" y="126" width="268" height="60" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
+  <text x="270" y="146" font-size="12" fill="#1f2933">②–⑤ DOS：small／medium／compact／large</text>
+  <text x="270" y="164" font-size="11.5" fill="#5a6472">每輪產出 ?LIBCR（CRT）、?LIBCXX（iostream）</text>
+  <text x="270" y="180" font-size="11.5" fill="#5a6472">與 CRTCOM（.COM 啟動碼）</text>
+
+  <rect x="256" y="194" width="268" height="60" rx="6" fill="#ffffff" stroke="#dfe3e8"/>
+  <text x="270" y="214" font-size="12" fill="#1f2933">⑥–⑨ Windows：同樣四個模型</text>
+  <text x="270" y="232" font-size="11.5" fill="#5a6472">每輪兩組：EXE（?LIBCW）與 DLL（?DLLCW），</text>
+  <text x="270" y="248" font-size="11.5" fill="#5a6472">另加 ?NOCRTW（不帶 CRT，只有兩個目的檔）</text>
+
+  <text x="256" y="274" font-size="11.5" fill="#5a6472">DOS 四輪共用一份回應檔，靠工作目錄區分模型。</text>
+
+  <path d="M540,168 L596,168" stroke="#d97706" fill="none" marker-end="url(#v2)"/>
+  <text x="542" y="160" font-size="11" fill="#8a4b00">元件庫</text>
+
+  <!-- 合併 -->
+  <rect x="604" y="48" width="310" height="240" rx="10" fill="#fff8f0" stroke="#d97706" stroke-width="1.5"/>
+  <text x="620" y="72" font-size="13" font-weight="bold" fill="#8a4b00">安裝時合併成使用者連結的那一個</text>
+  <text x="620" y="94" font-size="12" fill="#1f2933">例：SLIBCER.LIB（small、模擬器、DOS）</text>
+
+  <g font-size="11.5" fill="#1f2933">
+    <rect x="620" y="106" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
+    <text x="632" y="123">SLIBCR　small 的 DOS CRT</text>
+    <rect x="620" y="134" width="278" height="24" rx="4" fill="#ffffff" stroke="#d97706"/>
+    <text x="632" y="151">LIBH　　模型無關的 helper（每個組合都有）</text>
+    <rect x="620" y="162" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
+    <text x="632" y="179">EM ＋ SLIBFP　浮點模擬器與浮點支援</text>
+    <rect x="620" y="190" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
+    <text x="632" y="207">SGRAPHFP　圖形（只有 small／medium 兩種）</text>
+    <rect x="620" y="218" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
+    <text x="632" y="235">SLIBCXX　iostream</text>
+    <rect x="620" y="246" width="278" height="24" rx="4" fill="#ffffff" stroke="#e3c79b"/>
+    <text x="632" y="263">PCD ＋ VM　p-code 與虛擬記憶體支援</text>
+  </g>
+
+  <!-- 命名規則 -->
+  <rect x="26" y="304" width="500" height="182" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="42" y="328" font-size="13" font-weight="bold" fill="#1f2933">名字裡的每個字母</text>
+
+  <g font-size="13" fill="#1f2933">
+    <rect x="46" y="342" width="52" height="34" rx="5" fill="#fff8f0" stroke="#d97706"/>
+    <text x="72" y="365" text-anchor="middle">s</text>
+    <rect x="100" y="342" width="72" height="34" rx="5" fill="#f4f6f8" stroke="#dfe3e8"/>
+    <text x="136" y="365" text-anchor="middle">libc</text>
+    <rect x="174" y="342" width="52" height="34" rx="5" fill="#fff8f0" stroke="#d97706"/>
+    <text x="200" y="365" text-anchor="middle">e</text>
+    <rect x="228" y="342" width="52" height="34" rx="5" fill="#fff8f0" stroke="#d97706"/>
+    <text x="254" y="365" text-anchor="middle">r</text>
+    <rect x="282" y="342" width="70" height="34" rx="5" fill="#f4f6f8" stroke="#dfe3e8" stroke-dasharray="4 3"/>
+    <text x="317" y="365" text-anchor="middle" font-size="12" fill="#5a6472">[q]</text>
+    <text x="360" y="365" font-size="12" fill="#5a6472">.lib</text>
+  </g>
+
+  <g font-size="12">
+    <text x="46" y="400" fill="#5a6472">開頭的 <tspan fill="#8a4b00">s m c l</tspan>＝記憶體模型；　浮點位的 <tspan fill="#8a4b00">e a 7</tspan>＝模擬器／替代數學／要求 8087</text>
+    <text x="46" y="422" fill="#5a6472">環境位的 <tspan fill="#8a4b00">r w</tspan>＝DOS／Windows 3.x；　結尾的 <tspan fill="#8a4b00">q</tspan>＝QuickWin</text>
+    <text x="46" y="450" fill="#5a6472">DLL 版換一個字：<tspan fill="#1f2933">{s,m,c,l}dllc{e,a}w.lib</tspan></text>
+  </g>
+
+  <text x="46" y="478" font-size="12" fill="#1f2933">DOS 3×4 ＝ 12、Windows EXE 2×2×4 ＝ 16、DLL 2×4 ＝ 8，合計 36 個。</text>
+
+  <!-- LIBH -->
+  <rect x="540" y="304" width="374" height="182" rx="10" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="556" y="328" font-size="13" font-weight="bold" fill="#1f2933">LIBH 怎麼做到模型無關</text>
+  <text x="556" y="350" font-size="12" fill="#1f2933">同一支 helper 原始碼組四次，用前綴區分：</text>
+
+  <g font-size="12">
+    <rect x="556" y="360" width="82" height="30" rx="5" fill="#ffffff" stroke="#dfe3e8"/>
+    <text x="597" y="380" text-anchor="middle" fill="#1f2933">aNN…</text>
+    <rect x="644" y="360" width="82" height="30" rx="5" fill="#ffffff" stroke="#dfe3e8"/>
+    <text x="685" y="380" text-anchor="middle" fill="#1f2933">aNF…</text>
+    <rect x="732" y="360" width="82" height="30" rx="5" fill="#ffffff" stroke="#dfe3e8"/>
+    <text x="773" y="380" text-anchor="middle" fill="#1f2933">aFN…</text>
+    <rect x="820" y="360" width="82" height="30" rx="5" fill="#ffffff" stroke="#dfe3e8"/>
+    <text x="861" y="380" text-anchor="middle" fill="#1f2933">aFF…</text>
+  </g>
+
+  <text x="556" y="410" font-size="11.5" fill="#5a6472">兩個字母＝程式指標、資料指標各是 near 還是 far。</text>
+  <text x="556" y="428" font-size="11.5" fill="#5a6472">small 用 aNN、compact 用 aNF、medium 用 aFN、large 用 aFF。</text>
+  <text x="556" y="452" font-size="12" fill="#1f2933">四套全部收進同一個 LIBH.LIB，</text>
+  <text x="556" y="470" font-size="12" fill="#1f2933">編譯器產生呼叫時挑對應前綴的符號。</text>
+
+  <rect x="26" y="502" width="888" height="132" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="42" y="526" font-size="12.5" fill="#1f2933">Borland 的取捨相反：讓連結器在最後一刻決定接什麼（浮點走向量、覆疊走連結器選項），</text>
+  <text x="42" y="546" font-size="12.5" fill="#1f2933">出廠的庫每個模型就一個；Microsoft 讓安裝程式先把組合鋪好，連結時只是挑一個現成的庫。</text>
+  <text x="42" y="572" font-size="12.5" fill="#1f2933">圖形庫只有 small 與 medium 兩種，依程式指標寬度分配：compact 配 small 的、large 配 medium 的。</text>
+  <text x="42" y="592" font-size="12.5" fill="#1f2933">覆疊管理只出現在 medium 與 large 的 DOS 合併庫裡——遠程式碼模型才用得上。</text>
+  <text x="42" y="618" font-size="12" fill="#8a2b2b">本圖來自原廠建置檔與說明檔；沒有工具鏈可以對拍，不能當成「出貨的庫確實這樣組」。</text>
+</svg>
