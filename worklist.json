@@ -4,19 +4,5 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": [
-    {
-      "id": "conio-screen",
-      "layer": "article",
-      "title": "conio 與文字畫面：directvideo、視窗、捲動、鍵盤",
-      "verify": {
-        "kind": "missing",
-        "paths": [
-          "docs/10-borland-crtl/conio-screen.md",
-          "examples/conio"
-        ]
-      },
-      "issue": "#12"
-    }
-  ]
+  "items": []
 }

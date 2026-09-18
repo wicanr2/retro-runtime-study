@@ -39,6 +39,8 @@ export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem
 | `scroll.pos`、`scroll.top`、`scroll.win` | 在視窗最後一列寫滿觸發捲動，捲的是視窗不是整個螢幕 |
 | `attr.fgbg`、`attr.blink`、`attr.clrscr` | 屬性位元的組法；`clrscr` 用目前屬性 |
 | `gettext`、`puttext`、`movetext` | 區塊操作（絕對座標）與緩衝區內容 |
+| `gettext.rows`、`movetext.overlap` | 多列讀取時第二列從哪裡開始；往下搬一塊會與自己重疊的區域 |
+| `bounds.get`、`bounds.move`、`bounds.put` | 越界座標：前兩者回 0 不動作，`puttext` 回 1 而且真的寫下去 |
 | `nowrap` | `_wscroll = 0` 時寫超過視窗寬度會發生什麼 |
 | `biospath`、`biosclr` | 把 `directvideo` 關掉改走 BIOS，同樣的動作結果一不一樣 |
 
@@ -46,8 +48,10 @@ export BCPP=~/bcpp20 DOSGOLEM=~/dosgolem
 
 ## 已知限制
 
-- **走 BIOS 那條路只測了寫字元、清除與捲動**（結果與直接寫顯示記憶體相同）；
-  區塊搬移的 BIOS 版本沒單獨測。
+- **走 BIOS 那條路只測了寫字元與清除**（結果與直接寫顯示記憶體相同）。
+  清除走的是「捲 0 列」，那條路不論 `directvideo` 為何都是 BIOS；真正沒測的是 **BIOS 版的捲 1 列**與**BIOS 版的區塊搬移**。
+- **捲動的畫面結果與函式庫版本有關**：`SCROLL` 是唯一原始碼與 1991-08 出貨庫對不上的模組，
+  1991-04 版捲完之後空出來的那一列會殘留舊內容。這裡的 `expected-screen.txt` 是用 **1991-08 版**跑出來的。
 - **`attr.init` 是 0，那是 dosgolem 的畫面初始狀態**，真機上啟動時通常不是 0。
   這一行記錄的是「初始屬性來自畫面上游標那格」這個機制，不是某個固定值。
 - 雪花那條路在模擬器裡無從驗證（沒有 CGA 的狀態埠行為）。

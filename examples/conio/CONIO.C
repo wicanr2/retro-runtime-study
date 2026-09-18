@@ -153,6 +153,38 @@ static void blocks(void)
     /* movetext 搬一塊 */
     movetext(1, 1, 8, 1, 1, 5);
     cell("movetext", 1, 5);
+
+    /* 多列的 gettext：緩衝區一列接一列，第二列從第 width 格開始 */
+    gotoxy(1, 7);
+    cputs("ab");
+    gotoxy(1, 8);
+    cputs("cd");
+    gettext(1, 7, 2, 8, buf);
+    note3("gettext.rows", buf[0] & 0xFF, buf[2] & 0xFF, buf[3] & 0xFF);
+
+    /* 往下搬一塊會與自己重疊的區域 */
+    gotoxy(1, 10);
+    cputs("12345678");
+    movetext(1, 10, 8, 11, 1, 11);
+    cell("movetext.overlap", 1, 11);
+}
+
+/* 區塊函式的座標檢查：gettext／movetext 會擋，puttext 不會 */
+static void bounds(void)
+{
+    unsigned buf[2];
+
+    window(1, 1, 80, 25);
+    textattr(7);
+    buf[0] = 0x0741;              /* 白底黑字的 'A' */
+
+    note3("bounds.get", gettext(1, 1, 100, 1, buf), gettext(1, 1, 1, 100, buf),
+          gettext(5, 1, 1, 1, buf));
+    note3("bounds.move", movetext(1, 1, 100, 1, 1, 2), movetext(1, 1, 8, 1, 75, 1), 0);
+    /* puttext 不驗座標：同樣越界的呼叫它回 1，而且真的寫下去
+       （這裡挑的是最後一列右緣外一點點，仍在顯示記憶體那一段裡） */
+    note3("bounds.put", puttext(79, 25, 82, 25, buf),
+          gettext(79, 25, 82, 25, buf), 0);
 }
 
 static void scroll_flag(void)
@@ -175,9 +207,11 @@ static void bios_path(void)
     unsigned buf[4], buf2[4];
     int i, same = 1;
 
-    window(1, 1, 80, 25);
+    /* 只清自己要用的那幾列，前面幾段留在畫面上一起 dump */
+    window(1, 17, 80, 20);
     textattr(7);
     clrscr();
+    window(1, 1, 80, 25);
 
     /* 先用直接寫顯示記憶體的路徑寫一次 */
     directvideo = 1;
@@ -216,6 +250,7 @@ int main(void)
     write_and_wrap();
     attributes();
     blocks();
+    bounds();
     scroll_flag();
     bios_path();
     window(1, 1, 80, 25);

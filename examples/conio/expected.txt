@@ -24,6 +24,11 @@ attr.clrscr 206 32 0
 gettext 1 49 7
 puttext 49 7
 movetext 49 7
+gettext.rows 97 99 100
+movetext.overlap 49 7
+bounds.get 0 0 0
+bounds.move 0 0 0
+bounds.put 1 0 0
 nowrap 4 1 0
 biospath 1 66 7
 biosclr 120 7 0
