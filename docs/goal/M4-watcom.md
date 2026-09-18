@@ -145,7 +145,7 @@ Watcom 出貨包裡的 `CLIB*.LIB`、`MATH*.LIB` 只有目的碼。
 |---|---|---|---|
 | `watcom-6.5` | `watcom-6.5/Watcom C.ver.6.5.English.zip` | archive.org 收藏 [watcom-c-cpp-compilers-collection](https://archive.org/details/watcom-c-cpp-compilers-collection) | **已取得**，本輪主角 |
 | `watcom-7.0` | `watcom-7.0/Watcom C 386.ver.7.0.English.zip` | 同上 | **已取得**，盤點用；研究留到後續批次 |
-| `watcom-8.0` | `watcom-8.0/CNW386-1.ZIP`～`CNW386-6.ZIP` | 同上 | 不下載，後續批次再取 |
+| `watcom-8.0` | `watcom-8.0/CNW386-1.ZIP`～`CNW386-6.ZIP` | 同上 | 不下載，後續批次再取。⚠ 9.01 的 README 提到「V8.5 到 V9.0 的變更」，所以 8.x 這段還有一個 **8.5**，要補 8.x 時別只抓 8.0 |
 | `watcom-9.01` | `watcom-9.01/floppies/Disk01.img`～`Disk06.img`（未打補丁的基礎版） | 同上 | **第三批要下載** |
 | `watcom-9.5` | `watcom-9.5/discmaster/Sybase - Watcom C++ 9.5b.zip` | 同上 | 不下載，後續批次再取 |
 | `open-watcom-v2@3605d031a737` | 固定 commit 的四個目錄 | `git` sparse checkout | **已取得**，解讀輔助 |
@@ -277,7 +277,7 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 
 | worklist id | 內容 |
 |---|---|
-| `watcom80-delta` | 8.0 相對 7.0 的變化：保護模式版編譯器、函式庫與啟動碼的差異 |
+| `watcom80-delta` | 8.x 相對 7.0 的變化：保護模式版編譯器、函式庫與啟動碼的差異。**8.0 與 8.5 是兩個版本**（依據是 9.01 自己的 README）|
 | `le-lx-format` | LE 與 LX 的結構：物件表、分頁、fixup、入口 |
 | `re-watcom-tools` | 各版編譯器與連結器的 IDA 匯出，當作辨識 Watcom runtime 與格式解析的實例 |
 

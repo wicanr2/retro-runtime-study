@@ -841,7 +841,15 @@
     "__Extender",
     "BEGTEXT",
     "XIB",
+    "XI",
     "XIE",
+    "YIB",
+    "YI",
+    "YIE",
+    "__InitRtns",
+    "__FiniRtns",
+    "P_OVERLAY",
+    "LE",
     "__StartTime",
     "WSTUBSRC",
     "CLIB3R",
@@ -855,6 +863,7 @@
     "int31h"
    ],
    "related": [
+    "watcom/watcom-lineage",
     "watcom/watcom386-extenders",
     "watcom/watcom65-runtime",
     "dmx/version-history"

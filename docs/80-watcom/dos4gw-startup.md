@@ -12,8 +12,8 @@ triggers:
   - 手上有 Watcom 9.x 的磁片，想知道 `.WPK` 是什麼格式
   - 程式抱怨找不到 `dos4gw.exe`，想知道是誰在找、照什麼順序找
   - 想知道一支 32 位元 DOS 程式怎麼判斷自己跑在哪一家 extender 上
-symbols: [DOS4GW, dos4gw.exe, wstub.c, DOS4GPATH, __Extender, BEGTEXT, XIB, XIE, __StartTime, WSTUBSRC, CLIB3R, cstart3r, INSTALL.SCR, WPK, _TEXT16, rmInt_, rmEnd_, rmFixup_, int31h]
-related: [watcom/watcom386-extenders, watcom/watcom65-runtime, dmx/version-history]
+symbols: [DOS4GW, dos4gw.exe, wstub.c, DOS4GPATH, __Extender, BEGTEXT, XIB, XI, XIE, YIB, YI, YIE, __InitRtns, __FiniRtns, P_OVERLAY, LE, __StartTime, WSTUBSRC, CLIB3R, cstart3r, INSTALL.SCR, WPK, _TEXT16, rmInt_, rmEnd_, rmFixup_, int31h]
+related: [watcom/watcom-lineage, watcom/watcom386-extenders, watcom/watcom65-runtime, dmx/version-history]
 ---
 
 # DPMI 與 DOS/4GW：32 位元 DOS 程式不必再為每家 extender 編一次
@@ -24,14 +24,18 @@ related: [watcom/watcom386-extenders, watcom/watcom65-runtime, dmx/version-histo
 連「PSP 在哪」都是各家約定的常數，靠條件編譯二選一
 （見 [第一代 32 位元 Watcom](watcom386-extenders.md)）。
 
-到了 1992 年的 9.x，兩件事變了：
+到了 1992 年的 9.x，三件事變了：
 
 - **extender 變成隨編譯器附的東西。** 9.01 的安裝程式問你要裝哪幾家的支援，
-  其中 Rational 的 DOS/4GW 連本體都在磁片裡（`dos4gw.exe`，未壓縮 221,045 bytes），裝完就放在編譯器的 `bin` 目錄。
-- **程式改用一套標準介面對 extender 說話：DPMI**（DOS Protected Mode Interface，
-  保護模式程式向 extender 要記憶體、掛中斷、呼叫實模式碼的標準介面）。
-  不再是各家私有的呼叫慣例，而是統一走 `int 31h` 這個服務中斷。
+  其中 Rational 的 DOS/4GW 連本體都在磁片裡（`dos4gw.exe`，解開後 221,045 bytes），
+  裝完就放在編譯器的 `bin` 目錄。
+- **「跑在哪一家 extender 上」從編譯期的選擇變成執行時的偵測。** 7.0 要靠條件編譯二選一，
+  9.01 的啟動碼開機時自己問一次，把答案記在 `__Extender` 這個變數裡。
+- **應用程式改用一套標準介面對 extender 要服務：DPMI**（DOS Protected Mode Interface，
+  保護模式程式向 extender 要記憶體、掛中斷、呼叫實模式碼的標準介面），統一走 `int 31h`。
   同年代的音效函式庫 DMX 就是這樣寫的。
+  **注意分層**：9.01 的啟動碼自己不呼叫 `int 31h`，它用 `int 21h` 認出 extender；
+  DPMI 是上面的應用程式在用。
 
 對遊戲來說，最實際的影響在中斷處理。音效卡的 IRQ（interrupt request，硬體拉一條線要求處理器
 停下手邊的事）會在處理器還在**實模式**（8086 相容模式，位址是「段 × 16 ＋ 位移」，只定址得到 1 MB）
@@ -142,17 +146,23 @@ DOS/4GW 的本體是 `dos4gw.exe`（221,045 bytes），在磁片 4（標籤就�
 ### stub 做的事：找到 extender，然後把自己交出去
 
 「16 位元 stub ＋ 32 位元本體」這個講法容易讓人以為 stub 是個小型載入器，
-會自己解析後面那段 LE 映像。**它不是**。`wstub.c` 是一支普通的 DOS C 程式，
+會自己解析後面那段 LE（Linear Executable，DOS/4GW 用的 32 位元執行檔格式）映像。**它不是**。`wstub.c` 是一支普通的 DOS C 程式，
 只做三件事：
 
 1. 用 `_searchenv` 在環境變數 `DOS4GPATH` 與 `PATH` 裡找 `dos4gw.exe`，
    兩個都找不到就退回寫死的 `\dos4gw.exe`。
 2. 重組命令列：`dos4gw.exe` 放第一個，**自己的路徑（原本的 `argv[0]`）放第二個**，
    使用者打的參數接在後面。
-3. `execvp` 換成 DOS/4GW。
+3. 用 `execvp` 把控制權交給 DOS/4GW。
 
-交棒靠的是 DOS 自己的 EXEC 服務，stub 執行完就不存在了。DOS/4GW 從第二個參數拿到
-那支執行檔的路徑，**回頭把同一個檔案打開**，跳過前面的 stub 去讀 LE 本體。
+交棒靠的是 DOS 的 EXEC 服務。DOS/4GW 從第二個參數拿到那支執行檔的路徑，
+**回頭把同一個檔案打開**，跳過前面的 stub 去讀 LE 本體。
+
+⚠ 有 Unix 背景的讀者看到 `execvp` 容易套用「原地替換行程、舊的立刻消失」的模型，
+但 DOS 沒有那個語意。9.01 的 `process.h` 另外提供 `P_OVERLAY` 這個模式旗標，
+說明覆蓋是可選的行為之一——**Watcom 的 `execvp` 實際走哪一條，我們沒有 C 函式庫的原始碼可以確認**
+（磁片上只有啟動碼的原始碼）。所以這裡只說「把控制權交出去」，
+不宣稱 stub 執行完就從記憶體消失。
 
 這解釋了兩件那個年代的常見經驗：`DOS4GPATH` 這個環境變數為什麼存在
 （把 `dos4gw.exe` 放在別處時用它指路），以及找不到時為什麼是 stub 在抱怨——
@@ -173,7 +183,11 @@ DOS/4GW 的本體是 `dos4gw.exe`（221,045 bytes），在磁片 4（標籤就�
 
 偵測手法很省：**取 DOS 版本號那一次呼叫同時當成探測器**。呼叫 `int 21h` 的 `AH=30h`
 之前先把 `EBX` 填成字面值 `'PHAR'`；真正的 DOS 只動 `AL`／`AH`（版本號），
-而 extender 會在 `EAX` 的高 16 位留下自己的識別字：
+而 extender 會在 `EAX` 的高 16 位留下自己的識別字。
+
+這一手之所以成立，是因為**程式發出的每一次 `int 21h` 本來就會先經過 extender**——
+保護模式下 DOS 呼叫要由它切回實模式、搬參數、再切回來（見前面〈根本問題〉）。
+extender 在轉送之前順便看一眼呼叫端有沒有塞暗號，不需要額外的服務編號。
 
 - 高 16 位是 `'DX'` → Phar Lap 的 DOS-Extender，`BL` 是 ASCII 的主版本號，減掉 `'0'`
   正好就是上表那個編號。
@@ -196,11 +210,33 @@ Intel Code Builder 沒有出現在安裝選項裡，但啟動碼認得它。
 | | 7.0（1989） | 9.01（1992） |
 |---|---|---|
 | extender 怎麼決定 | 編譯期 `ifdef LAHEY` 二選一 | 執行時偵測，記在 `__Extender` |
-| `__StartTime`（給 `clock` 用） | **有** | **沒有**（改由別處處理） |
-| 初始化／收尾表 | `BCSD`、`_emu_init_*`、`EXEC_*` 段 | `XIB`／`XI`／`XIE`、`YIB`／`YI`／`YIE` 段，配 `__InitRtns`／`__FiniRtns` |
-| 空指標保護 | `_NULL` 段的哨兵資料 | 哨兵資料還在，另外多一個 `BEGTEXT` 段，內容是一條自旋跳躍加一串 `nop`，**確保沒有任何函式指標會等於 NULL** |
+| `__StartTime`（給 `clock` 用） | **有** | **沒有**（原因未查） |
+| 初始化／收尾表 | `BCSD`、`_emu_init_*`、`EXEC_*` 段 | `XIB`／`XI`／`XIE`、`YIB`／`YI`／`YIE` 段，配 `__InitRtns`／`__FiniRtns`（見下）|
+| 空指標保護 | `_NULL` 段的哨兵資料 | 哨兵資料還在，另外多一個 `BEGTEXT` 段（見下）|
 | 命令列與環境 | — | 多了 `__LpCmdLine`、`__LpPgmName`、`__Envptr`、`__Envseg` |
 | 目標 | 只有 DOS | DOS、OS/2、Windows，另有多執行緒與 DLL 版（`_DLLMainInit`／`_DLLMainTerm`） |
+
+**那兩組段名在做什麼**
+
+`XIB`／`XI`／`XIE` 與 `YIB`／`YI`／`YIE` 是**用段名拼出一張函式指標表**的手法：
+連結器會把同名的段落合併、並依名稱排在一起，於是 `XIB`（begin）與 `XIE`（end）成為頭尾標記，
+中間每個模組各自插一小段 `XI`，裡面放自己的初始化函式位址。啟動碼只要從 `XIB` 掃到 `XIE`，
+就把所有模組登記的函式依序呼叫一遍，**不必有任何一處集中列出「有哪些東西要初始化」**。
+後來 Microsoft 的 CRT 用 `CRT$XIA`…`CRT$XIZ` 是同一招。
+
+它解決的是 7.0 沒有的問題：7.0 只出 DOS 一種目標，初始化用固定的幾個段就夠；
+9.01 要同時服務 DOS、OS/2、Windows、多執行緒與 DLL，**各模組得能自己掛號**。
+
+啟動碼這一側可以直接讀到的是：它在呼叫 `__CMain` 之前先呼叫 `__InitRtns`。
+**`X` 對應初始化、`Y` 對應收尾**這個配對，依據是段落宣告的順序與 `__InitRtns`／`__FiniRtns`
+這兩個符號——掃表的實作在 C 函式庫裡，磁片上沒有那部分的原始碼，所以這一句是推論。
+
+**`BEGTEXT` 為什麼能保證函式指標不等於 NULL**
+
+原始碼的註解寫明連結器會把 `BEGTEXT` 段排在程式碼最前面。它佔走了位移 0 開始的那幾個位元組，
+於是**之後任何真正函式的進入點都不會落在位移 0**，也就不會有哪個函式指標剛好等於 NULL。
+裡面放的是一條跳回自己的指令加一串 `nop`——內容不重要，重要的是它佔位；
+註解另外要求這個段至少 4 個位元組，否則會干擾 `signal` 函式。
 
 `__STK`（堆疊檢查）、`__I4FS`／`__ModF`（整數與浮點互轉）、`__IsTable`（ctype 分類表）
 在 9.01 的 `clib3r.lib` 裡都還在；`__PTS`、`__PIA` 這組 16 位元的指標運算 helper
@@ -272,17 +308,27 @@ in-service 暫存器、對兩顆晶片送 EOI、`iret`，不做音訊處理）�
 
 **已證實（實測）**：9.01 的 181 個封包、630 個成員全部解出，每一個都通過封包自帶的
 CRC-32；兩份各自獨立寫的解碼器（一份由原廠實作切片、一份自己重寫位元流）輸出逐位元組相同。
+解出的 `dos4gw.exe` 是合法的 MZ 執行檔、大小與封包記載的 221,045 相符，
+裡面的字串是「DOS/4G  Copyright (C) Rational Systems, Inc. 1987 - 1992」——
+這是 CRC 之外的獨立佐證。順帶可以看到兩件事：它內部自稱 DOS/4GX，
+而且**它自己是用 Microsoft C 編的**（字串裡有 1990 年版的 MS Run-Time Library 版權行）。
 
 **強推論**（全篇最弱的一級）：
 
 - `__STK`、`__I4FS`、`__ModF`、`__IsTable` 在 9.01 「還在」，`__PTS`／`__PIA`「不存在」——
   判準是這些名稱在 `clib3r.lib` 裡找不找得到字串。9.01 的函式庫是 Easy OMF-386 變體，
-  我們的 OMF 解析器讀不了，所以**沒有做 6.5 那種「371 個公開符號」的精確統計**，
+  我們的 OMF（Object Module Format，DOS 時代目的檔與函式庫的封裝格式）解析器讀不了，
+  所以**沒有做 6.5 那種「371 個公開符號」的精確統計**，
   也分不出某個名稱是定義還是外部參照。
 - 「那個年代的遊戲常看到 DOS/4GW 字樣」是一般印象，本篇沒有做遊戲清單普查。
 
 **未知**：
 
+- **`clock()` 在 9.01 靠什麼取得起始時間**：`__StartTime` 在 7.0 有、9.01 沒有，
+  但取代它的機制沒有查（那在 C 函式庫裡，磁片上沒有那部分的原始碼）。
+- **Watcom 的 `execvp` 在 DOS 上到底是覆蓋還是等待子程序結束**：`process.h` 有 `P_OVERLAY`
+  這個模式旗標，但實作在 C 函式庫裡，讀不到。
+- **`XIB`／`XI`／`XIE` 掃表的實作**同樣在 C 函式庫裡；啟動碼這一側只看得到它呼叫 `__InitRtns`。
 - **IRQ 0–7 在實模式期間靠什麼**，這批原始碼沒有展示。可能是 extender 自己會把中斷反射回
   保護模式，也可能就是漏掉——沒有查。這對「原版音訊在讀檔時的表現」影響很大。
 - DPMI 規格書還沒取得，DMX 用的功能編號沒有逐一對照規格。

@@ -73,7 +73,7 @@
   <text x="348" y="474" font-size="11.5" fill="#5a6472">（Rational 的產品，221,045 bytes，</text>
   <text x="348" y="492" font-size="11.5" fill="#5a6472">裝在編譯器的 bin 目錄）</text>
   <text x="348" y="516" font-size="11.5" fill="#1f2933">另外支援 Phar Lap 與 Ergo</text>
-  <text x="348" y="538" font-size="11" fill="#8a4b00">（推論）改走 DPMI：int 31h 一套通吃</text>
+  <text x="348" y="538" font-size="11" fill="#8a4b00">啟動碼用 int 21h 認出 extender</text>
 
   <rect x="622" y="406" width="292" height="140" rx="6" fill="#eef4fb" stroke="#b9cfe6"/>
   <text x="638" y="428" font-size="12.5" font-weight="bold" fill="#1f2933">1993–94　DMX 與那批遊戲</text>
@@ -85,7 +85,7 @@
 
   <!-- 底：證據強度 -->
   <rect x="26" y="580" width="888" height="98" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
-  <text x="42" y="604" font-size="12.5" fill="#1f2933">這張圖的證據不平均：DPMI 那一側有完整的原始碼可讀（DMX），9.01 那一側只有安裝腳本與封包清單——</text>
+  <text x="42" y="604" font-size="12.5" fill="#1f2933">兩側都有原始碼可讀：DPMI 那一側是 DMX 3.4a，9.01 那一側是磁片上的啟動碼與 stub（封裝解開後每個成員都驗過 CRC）。</text>
   <text x="42" y="628" font-size="12.5" fill="#1f2933">9.01 的啟動碼自己不呼叫 int 31h：它用 int 21h 認出跑在哪一家 extender 上，DPMI 由上層的程式（如 DMX）使用。</text>
-  <text x="42" y="656" font-size="12" fill="#8a2b2b">本圖只根據原廠安裝腳本、封包檔頭與 DMX 的原始碼；不貼原文，不做位元組簽章。</text>
+  <text x="42" y="656" font-size="12" fill="#8a2b2b">本圖只根據原廠文件、原廠附的原始碼與封包檔頭；不貼原文，不做位元組簽章。</text>
 </svg>
