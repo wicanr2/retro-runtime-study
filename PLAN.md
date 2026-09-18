@@ -19,7 +19,8 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R9 | near heap 與 far heap（完成，已過專家與學生審查） | `docs/10-borland-crtl/heap.md`、兩張 SVG、`examples/heap/` |
 | R10 | conio 與文字畫面（完成，已過專家與學生審查） | `docs/10-borland-crtl/conio-screen.md`、一張 SVG、`examples/conio/` |
 | R11 | VC++ 1.0 的函式庫怎麼切份（完成，已過專家與學生審查） | `docs/20-msvc-crt/library-combination.md`、一張 SVG |
-| R12 以後 | 依 worklist 排序 | DSMI 三套介面、DMX 版本差異、亂數與時間、iostream |
+| R12 | DSMI 的三套介面（審查前第一版） | `docs/40-dsmi/interface-split.md`、一張 SVG |
+| R13 以後 | 依 worklist 排序 | DMX 版本差異、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
 **M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），
