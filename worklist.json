@@ -4,5 +4,18 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": []
+  "items": [
+    {
+      "id": "article-watcom-lineage",
+      "layer": "article",
+      "title": "Watcom C 的版本演進：拿到執行檔怎麼判斷是哪一代",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/80-watcom/watcom-lineage.md"
+        ]
+      },
+      "issue": "#20"
+    }
+  ]
 }
