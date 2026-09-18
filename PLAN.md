@@ -24,7 +24,8 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R14 | Watcom C 6.5 的 runtime（完成，已過專家與學生審查） | `docs/80-watcom/watcom65-runtime.md`、一張 SVG |
 | R15 | 第一代 32 位元 Watcom 與 DOS extender（完成，已過專家與學生審查） | `docs/80-watcom/watcom386-extenders.md`、一張 SVG |
 | R16 | DPMI 與 DOS/4GW（完成，已過專家與學生審查） | `docs/80-watcom/dos4gw-startup.md`、一張 SVG |
-| R17 以後 | 依 worklist 排序 | WPK 解碼器、Watcom 8.0 與 9.5、亂數與時間、iostream |
+| R17 | Watcom 版本演進總表（審查前第一版） | `docs/80-watcom/watcom-lineage.md`、一張 SVG |
+| R18 以後 | 依 worklist 排序 | WPK 解碼器、Watcom 8.0 與 9.5、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
 **M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="700" viewBox="0 0 940 700" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="940" height="700" fill="#ffffff"/>
+
+  <defs>
+    <marker id="l1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#8a94a6"/>
+    </marker>
+  </defs>
+
+  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">三個問題，分出三代</text>
+
+  <!-- 判斷流程 -->
+  <rect x="26" y="52" width="888" height="180" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
+
+  <rect x="42" y="70" width="270" height="64" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="58" y="92" font-size="12.5" font-weight="bold" fill="#1f2933">① 符號尾端有一個底線？</text>
+  <text x="58" y="114" font-size="11.5" fill="#5a6472">strlen_ ／ main_ → 是 Watcom 的暫存器慣例</text>
+
+  <path d="M312,102 L336,102" stroke="#8a94a6" fill="none" marker-end="url(#l1)"/>
+
+  <rect x="342" y="70" width="270" height="64" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="358" y="92" font-size="12.5" font-weight="bold" fill="#1f2933">② 16 位元還是 32 位元？</text>
+  <text x="358" y="114" font-size="11.5" fill="#5a6472">看段的定址寬度與指標大小</text>
+
+  <path d="M612,102 L636,102" stroke="#8a94a6" fill="none" marker-end="url(#l1)"/>
+
+  <rect x="642" y="70" width="272" height="64" rx="6" fill="#fff8f0" stroke="#d97706"/>
+  <text x="658" y="92" font-size="12.5" font-weight="bold" fill="#8a4b00">③ 有沒有 __PTS ／ __PIA？</text>
+  <text x="658" y="114" font-size="11.5" fill="#5a6472">這組 far 指標 helper 是分水嶺</text>
+
+  <text x="42" y="160" font-size="12" fill="#1f2933">第三個問題最好用：它只要讀符號名，不必先判斷段的定址寬度。</text>
+  <text x="42" y="184" font-size="11.5" fill="#5a6472">留下來的 __STK、浮點轉換、__IsTable 三代都有——能確認「這是 Watcom」，但不能分代。</text>
+  <text x="42" y="210" font-size="11.5" fill="#5a6472">尾端底線的函式符號在三代都一樣，所以它只回答「是不是 Watcom」，不回答「哪一代」。</text>
+
+  <!-- 三代 -->
+  <rect x="26" y="248" width="288" height="290" rx="8" fill="#fdecec" stroke="#d98080"/>
+  <text x="42" y="272" font-size="13" font-weight="bold" fill="#8a2b2b">6.5（1988）　16 位元</text>
+  <text x="42" y="296" font-size="11.5" fill="#1f2933">六種記憶體模型（位元旗標組合）</text>
+  <text x="42" y="318" font-size="11.5" fill="#1f2933">純 DOS，不需要 extender</text>
+  <text x="42" y="344" font-size="12" font-weight="bold" fill="#8a2b2b">只有這一代有的</text>
+  <text x="42" y="366" font-size="11.5" fill="#5a6472">__PTS ／ __PTC　far 指標相減、比較</text>
+  <text x="42" y="386" font-size="11.5" fill="#5a6472">__PIA ／ __PCA　指標加減整數</text>
+  <text x="42" y="406" font-size="11.5" fill="#5a6472">__I4M ／ __I4D　32 位元乘除</text>
+  <text x="42" y="432" font-size="11.5" fill="#1f2933">啟動碼把多的記憶體還給 DOS</text>
+  <text x="42" y="452" font-size="11.5" fill="#1f2933">結束時掃空指標哨兵</text>
+  <text x="42" y="478" font-size="11.5" fill="#8a4b00">段名：CLIBM_TEXT（medium）／</text>
+  <text x="42" y="496" font-size="11.5" fill="#8a4b00">模組名_TEXT（large、huge）</text>
+  <text x="42" y="522" font-size="11" fill="#5a6472">證據：原始碼 ＋ 反組譯（最強）</text>
+
+  <rect x="326" y="248" width="288" height="290" rx="8" fill="#fff8f0" stroke="#d97706"/>
+  <text x="342" y="272" font-size="13" font-weight="bold" fill="#8a4b00">7.0（1989）　第一代 32 位元</text>
+  <text x="342" y="296" font-size="11.5" fill="#1f2933">flat 模型</text>
+  <text x="342" y="318" font-size="11.5" fill="#1f2933">extender 要自己買（兩家）</text>
+  <text x="342" y="344" font-size="12" font-weight="bold" fill="#8a4b00">這一代起的變化</text>
+  <text x="342" y="366" font-size="11.5" fill="#5a6472">指標與乘除 helper 全部消失</text>
+  <text x="342" y="386" font-size="11.5" fill="#5a6472">啟動碼不再還記憶體、不再掃哨兵</text>
+  <text x="342" y="406" font-size="11.5" fill="#5a6472">__StartTime 出現（給 clock 用）</text>
+  <text x="342" y="432" font-size="11.5" fill="#1f2933">兩種呼叫慣例分家：庫名帶 r 或 s</text>
+  <text x="342" y="452" font-size="11.5" fill="#1f2933">PSP 用寫死的選擇器，各家不同</text>
+  <text x="342" y="478" font-size="11.5" fill="#8a4b00">編譯器自己還是 16 位元程式</text>
+  <text x="342" y="522" font-size="11" fill="#5a6472">證據：原始碼 ＋ 實跑（最強）</text>
+
+  <rect x="626" y="248" width="288" height="290" rx="8" fill="#eef4fb" stroke="#b9cfe6"/>
+  <text x="642" y="272" font-size="13" font-weight="bold" fill="#1f2933">9.01（1992）　DOS/4GW 年代</text>
+  <text x="642" y="296" font-size="11.5" fill="#1f2933">DOS/4GW 隨編譯器附</text>
+  <text x="642" y="318" font-size="11.5" fill="#1f2933">另支援 Phar Lap 與 Ergo</text>
+  <text x="642" y="344" font-size="12" font-weight="bold" fill="#1f2933">看得到的</text>
+  <text x="642" y="366" font-size="11.5" fill="#5a6472">執行檔＝16 位元 stub ＋ 32 位元本體</text>
+  <text x="642" y="386" font-size="11.5" fill="#5a6472">同年代的程式大量用 int 31h（DPMI）</text>
+  <text x="642" y="406" font-size="11.5" fill="#5a6472">目標多了 OS/2 與 Windows</text>
+  <text x="642" y="432" font-size="11.5" fill="#8a2b2b">看不到的：啟動碼與函式庫的內容</text>
+  <text x="642" y="452" font-size="11.5" fill="#8a2b2b">（磁片是 Watcom 自家壓縮封裝，</text>
+  <text x="642" y="470" font-size="11.5" fill="#8a2b2b">解碼器還沒寫完）</text>
+  <text x="642" y="522" font-size="11" fill="#5a6472">證據：安裝腳本 ＋ 封包清單（較弱）</text>
+
+  <!-- 底部 -->
+  <rect x="26" y="554" width="888" height="124" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="42" y="578" font-size="12.5" fill="#1f2933">消失的 helper 有規律：一組是「段」造成的，一組是「16 位元算術」造成的——換了架構就不需要了。</text>
+  <text x="42" y="602" font-size="12.5" fill="#1f2933">留下來的都與位元寬度無關：堆疊檢查、整數與浮點互轉、ctype 分類表。</text>
+  <text x="42" y="628" font-size="12.5" fill="#1f2933">三代的證據強度不一樣：6.5 與 7.0 有原廠附的啟動碼原始碼，9.01 目前只讀得到安裝腳本與檔名。</text>
+  <text x="42" y="656" font-size="12" fill="#8a2b2b">本圖只根據原廠文件、原廠附的原始碼與自己編譯後反組譯的產物；不做位元組簽章。</text>
+</svg>

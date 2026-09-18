@@ -853,6 +853,53 @@
    ]
   },
   {
+   "id": "watcom/watcom-lineage",
+   "path": "docs/80-watcom/watcom-lineage.md",
+   "title": "拿到一支 Watcom 編譯的程式，怎麼判斷是哪一代",
+   "libraries": [
+    "watcom-6.5",
+    "watcom-7.0",
+    "watcom-9.01"
+   ],
+   "goals": [
+    "re",
+    "craft"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "反組譯一支 DOS 程式，符號尾端帶一個底線，想知道是哪一代 Watcom",
+    "想快速判斷手上的程式是 16 位元還是跑在 DOS extender 上",
+    "看到 `__PTS`、`__STK` 這類符號，想知道它們各自代表什麼年代",
+    "想知道 Watcom 從 1988 到 1992 之間改了哪些會留下痕跡的東西"
+   ],
+   "symbols": [
+    "__STK",
+    "__PTS",
+    "__PTC",
+    "__PIA",
+    "__PCA",
+    "__I4M",
+    "__I4D",
+    "__IsTable",
+    "__psp",
+    "__osmajor",
+    "__STACKTOP",
+    "__curbrk",
+    "__dynend",
+    "__StartTime",
+    "CLIBM_TEXT",
+    "CLIB3R",
+    "DOS4GW",
+    "int31h"
+   ],
+   "related": [
+    "watcom/watcom65-runtime",
+    "watcom/watcom386-extenders",
+    "watcom/dos4gw-startup",
+    "overview/era-and-libraries"
+   ]
+  },
+  {
    "id": "watcom/watcom386-extenders",
    "path": "docs/80-watcom/watcom386-extenders.md",
    "title": "Watcom C/386 7.0：編譯器賣你，保護模式那層得跟別人買",
