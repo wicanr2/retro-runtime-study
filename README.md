@@ -45,6 +45,7 @@
 | [一套 CRT 原始碼怎麼變成三十幾個 .LIB](docs/20-msvc-crt/library-combination.md) | Visual C++ 1.0 的 16 位元 CRT：模型 × 浮點方式 × 環境三個維度、安裝時才合併的元件庫、模型無關的 `LIBH` 怎麼做到、與 Borland 的取捨對照（**沒有對拍**，限於建置檔所寫） |
 | [DMX 的五份封存：版本號、建置設定與呼叫慣例是三件事](docs/30-dmx/version-history.md) | 五個目錄名不是五個版本：功能版本幾乎沒動，差異在建置檔位與參數傳遞方式；出貨的庫併了第三方 AWE32 支援，樹裡沒有那份原始碼；`fmfix` 同時改了 OPL3 偵測與 FM 搶聲；遊戲資料裡的 GENMIDI、DMXGUS、MUS 是這套庫的格式（**只讀原始碼**，版權標示機密與專有） |
 | [DSMI：一份組語核心，三種語言接得上](docs/40-dsmi/interface-split.md) | 核心是一份組語原始碼、用組譯期符號編出 C 版與 Pascal 版兩套目的碼；CDI 這張裝置表在架構中央，MCP、GUS、無聲各是一個裝置；封存裡哪些檔根本不是原始碼（**只讀原始碼**，授權禁止逆向該套件） |
+| [Watcom C 6.5：1988 年就把參數放進暫存器](docs/80-watcom/watcom65-runtime.md) | 暫存器呼叫慣例與它在符號上的痕跡（尾端底線）、四組 far 指標 helper 為什麼存在、六個記憶體模型的位元旗標與巨集、啟動碼與 Borland C0 的逐項對照；`_r`／`_s` 命名一路延續到 DMX |
 | [在 dosgolem 裡用 Borland C++ 2.0 編譯](docs/70-toolchain/bcc20-on-dosgolem.md) | 從安裝磁片映像到可重跑的命令列編譯；BGI 俄羅斯方塊範例在瀏覽器裡玩；dosgolem 為 BCC 補的七條規格 |
 
 後續篇目、各階段目標與完成條件見 [`docs/goal/`](docs/goal/README.md)；進度看 issues。

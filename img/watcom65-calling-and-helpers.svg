@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="780" viewBox="0 0 940 780" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect width="940" height="780" fill="#ffffff"/>
+
+  <defs>
+    <marker id="w1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#8a94a6"/>
+    </marker>
+    <marker id="w2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="26" y="32" font-size="15" font-weight="bold" fill="#1f2933">參數走哪裡，決定了符號長什麼樣</text>
+
+  <!-- 上半：兩種呼叫慣例 -->
+  <rect x="26" y="50" width="430" height="196" rx="8" fill="#fbfcfd" stroke="#d0d5dd"/>
+  <text x="42" y="74" font-size="13" font-weight="bold" fill="#1f2933">Borland C++ 2.0（1991）　參數走堆疊</text>
+  <text x="42" y="98" font-size="11.5" fill="#5a6472">呼叫端：每個參數一道 push，呼叫完自己把堆疊調回來</text>
+  <text x="42" y="116" font-size="11.5" fill="#5a6472">被呼叫端：用 BP 當基準去取</text>
+
+  <rect x="42" y="132" width="120" height="86" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="102" y="152" text-anchor="middle" font-size="11" fill="#5a6472">堆疊</text>
+  <rect x="54" y="160" width="96" height="18" fill="#eef4fb" stroke="#b9cfe6"/>
+  <text x="102" y="173" text-anchor="middle" font-size="10.5" fill="#1f2933">參數 2</text>
+  <rect x="54" y="180" width="96" height="18" fill="#eef4fb" stroke="#b9cfe6"/>
+  <text x="102" y="193" text-anchor="middle" font-size="10.5" fill="#1f2933">參數 1</text>
+  <rect x="54" y="200" width="96" height="16" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="102" y="212" text-anchor="middle" font-size="10" fill="#5a6472">回返位址</text>
+
+  <text x="180" y="152" font-size="11.5" fill="#1f2933">符號形態</text>
+  <text x="180" y="174" font-size="12" fill="#8a4b00">_strlen</text>
+  <text x="180" y="196" font-size="11" fill="#5a6472">前置一個底線</text>
+  <text x="180" y="216" font-size="11" fill="#5a6472">參數個數可以不固定</text>
+
+  <rect x="470" y="50" width="444" height="196" rx="8" fill="#fff8f0" stroke="#d97706"/>
+  <text x="486" y="74" font-size="13" font-weight="bold" fill="#8a4b00">Watcom C 6.5（1988）　參數走暫存器</text>
+  <text x="486" y="98" font-size="11.5" fill="#5a6472">依序放 AX、DX⋯⋯；沒有 push、沒有 BP、不必收拾堆疊</text>
+  <text x="486" y="116" font-size="11.5" fill="#5a6472">暫存器不夠或參數個數不定時，才回到堆疊</text>
+
+  <rect x="486" y="132" width="200" height="86" rx="6" fill="#ffffff" stroke="#d97706"/>
+  <text x="586" y="152" text-anchor="middle" font-size="11" fill="#5a6472">暫存器</text>
+  <text x="502" y="176" font-size="11.5" fill="#1f2933">AX ← 第一個參數</text>
+  <text x="502" y="196" font-size="11.5" fill="#1f2933">DX ← 第二個參數</text>
+  <text x="502" y="214" font-size="10.5" fill="#5a6472">實測：strcpy 的目的在 AX、來源在 DX</text>
+
+  <text x="706" y="152" font-size="11.5" fill="#1f2933">符號形態</text>
+  <text x="706" y="174" font-size="12" fill="#8a4b00">strlen_</text>
+  <text x="706" y="196" font-size="11" fill="#5a6472">尾端一個底線</text>
+  <text x="706" y="216" font-size="11" fill="#5a6472">一份庫裡 267 個這種、</text>
+  <text x="706" y="234" font-size="11" fill="#5a6472">98 個前置雙底線的資料</text>
+
+  <path d="M456,148 L468,148" stroke="#8a94a6" fill="none"/>
+
+  <!-- 中：far 指標為什麼要 helper -->
+  <rect x="26" y="262" width="888" height="234" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="42" y="286" font-size="13" font-weight="bold" fill="#1f2933">為什麼指標運算要叫函式：同一個位址有很多種寫法</text>
+
+  <rect x="42" y="300" width="380" height="96" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="58" y="322" font-size="11.5" fill="#1f2933">段 1000　位移 0020　→　線性位址 10020</text>
+  <text x="58" y="344" font-size="11.5" fill="#1f2933">段 1002　位移 0000　→　線性位址 10020</text>
+  <text x="58" y="368" font-size="11.5" fill="#8a2b2b">兩個寫法不同、指的是同一個地方。</text>
+  <text x="58" y="386" font-size="11.5" fill="#8a2b2b">直接比大小或相減都會得到錯的答案。</text>
+
+  <path d="M422,348 L446,348" stroke="#d97706" fill="none" marker-end="url(#w2)"/>
+
+  <rect x="452" y="300" width="462" height="96" rx="6" fill="#fff8f0" stroke="#d97706"/>
+  <text x="468" y="322" font-size="11.5" fill="#1f2933">先正規化：段左移 4 位元 ＋ 位移 → 線性位址</text>
+  <text x="468" y="344" font-size="11.5" fill="#1f2933">再做相減或比較</text>
+  <text x="468" y="368" font-size="11.5" fill="#5a6472">這幾道步驟每次都要做，所以編譯器把它包成 helper，</text>
+  <text x="468" y="386" font-size="11.5" fill="#5a6472">遇到指標運算就插入一次呼叫。</text>
+
+  <rect x="42" y="410" width="212" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="58" y="432" font-size="12" font-weight="bold" fill="#1f2933">__PTS ／ __PTC</text>
+  <text x="58" y="452" font-size="11" fill="#5a6472">兩個 far 指標相減／比較</text>
+  <text x="58" y="470" font-size="11" fill="#5a6472">比較有捷徑：段相同就只比位移</text>
+
+  <rect x="264" y="410" width="212" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="280" y="432" font-size="12" font-weight="bold" fill="#1f2933">__PIA ／ __PIS</text>
+  <text x="280" y="452" font-size="11" fill="#5a6472">huge 指標 ± 32 位元整數</text>
+  <text x="280" y="470" font-size="11" fill="#5a6472">結果折回段裡，位移維持 0–15</text>
+
+  <rect x="486" y="410" width="212" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
+  <text x="502" y="432" font-size="12" font-weight="bold" fill="#1f2933">__PCA ／ __PCS</text>
+  <text x="502" y="452" font-size="11" fill="#5a6472">同上，指標放另一組暫存器</text>
+  <text x="502" y="470" font-size="11" fill="#5a6472">省掉一次搬移</text>
+
+  <rect x="708" y="410" width="206" height="72" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
+  <text x="724" y="432" font-size="12" font-weight="bold" fill="#5a6472">__STK</text>
+  <text x="724" y="452" font-size="11" fill="#5a6472">堆疊檢查：要用的空間</text>
+  <text x="724" y="470" font-size="11" fill="#5a6472">比對 SP 與啟動碼設的下限</text>
+
+  <!-- 下：六個模型 -->
+  <rect x="26" y="512" width="430" height="176" rx="8" fill="#eef4fb" stroke="#b9cfe6"/>
+  <text x="42" y="536" font-size="13" font-weight="bold" fill="#1f2933">六個模型＝四個位元的組合</text>
+  <text x="42" y="560" font-size="11.5" fill="#1f2933">遠程式碼 1　遠資料 2　huge 4　tiny 8</text>
+  <text x="42" y="584" font-size="11.5" fill="#5a6472">small＝0　compact＝2　medium＝1　large＝3</text>
+  <text x="42" y="608" font-size="11.5" fill="#1f2933">每個模型的檔案只有三行：</text>
+  <text x="42" y="628" font-size="11.5" fill="#5a6472">引入旗標 → 設定模型 → 引入本體</text>
+  <text x="42" y="652" font-size="11.5" fill="#1f2933">一組巨集依「有沒有遠程式碼」把呼叫、定義、</text>
+  <text x="42" y="670" font-size="11.5" fill="#1f2933">宣告展開成 near 或 far 版本。</text>
+
+  <rect x="470" y="512" width="444" height="176" rx="8" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="486" y="536" font-size="13" font-weight="bold" fill="#1f2933">啟動碼做的事（與 Borland C0 對照）</text>
+  <text x="486" y="560" font-size="11.5" fill="#1f2933">存 PSP → 算堆疊頂 → 記憶體夠不夠 →</text>
+  <text x="486" y="578" font-size="11.5" fill="#1f2933">設四個記憶體邊界 → <tspan font-weight="bold">把多的記憶體還給 DOS</tspan> →</text>
+  <text x="486" y="596" font-size="11.5" fill="#1f2933">搬命令列 → 取 DOS 版本 → 偵測 8087 → 進 C 側</text>
+  <text x="486" y="622" font-size="11.5" fill="#5a6472">前四步與 Borland 幾乎一樣——那是 DOS 這個環境</text>
+  <text x="486" y="640" font-size="11.5" fill="#5a6472">強加的要求，不是誰的設計偏好。</text>
+  <text x="486" y="664" font-size="11.5" fill="#8a2b2b">差別：沒有初始化表與結束表，也沒有空指標檢查。</text>
+
+  <rect x="26" y="704" width="888" height="60" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
+  <text x="42" y="728" font-size="12.5" fill="#1f2933">這條慣例活得很久：1989 年的 C/386 起同一套庫出兩份，檔名用 r 與 s 區分暫存器版與堆疊版；</text>
+  <text x="42" y="750" font-size="12.5" fill="#1f2933">1993 年 DOOM 那批遊戲用的 DMX 仍然是 dmx_r.lib 與 dmx_s.lib。看到這種命名，多半就是這條線上的東西。</text>
+</svg>
