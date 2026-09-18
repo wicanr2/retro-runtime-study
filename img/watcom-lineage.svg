@@ -64,19 +64,20 @@
   <text x="642" y="272" font-size="13" font-weight="bold" fill="#1f2933">9.01（1992）　DOS/4GW 年代</text>
   <text x="642" y="296" font-size="11.5" fill="#1f2933">DOS/4GW 隨編譯器附</text>
   <text x="642" y="318" font-size="11.5" fill="#1f2933">另支援 Phar Lap 與 Ergo</text>
-  <text x="642" y="344" font-size="12" font-weight="bold" fill="#1f2933">看得到的</text>
-  <text x="642" y="366" font-size="11.5" fill="#5a6472">執行檔＝stub ＋ 本體（stub 內容未讀）</text>
-  <text x="642" y="386" font-size="11.5" fill="#5a6472">同年代的程式用 int 31h（DMX，非 9.01 本身）</text>
-  <text x="642" y="406" font-size="11.5" fill="#5a6472">目標多了 OS/2 與 Windows</text>
-  <text x="642" y="432" font-size="11.5" fill="#8a2b2b">看不到的：啟動碼、函式庫、stub 的內容</text>
-  <text x="642" y="452" font-size="11.5" fill="#8a2b2b">（磁片是 Watcom 自家壓縮封裝，</text>
-  <text x="642" y="470" font-size="11.5" fill="#8a2b2b">解碼器還沒寫完）</text>
-  <text x="642" y="522" font-size="11" fill="#5a6472">證據：安裝腳本 ＋ 封包清單（較弱）</text>
+  <text x="642" y="344" font-size="12" font-weight="bold" fill="#1f2933">這一代起的變化</text>
+  <text x="642" y="366" font-size="11.5" fill="#5a6472">extender 改成執行時偵測（__Extender）</text>
+  <text x="642" y="386" font-size="11.5" fill="#5a6472">__StartTime 又拿掉了（不是單調演進）</text>
+  <text x="642" y="406" font-size="11.5" fill="#5a6472">初始化表段名改成 XIB／XI／XIE</text>
+  <text x="642" y="432" font-size="11.5" fill="#1f2933">stub 找到 dos4gw.exe 後 execvp 交棒</text>
+  <text x="642" y="452" font-size="11.5" fill="#1f2933">目標多了 OS/2 與 Windows</text>
+  <text x="642" y="478" font-size="11.5" fill="#8a4b00">函式庫是 Easy OMF-386，</text>
+  <text x="642" y="496" font-size="11.5" fill="#8a4b00">解析器讀不了（格式問題，非壓縮）</text>
+  <text x="642" y="522" font-size="11" fill="#5a6472">證據：原始碼 ＋ 安裝腳本（最強）</text>
 
   <!-- 底部 -->
   <rect x="26" y="554" width="888" height="124" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
   <text x="42" y="578" font-size="12.5" fill="#1f2933">消失的 helper 有規律：一組是「段」造成的，一組是「16 位元算術」造成的——換了架構就不需要了。</text>
   <text x="42" y="602" font-size="12.5" fill="#1f2933">留下來的都與位元寬度無關：堆疊檢查、整數與浮點互轉、ctype 分類表。</text>
-  <text x="42" y="628" font-size="12.5" fill="#1f2933">三代的證據強度不一樣：6.5 與 7.0 有原廠附的啟動碼原始碼，9.01 目前只讀得到安裝腳本與檔名。</text>
+  <text x="42" y="628" font-size="12.5" fill="#1f2933">三代都有原廠附的啟動碼原始碼可讀；9.01 那份要先解開磁片上 Watcom 自家的壓縮封裝才拿得到。</text>
   <text x="42" y="656" font-size="12" fill="#8a2b2b">本圖只根據原廠文件、原廠附的原始碼與自己編譯後反組譯的產物；不做位元組簽章。</text>
 </svg>

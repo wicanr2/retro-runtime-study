@@ -6,19 +6,19 @@
   },
   "items": [
     {
-      "id": "watcom-901-content-gap",
-      "layer": "article",
-      "title": "9.01 的啟動碼與函式庫內容補進文章",
-      "why": "磁片上 183 個檔案有 181 個是 Watcom 自家的 WPK 封裝，解碼器還差同碼長內符號的排列順序，所以 9.01 那兩篇只能寫到安裝腳本與封包清單看得出什麼，證據強度明顯低於 6.5 與 7.0。",
+      "id": "easy-omf-386-parser",
+      "layer": "infra",
+      "title": "OMF 解析器支援 Easy OMF-386 變體",
+      "why": "7.0 與 9.01 的出貨函式庫是 Phar Lap 的 Easy OMF-386 變體（COMENT 裡帶 80386），記錄版面與標準 OMF 不同，硬解會吐出看似有效的垃圾名稱。因此這兩版做不到 6.5 那種「371 個公開符號」的逐符號清單，helper 的結論只能到「名稱字串在檔案裡找不找得到」，分不出定義與外部參照。",
       "verify": {
         "kind": "present",
         "paths": [
           "docs/80-watcom/watcom-lineage.md",
           "docs/80-watcom/dos4gw-startup.md"
         ],
-        "pattern": "讀不到"
+        "pattern": "Easy OMF-386"
       },
-      "note": "卡點與下一步記在私有工作區 tools/wpk/README.md；解開之後 8.0 與 9.5 同格式一起解鎖。"
+      "note": "這是格式問題，與 WPK 壓縮無關（那個已經解開）。動手前先確認變體的記錄版面差在哪。"
     }
   ]
 }

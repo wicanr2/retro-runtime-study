@@ -119,7 +119,10 @@
 | DPMI | DOS Protected Mode Interface，保護模式程式向 extender 要記憶體、掛中斷、呼叫真實模式碼的標準介面，走 `int 31h` |
 | DOS/4GW | Rational 的 DOS extender，從 Watcom 9.x 起隨編譯器附；1993 年以後的 DOS 遊戲常見 |
 | stub | 「16 位元引導程式 ＋ 32 位元本體」黏成一個執行檔時前面那一小段，負責找到 extender 並交出控制權 |
-| `.WPK` | Watcom 安裝磁片的壓縮封裝（簽章 `0x2403`）；Shannon-Fano 碼加 4 KB 字典的 LZSS |
+| `.WPK` | Watcom 安裝磁片的壓縮封裝（簽章 `0x2403`）；Shannon-Fano 碼加 4 KB 字典的 LZSS。檔名長度的最高位元是 `NO_SHANNON_CODE`——不用 Shannon-Fano，**仍是 LZSS 壓縮**，不是原樣存放 |
+| Easy OMF-386 | Phar Lap 的 32 位元 OMF 變體（COMENT 裡帶 `80386`），記錄版面與標準 OMF 不同。Watcom 7.0 與 9.01 的出貨函式庫用的是這種 |
+| `__Extender` | Watcom 9.x 啟動碼裡的位元組變數，記錄程式跑在哪一家 DOS extender 上（Ergo 0、Rational 1、Phar Lap 2–4、Intel Code Builder 5）|
+| stub | 「16 位元前導程式 ＋ 32 位元本體」黏成一個執行檔時前面那一段。Watcom 的版本（`wstub.c`）不是載入器，它找到 `dos4gw.exe` 就用 DOS 的 EXEC 把自己換掉 |
 | 選擇器（selector） | 保護模式下段暫存器裡放的值：描述符表的索引，不是位址。Watcom 7.0 取 PSP 用的是 extender 約定的固定編號 |
 | Easy OMF-386 | Phar Lap 的 32 位元 OMF 變體，COMENT 帶 `80386=` 標記；與 16 位元 OMF 不完全相容 |
 | `.LBJ` | Watcom 7.0 給 Lahey 連結器用的啟動目的檔；內容就是 OMF 目的檔，只是換了副檔名 |

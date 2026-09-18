@@ -829,12 +829,20 @@
     "想知道 1993 年的 DOS 遊戲怎麼在保護模式下處理音效卡中斷",
     "看到程式裡有 16 位元的 `_TEXT16` 段夾在 32 位元碼中間，想知道為什麼",
     "想知道 DPMI 解決了什麼問題、它之前是什麼樣子",
-    "手上有 Watcom 9.x 的磁片，想知道 `.WPK` 是什麼格式"
+    "手上有 Watcom 9.x 的磁片，想知道 `.WPK` 是什麼格式",
+    "程式抱怨找不到 `dos4gw.exe`，想知道是誰在找、照什麼順序找",
+    "想知道一支 32 位元 DOS 程式怎麼判斷自己跑在哪一家 extender 上"
    ],
    "symbols": [
     "DOS4GW",
     "dos4gw.exe",
     "wstub.c",
+    "DOS4GPATH",
+    "__Extender",
+    "BEGTEXT",
+    "XIB",
+    "XIE",
+    "__StartTime",
     "WSTUBSRC",
     "CLIB3R",
     "cstart3r",

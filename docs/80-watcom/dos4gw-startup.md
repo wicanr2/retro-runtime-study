@@ -10,7 +10,9 @@ triggers:
   - 看到程式裡有 16 位元的 `_TEXT16` 段夾在 32 位元碼中間，想知道為什麼
   - 想知道 DPMI 解決了什麼問題、它之前是什麼樣子
   - 手上有 Watcom 9.x 的磁片，想知道 `.WPK` 是什麼格式
-symbols: [DOS4GW, dos4gw.exe, wstub.c, WSTUBSRC, CLIB3R, cstart3r, INSTALL.SCR, WPK, _TEXT16, rmInt_, rmEnd_, rmFixup_, int31h]
+  - 程式抱怨找不到 `dos4gw.exe`，想知道是誰在找、照什麼順序找
+  - 想知道一支 32 位元 DOS 程式怎麼判斷自己跑在哪一家 extender 上
+symbols: [DOS4GW, dos4gw.exe, wstub.c, DOS4GPATH, __Extender, BEGTEXT, XIB, XIE, __StartTime, WSTUBSRC, CLIB3R, cstart3r, INSTALL.SCR, WPK, _TEXT16, rmInt_, rmEnd_, rmFixup_, int31h]
 related: [watcom/watcom386-extenders, watcom/watcom65-runtime, dmx/version-history]
 ---
 
@@ -39,9 +41,8 @@ related: [watcom/watcom386-extenders, watcom/watcom65-runtime, dmx/version-histo
 DMX 的做法是：**在 1 MB 以下放一段極小的 16 位元碼，它只負責把中斷吃掉並通知中斷控制器**，
 真正的音訊處理留在保護模式那側。不過這一手只用在高位 IRQ，下面會拆解。
 
-**這篇的證據強度不平均**：DPMI 那一側有完整的原始碼可讀（DMX），
-9.01 自己那一側只讀得到安裝腳本與封包清單——磁片上的檔案用 Watcom 自己的壓縮封裝，
-我們的解碼器還沒寫完（見最後一節）。
+兩側都有原始碼可讀：DPMI 那一側是 DMX 3.4a，9.01 那一側是磁片上的啟動碼與 stub
+（磁片檔案用 Watcom 自家的壓縮封裝，解開之後每個成員都用封包自帶的 CRC 驗過）。
 
 <p align="center"><img src="../../img/dpmi-interrupt-path.svg" width="880" alt="DMA 與中斷的兩條硬限制、真實模式中斷處理常式怎麼掛上去、以及 extender 從各自為政到 DPMI 的三個階段"></p>
 
@@ -121,11 +122,11 @@ in-service 暫存器看是哪一條線、對兩顆晶片送 EOI（end of interru
 只是中斷本身有被正確結束，所以系統不會卡住。想重現原版在大量讀檔時的音訊表現，
 這一點比「中斷有沒有接到」更關鍵。
 
-## 9.01 這一側：安裝腳本說了什麼
+## 9.01 這一側：磁片解開之後
 
-9.01 的磁片上幾乎每個檔案都是 Watcom 自己的壓縮封裝（副檔名多半是 `.WPK`，
-也有依目標平台命名的 `.DOS`、`.OS2`、`.WIN`）。我們目前只解得出封包的**成員清單**，
-解不出內容。不過安裝腳本是純文字，它本身就回答了幾個問題。
+9.01 的磁片上 183 個檔案裡有 181 個是 Watcom 自家的壓縮封裝（副檔名多半是 `.WPK`，
+也有依目標平台命名的 `.DOS`、`.OS2`、`.WIN`）。解碼器做完之後 630 個成員全部解出，
+每一個都用封包自帶的 CRC-32 驗過。下面的內容因此是讀原始碼得來的，不再是從檔名與大小推的。
 
 **支援三家 extender，安裝時逐一詢問**：
 
@@ -135,22 +136,79 @@ in-service 暫存器看是哪一條線、對兩顆晶片送 EOI（end of interru
 | Ergo | Ergo | 18 KB |
 | **DOS/4GW** | Rational | 417 KB |
 
-DOS/4GW 的本體是 `dos4gw.exe`（未壓縮 221,045 bytes），在磁片 4（標籤就叫「DOS/4GW & Windows Disk」），
+DOS/4GW 的本體是 `dos4gw.exe`（221,045 bytes），在磁片 4（標籤就叫「DOS/4GW & Windows Disk」），
 安裝時解到編譯器的 `bin` 目錄。**這是與 7.0 最大的差別**：7.0 一個 extender 都不含。
 
-其餘從封包清單看得出來的變化：
+### stub 做的事：找到 extender，然後把自己交出去
+
+「16 位元 stub ＋ 32 位元本體」這個講法容易讓人以為 stub 是個小型載入器，
+會自己解析後面那段 LE 映像。**它不是**。`wstub.c` 是一支普通的 DOS C 程式，
+只做三件事：
+
+1. 用 `_searchenv` 在環境變數 `DOS4GPATH` 與 `PATH` 裡找 `dos4gw.exe`，
+   兩個都找不到就退回寫死的 `\dos4gw.exe`。
+2. 重組命令列：`dos4gw.exe` 放第一個，**自己的路徑（原本的 `argv[0]`）放第二個**，
+   使用者打的參數接在後面。
+3. `execvp` 換成 DOS/4GW。
+
+交棒靠的是 DOS 自己的 EXEC 服務，stub 執行完就不存在了。DOS/4GW 從第二個參數拿到
+那支執行檔的路徑，**回頭把同一個檔案打開**，跳過前面的 stub 去讀 LE 本體。
+
+這解釋了兩件那個年代的常見經驗：`DOS4GPATH` 這個環境變數為什麼存在
+（把 `dos4gw.exe` 放在別處時用它指路），以及找不到時為什麼是 stub 在抱怨——
+失敗訊息由 stub 自己印，內容是它試過的路徑加上 `strerror` 的說明。
+
+### 啟動碼在執行時認出自己跑在誰身上
+
+7.0 的做法是**編譯期**二選一：`ifdef LAHEY` 決定 PSP 的選擇器要用哪個常數
+（見 [第一代 32 位元 Watcom](watcom386-extenders.md)）。9.01 把這件事改成**執行時偵測**，
+啟動碼裡多了一個位元組變數 `__Extender` 記錄結果：
+
+| `__Extender` | 是誰 |
+|---|---|
+| 0 | Ergo OS/386 |
+| 1 | Rational DOS/4G |
+| 2、3、4 | Phar Lap，數字就是它的主版本號 |
+| 5 | Intel Code Builder |
+
+偵測手法很省：**取 DOS 版本號那一次呼叫同時當成探測器**。呼叫 `int 21h` 的 `AH=30h`
+之前先把 `EBX` 填成字面值 `'PHAR'`；真正的 DOS 只動 `AL`／`AH`（版本號），
+而 extender 會在 `EAX` 的高 16 位留下自己的識別字：
+
+- 高 16 位是 `'DX'` → Phar Lap 的 DOS-Extender，`BL` 是 ASCII 的主版本號，減掉 `'0'`
+  正好就是上表那個編號。
+- 高 16 位是 `'BC'` → Intel Code Builder，`EDX` 指向它的 GDA（全域資料區），
+  PSP 位址與載入點都從 GDA 的固定位移取。
+- 都不是 → 再用 `AX=FF00h`、`DX=78h` 的 `int 21h` 問 Rational DOS/4G，`AL` 非零就是。
+- 還是不是 → 當作 Ergo OS/386。
+
+**啟動碼支援的比安裝程式問的多一家**：安裝腳本只問 Phar Lap、Ergo、Rational 三家，
+Intel Code Builder 沒有出現在安裝選項裡，但啟動碼認得它。
+
+順帶一提，`AH=4Ah`（把記憶體縮到最小還給 DOS）在 9.01 只出現在 **Intel Code Builder
+那一條路徑上**，用 GDA 裡的載入點位址算出要保留多少。其他三家都不做這件事。
+6.5 是不分情況一律做，7.0 完全不做——**這一項不是單調演進的**。
+
+### 與 7.0 的啟動碼差在哪
+
+兩版的暫存器版啟動碼（`CSTART3R.ASM`）都附原始碼，可以逐行對照：
 
 | | 7.0（1989） | 9.01（1992） |
 |---|---|---|
-| 啟動碼（暫存器版） | 8,834 bytes | 10,216 bytes |
-| 啟動碼的 C 側 | 2,748 bytes | 5,385 bytes |
-| C 函式庫 | 95,232 bytes | 157,184 bytes |
-| 目標平台 | 只有 DOS | DOS、OS/2、Windows，另有多執行緒與 DLL 版 |
-| stub 的原始碼 | 沒有 | 有（984 bytes，只在選 DOS/4GW 時安裝） |
+| extender 怎麼決定 | 編譯期 `ifdef LAHEY` 二選一 | 執行時偵測，記在 `__Extender` |
+| `__StartTime`（給 `clock` 用） | **有** | **沒有**（改由別處處理） |
+| 初始化／收尾表 | `BCSD`、`_emu_init_*`、`EXEC_*` 段 | `XIB`／`XI`／`XIE`、`YIB`／`YI`／`YIE` 段，配 `__InitRtns`／`__FiniRtns` |
+| 空指標保護 | `_NULL` 段的哨兵資料 | 哨兵資料還在，另外多一個 `BEGTEXT` 段，內容是一條自旋跳躍加一串 `nop`，**確保沒有任何函式指標會等於 NULL** |
+| 命令列與環境 | — | 多了 `__LpCmdLine`、`__LpPgmName`、`__Envptr`、`__Envseg` |
+| 目標 | 只有 DOS | DOS、OS/2、Windows，另有多執行緒與 DLL 版（`_DLLMainInit`／`_DLLMainTerm`） |
 
-stub 是「16 位元的引導程式 ＋ 32 位元本體」黏成一個執行檔時，前面那一小段。
-原始碼只有 984 bytes，說明它做的事很單純：找到 extender、把自己交出去。
-**內容我們還讀不到**，所以這裡只能講到這個程度。
+`__STK`（堆疊檢查）、`__I4FS`／`__ModF`（整數與浮點互轉）、`__IsTable`（ctype 分類表）
+在 9.01 的 `clib3r.lib` 裡都還在；`__PTS`、`__PIA` 這組 16 位元的指標運算 helper
+則和 7.0 一樣不存在——那是分段定址才需要的東西。
+
+**空指標哨兵的檢查在 9.01 沒有了**：6.5 的啟動碼會在結束時掃描哨兵並印
+`*** NULL assignment detected`，7.0 與 9.01 的啟動碼與 C 函式庫裡都找不到那段訊息。
+9.01 留下的是哨兵資料與 `BEGTEXT` 那個保護，不是檢查。
 
 ## 這條線的三個階段
 
@@ -173,6 +231,9 @@ DPMI 解決的正是 7.0 那個時代的痛點：**程式不必再為每一家 e
 | 32 位元程式裡夾著 `USE16` 的程式段 | `USE16` 是組譯器給段落標的定址寬度屬性，周圍是 `USE32`。這種段配上「起點／結尾／修正點」三個符號，就是要被複製到低位記憶體的實模式碼 |
 | 那段碼很短，而且只碰 `20h`／`A0h` 兩個埠 | 那是 8259 中斷控制器的命令埠；只送 EOI 不做別的，是「看門人」型的處理常式 |
 | 執行檔開頭有一段 16 位元碼，後面接 32 位元本體 | stub；1993 年以後多半是 DOS/4GW 那一套 |
+| stub 裡有字串 `dos4gw.exe`、`DOS4GPATH` | Watcom 的標準 stub。它靠環境變數找 extender，再用 DOS 的 EXEC 把自己換掉 |
+| 啟動碼把 `EBX` 填成字面值 `'PHAR'` 才呼叫 `int 21h` 的 `AH=30h` | Watcom 9.x 的 extender 偵測。一次呼叫同時問到 DOS 版本與「跑在誰身上」 |
+| 段名出現 `XIB`／`XI`／`XIE`、`YIB`／`YI`／`YIE` | Watcom 9.x 起的初始化與收尾表；7.0 用的是另一組名字（`BCSD`、`EXEC_*`）|
 
 **容易誤判的地方**：`USE16` 的段不等於「這支程式是 16 位元的」，也不等於舊碼沒清乾淨——
 在 32 位元 DOS 程式裡，它通常正是上面那個刻意保留的機制。
@@ -198,28 +259,35 @@ DPMI 解決的正是 7.0 那個時代的痛點：**程式不必再為每一家 e
 `0200h`／`0201h`、`0204h`／`0205h`、`0500h`）、那段實模式處理常式的完整行為（讀 8259 的
 in-service 暫存器、對兩顆晶片送 EOI、`iret`，不做音訊處理）、
 **複製與就地修正的完整流程**（算長度、用 `0100h` 配置、複製、改寫修正點、掛向量）、
-**這條路只在 IRQ 8–15 走**、DMA 緩衝的 16 MB 與 64 KB 邊界檢查；
-9.01 支援的三家 extender 與各自的安裝大小、DOS/4GW 隨編譯器附、
-磁片 4 的標籤、封包與安裝目錄的對應、stub 原始碼的存在與大小、各封包成員的檔名與未壓縮大小
-（來源是 9.01 的安裝腳本與封包檔頭）。DMX 對 `int 31h` 的呼叫與那四類服務、
-16 位元中斷處理段的存在與它的三個公開符號（來源是 DMX 的原始碼）。
+**這條路只在 IRQ 8–15 走**、DMA 緩衝的 16 MB 與 64 KB 邊界檢查
+（來源是 DMX 3.4a 的 `dpmiapi.c`、`pcint.c`、`pcdma.c`、`realint.asm`）。
+
+9.01 這一側同樣是原文：stub 的三個步驟與它用的環境變數（`WSTUBSRC.WPK` 的 `wstub.c`）、
+`__Extender` 的六個值與偵測順序、`'PHAR'`／`'DX'`／`'BC'` 這三個識別字、
+`AH=4Ah` 只走 Intel Code Builder 那條路徑、`XIB`／`YIB` 那組段名、`BEGTEXT` 的用途、
+`__StartTime` 在 7.0 有而 9.01 沒有（來源是 `STARTUP.386` 封包裡的 `cstart3r.asm`、
+`cstart3s.asm`、`cmain386.c`，與 7.0 的 `CSTART3R.ASM` 逐行對照）；
+三家 extender 與安裝大小、DOS/4GW 隨編譯器附、封包與安裝目錄的對應
+（來源是 9.01 的 `INSTALL.SCR`）。
+
+**已證實（實測）**：9.01 的 181 個封包、630 個成員全部解出，每一個都通過封包自帶的
+CRC-32；兩份各自獨立寫的解碼器（一份由原廠實作切片、一份自己重寫位元流）輸出逐位元組相同。
 
 **強推論**（全篇最弱的一級）：
 
-- 「9.01 自己也走 DPMI」——9.01 的啟動碼內容還讀不到，這個推論來自同年代的 DMX 與安裝腳本的結構。
-  **圖上那一格也是推論，不是已證實的事實。**
-- 兩版之間的大小比較只說明「變大了」，變大的原因（多了哪些功能）沒有讀到內容佐證。
+- `__STK`、`__I4FS`、`__ModF`、`__IsTable` 在 9.01 「還在」，`__PTS`／`__PIA`「不存在」——
+  判準是這些名稱在 `clib3r.lib` 裡找不找得到字串。9.01 的函式庫是 Easy OMF-386 變體，
+  我們的 OMF 解析器讀不了，所以**沒有做 6.5 那種「371 個公開符號」的精確統計**，
+  也分不出某個名稱是定義還是外部參照。
 - 「那個年代的遊戲常看到 DOS/4GW 字樣」是一般印象，本篇沒有做遊戲清單普查。
 
 **未知**：
 
-- **9.01 磁片上的封包內容還解不開。** 那是 Shannon-Fano 碼加 4 KB 字典的 LZSS；
-  照原始碼移植之後輸出長度正確但內容是亂碼。已定位的原因是碼表排序依賴某個特定的
-  `qsort` 對等值元素的順序（原廠自己在註解裡寫明這件事），要一起移植才解得開。
-  所以 `dos4gw.exe`、`wstub.c`、9.01 的啟動碼與函式庫都還沒讀到。
 - **IRQ 0–7 在實模式期間靠什麼**，這批原始碼沒有展示。可能是 extender 自己會把中斷反射回
   保護模式，也可能就是漏掉——沒有查。這對「原版音訊在讀檔時的表現」影響很大。
 - DPMI 規格書還沒取得，DMX 用的功能編號沒有逐一對照規格。
-- Ergo 這家 extender 沒查。
+- `dos4gw.exe` 本體（221,045 bytes）解出來了但**沒有反組譯**，所以「DOS/4GW 收到路徑之後
+  怎麼讀 LE 本體」只到介面層級。
+- Ergo 與 Intel Code Builder 這兩家沒查來歷。
 - 9.5 與 8.0 沒有下載。
-- 沒有可執行檔、沒有實跑：9.x 的連結器在封包裡，同樣解不開。
+- 沒有實跑：9.x 的工具是 32 位元保護模式程式，dosgolem 目前跑不動。

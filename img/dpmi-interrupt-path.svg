@@ -86,6 +86,6 @@
   <!-- 底：證據強度 -->
   <rect x="26" y="580" width="888" height="98" rx="8" fill="#f4f6f8" stroke="#d0d5dd"/>
   <text x="42" y="604" font-size="12.5" fill="#1f2933">這張圖的證據不平均：DPMI 那一側有完整的原始碼可讀（DMX），9.01 那一側只有安裝腳本與封包清單——</text>
-  <text x="42" y="628" font-size="12.5" fill="#1f2933">「9.01 改走 DPMI」那一格是推論。磁片上的檔案用 Watcom 自己的壓縮封裝，解碼器還沒寫完。</text>
+  <text x="42" y="628" font-size="12.5" fill="#1f2933">9.01 的啟動碼自己不呼叫 int 31h：它用 int 21h 認出跑在哪一家 extender 上，DPMI 由上層的程式（如 DMX）使用。</text>
   <text x="42" y="656" font-size="12" fill="#8a2b2b">本圖只根據原廠安裝腳本、封包檔頭與 DMX 的原始碼；不貼原文，不做位元組簽章。</text>
 </svg>
