@@ -4,5 +4,58 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": []
+  "items": [
+    {
+      "id": "stdio-file-io",
+      "layer": "article",
+      "title": "檔案 I/O 與緩衝：FILE 結構、文字模式、代號層、errno",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/10-borland-crtl/stdio-file-io.md",
+          "examples/stdio"
+        ]
+      },
+      "issue": "#9"
+    },
+    {
+      "id": "printf-engine",
+      "layer": "article",
+      "title": "printf 家族的格式化引擎與 scanf",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/10-borland-crtl/printf-engine.md",
+          "examples/printf"
+        ]
+      },
+      "issue": "#10"
+    },
+    {
+      "id": "heap",
+      "layer": "article",
+      "title": "heap：near 與 far 兩套配置器與 malloc 家族的行為",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/10-borland-crtl/heap.md",
+          "examples/heap"
+        ]
+      },
+      "issue": "#11"
+    },
+    {
+      "id": "conio-screen",
+      "layer": "article",
+      "title": "conio 與文字畫面：directvideo、視窗、捲動、鍵盤",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/10-borland-crtl/conio-screen.md",
+          "examples/conio"
+        ]
+      },
+      "issue": "#12"
+    }
+  ]
 }
