@@ -39,9 +39,9 @@
 
   <rect x="486" y="132" width="200" height="86" rx="6" fill="#ffffff" stroke="#d97706"/>
   <text x="586" y="152" text-anchor="middle" font-size="11" fill="#5a6472">暫存器</text>
-  <text x="502" y="176" font-size="11.5" fill="#1f2933">AX ← 第一個參數</text>
-  <text x="502" y="196" font-size="11.5" fill="#1f2933">DX ← 第二個參數</text>
-  <text x="502" y="214" font-size="10.5" fill="#5a6472">實測：strcpy 的目的在 AX、來源在 DX</text>
+  <text x="502" y="174" font-size="11.5" fill="#1f2933">AX ← 第一個參數</text>
+  <text x="502" y="193" font-size="11.5" fill="#1f2933">DX ← 第二個參數</text>
+  <text x="502" y="212" font-size="10.5" fill="#5a6472">far 指標佔兩個：DX:AX、CX:BX</text>
 
   <text x="706" y="152" font-size="11.5" fill="#1f2933">符號形態</text>
   <text x="706" y="174" font-size="12" fill="#8a4b00">strlen_</text>
@@ -56,8 +56,8 @@
   <text x="42" y="286" font-size="13" font-weight="bold" fill="#1f2933">為什麼指標運算要叫函式：同一個位址有很多種寫法</text>
 
   <rect x="42" y="300" width="380" height="96" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
-  <text x="58" y="322" font-size="11.5" fill="#1f2933">段 1000　位移 0020　→　線性位址 10020</text>
-  <text x="58" y="344" font-size="11.5" fill="#1f2933">段 1002　位移 0000　→　線性位址 10020</text>
+  <text x="58" y="322" font-size="11.5" fill="#1f2933">1000:0020　→　線性位址 10020</text>
+  <text x="58" y="344" font-size="11.5" fill="#1f2933">1002:0000　→　線性位址 10020</text>
   <text x="58" y="368" font-size="11.5" fill="#8a2b2b">兩個寫法不同、指的是同一個地方。</text>
   <text x="58" y="386" font-size="11.5" fill="#8a2b2b">直接比大小或相減都會得到錯的答案。</text>
 
@@ -81,7 +81,7 @@
 
   <rect x="486" y="410" width="212" height="72" rx="6" fill="#ffffff" stroke="#b9cfe6"/>
   <text x="502" y="432" font-size="12" font-weight="bold" fill="#1f2933">__PCA ／ __PCS</text>
-  <text x="502" y="452" font-size="11" fill="#5a6472">同上，指標放另一組暫存器</text>
+  <text x="502" y="452" font-size="11" fill="#5a6472">同上，指標放 ES:BX 而不是 DX:AX</text>
   <text x="502" y="470" font-size="11" fill="#5a6472">省掉一次搬移</text>
 
   <rect x="708" y="410" width="206" height="72" rx="6" fill="#f4f6f8" stroke="#dfe3e8"/>
@@ -93,7 +93,7 @@
   <rect x="26" y="512" width="430" height="176" rx="8" fill="#eef4fb" stroke="#b9cfe6"/>
   <text x="42" y="536" font-size="13" font-weight="bold" fill="#1f2933">六個模型＝四個位元的組合</text>
   <text x="42" y="560" font-size="11.5" fill="#1f2933">遠程式碼 1　遠資料 2　huge 4　tiny 8</text>
-  <text x="42" y="584" font-size="11.5" fill="#5a6472">small＝0　compact＝2　medium＝1　large＝3</text>
+  <text x="42" y="584" font-size="11.5" fill="#5a6472">small 0　medium 1　compact 2　large 3　huge 5　tiny 8</text>
   <text x="42" y="608" font-size="11.5" fill="#1f2933">每個模型的檔案只有三行：</text>
   <text x="42" y="628" font-size="11.5" fill="#5a6472">引入旗標 → 設定模型 → 引入本體</text>
   <text x="42" y="652" font-size="11.5" fill="#1f2933">一組巨集依「有沒有遠程式碼」把呼叫、定義、</text>
