@@ -209,6 +209,10 @@ DOS 的服務用進位旗標回報失敗、`AX` 放 DOS 錯誤碼。函式庫的
 |---|---|---|---|
 | `fopen` 不存在的檔（`"r"`） | `NULL` | 2（`ENOENT`） | 2 |
 | `fopen` 模式字串不合法 | `NULL` | **不變** | 不變 |
+
+`perror(s)` 把 `errno` 當索引去查一張訊息字串表（`sys_errlist`，長度在 `sys_nerr`），
+越界就用 `Unknown error`，然後往 `stderr` 印「`你給的字串: 訊息`」加換行。
+**因為值為 −1 的那些符號共用同一格，它們印出來的訊息也一樣**；要分辨得看 `_doserrno`。
 | `open` 不存在的檔 | −1 | 2 | 2 |
 | `read` 沒開過的代號 | **0**（不是 −1） | 不變 | 不變 |
 
@@ -223,6 +227,7 @@ DOS 的服務用進位旗標回報失敗、`AX` 放 DOS 錯誤碼。函式庫的
 | 結論 | 出處 | 等級 |
 |---|---|---|
 | `FILE` 的欄位與旗標定義 | 出貨的 `stdio.h` | 已證實（原文） |
+| `perror` 查 `sys_errlist`、越界印 `Unknown error` | RTL 的 `PERROR.C` | 已證實（原文） |
 | `level` 的雙向語意、`getc`／`putc` 巨集的快路徑 | 出貨的 `stdio.h` 與 RTL 的 `PUTC.C`、`GETC.CAS` | 已證實（原文） |
 | 緩衝策略（`fopen` 與 `_setupio` 各決定一次） | RTL 的 `FOPEN.C`、`SETVBUF.C`、`SETUPIO.C` | 已證實（原文） |
 | 文字模式的轉換規則與 `Ctrl-Z` 處理 | RTL 的 `READ.CAS`、`WRITE.C` | 已證實（原文） |
