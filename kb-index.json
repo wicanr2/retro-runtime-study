@@ -814,7 +814,7 @@
   {
    "id": "watcom/watcom386-extenders",
    "path": "docs/80-watcom/watcom386-extenders.md",
-   "title": "Watcom C/386 7.0：編譯器賣你，作業系統得跟別人買",
+   "title": "Watcom C/386 7.0：編譯器賣你，保護模式那層得跟別人買",
    "libraries": [
     "watcom-7.0"
    ],
