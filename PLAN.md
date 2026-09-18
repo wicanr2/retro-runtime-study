@@ -25,8 +25,8 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R15 | 第一代 32 位元 Watcom 與 DOS extender（完成，已過專家與學生審查） | `docs/80-watcom/watcom386-extenders.md`、一張 SVG |
 | R16 | DPMI 與 DOS/4GW（完成，已過專家與學生審查） | `docs/80-watcom/dos4gw-startup.md`、一張 SVG |
 | R17 | Watcom 版本演進總表（完成，已過專家與學生審查） | `docs/80-watcom/watcom-lineage.md`、一張 SVG |
-| R18 | WPK 解碼器解開，補上 9.01 的內容缺口（完成） | 私有 `tools/wpk/`；`dos4gw-startup.md` 與 `watcom-lineage.md` 各補一輪、兩張 SVG 更新 |
-| R18.5 | 依兩個審查修訂（完成） | 兩篇文章的證據等級標示、`BEGTEXT` 與 `XIB` 的機制解釋、兩張 SVG |
+| R18 | WPK 解碼器解開，補上 9.01 的內容缺口（完成，#21）| 私有 `tools/wpk/`；`dos4gw-startup.md` 與 `watcom-lineage.md` 各補一輪、兩張 SVG 更新 |
+| R18.5 | 依兩個審查修訂（完成，#21）| 兩篇文章的證據等級標示、`BEGTEXT` 與 `XIB` 的機制解釋、兩張 SVG |
 | R19 以後 | 依 worklist 排序 | Easy OMF-386 解析器、Watcom 8.0 與 9.5、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
