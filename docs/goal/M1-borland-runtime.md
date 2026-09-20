@@ -2,12 +2,14 @@
 
 ## 目標
 
-把 Borland C++ 2.0 的執行時期函式庫寫到「不看原始碼也能重做」的程度。分兩批：
+把 Borland C++ 2.0 的執行時期函式庫寫到「不看原始碼也能重做」的程度。分三批：
 
 - **第一批（已完成）**：證明原始碼能代表出貨的函式庫，並寫完三個每支程式都會用到的機制——
   一份原始碼怎麼編出五個記憶體模型、編譯器自動插入的 helper、啟動與結束鏈。
-- **第二批（本輪）**：遊戲真正呼叫的那些函式——檔案 I/O 與緩衝、`printf` 家族、heap、conio 與文字畫面。
+- **第二批（已完成）**：遊戲真正呼叫的那些函式——檔案 I/O 與緩衝、`printf` 家族、heap、conio 與文字畫面。
   每篇要給得出行為規格：同樣的輸入，remake 照規格做會得到同樣的輸出與錯誤碼。
+- **第三批（R20，本輪）**：當年列為選配的亂數與時間——`rand` 家族與 `time` 家族。
+  規格同第二批：機制、行為規格、在執行檔裡怎麼認。範圍與完成條件見文末第三批一節。
 
 ## 從第一批帶過來的前提
 
@@ -30,9 +32,9 @@
 | B `printf` 家族 | `borland-printf-engine`（私有 #23） | [#10](https://github.com/wicanr2/retro-runtime-study/issues/10)：`docs/10-borland-crtl/printf-engine.md`、`examples/printf/` | 格式化引擎怎麼被 `printf`／`fprintf`／`sprintf`／`cprintf` 共用；支援哪些轉換與旗標、寬度與精度的邊界；浮點格式化為什麼要另外連結（`floating point formats not linked` 從哪來）；`scanf` 家族的輸入規則與回傳值 |
 | C heap | `borland-heap`（私有 #24） | [#11](https://github.com/wicanr2/retro-runtime-study/issues/11)：`docs/10-borland-crtl/heap.md`、`examples/heap/` | near heap 與 far heap 兩套配置器的資料結構與差異；`malloc`／`free`／`realloc`／`calloc`／`coreleft` 的行為與失敗條件；`brk`／`sbrk` 與堆疊的邊界；各記憶體模型下 heap 放在哪裡；與 DOS 記憶體配置（`allocmem`）的關係 |
 | D conio 與文字畫面 | `borland-conio-screen`（私有 #25） | [#12](https://github.com/wicanr2/retro-runtime-study/issues/12)：`docs/10-borland-crtl/conio-screen.md`、`examples/conio/` | `directvideo` 決定直接寫 `B800` 還是走 BIOS；`window`／`gotoxy`／`wherex` 的座標與邊界；`gettext`／`puttext`／`movetext`；捲動與清除（含 1991-04 與 1991-08 版的差異）；`getch`／`getche`／`kbhit` 的鍵盤行為與擴充鍵 |
-| E（備選）亂數與時間 | `borland-rand-time`（未登記） | `docs/10-borland-crtl/rand-time.md`、`examples/randtime/` | `rand`／`srand` 的序列公式與 `RAND_MAX`；`time`／`clock`／`ftime`／`getdate` 讀哪些 DOS 服務；remake 要重現同一串亂數時該怎麼做 |
+| E 亂數與時間（第三批，R20） | `borland-rand-time`（[私有 #40](https://github.com/wicanr2/retro-runtime-study-private/issues/40)） | [#23](https://github.com/wicanr2/retro-runtime-study/issues/23)：`docs/10-borland-crtl/rand-time.md`、`examples/randtime/` | `rand`／`srand` 的序列公式與 `RAND_MAX`；`time`／`clock`／`ftime`／`getdate` 讀哪些 DOS 服務；remake 要重現同一串亂數時該怎麼做 |
 
-A–D 這一輪要做完；E 只有在 A–D 完成後還有餘裕才開工，或另一輪再排。
+A–D 已完成；E 排入 R20（工作項目細節見文末「第三批」一節）。
 
 ## 建議順序
 
@@ -40,7 +42,7 @@ A–D 這一輪要做完；E 只有在 A–D 完成後還有餘裕才開工，�
 2. **B `printf` 家族**：依賴 A 的緩衝與 `FILE` 結論。
 3. **C heap**：獨立，可以與 B 並行；`realloc` 的行為規格要實跑。
 4. **D conio**：材料最齊（SCROLL 已實跑、dosgolem 已補 `int 10h`），可隨時插入。
-5. E 視進度。
+5. E（第三批，R20）：亂數與時間。
 
 ## 每一項的做法
 
@@ -71,3 +73,49 @@ A–D 這一輪要做完；E 只有在 A–D 完成後還有餘裕才開工，�
 - **conio 的實跑只能看文字緩衝區。** dosgolem 沒有真實螢幕，`getch` 這類互動行為要靠送鍵腳本；擴充鍵的行為可能測不完整。
 - **heap 的行為與 DOS 版本有關。** `coreleft`、`sbrk` 會受可用記憶體影響，範例程式要固定 dosgolem 的記憶體設定，否則輸出不穩定。
 - **iostream 不在這一輪。** C++ 串流（`IOSTRM1`、`IOSTRM2`，193 個 `.cpp`）量大且與 C 函式庫交錯，另外排一輪。
+
+## 第三批（R20）：亂數與時間
+
+### 範圍（模組盤點已確認）
+
+| 來源 | 模組 |
+|---|---|
+| `CLIB1` | `RAND.C`（`srand`／`rand`；LCG 乘數 `0x015A4E35`、增量 1、`static long Seed`）、`STIME.C`、`CTIME.C`（`ctime`／`asctime`／`localtime`／`gmtime`／`mktime` 一帶）、`TIMECVT.C`（時間轉換的共用結構）、`FTIME.C`、`GETDATE.C`、`LOCALE.C` |
+| `CLIB2` | `CLOCK.CAS`、`TZSET.CAS`、`RANDBLK.CAS`、`GETFTIME.CAS`、`SETFTIME.CAS`、`SETDATE.CAS` |
+
+### 要回答的問題
+
+1. **亂數**：`rand` 的遞推公式與 `RAND_MAX`；種子為 0／1／`RAND_MAX` 時的序列前幾項；
+   週期與位元模式（低位的規律性——拿它做擲骰的遊戲會用到）；`random(max)`／`randomize()`
+   是函式還是巨集、`randomize` 讀哪個時鐘；`RANDBLK.CAS` 的角色。
+2. **時間的來源**：`time`／`stime`、`_ftime`、`getdate`／`gettime`／`setdate`／`setftime`／`getftime`
+   各自走哪個 DOS 服務（`int 21h` 的 `2Ah`–`2Fh` 一帶）或 BIOS 服務；`clock` 的計時來源
+   （BIOS tick？DOS？）與解析度、歸零條件。
+3. **轉換與時區**：`localtime`／`gmtime`／`mktime`／`asctime`／`ctime` 怎麼共用 `TIMECVT`；
+   `tzset` 讀的 `TZ` 環境變數格式與預設時區；閏年與年份範圍的邊界（`mktime` 正規化、
+   1970／2038 這類界線在 16 位元 `time_t` 下是什麼樣子）。
+4. **給 remake 的行為規格**：同種子 → 同序列；固定時間 → `time` 家族輸出一致；
+   五個記憶體模型下的差異（far 版有哪些）。
+5. **在執行檔裡怎麼認**：符號名與簽章（引用 `signatures/borland-crtl-2.0/dos.json`）。
+
+### 做法與前提
+
+沿用第二批的流程（研究筆記 → 公開文章與範例 → 審查與閘門），並且：
+
+- 模組全在既有對拍範圍（491 模組 × 五模型），結論可標「已證實（對拍）」。
+- dosgolem `bcc20-toolchain` 分支已有**決定性時鐘**，時間行為可以實跑且可重現；
+  `clock` 若走 BIOS tick（`int 1Ah`）而 dosgolem 尚未支援，先寫 `READY` 規格再補，最多補兩個服務。
+- 範例程式固定種子與時鐘，輸出存 `expected.txt`，五個模型都要跑。
+
+### 完成條件
+
+- 公開文章 `docs/10-borland-crtl/rand-time.md`（含 SVG 與前置欄位）通過審查與閘門，issue #23 關閉。
+- `examples/randtime/` 五個模型可重跑且輸出與 `expected.txt` 相同。
+- 行為規格的每一條都指得出是哪一支範例程式跑出來的。
+
+### 風險
+
+- `clock`／BIOS tick 的 dosgolem 支援度未知，可能要補規格（見做法）。
+- 時區測試要控制 DOS 環境變數 `TZ`；dosgolem 的環境變數傳遞若不夠，退回讀原始碼標「已證實（原文）」。
+- `setdate`／`setftime` 這類**寫入**系統時間的函式，實跑只能驗證呼叫的服務與回傳值，
+  不能真的改宿主時間——規格以服務編號與參數為準。

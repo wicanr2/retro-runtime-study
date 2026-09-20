@@ -4,5 +4,20 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": []
+  "items": [
+    {
+      "id": "borland-rand-time",
+      "layer": "article",
+      "title": "文章：亂數與時間（rand 家族與 time 家族）",
+      "why": "M1 第三批（R20）：rand 的序列公式與種子行為、time 家族讀的 DOS／BIOS 服務、時區轉換與 TZ、給 remake 的行為規格（同種子同序列、固定時間輸出一致）。範圍與完成條件見 docs/goal/M1-borland-runtime.md 第三批。",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/10-borland-crtl/rand-time.md",
+          "examples/randtime"
+        ]
+      },
+      "issue": 23
+    }
+  ]
 }
