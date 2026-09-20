@@ -1,0 +1,25 @@
+int: 42 -42 0
+long: 123456789
+hex: ff 1a
+oct: 377
+hex-upper: FF
+showbase-hex: 0xff
+showbase-oct: 0377
+dec-restore: 255
+showpos-dec: +42
+    42|42
+    42|42
+000042
+42    |
+    42|
++   42|
+flt-default: 3.5 0.25 12345.6789
+flt-prec2: 3.14 1.23e+04
+flt-fixed: 3.14
+flt-sci: 3.14e+00
+flt-small: 1e-05 0
+flt-restore: 3.14
+str: abc
+char: x
+endl-test
+after-endl

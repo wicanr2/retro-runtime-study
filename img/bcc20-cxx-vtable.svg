@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="360" viewBox="0 0 860 360">
+  <rect width="860" height="360" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .obj { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .vt { fill: #f3f4f6; stroke: #9ca3af; stroke-width: 1; }
+    .fn { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .small { font-size: 11px; fill: #666; }
+    .label { font-size: 13px; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#666"/>
+    </marker>
+    <marker id="arro" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">物件、vtable 與虛擬呼叫（BCC 2.0，近指標）</text>
+
+  <!-- 物件 -->
+  <rect x="50" y="60" width="200" height="120" rx="6" class="obj"/>
+  <text x="150" y="82" text-anchor="middle" class="label mono">Derived d(7)</text>
+  <rect x="70" y="94" width="160" height="26" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="150" y="112" text-anchor="middle" class="label mono">+0  vptr → @@Derived@</text>
+  <rect x="70" y="126" width="160" height="26" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="150" y="144" text-anchor="middle" class="label mono">+2  v ＝ 7</text>
+  <text x="150" y="170" text-anchor="middle" class="small">建構時 vptr 先填 @@Base@ 再改 @@Derived@</text>
+
+  <!-- vtable -->
+  <rect x="360" y="60" width="230" height="120" rx="6" class="vt"/>
+  <text x="475" y="82" text-anchor="middle" class="label mono">@@Derived@（@Derived@ 段）</text>
+  <rect x="380" y="94" width="190" height="22" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="475" y="110" text-anchor="middle" class="label mono">dw @@Derived@f$qv</text>
+  <rect x="380" y="120" width="190" height="22" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="475" y="136" text-anchor="middle" class="label mono">dw @@Derived@g$qv</text>
+  <rect x="380" y="146" width="190" height="22" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="475" y="162" text-anchor="middle" class="label mono">dw @@Derived@$bdtr$qv</text>
+  <text x="475" y="192" text-anchor="middle" class="small">按宣告序；解構子佔一槽；內容是近指標</text>
+
+  <path d="M 230 107 L 356 107" stroke="#666" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- 呼叫 -->
+  <rect x="650" y="60" width="180" height="120" rx="6" class="fn"/>
+  <text x="740" y="86" text-anchor="middle" class="label mono">mov bx, [si]</text>
+  <text x="740" y="110" text-anchor="middle" class="label mono">call word ptr [bx+N]</text>
+  <text x="740" y="140" text-anchor="middle" class="small">N ＝ 槽序 × 2</text>
+  <text x="740" y="162" text-anchor="middle" class="small">f ＝ +0、g ＝ +2</text>
+  <path d="M 594 105 L 646 105" stroke="#d97706" stroke-width="1.4" marker-end="url(#arro)"/>
+
+  <!-- 底部說明 -->
+  <rect x="50" y="210" width="780" height="120" rx="6" fill="#f6f8fa" stroke="#d0d5dd"/>
+  <text x="70" y="238" class="label">方法本體各占一個以方法命名的虛擬段：@Derived@f$qv segment virtual——C 的程式碼集中在 _TEXT，</text>
+  <text x="70" y="258" class="label">C++ 的方法一人一段，這是段名層的指紋。</text>
+  <text x="70" y="286" class="label">對具體型別的物件呼叫虛擬函式會被去虛擬化並內聯（全域 d.f() 直接變成讀成員），</text>
+  <text x="70" y="306" class="label">反組譯時不要期待每個虛擬呼叫都走表。</text>
+</svg>

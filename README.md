@@ -42,8 +42,10 @@
 | [near heap 與 far heap：兩套配置器，一條與堆疊的邊界](docs/10-borland-crtl/heap.md) | 兩套配置器的區塊頭與單位、first fit 與漫遊指標、切割從尾端切、`realloc` 為什麼一律搬家、near heap 與堆疊之間的 512 bytes、far heap 怎麼向 DOS 要空間；附五個模型實跑的行為規格 |
 | [conio：一個結構、三個原語、兩條路](docs/10-borland-crtl/conio-screen.md) | `_video` 結構、`__cputn`／`__scroll`／`__screenio` 三個原語、直接寫顯示記憶體與走 BIOS 的岔路、CGA 雪花的偵測條件、兩套座標系；附五個模型實跑的行為規格 |
 | [亂數與時間：一個 LCG、兩個 DOS 服務、寫死的美國日光節約規則](docs/10-borland-crtl/rand-time.md) | `rand` 的 LCG 與參考序列、`random`／`randomize` 其實是巨集、`time` 家族讀的 DOS／BIOS 服務、`TZ` 的剖析與靜默退回、1986 年美國修法寫進函式庫的 DST 分支、`clock` 的 tick 單位、**`mktime` 對閏年 2 月 29 無限迴圈**；附五個模型實跑的行為規格 |
+| [iostream：兩套 stream、自有格式化引擎、與啟動鏈的接點](docs/10-borland-crtl/iostream.md) | 新式（iostream.h，191 模組在主庫）與舊式（stream.h，8 模組獨立 oldstrm 庫）兩族；類別地圖與預設值；自有整數／AT&T 浮點轉換（**預設下 0.0001 印成 0**）；width 一次性；cin/cout 的建構時機與 tie；與 stdio 的緩衝分離和 sync_with_stdio；附五個模型實跑的行為規格 |
 | [BCC 2.0 產生的程式碼在反組譯裡長什麼樣](docs/60-re-fingerprints/bcc20-codegen.md) | 函式進出、暫存器變數、呼叫與清堆疊、`switch` 的跳躍表與值表搜尋、各記憶體模型的資料存取、立即值編碼、浮點修正；從產生碼判斷編譯選項 |
 | [從執行檔判斷 runtime 廠牌、版本與記憶體模型](docs/60-re-fingerprints/identify-vendor-and-model.md) | 壓縮檢查、TLINK 的檔頭標記、C0 進入點與字串、用簽章推記憶體模型與出貨版本、沒有簽章時從產生碼判斷 |
+| [BCC 2.0 的 C++ 產生碼指紋：mangling、vtable、靜態建構](docs/60-re-fingerprints/bcc20-cxx-codegen.md) | `@類別@名稱$q參數` 的 mangling 與型別碼表、`$bctr`/`$blsh` 等運算子碼、以類別命名的 vtable 虛擬段與近指標表、`call word ptr [bx+N]` 虛擬呼叫、`@_STCON_$qv` 與 `_INIT_` 優先序 32 |
 | [一套 CRT 原始碼怎麼變成三十幾個 .LIB](docs/20-msvc-crt/library-combination.md) | Visual C++ 1.0 的 16 位元 CRT：模型 × 浮點方式 × 環境三個維度、安裝時才合併的元件庫、模型無關的 `LIBH` 怎麼做到、與 Borland 的取捨對照（**沒有對拍**，限於建置檔所寫） |
 | [DMX 的五份封存：版本號、建置設定與呼叫慣例是三件事](docs/30-dmx/version-history.md) | 五個目錄名不是五個版本：功能版本幾乎沒動，差異在建置檔位與參數傳遞方式；出貨的庫併了第三方 AWE32 支援，樹裡沒有那份原始碼；`fmfix` 同時改了 OPL3 偵測與 FM 搶聲；遊戲資料裡的 GENMIDI、DMXGUS、MUS 是這套庫的格式（**只讀原始碼**，版權標示機密與專有） |
 | [DSMI：一份組語核心，三種語言接得上](docs/40-dsmi/interface-split.md) | 核心是一份組語原始碼、用組譯期符號編出 C 版與 Pascal 版兩套目的碼；CDI 這張裝置表在架構中央，MCP、GUS、無聲各是一個裝置；封存裡哪些檔根本不是原始碼（**只讀原始碼**，授權禁止逆向該套件） |
@@ -71,6 +73,7 @@
 | `examples/heap/` | heap 配置策略的測試程式與預期輸出 |
 | `examples/conio/` | 文字畫面行為的測試程式、預期輸出與預期畫面 |
 | `examples/randtime/` | 亂數與時間的測試程式與預期輸出（期望值來自獨立參考模型；含 `mktime` 2 月 29 無限迴圈的重現） |
+| `examples/iostream/` | iostream 的格式化、預設串流與 stdio 混用、全域物件建構順序的測試程式與預期輸出 |
 | `examples/codegen/` | 各種語法構造在五個模型與各選項下的產生碼測試程式與預期輸出 |
 | `examples/startup/` | `#pragma startup`／`exit` 與 `atexit` 執行順序的測試程式 |
 

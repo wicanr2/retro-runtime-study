@@ -1,0 +1,4 @@
+isatty1=0
+cin-empty: fail=1 eof=0 x-untouched=1
+cout-state: good=1 cerr-unitbuf=1 cout-unitbuf=0 cout-tied-from-cin=1
+sync-done=1

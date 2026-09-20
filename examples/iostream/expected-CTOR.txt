@@ -1,0 +1,5 @@
+ctor:global-1
+ctor:global-2
+main
+dtor:global-2
+dtor:global-1

@@ -52,6 +52,11 @@
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |
 | DST（日光節約時間） | 函式庫寫死的美國規則（4–10 月，門檻日是某個星期日），1987 起與之前兩套門檻並存；其他時區套到它就算錯 |
 | Hull–Dobell 定理 | LCG 走滿週期的判準：增量與模互質、乘數 ≡1（mod 4）（模為 2 的次方時）。`rand` 的乘數與增量滿足，所以 32 位元狀態走滿 2³² 才重複 |
+| mangling（Borland C++） | C++ 符號的編碼規則：`@類別@名稱$q參數`（`@ostream@$blsh$ql`＝`operator<<(long)`）；型別碼 `v/i/l/g/c`、`p` 指標、`r` 引用；運算子 `$bctr`/`$bdtr`/`$blsh`/`$brsh`/`$basg` |
+| vtable（BCC 2.0） | 虛擬函式表：以類別命名的虛擬段（`@類別@`）裡的近指標表，按宣告序、解構子佔一槽；物件的 vptr 在 +0；虛擬呼叫＝`call word ptr [bx+N]` |
+| placement new | 用已有位址呼叫建構式的手法（`new (&obj) 類別`）。iostream 的 `Iostream_init` 用它建構 cin/cout 全域物件 |
+| 操縱子（manipulator） | 寫成「值」的 I/O 指令：`cout << endl` 會插入換行並 flush。`iomanip.h` 的 setw／setprecision／setiosflags 也是 |
+| 空指標哨兵 | 啟動碼在資料段開頭放的位元組，結束時比對；被改寫就印 `Null pointer assignment`（代表程式曾透過空指標寫入） |
 | 啟動碼（C0） | 程式真正的進入點，每個記憶體模型一個目的檔（`C0S.OBJ` 等）；處理記憶體、堆疊、中斷向量，呼叫初始化表後才呼叫 `main` |
 | 初始化表／結束表（`_INIT_`／`_EXIT_`） | 各模組放在同名段裡的 6 bytes 紀錄（呼叫類型、優先序、位址），連結器接成一張表，由啟動碼依優先序呼叫 |
 | `#pragma startup`／`#pragma exit` | 讓 C 函式登記進初始化表或結束表的編譯器指示 |

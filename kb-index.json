@@ -233,6 +233,72 @@
    ]
   },
   {
+   "id": "borland-crtl/iostream",
+   "path": "docs/10-borland-crtl/iostream.md",
+   "title": "iostream：兩套 stream、自有格式化引擎、與啟動鏈的接點",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "remake 或反組譯碰到 `cout`／`<<`／`ios::` 這類符號，想知道這一版 iostream 的實際行為",
+    "混用 printf 與 cout 輸出順序亂掉，想知道為什麼、怎麼解",
+    "想知道 cin/cout 這些全域物件是什麼時候建構的、程式裡什麼時候開始能用",
+    "浮點用 `<<` 輸出結果怪（例如 0.0001 印成 0），想確認是函式庫的規則不是自己的 bug",
+    "想把舊碼的 `stream.h`（舊式 stream）跟 `iostream.h` 分清楚"
+   ],
+   "symbols": [
+    "ios",
+    "streambuf",
+    "filebuf",
+    "istream",
+    "ostream",
+    "iostream",
+    "withassign",
+    "cin",
+    "cout",
+    "cerr",
+    "clog",
+    "endl",
+    "flush",
+    "dec",
+    "hex",
+    "oct",
+    "setw",
+    "setprecision",
+    "setiosflags",
+    "width",
+    "precision",
+    "fill",
+    "tie",
+    "ipfx",
+    "opfx",
+    "osfx",
+    "sync_with_stdio",
+    "unitbuf",
+    "showbase",
+    "showpos",
+    "showpoint",
+    "internal",
+    "Iostream_init",
+    "Iostream_delete",
+    "oldstrm",
+    "STREAM.H",
+    "IOSTREAM.H",
+    "FSTREAM.H"
+   ],
+   "related": [
+    "borland-crtl/stdio-file-io",
+    "borland-crtl/startup-and-exit",
+    "borland-crtl/printf-engine",
+    "borland-crtl/rand-time"
+   ]
+  },
+  {
    "id": "borland-crtl/memory-model-macros",
    "path": "docs/10-borland-crtl/memory-model-macros.md",
    "title": "一份原始碼怎麼編出五個記憶體模型",
@@ -782,6 +848,46 @@
     "borland-crtl/memory-model-macros",
     "borland-crtl/compiler-helpers",
     "toolchain/bcc20-on-dosgolem"
+   ]
+  },
+  {
+   "id": "re-fingerprints/bcc20-cxx-codegen",
+   "path": "docs/60-re-fingerprints/bcc20-cxx-codegen.md",
+   "title": "BCC 2.0 的 C++ 產生碼指紋：mangling、vtable、靜態建構",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯看到 `@ostream@$blsh$ql` 這類符號，想還原成宣告",
+    "想確認一支程式是不是 Borland C++ 2.0 編的 C++，而不是 C",
+    "看到物件開頭有一個近指標、後面接 `call word ptr [bx+N]`，想重建 vtable",
+    "想知道全域物件的建構式為什麼在 main 之前執行、掛在啟動鏈哪裡"
+   ],
+   "symbols": [
+    "@ostream@$blsh",
+    "$bctr",
+    "$bdtr",
+    "$blsh",
+    "$brsh",
+    "$basg",
+    "@_STCON_",
+    "_INIT_",
+    "vtable",
+    "@類別@段",
+    "iostream",
+    "ostream",
+    "ios",
+    "streambuf"
+   ],
+   "related": [
+    "re-fingerprints/bcc20-codegen",
+    "re-fingerprints/identify-vendor-and-model",
+    "borland-crtl/iostream",
+    "borland-crtl/compiler-helpers"
    ]
   },
   {
