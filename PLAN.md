@@ -27,7 +27,8 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R17 | Watcom 版本演進總表（完成，已過專家與學生審查） | `docs/80-watcom/watcom-lineage.md`、一張 SVG |
 | R18 | WPK 解碼器解開，補上 9.01 的內容缺口（完成，#21）| 私有 `tools/wpk/`；`dos4gw-startup.md` 與 `watcom-lineage.md` 各補一輪、兩張 SVG 更新 |
 | R18.5 | 依兩個審查修訂（完成，#21）| 兩篇文章的證據等級標示、`BEGTEXT` 與 `XIB` 的機制解釋、兩張 SVG |
-| R19 以後 | 依 worklist 排序 | Easy OMF-386 解析器、Watcom 8.0 與 9.5、亂數與時間、iostream |
+| R19 | Easy OMF-386 解析器，補上 7.0／9.01 出貨庫的逐符號清單（完成，#22）| 私有 `tools/omf386.py`；四份庫共 1,178 個模組全記錄校驗和通過、WDISASM 對照三模組；三篇 Watcom 文章的 helper 證據從字串層升到逐符號，`__STK` 失敗行為補上反組譯 |
+| R20 以後 | 依 worklist 排序 | Watcom 8.0 與 9.5、亂數與時間、iostream |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
 **M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），
@@ -124,3 +125,4 @@ img/
 | 總表說「堆疊慣例的一般函式是裸名」只有啟動碼內部符號的外推 | 有實物佐證：`clib3s.lib` 裡 `strlen_`／`printf_`／`fopen_` 一個都沒有，`clib3r.lib` 三個都有 | 解開後的兩份函式庫（字串層級；那是 Easy OMF-386，解析器讀不了符號表）|
 | 私有筆記與盤點工具把 `.WPK` 檔名長度的最高位元讀成「這個成員沒有壓縮」 | 那是 `NO_SHANNON_CODE`：不用 Shannon-Fano 編碼，**仍然是 LZSS 壓縮** | open-watcom 的 `wpack.h` 與實際解碼結果 |
 | 第五批推出「1992 版的碼表條目數不加 1」（當時第一個符號因此從 `.` 變成 `/`，看起來是對的） | **假修正，已收回**：那是排序錯誤造成的假象，換上正確的 qsort 之後 `+1` 才對 | 630 個成員全部通過封包自帶的 CRC |
+| 總表、DOS/4GW 與第一代 32 位元三篇說「7.0／9.01 的出貨庫是 Easy OMF-386 變體，解析器讀不了，helper 只能到字串層級」 | **兩版的庫容器本來就是標準 OMF library，記錄框架與校驗和都完好**；卡點只在欄位寬度（`80386` 標記後段長與位移是 4 位元組）。補上語意後逐符號可讀：7.0 模組 255×2、定義 378×2，9.01 模組 334×2、定義 563×2 | 私有 `tools/omf386.py`：1,178 個模組全記錄校驗和通過；7.0 原廠 WDISASM 對照三個模組；欄位規則出自 open-watcom `womp` 讀取器 |

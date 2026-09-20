@@ -4,22 +4,5 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": [
-    {
-      "id": "easy-omf-386-parser",
-      "layer": "infra",
-      "title": "OMF 解析器支援 Easy OMF-386 變體",
-      "why": "7.0 與 9.01 的出貨函式庫是 Phar Lap 的 Easy OMF-386 變體（COMENT 裡帶 80386），記錄版面與標準 OMF 不同，硬解會吐出看似有效的垃圾名稱。因此這兩版做不到 6.5 那種「371 個公開符號」的逐符號清單，helper 的結論只能到「名稱字串在檔案裡找不找得到」，分不出定義與外部參照。",
-      "verify": {
-        "kind": "present",
-        "paths": [
-          "docs/80-watcom/watcom-lineage.md",
-          "docs/80-watcom/dos4gw-startup.md"
-        ],
-        "pattern": "Easy OMF-386"
-      },
-      "note": "這是格式問題，與 WPK 壓縮無關（那個已經解開）。動手前先確認變體的記錄版面差在哪。",
-      "issue": 22
-    }
-  ]
+  "items": []
 }
