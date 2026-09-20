@@ -3,3 +3,7 @@
 !img/tetris-webplay.png
 .scratch/
 __pycache__/
+
+# 範例程式的建置產物（含連結 Borland runtime 的 .EXE/.OBJ，不得入版控）
+examples/*/out/
+examples/*/build.log

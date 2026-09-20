@@ -1,0 +1,35 @@
+d2u-1980-01-01: 315550800
+d2u-1980-02-29: 320648400
+d2u-1993-01-01: 725864400
+d2u-1993-07-01-12:00: 741542400
+tz-default: timezone=18000 daylight=1 tz=[EST][EDT]
+tz-EST5EDT: timezone=18000 daylight=1 tz=[EST][EDT]
+tz-GMT0: timezone=0 daylight=0 tz=[GMT][]
+tz-CCT-8: timezone=-28800 daylight=0 tz=[CCT][]
+tz-XYZ5DST: timezone=18000 daylight=1 tz=[XYZ][DST]
+tz-AB-bogus: timezone=18000 daylight=1 tz=[EST][EDT]
+tz-ABCD5-bogus: timezone=18000 daylight=1 tz=[EST][EDT]
+ctime(K)=Fri Jan 01 00:00:00 1993
+ctime(J)=Thu Jul 01 12:00:00 1993
+gmtime(K)=1993-01-01 05:00:00 wday=5
+localtime(J)=1993-07-01 12:00:00 wday=4 yday=181 dst=1
+strftime1=[Thu Thursday Jul July]
+strftime-c=[Thu Jul 01 12:00:00 1993]
+strftime2=[01 12 12 182 07 00 PM 00]
+strftime3=[26 4 26]
+strftime4=[Thu Jul 1, 1993|12:00:00|93|1993|EDT|%]
+mk-1993-01-01: 725864400 (norm 1993-01-01 00:00:00 wday=5 yday=0 dst=0)
+mk-1993-02-28: 730961999 (norm 1993-02-28 23:59:59 wday=0 yday=58 dst=0)
+mk-1993-02-29-nonleap: 730962000 (norm 1993-03-01 00:00:00 wday=1 yday=59 dst=0)
+mk-1993-03-01-mday0: 730875600 (norm 1993-02-28 00:00:00 wday=0 yday=58 dst=0)
+mk-1993-06-30-sec75: 741456075 (norm 1993-06-30 12:01:15 wday=3 yday=180 dst=1)
+mk-1993-06-30-hour25: 741502800 (norm 1993-07-01 01:00:00 wday=4 yday=181 dst=1)
+mk-1993-01-32: 728542800 (norm 1993-02-01 00:00:00 wday=1 yday=31 dst=0)
+mk-1993-07-01-12:00: 741542400 (norm 1993-07-01 12:00:00 wday=4 yday=181 dst=1)
+mk-year69: -1
+mk-year139: -1
+mk-2037-12-31: 2145934799 (norm 2037-12-31 23:59:59 wday=4 yday=364 dst=0)
+mk-2038-01-18-overflow: -1
+mk-1970-01-01-est: 18000 (norm 1970-01-01 00:00:00 wday=4 yday=0 dst=0)
+mk-1970-01-01-gmt0: -1
+unixtodos(J)=1993-7-1 12:00:00.00

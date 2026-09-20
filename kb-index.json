@@ -355,6 +355,67 @@
    ]
   },
   {
+   "id": "borland-crtl/rand-time",
+   "path": "docs/10-borland-crtl/rand-time.md",
+   "title": "亂數與時間：一個 LCG、兩個 DOS 服務、寫死的美國日光節約規則",
+   "libraries": [
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "remake 要重現原版遊戲的亂數序列（抽牌、掉寶、敵人走位），不知道種子怎麼進去、序列怎麼算",
+    "反組譯看到 rand 或 srand，想知道呼叫它得到什麼保證、random 與 randomize 是函式還是巨集",
+    "程式呼叫 time／clock／ftime／getdate，想知道它們讀哪個服務、單位是什麼、時區怎麼來",
+    "mktime 傳入 2 月 29 日之後程式當掉，想確定是不是函式庫的問題",
+    "看到 tzset／TZ 環境變數，想知道 1991 年的 DOS 程式怎麼處理時區與日光節約"
+   ],
+   "symbols": [
+    "rand",
+    "srand",
+    "random",
+    "randomize",
+    "RAND_MAX",
+    "time",
+    "stime",
+    "clock",
+    "CLK_TCK",
+    "CLOCKS_PER_SEC",
+    "dostounix",
+    "unixtodos",
+    "difftime",
+    "ftime",
+    "getdate",
+    "gettime",
+    "setdate",
+    "settime",
+    "getftime",
+    "setftime",
+    "tzset",
+    "timezone",
+    "daylight",
+    "tzname",
+    "localtime",
+    "gmtime",
+    "asctime",
+    "ctime",
+    "mktime",
+    "strftime",
+    "__isDST",
+    "__DOStimeToU",
+    "_StartTime",
+    "TZ"
+   ],
+   "related": [
+    "borland-crtl/startup-and-exit",
+    "borland-crtl/compiler-helpers",
+    "borland-crtl/memory-model-macros"
+   ]
+  },
+  {
    "id": "borland-crtl/startup-and-exit",
    "path": "docs/10-borland-crtl/startup-and-exit.md",
    "title": "啟動與結束鏈：從載入到 main、從 exit 回到 DOS",

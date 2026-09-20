@@ -28,7 +28,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R18 | WPK 解碼器解開，補上 9.01 的內容缺口（完成，#21）| 私有 `tools/wpk/`；`dos4gw-startup.md` 與 `watcom-lineage.md` 各補一輪、兩張 SVG 更新 |
 | R18.5 | 依兩個審查修訂（完成，#21）| 兩篇文章的證據等級標示、`BEGTEXT` 與 `XIB` 的機制解釋、兩張 SVG |
 | R19 | Easy OMF-386 解析器，補上 7.0／9.01 出貨庫的逐符號清單（完成，#22）| 私有 `tools/omf386.py`；四份庫共 1,178 個模組全記錄校驗和通過、WDISASM 對照三模組；三篇 Watcom 文章的 helper 證據從字串層升到逐符號，`__STK` 失敗行為補上反組譯 |
-| R20 | M1 第三批：亂數與時間（#23）| `docs/10-borland-crtl/rand-time.md`、SVG、`examples/randtime/`；私有 `topics/rand-time.md`（#40） |
+| R20 | M1 第三批：亂數與時間（完成，#23）| `docs/10-borland-crtl/rand-time.md`、一張 SVG、`examples/randtime/`（期望值來自獨立參考模型，五模型逐位元組相同）；發現並實證 `mktime` 對閏年 2 月 29 無限迴圈 |
 | R21 以後 | 依 worklist 排序 | Watcom 8.0 與 9.5、iostream、9.01 啟動多型（庫內 cstart 與 adsstart.obj 的分工） |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 

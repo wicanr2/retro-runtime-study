@@ -41,6 +41,7 @@
 | [printf 家族：一個引擎、三個出口，與浮點的連結開關](docs/10-borland-crtl/printf-engine.md) | `__vprinter` 與三個輸出函式、表格驅動的解析、格式寫錯時的行為、浮點轉換為什麼是連結時才接上；附五個模型實跑的格式化與 `scanf` 行為規格 |
 | [near heap 與 far heap：兩套配置器，一條與堆疊的邊界](docs/10-borland-crtl/heap.md) | 兩套配置器的區塊頭與單位、first fit 與漫遊指標、切割從尾端切、`realloc` 為什麼一律搬家、near heap 與堆疊之間的 512 bytes、far heap 怎麼向 DOS 要空間；附五個模型實跑的行為規格 |
 | [conio：一個結構、三個原語、兩條路](docs/10-borland-crtl/conio-screen.md) | `_video` 結構、`__cputn`／`__scroll`／`__screenio` 三個原語、直接寫顯示記憶體與走 BIOS 的岔路、CGA 雪花的偵測條件、兩套座標系；附五個模型實跑的行為規格 |
+| [亂數與時間：一個 LCG、兩個 DOS 服務、寫死的美國日光節約規則](docs/10-borland-crtl/rand-time.md) | `rand` 的 LCG 與參考序列、`random`／`randomize` 其實是巨集、`time` 家族讀的 DOS／BIOS 服務、`TZ` 的剖析與靜默退回、1986 年美國修法寫進函式庫的 DST 分支、`clock` 的 tick 單位、**`mktime` 對閏年 2 月 29 無限迴圈**；附五個模型實跑的行為規格 |
 | [BCC 2.0 產生的程式碼在反組譯裡長什麼樣](docs/60-re-fingerprints/bcc20-codegen.md) | 函式進出、暫存器變數、呼叫與清堆疊、`switch` 的跳躍表與值表搜尋、各記憶體模型的資料存取、立即值編碼、浮點修正；從產生碼判斷編譯選項 |
 | [從執行檔判斷 runtime 廠牌、版本與記憶體模型](docs/60-re-fingerprints/identify-vendor-and-model.md) | 壓縮檢查、TLINK 的檔頭標記、C0 進入點與字串、用簽章推記憶體模型與出貨版本、沒有簽章時從產生碼判斷 |
 | [一套 CRT 原始碼怎麼變成三十幾個 .LIB](docs/20-msvc-crt/library-combination.md) | Visual C++ 1.0 的 16 位元 CRT：模型 × 浮點方式 × 環境三個維度、安裝時才合併的元件庫、模型無關的 `LIBH` 怎麼做到、與 Borland 的取捨對照（**沒有對拍**，限於建置檔所寫） |
@@ -69,6 +70,7 @@
 | `examples/printf/` | 格式化與 `scanf` 邊界行為的測試程式與預期輸出 |
 | `examples/heap/` | heap 配置策略的測試程式與預期輸出 |
 | `examples/conio/` | 文字畫面行為的測試程式、預期輸出與預期畫面 |
+| `examples/randtime/` | 亂數與時間的測試程式與預期輸出（期望值來自獨立參考模型；含 `mktime` 2 月 29 無限迴圈的重現） |
 | `examples/codegen/` | 各種語法構造在五個模型與各選項下的產生碼測試程式與預期輸出 |
 | `examples/startup/` | `#pragma startup`／`exit` 與 `atexit` 執行順序的測試程式 |
 

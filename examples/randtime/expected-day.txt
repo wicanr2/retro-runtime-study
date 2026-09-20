@@ -1,0 +1,7 @@
+getdate: 1993-1-1
+time-in-window: 1
+gettime-monotonic: 1
+clock: 1 CLK_TCK10=182
+ftime: tz=300 dst=0 millitm<1000=1 time-in-window=1
+setgetftime-ok-valid: 1
+setdate-readback: 1993-1-1
