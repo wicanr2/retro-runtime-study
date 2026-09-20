@@ -4,5 +4,20 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": []
+  "items": [
+    {
+      "id": "borland-iostream",
+      "layer": "article",
+      "title": "文章：iostream（類別地圖、緩衝與格式化、C++ 產生碼指紋）",
+      "why": "M1 第四批（R21）：ios／streambuf／istream／ostream 的類別階層與虛擬繼承、filebuf 與 stdio 的關係、全域物件建構與啟動鏈、格式化狀態預設值、Borland C++ mangling 與 vtable 辨識法。191 模組進主庫、8 個舊式 stream 獨立 oldstrm<模型>.lib 的取捨。範圍見 docs/goal/M1-borland-runtime.md 第四批。",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/10-borland-crtl/iostream.md",
+          "examples/iostream"
+        ]
+      },
+      "issue": 24
+    }
+  ]
 }
