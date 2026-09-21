@@ -31,6 +31,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R20 | M1 第三批：亂數與時間（完成，#23）| `docs/10-borland-crtl/rand-time.md`、一張 SVG、`examples/randtime/`（期望值來自獨立參考模型，五模型逐位元組相同）；發現並實證 `mktime` 對閏年 2 月 29 無限迴圈 |
 | R21 | M1 第四批：iostream（完成，#24）| `docs/10-borland-crtl/iostream.md`＋`docs/60-re-fingerprints/bcc20-cxx-codegen.md`、兩張 SVG、`examples/iostream/`（五模型全過）；發現 `sync_with_stdio` 踩空指標哨兵（模型相關）與浮點預設的 `0.0001 → 0` |
 | R22 | M4 第七批：9.01 啟動多型（完成，#25）＋並行取得項查證完成（#43，下載待使用者決定）| `docs/80-watcom/watcom90-startup.md`、一張 SVG；私有 `topics/startup-variants.md`（#42）、`topics/acquire-80-95.md`（#43：8.0/8.5/9.5 的 archive.org 來源已定位） |
+| R23 | M4 第八批：Watcom 8.0／8.5a／9.5b 的取得與盤點（私有 #44）| `originals/`＋manifest＋PROVENANCE＋`notes/watcom-8x95/INVENTORY.md`；文章另批 |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
 **M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），

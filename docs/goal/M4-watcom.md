@@ -305,6 +305,37 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 取得並盤點（originals/＋extract＋manifest＋PROVENANCE），或記下查過的來源與
 不可行的原因收尾；不為取得本身開第二輪。
 
+## 第八批（R23，本輪）：Watcom 8.0／8.5／9.5 的取得與盤點
+
+主軸是編譯工具本身：把版本線的實物補到 8.x 與 9.5，讓「7.0 → 8.x → 9.x」的
+演進有東西可比。**這一批只做取得、驗證、解包、盤點**；版本差異的文章
+（`watcom80-delta`）等素材齊了另批做。
+
+| 版本 | 來源（archive.org） | 內容 |
+|---|---|---|
+| 8.0 | 收藏 `watcom-c-cpp-compilers-collection` 的 `watcom-8.0/` | `CNW386-1..6.ZIP` 六個 ZIP |
+| 8.5a | `watcom85a-disks`、`watcom-8.5a`、收藏內 `watcom-8.5/` | zip ＋ `liren-c496/1..5.img` |
+| 9.5b | `watcom-9.5b`、收藏內 `watcom-9.5/floppies/` | `W9516_01..04`（16 位元目標）、`W9532_01..10`（32 位元目標）、`OS2TK_1..6`，各 1,474,560 bytes 的 .vfd |
+
+來源與 9.01 同一個收藏（先例：下載後與收藏的 SHA256SUMS 比對，相符才用；
+見 `notes/watcom-9.01/PROVENANCE.md`）。權利狀態：8.x／9.x 不在 Open Watcom
+開源範圍，處理方式與既有來源相同（private、不散布、閘門把關）。
+
+### 完成條件
+
+- `originals/` 收錄下載檔（.gitattributes 標 `-text`）、`vendor/` 可重建、
+  manifest 與 CROSSCHECK 齊。
+- `PROVENANCE`（`notes/watcom-8x95/` 或各版目錄）記下載日期、來源 identifier、
+  雜湊驗證結果、版本判定證據（安裝日期戳、README 字串）。
+- 盤點筆記：各版磁片→目錄→關鍵工具（編譯器、連結器、函式庫清單），
+  386 函式庫用 `omf386.py` 做模組清單（供下一批的版本差異比較）。
+- `.vfd` 格式驗證過（是否 FAT12；不是就記下格式與處理方式）。
+
+### 這一批不做
+
+- 8.x／9.5 的差異文章與總表更新（素材齊後另批）。
+- 9.5 的安裝與實跑（先盤點；安裝工具鏈要 dosgolem 支援評估，另議）。
+
 ## 每一項的做法
 
 - 研究在私有工作區 `~/cht/borland/`，公開文章在本 repo，照兩邊 `CLAUDE.md` 的契約。
