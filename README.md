@@ -12,7 +12,9 @@
 | `dsmi` | DSMI（Otto Chrons） | 1992–1994 | DOS 模組音樂與音效混音 |
 | `watcom-6.5` | Watcom C Optimizing Compiler and Tools V6.5 | 1988 | 16 位元 DOS 編譯器、函式庫與工具 |
 | `watcom-7.0` | Watcom C 386 V7.0 | 1989 | 第一代 32 位元編譯器；搭 Phar Lap 或 OS/386 的 DOS extender |
+| `watcom-8.0` | Watcom C/SQL 386 8.0（1990）的 CNW386 BBS 六包；SKU 依據是編譯器 banner | 1990 | 早期 32 位元；NetWare／Btrieve 市場的開發支援 |
 | `watcom-9.01` | Watcom C/C++ 9.01 | 1992 | DOS/4GW 年代的工具鏈；磁片內容為 Watcom 自家壓縮封裝 |
+| `watcom-9.5` | Watcom C/C++ 9.5b（1993-05-05） | 1993 | 20 張 1.44 MB 磁片；DOS/NT/OS2/NetWare/AutoCAD；16 位元目標回歸 |
 
 ## 用途
 
@@ -53,6 +55,7 @@
 | [Watcom C/386 7.0：編譯器賣你，作業系統得跟別人買](docs/80-watcom/watcom386-extenders.md) | 1989 年的 32 位元 DOS 程式怎麼分工：編譯器廠商只賣碼與函式庫，DOS extender 要另外買；連 PSP 都是 extender 約定的選擇器；兩種呼叫慣例的啟動碼差的幾乎只有符號名；16 位元那組指標 helper 到 32 位元全部消失 |
 | [DPMI 與 DOS/4GW：32 位元 DOS 程式不必再為每家 extender 編一次](docs/80-watcom/dos4gw-startup.md) | 音效卡中斷在保護模式下的三個難題（DMA 的 1 MB 限制、記憶體鎖定、兩種模式都要能接）與 DPMI 的解法；extender 從自己買到隨編譯器附的三個階段；stub 怎麼找到 `dos4gw.exe` 再把自己交出去，以及 9.01 的啟動碼怎麼在執行時認出自己跑在哪一家 extender 上 |
 | [9.01 的啟動多型：一份函式庫、三條啟動路徑、兩層機制](docs/80-watcom/watcom90-startup.md) | DOS 庫與 OS/2 庫逐位元組相同（Family API）；庫內啟動 `CSTART→OS2MAIN→__CMain` 的 `__OS2Main` 之謎；隨附的變體啟動檔（一份原始碼＋條件組譯→三顆 .obj，AutoCAD ADS／ADI 用）；連結期選啟動家族 vs 執行期偵測 extender 的兩層邊界 |
+| [8.0 到 9.5：工具鏈補齊、Family API 實驗、與 DOS/4GW 的回歸](docs/80-watcom/watcom80-delta.md) | WLINK／WLIB／WCC386P 自 8.0 起隨附；NetWare NLM 與 Btrieve 市場；clib3r 327→334→369 的家族消長；9.01 Family API 啟動只用一版、9.5 回歸 DOS 直接啟動並加入 DOS/4GW 專屬符號；函式庫容器從裸 OMF 到 WPK 自壓縮 |
 | [拿到一支 Watcom 編譯的程式，怎麼判斷是哪一代](docs/80-watcom/watcom-lineage.md) | 三代 Watcom（1988／1989／1992）的判斷表：符號形態、helper 的有無（那組 far 指標 helper 是分水嶺）、段名、啟動碼行為、執行檔結構；附各版的證據強度對照 |
 | [在 dosgolem 裡用 Borland C++ 2.0 編譯](docs/70-toolchain/bcc20-on-dosgolem.md) | 從安裝磁片映像到可重跑的命令列編譯；BGI 俄羅斯方塊範例在瀏覽器裡玩；dosgolem 為 BCC 補的七條規格 |
 

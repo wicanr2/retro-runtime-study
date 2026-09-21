@@ -16,6 +16,8 @@
 | `watcom-6.5` | Watcom C 6.5（1988）的出貨磁片；版本以 `README.1ST` 自述為準 | 16 位元 DOS 程式 |
 | `watcom-7.0` | Watcom C 386 7.0（1989）的出貨磁片；版本以 `READ.ME` 自述為準 | 早期 32 位元保護模式程式 |
 | `watcom-9.01` | Watcom C/C++ 9.01（1992）的六張磁片；版本依據較弱（安裝腳本的產品名＋收藏目錄名）| DOS/4GW 年代的遊戲 |
+| `watcom-8.0` | Watcom C/SQL 386 8.0（1990，CNW386 BBS 六包；C/SQL SKU） | 早期 32 位元；NetWare／Btrieve 市場的開發支援 |
+| `watcom-9.5` | Watcom C/C++ 9.5b（1993-05-05；DOS/NT/OS2/NetWare/AutoCAD，20 張 1.44 MB 磁片映像） | DOS/4GW 年代後期；16 位元目標回歸 |
 | `open-watcom-v2` | 2000 年代以後的開源 Watcom，只當解讀輔助，不是當年版本的證據 | — |
 
 ## 術語

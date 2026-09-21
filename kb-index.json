@@ -1203,6 +1203,58 @@
    ]
   },
   {
+   "id": "watcom/watcom80-delta",
+   "path": "docs/80-watcom/watcom80-delta.md",
+   "title": "8.0 到 9.5：工具鏈補齊、Family API 實驗、與 DOS/4GW 的回歸",
+   "libraries": [
+    "watcom-8.0",
+    "watcom-9.01",
+    "watcom-9.5"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "想知道 Watcom 386 工具鏈什麼時候開始附連結器與函式庫管理器",
+    "盤點 8.0 磁片時看到 WCC386P／NLMLINK／CFIG386，想知道這版多了什麼",
+    "想知道 9.01 的 Family API 啟動後來怎麼了",
+    "反組譯看到 `__x386_zero_base_selector`／`__GDAptr`，想知道是哪一版 Watcom"
+   ],
+   "symbols": [
+    "WLINK",
+    "WLIB",
+    "WCC386P",
+    "NLMLINK",
+    "MS2WLINK",
+    "CFIG386",
+    "WVIDEO",
+    "WPROF",
+    "WSTUB",
+    "WOMP",
+    "386WCG",
+    "386WCGL",
+    "__x386_zero_base_selector",
+    "__D16Infoseg",
+    "__GDAptr",
+    "__Extender",
+    "CSTART",
+    "OS2MAIN",
+    "CMAIN386",
+    "__CMain",
+    "__STK",
+    "_cstart_",
+    "DOSQUERYSYSINFO"
+   ],
+   "related": [
+    "watcom/watcom386-extenders",
+    "watcom/dos4gw-startup",
+    "watcom/watcom90-startup",
+    "watcom/watcom-lineage"
+   ]
+  },
+  {
    "id": "watcom/watcom90-startup",
    "path": "docs/80-watcom/watcom90-startup.md",
    "title": "9.01 的啟動多型：一份函式庫、三條啟動路徑、兩層機制",

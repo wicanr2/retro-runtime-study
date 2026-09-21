@@ -32,6 +32,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R21 | M1 第四批：iostream（完成，#24）| `docs/10-borland-crtl/iostream.md`＋`docs/60-re-fingerprints/bcc20-cxx-codegen.md`、兩張 SVG、`examples/iostream/`（五模型全過）；發現 `sync_with_stdio` 踩空指標哨兵（模型相關）與浮點預設的 `0.0001 → 0` |
 | R22 | M4 第七批：9.01 啟動多型（完成，#25）＋並行取得項查證完成（#43，下載待使用者決定）| `docs/80-watcom/watcom90-startup.md`、一張 SVG；私有 `topics/startup-variants.md`（#42）、`topics/acquire-80-95.md`（#43：8.0/8.5/9.5 的 archive.org 來源已定位） |
 | R23 | M4 第八批：Watcom 8.0／8.5a／9.5b 的取得與盤點（完成，私有 #44）| `originals/` 36 檔（SHA256SUMS 驗證）＋vendor 解包（8.0=232、8.5=131、9.5=2453 檔）＋`notes/watcom-8x95/INVENTORY.md`；**發現 9.01 的 Family API 啟動是一次性實驗**（9.5 回歸 DOS 直接啟動），R22 文章已勘誤 |
+| R24 | M4 第九批：8.0→9.5 工具鏈差異（#26）| `docs/80-watcom/watcom80-delta.md`、一張 SVG；私有 `topics/watcom80-delta.md`（#45）；8.0 編譯器 dosgolem 實跑（C/SQL SKU banner、Code size 26） |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
 **M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），
