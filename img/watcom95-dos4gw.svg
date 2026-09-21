@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="400" viewBox="0 0 880 400">
+  <rect width="880" height="400" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #f3f4f6; stroke: #9ca3af; stroke-width: 1; }
+    .det { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hit { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .small { font-size: 11px; fill: #666; }
+    .label { font-size: 13px; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="28" class="title">9.5 庫內啟動的 extender 偵測鏈（反組譯）</text>
+
+  <rect x="40" y="50" width="240" height="70" rx="6" class="det"/>
+  <text x="160" y="74" text-anchor="middle" class="label mono">int 21h AH=30h，EBX='PHAR'</text>
+  <text x="160" y="94" text-anchor="middle" class="small">Phar Lap 探測約定（9.01 同源；其註解已過時）</text>
+  <text x="160" y="110" text-anchor="middle" class="small">取版本 → 看高字</text>
+
+  <rect x="40" y="140" width="240" height="56" rx="6" class="box"/>
+  <text x="160" y="162" text-anchor="middle" class="label mono">高字＝0x4458（"XD"）</text>
+  <text x="160" y="180" text-anchor="middle" class="small">DOS/4GX：__Extender ＝ BL − '0'（版本數字）</text>
+
+  <rect x="40" y="212" width="240" height="56" rx="6" class="box"/>
+  <text x="160" y="234" text-anchor="middle" class="label mono">高字＝0x4243（"CB"）</text>
+  <text x="160" y="252" text-anchor="middle" class="small">Intel Code Builder：__GDAptr＝EDX、編號 9</text>
+
+  <rect x="40" y="284" width="240" height="70" rx="6" class="box"/>
+  <text x="160" y="306" text-anchor="middle" class="label mono">AX=0xFF00 → int 21h</text>
+  <text x="160" y="324" text-anchor="middle" class="small">AL≠0：DOS/4GW 系 → __D16Infoseg＝GS、編號 1</text>
+  <text x="160" y="342" text-anchor="middle" class="small">AL＝0：無 extender → 編號 0、PSP 段寫死 0x24</text>
+
+  <path d="M 160 120 L 160 136" stroke="#666" stroke-width="1.4" marker-end="url(#arr)"/>
+  <path d="M 160 196 L 160 208" stroke="#666" stroke-width="1.4" marker-end="url(#arr)"/>
+  <path d="M 160 268 L 160 280" stroke="#666" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- 右側：三個專屬符號與 9.01 對照 -->
+  <rect x="330" y="50" width="250" height="150" rx="6" class="box"/>
+  <text x="455" y="74" text-anchor="middle" class="label">三個專屬符號</text>
+  <text x="345" y="98" class="label mono">__GDAptr ＝ EDX（Code Builder）</text>
+  <text x="345" y="120" class="label mono">__D16Infoseg ＝ GS（DOS/4GW 系）</text>
+  <text x="345" y="142" class="label mono">__x386_zero_base_selector</text>
+  <text x="360" y="162" class="small">BEGTEXT+6 的資料槽；CSTART 內無寫入點（未知）</text>
+  <text x="345" y="186" class="small">→ 出現任一即 9.5 以 DOS/4GW 為主要目標</text>
+
+  <rect x="610" y="50" width="240" height="150" rx="6" class="box"/>
+  <text x="730" y="74" text-anchor="middle" class="label">__Extender 編號：9.5 ≠ 9.01</text>
+  <text x="625" y="98" class="small">9.01（cstart3r.asm）：Ergo 0、Rational 1、</text>
+  <text x="625" y="116" class="small">Phar Lap v2–v4 2–4、Intel Code Builder 5</text>
+  <text x="625" y="140" class="small">9.5（反組譯）：DOS/4GX＝版本數字、</text>
+  <text x="625" y="158" class="small">Code Builder＝9、DOS/4GW 系＝1、無＝0</text>
+  <text x="625" y="182" class="small">拿 9.01 的表解 9.5 程式會錯</text>
+
+  <!-- 16 位元回歸 -->
+  <rect x="330" y="220" width="520" height="80" rx="6" class="box"/>
+  <text x="590" y="244" text-anchor="middle" class="label">16 位元目標回歸：W9516 的 CLIBS／CLIBL 各 413 模組（比 386 庫 369 多）</text>
+  <text x="590" y="266" text-anchor="middle" class="small">CSTART → __CMain（16 位元形式）；EXT __restore_ovl_stack＝overlay（覆蓋載入）支援</text>
+  <text x="590" y="286" text-anchor="middle" class="small">9.01 沒有 16 位元庫——9.5 同時服務 16 位元、386 flat、NT 三種目標</text>
+
+  <!-- RE 指紋 -->
+  <rect x="30" y="316" width="840" height="70" rx="6" class="box"/>
+  <text x="50" y="340" class="label">RE 指紋：cmp ax,4458h／cmp ax,4243h／AX=0xFF00 的 int 21h，結尾 mov __Extender,al → 9.5 的偵測鏈</text>
+  <text x="50" y="364" class="small">_cstart_ 以 jmp 跳過內嵌的 "WATCOM C 386 Run-Time system." 版權字串（與 R22 的 AutoCAD 啟動檔同一手法）；字串下限「1987」意義待查</text>
+</svg>

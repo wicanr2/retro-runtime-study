@@ -1305,6 +1305,48 @@
     "watcom/watcom386-extenders",
     "watcom/watcom65-runtime"
    ]
+  },
+  {
+   "id": "watcom/watcom95-dos4gw",
+   "path": "docs/80-watcom/watcom95-dos4gw.md",
+   "title": "9.5 的 DOS/4GW 啟動：偵測鏈、三個專屬符號、16 位元回歸",
+   "libraries": [
+    "watcom-9.5"
+   ],
+   "goals": [
+    "re",
+    "craft"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯 DOS/4GW 遊戲的啟動碼，看到 `cmp ax,4458h`／`int 21h AX=0FF00h` 這類探測，想知道在幹什麼",
+    "想知道 `__Extender` 這個變數的值怎麼來的、各版本編號一不一致",
+    "想知道 `__GDAptr`／`__D16Infoseg`／`__x386_zero_base_selector` 各是什麼",
+    "想確認 9.5 還能不能編 16 位元 DOS 程式、它的庫長什麼樣"
+   ],
+   "symbols": [
+    "__Extender",
+    "__GDAptr",
+    "__D16Infoseg",
+    "__x386_zero_base_selector",
+    "_cstart_",
+    "__CMain",
+    "__no87",
+    "__psp",
+    "__osmajor",
+    "__osminor",
+    "W9516",
+    "W9532",
+    "DOS/4GX",
+    "overlay",
+    "__restore_ovl_stack"
+   ],
+   "related": [
+    "watcom/watcom80-delta",
+    "watcom/watcom90-startup",
+    "watcom/dos4gw-startup",
+    "watcom/watcom-lineage"
+   ]
   }
  ]
 }

@@ -33,6 +33,8 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R22 | M4 第七批：9.01 啟動多型（完成，#25）＋並行取得項查證完成（#43，下載待使用者決定）| `docs/80-watcom/watcom90-startup.md`、一張 SVG；私有 `topics/startup-variants.md`（#42）、`topics/acquire-80-95.md`（#43：8.0/8.5/9.5 的 archive.org 來源已定位） |
 | R23 | M4 第八批：Watcom 8.0／8.5a／9.5b 的取得與盤點（完成，私有 #44）| `originals/` 36 檔（SHA256SUMS 驗證）＋vendor 解包（8.0=232、8.5=131、9.5=2453 檔）＋`notes/watcom-8x95/INVENTORY.md`；**發現 9.01 的 Family API 啟動是一次性實驗**（9.5 回歸 DOS 直接啟動），R22 文章已勘誤 |
 | R24 | M4 第九批：8.0→9.5 工具鏈差異（#26）| `docs/80-watcom/watcom80-delta.md`、一張 SVG；私有 `topics/watcom80-delta.md`（#45）；8.0 編譯器 dosgolem 實跑（C/SQL SKU banner、Code size 26） |
+| R25 | M4 第十批：9.5 的 DOS/4GW 啟動整合（完成，#27）| `docs/80-watcom/watcom95-dos4gw.md`、一張 SVG；偵測鏈反組譯存私有 `cstart95-disasm.txt`；`__Extender` 編號 9.5≠9.01 的發現 |
+| R25 | M4 第十批：9.5 的 DOS/4GW 啟動整合（私有 #46＋公開 #27）| `docs/80-watcom/watcom95-dos4gw.md`、SVG；反組譯 9.5 庫內啟動碼解碼 GDA／D16Infoseg／zero-base selector |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
 **M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），
