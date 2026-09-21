@@ -52,6 +52,8 @@
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |
 | DST（日光節約時間） | 函式庫寫死的美國規則（4–10 月，門檻日是某個星期日），1987 起與之前兩套門檻並存；其他時區套到它就算錯 |
 | Hull–Dobell 定理 | LCG 走滿週期的判準：增量與模互質、乘數 ≡1（mod 4）（模為 2 的次方時）。`rand` 的乘數與增量滿足，所以 32 位元狀態走滿 2³² 才重複 |
+| Family API | 讓同一份 32 位元程式在 DOS（經 extender）與 OS/2 都能跑的介面約定：DOSQUERYSYSINFO／DOSEXIT／DOSWRITE 等名稱由載入環境提供。Watcom 9.x 的 DOS 與 OS/2 函式庫因此逐模組相同 |
+| ADS／ADI（AutoCAD） | AutoCAD 的開發介面：ADS＝用 C 寫 AutoCAD 應用（程式被 AutoCAD 當副常式載入）、ADI＝裝置驅動介面。Watcom 隨附 adsstart／adiestrt／adifstrt 三顆啟動檔與 `exit_to_acad` 一類的回宿主機制 |
 | mangling（Borland C++） | C++ 符號的編碼規則：`@類別@名稱$q參數`（`@ostream@$blsh$ql`＝`operator<<(long)`）；型別碼 `v/i/l/g/c`、`p` 指標、`r` 引用；運算子 `$bctr`/`$bdtr`/`$blsh`/`$brsh`/`$basg` |
 | vtable（BCC 2.0） | 虛擬函式表：以類別命名的虛擬段（`@類別@`）裡的近指標表，按宣告序、解構子佔一槽；物件的 vptr 在 +0；虛擬呼叫＝`call word ptr [bx+N]` |
 | placement new | 用已有位址呼叫建構式的手法（`new (&obj) 類別`）。iostream 的 `Iostream_init` 用它建構 cin/cout 全域物件 |

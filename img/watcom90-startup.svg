@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430">
+  <rect width="900" height="430" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #f3f4f6; stroke: #9ca3af; stroke-width: 1; }
+    .lib { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .ext { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .warn { fill: #fef2f2; stroke: #dc2626; stroke-width: 1; }
+    .small { font-size: 11px; fill: #666; }
+    .label { font-size: 13px; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#666"/>
+    </marker>
+    <marker id="arro" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="28" class="title">三條啟動路徑，一份函式庫（Watcom 9.01）</text>
+
+  <!-- 路徑一：DOS/4GW -->
+  <rect x="40" y="50" width="260" height="150" rx="6" class="lib"/>
+  <text x="170" y="72" text-anchor="middle" class="label mono">CSTART（庫內）</text>
+  <text x="170" y="90" text-anchor="middle" class="small">_cstart_ ＋ __nullarea 哨兵</text>
+  <text x="170" y="108" text-anchor="middle" class="small">EXT __DOSseg__、__OS2Main</text>
+  <rect x="60" y="126" width="220" height="30" rx="4" class="box"/>
+  <text x="170" y="140" text-anchor="middle" class="label mono">OS2MAIN → __CMain</text>
+  <text x="170" y="158" text-anchor="middle" class="small">（DOSQUERYSYSINFO／DOSEXIT／DOSWRITE 由它呼叫）</text>
+
+  <rect x="40" y="222" width="260" height="60" rx="6" class="warn"/>
+  <text x="170" y="244" text-anchor="middle" class="label">這三個外部在庫內沒有定義</text>
+  <text x="170" y="264" text-anchor="middle" class="small">由 DOS/4GW 載入器補上（推論，載入器未拆）</text>
+
+  <!-- 路徑二：AutoCAD -->
+  <rect x="340" y="50" width="250" height="150" rx="6" class="ext"/>
+  <text x="465" y="72" text-anchor="middle" class="label mono">adsstart.obj（ADS）</text>
+  <text x="465" y="90" text-anchor="middle" class="small">EXT adsi_getinitinfo 等三個（ADS 函式庫）</text>
+  <rect x="360" y="104" width="210" height="26" rx="4" class="box"/>
+  <text x="465" y="122" text-anchor="middle" class="label mono">adiestrt（EADI：不碰浮點，反推）</text>
+  <rect x="360" y="138" width="210" height="26" rx="4" class="box"/>
+  <text x="465" y="156" text-anchor="middle" class="label mono">adifstrt（fnstcw 存浮點控制字）</text>
+  <text x="465" y="186" text-anchor="middle" class="small">進入方式＝被 AutoCAD 當副常式呼叫（ECX＝相容值）</text>
+
+  <rect x="340" y="222" width="250" height="60" rx="6" class="box"/>
+  <text x="465" y="244" text-anchor="middle" class="label mono">exit_to_acad／cbufadr</text>
+  <text x="465" y="264" text-anchor="middle" class="small">EXT child_exit／map_phys_mem（AutoCAD 提供）</text>
+
+  <!-- 路徑三：OS/2 -->
+  <rect x="640" y="50" width="220" height="120" rx="6" class="box"/>
+  <text x="750" y="72" text-anchor="middle" class="label mono">clib3r.os2 ≡ clib3r.lib</text>
+  <text x="750" y="92" text-anchor="middle" class="small">334 個模組逐一相同——</text>
+  <text x="750" y="110" text-anchor="middle" class="small">Family API 讓 DOS 與 OS/2 共用 RTL</text>
+  <text x="750" y="134" text-anchor="middle" class="small">安裝腳本兩個目標各裝一份</text>
+
+  <rect x="640" y="188" width="220" height="94" rx="6" class="box"/>
+  <text x="750" y="210" text-anchor="middle" class="label">純 DOS 啟動碼只出原始碼</text>
+  <text x="750" y="230" text-anchor="middle" class="small">startup.386/cstart3r.asm（呼叫 __CMain）</text>
+  <text x="750" y="250" text-anchor="middle" class="small">9.01 磁片上沒有組譯器——</text>
+  <text x="750" y="268" text-anchor="middle" class="small">自行組譯者的路徑</text>
+
+  <!-- 執行期層 -->
+  <rect x="40" y="310" width="820" height="96" rx="6" class="box"/>
+  <text x="450" y="336" text-anchor="middle" class="label">執行期那一層（與連結期選擇互相獨立）：CRWDATA 模組的 __Extender 記下「跑在哪一家 extender 上」</text>
+  <text x="450" y="358" text-anchor="middle" class="small">Ergo 0／Rational 1／Phar Lap 2–4／Intel Code Builder 5（六個值）；__no87、__DOSseg__（DOSSEG 模組）同層</text>
+  <text x="450" y="384" text-anchor="middle" class="small">RE 指紋：進入點呼叫 __OS2Main ＝ Family API 路徑；出現 exit_to_acad／cbufadr ＝ AutoCAD 模組</text>
+</svg>

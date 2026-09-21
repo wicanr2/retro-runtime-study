@@ -52,6 +52,7 @@
 | [Watcom C 6.5：1988 年就把參數放進暫存器](docs/80-watcom/watcom65-runtime.md) | 暫存器呼叫慣例與它在符號上的痕跡（尾端底線）、四組 far 指標 helper 為什麼存在、六個記憶體模型的位元旗標與巨集、啟動碼與 Borland C0 的逐項對照；`_r`／`_s` 命名一路延續到 DMX |
 | [Watcom C/386 7.0：編譯器賣你，作業系統得跟別人買](docs/80-watcom/watcom386-extenders.md) | 1989 年的 32 位元 DOS 程式怎麼分工：編譯器廠商只賣碼與函式庫，DOS extender 要另外買；連 PSP 都是 extender 約定的選擇器；兩種呼叫慣例的啟動碼差的幾乎只有符號名；16 位元那組指標 helper 到 32 位元全部消失 |
 | [DPMI 與 DOS/4GW：32 位元 DOS 程式不必再為每家 extender 編一次](docs/80-watcom/dos4gw-startup.md) | 音效卡中斷在保護模式下的三個難題（DMA 的 1 MB 限制、記憶體鎖定、兩種模式都要能接）與 DPMI 的解法；extender 從自己買到隨編譯器附的三個階段；stub 怎麼找到 `dos4gw.exe` 再把自己交出去，以及 9.01 的啟動碼怎麼在執行時認出自己跑在哪一家 extender 上 |
+| [9.01 的啟動多型：AutoCAD 三兄弟、Family API、與兩層機制的邊界](docs/80-watcom/watcom90-startup.md) | DOS 庫與 OS/2 庫逐模組相同（Family API）；庫內啟動 `CSTART→OS2MAIN→__CMain` 的 `__OS2Main` 之謎；AutoCAD ADS／ADI 的三顆啟動檔（被宿主當副常式載入、`chkval` 相容檢查、`EADI` 不碰浮點）；連結期選啟動家族 vs 執行期偵測 extender 的兩層邊界 |
 | [拿到一支 Watcom 編譯的程式，怎麼判斷是哪一代](docs/80-watcom/watcom-lineage.md) | 三代 Watcom（1988／1989／1992）的判斷表：符號形態、helper 的有無（那組 far 指標 helper 是分水嶺）、段名、啟動碼行為、執行檔結構；附各版的證據強度對照 |
 | [在 dosgolem 裡用 Borland C++ 2.0 編譯](docs/70-toolchain/bcc20-on-dosgolem.md) | 從安裝磁片映像到可重跑的命令列編譯；BGI 俄羅斯方塊範例在瀏覽器裡玩；dosgolem 為 BCC 補的七條規格 |
 

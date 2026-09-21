@@ -1201,6 +1201,58 @@
     "borland-crtl/compiler-helpers",
     "dmx/version-history"
    ]
+  },
+  {
+   "id": "watcom/watcom90-startup",
+   "path": "docs/80-watcom/watcom90-startup.md",
+   "title": "9.01 的啟動多型：AutoCAD 三兄弟、Family API、與兩層機制的邊界",
+   "libraries": [
+    "watcom-9.01"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "強推論",
+   "triggers": [
+    "反組譯 DOS/4GW 程式，進入點呼叫 `__OS2Main`，不懂 DOS 程式為什麼有 OS/2 的符號",
+    "看到 `exit_to_acad`／`cbufadr` 這類符號，想知道這支程式跟 AutoCAD 的關係",
+    "想知道 Watcom 9.x 的 DOS 啟動碼在哪、為什麼函式庫裡有兩套入口",
+    "盤點 9.01 磁片時發現 `adsstart.obj`／`adiestrt.obj`／`adifstrt.obj` 三顆啟動檔，想知道差異",
+    "想確認「DOS 庫」與「OS/2 庫」內容是不是一樣的"
+   ],
+   "symbols": [
+    "_cstart_",
+    "__OS2Main",
+    "__CMain",
+    "__DOSseg__",
+    "__Extender",
+    "__no87",
+    "__nullarea",
+    "exit_to_acad",
+    "cbufadr",
+    "info_sel",
+    "info_off",
+    "adsi_getinitinfo",
+    "map_phys_mem",
+    "child_exit",
+    "EADI",
+    "PADI",
+    "chkval",
+    "OS2MAIN",
+    "CRWDATA",
+    "DOSSEG",
+    "CMAIN386",
+    "adsstart",
+    "adiestrt",
+    "adifstrt"
+   ],
+   "related": [
+    "watcom/dos4gw-startup",
+    "watcom/watcom-lineage",
+    "watcom/watcom386-extenders",
+    "watcom/watcom65-runtime"
+   ]
   }
  ]
 }
