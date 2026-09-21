@@ -31,7 +31,7 @@ issue 依 milestone 分組：M1 Borland runtime 分析、M2 BCC 反組譯、M3 �
 | R20 | M1 第三批：亂數與時間（完成，#23）| `docs/10-borland-crtl/rand-time.md`、一張 SVG、`examples/randtime/`（期望值來自獨立參考模型，五模型逐位元組相同）；發現並實證 `mktime` 對閏年 2 月 29 無限迴圈 |
 | R21 | M1 第四批：iostream（完成，#24）| `docs/10-borland-crtl/iostream.md`＋`docs/60-re-fingerprints/bcc20-cxx-codegen.md`、兩張 SVG、`examples/iostream/`（五模型全過）；發現 `sync_with_stdio` 踩空指標哨兵（模型相關）與浮點預設的 `0.0001 → 0` |
 | R22 | M4 第七批：9.01 啟動多型（完成，#25）＋並行取得項查證完成（#43，下載待使用者決定）| `docs/80-watcom/watcom90-startup.md`、一張 SVG；私有 `topics/startup-variants.md`（#42）、`topics/acquire-80-95.md`（#43：8.0/8.5/9.5 的 archive.org 來源已定位） |
-| R23 | M4 第八批：Watcom 8.0／8.5a／9.5b 的取得與盤點（私有 #44）| `originals/`＋manifest＋PROVENANCE＋`notes/watcom-8x95/INVENTORY.md`；文章另批 |
+| R23 | M4 第八批：Watcom 8.0／8.5a／9.5b 的取得與盤點（完成，私有 #44）| `originals/` 36 檔（SHA256SUMS 驗證）＋vendor 解包（8.0=232、8.5=131、9.5=2453 檔）＋`notes/watcom-8x95/INVENTORY.md`；**發現 9.01 的 Family API 啟動是一次性實驗**（9.5 回歸 DOS 直接啟動），R22 文章已勘誤 |
 | T1 | 工具鏈教學（完成，已過專家與學生審查） | `docs/70-toolchain/bcc20-on-dosgolem.md`、`tools/bcpp20/`、`examples/tetris/`、流程圖與遊玩截圖 |
 
 **M1（Borland runtime 分析）兩批都完成**：第一批是記憶體模型、編譯器 helper、啟動與結束鏈（R2–R4），
@@ -128,4 +128,5 @@ img/
 | 總表說「堆疊慣例的一般函式是裸名」只有啟動碼內部符號的外推 | 有實物佐證：`clib3s.lib` 裡 `strlen_`／`printf_`／`fopen_` 一個都沒有，`clib3r.lib` 三個都有 | 解開後的兩份函式庫（字串層級；那是 Easy OMF-386，解析器讀不了符號表）|
 | 私有筆記與盤點工具把 `.WPK` 檔名長度的最高位元讀成「這個成員沒有壓縮」 | 那是 `NO_SHANNON_CODE`：不用 Shannon-Fano 編碼，**仍然是 LZSS 壓縮** | open-watcom 的 `wpack.h` 與實際解碼結果 |
 | 第五批推出「1992 版的碼表條目數不加 1」（當時第一個符號因此從 `.` 變成 `/`，看起來是對的） | **假修正，已收回**：那是排序錯誤造成的假象，換上正確的 qsort 之後 `+1` 才對 | 630 個成員全部通過封包自帶的 CRC |
+| R22 啟動多型篇說「9.01 的 DOS/4GW 程式用庫內 CSTART＋OS2MAIN、由 DOS/4GW 載入器補 Family API 符號」（強推論） | **9.5 把這條設計整個放棄**（啟動改回庫內直接 `__CMain`、DOS/4GW 專屬符號進啟動模組、Family API 包裝模組全數消失），顯示 9.01 的做法只活了一版；「DOS/4GW 程式在 9.01 怎麼連結」改為兩假說並列、無法裁決 | 9.5b 磁片的同一套解析（私有 `notes/watcom-8x95/INVENTORY.md`）；已併入 R22 啟動多型篇 |
 | 總表、DOS/4GW 與第一代 32 位元三篇說「7.0／9.01 的出貨庫是 Easy OMF-386 變體，解析器讀不了，helper 只能到字串層級」 | **兩版的庫容器本來就是標準 OMF library，記錄框架與校驗和都完好**；卡點只在欄位寬度（`80386` 標記後段長與位移是 4 位元組）。補上語意後逐符號可讀：7.0 模組 255×2、定義 378×2，9.01 模組 334×2、定義 563×2 | 私有 `tools/omf386.py`：1,178 個模組全記錄校驗和通過；7.0 原廠 WDISASM 對照三個模組；欄位規則出自 open-watcom `womp` 讀取器 |

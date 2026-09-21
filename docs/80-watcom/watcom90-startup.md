@@ -23,7 +23,8 @@ related: [watcom/dos4gw-startup, watcom/watcom-lineage, watcom/watcom386-extende
 - **DOS/4GW 一般程式**用函式庫裡的啟動：`CSTART`（`_cstart_`）呼叫 `OS2MAIN`
   模組的 `__OS2Main`，後者用 DOSQUERYSYSINFO／DOSEXIT／DOSWRITE 這三個
   **Family API** 名稱（讓同一份程式在 DOS 與 OS/2 都能跑的介面約定）——
-  它們在庫內沒有定義，由 DOS/4GW 的載入器補上（這一步是推論，見證據段）。
+  它們在庫內沒有定義，由 DOS/4GW 的載入器補上（這一步是推論；
+  後繼的 9.5 放棄了這條設計，見證據段）。
 - **AutoCAD 的 ADS 應用與 ADI 驅動**（ADS＝用 C 寫 AutoCAD 應用的介面、
   ADI＝裝置驅動介面）用磁片上三顆現成的啟動檔：AutoCAD 把這類程式當
   **副常式**載入自己的行程，啟動碼的回傳值直接交回 AutoCAD。
@@ -74,6 +75,11 @@ Family API 進入點，連結器留下空位、載入時補上。這一步是**�
 **DOS 與 OS/2 共用**在這個設計下是自然結果：Family API 的名字在 OS/2 上
 由作業系統解析、在 DOS/4GW 上由 extender 解析，RTL 因此可以一份兩用
 （推論，依據是上一段與「兩版庫逐位元組相同」的事實）。
+**但這條設計在 9.5 被整個放棄**：9.5 的庫內 `CSTART` 改回直接呼叫 `__CMain`
+（DOS 直接上）、自己引用 `__Extender`，並新增 DOS/4GW 專屬符號
+（`__x386_zero_base_selector`、`__D16Infoseg`、`__GDAptr`——Rational 的
+選擇器與資訊段介面）；9.01 獨有的 Family API 包裝模組（`OS2MAIN` 與
+`DOSALLOC`／`DOSREAD`／`DOSWRITE`／`CWAIT` 等）全部消失。見 PLAN 勘誤。
 
 ### 隨附的變體啟動檔：一份原始碼、條件組譯、三顆出貨 .obj
 
@@ -152,6 +158,12 @@ WLINK 以進入點 `_cstart_` 從庫裡拉 `CSTART`。
 的 334 個同名模組**逐位元組相同**（拆庫逐一比對）；`adiestrt`／`adifstrt`
 的段影像逐位元組比對；WCL386.EXE 與 WLINK.EXE 的字串掃描。
 
+**已證實（實測，R23 補）**：9.5 的對照事實出自對 9.5b 二十張磁片的
+同一套解析——9.5 庫內 `CSTART` 改回
+直接呼叫 `__CMain`、引用 `__Extender` 與 DOS/4GW 專屬符號
+（`__x386_zero_base_selector`、`__D16Infoseg`、`__GDAptr`），
+9.01 獨有的 Family API 包裝模組全部消失。
+
 **已證實（原文）**：`adsstart.asm` 的檔頭與標籤結構（ACAD／ADS／PADI／EADI）、
 `chkval` 值；`cmain386.c` 的 `__CMain`→`main`→`exit` 結構；INSTALL.SCR 的
 `if %ads` 分派、ADS 支援 71 KB 的安裝問題、DOS／OS2 兩個目標各裝一份函式庫；
@@ -159,16 +171,19 @@ DMX 的連結腳本內容。
 
 **強推論**（全篇最弱的一級，所以前置欄位標的是這個）：
 
-- **DOS/4GW 載入器提供 DOSQUERYSYSINFO／DOSEXIT／DOSWRITE 的進入點**。
-  對立的假設：連結器自動定義為 0（會讓查系統資訊與結束路徑壞掉，且
-  WLINK.EXE 的字串裡沒有這些符號名）；`SYSTEM dos4g` 自帶一個定義這些符號的
-  隱含庫（磁片上的庫都掃過，沒有）；連結器以選項容忍未解外部、在 LE 裡留
-  載入期修正空位——這其實就是本結論的具體形態。便宜的決定性驗證：
-  拿任一支實際以 dos4g 連出的 LE，看這幾個符號位置的修正記錄與
-  DOS/4GW 載入後的補值（比拆 dos4gw.exe 便宜）。
-- **一般 DOS/4GW 程式走庫內 CSTART 的 Family API 路**。依據：WCL386 的
-  連結指令沒有啟動檔名、DMX 的實際腳本也沒有；對立假設（使用者一律
-  自行組譯 cstart3r.asm）與「磁片上沒有組譯器」矛盾。
+- **9.01 的庫內啟動走 Family API 是針對 OS/2 目標的設計**；DOS/4GW 程式
+  在 9.01 怎麼連結，**兩個假說並列，本篇無法裁決**：
+  - 假說 (a)：DOS/4GW 載入器提供 DOSQUERYSYSINFO／DOSEXIT／DOSWRITE 的
+    進入點。依據：DMX（1994 出貨）的連結腳本沒有啟動檔與提供這些符號的庫，
+    程式卻在 DOS/4GW 上執行。對立假設：連結器自動定義為 0（查系統資訊與
+    結束路徑會壞）；`SYSTEM dos4g` 自帶隱含庫（磁片上的庫掃過，沒有）。
+  - 假說 (b)：使用者自行組譯 `cstart3r.asm`（DOS 直接上）。
+    依據：原始碼隨附；對立問題：磁片上沒有組譯器。
+  - **9.5 的反證**：9.5 把啟動改回「庫內、直接 `__CMain`、DOS/4GW 專屬
+    符號進啟動模組」，並移除全部 Family API 包裝——9.01 這條路只用了一版
+    就被放棄，說明它有實務上的問題（哪些問題，未知）。
+  - 便宜的決定性驗證：拿任一支確定以 9.01 連出的 DOS/4GW LE，看
+    DOSQUERYSYSINFO 位置的修正記錄與 DOS/4GW 載入後的補值。
 - RTL 一份兩用（DOS＋OS/2）**是** Family API 設計的結果——因果方向是推論，
   依據是「庫逐位元組相同」與「呼叫名稱是 Family API」這兩個事實。
 
