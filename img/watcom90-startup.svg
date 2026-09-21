@@ -38,12 +38,12 @@
   <!-- 路徑二：AutoCAD -->
   <rect x="340" y="50" width="250" height="150" rx="6" class="ext"/>
   <text x="465" y="72" text-anchor="middle" class="label mono">adsstart.obj（ADS）</text>
-  <text x="465" y="90" text-anchor="middle" class="small">EXT adsi_getinitinfo 等三個（ADS 函式庫）</text>
+  <text x="465" y="90" text-anchor="middle" class="small">EXT adsi_*／ads_*（ADS 函式庫）</text>
   <rect x="360" y="104" width="210" height="26" rx="4" class="box"/>
-  <text x="465" y="122" text-anchor="middle" class="label mono">adiestrt（EADI：不碰浮點，反推）</text>
+  <text x="465" y="122" text-anchor="middle" class="label mono">adiestrt（EADI：不碰浮點）</text>
   <rect x="360" y="138" width="210" height="26" rx="4" class="box"/>
   <text x="465" y="156" text-anchor="middle" class="label mono">adifstrt（fnstcw 存浮點控制字）</text>
-  <text x="465" y="186" text-anchor="middle" class="small">進入方式＝被 AutoCAD 當副常式呼叫（ECX＝相容值）</text>
+  <text x="465" y="186" text-anchor="middle" class="small">一份原始碼＋條件組譯 → 三顆出貨 .obj</text>
 
   <rect x="340" y="222" width="250" height="60" rx="6" class="box"/>
   <text x="465" y="244" text-anchor="middle" class="label mono">exit_to_acad／cbufadr</text>

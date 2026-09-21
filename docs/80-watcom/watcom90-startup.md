@@ -1,6 +1,6 @@
 ---
 id: watcom/watcom90-startup
-title: 9.01 的啟動多型：AutoCAD 三兄弟、Family API、與兩層機制的邊界
+title: 9.01 的啟動多型：一份函式庫、三條啟動路徑、兩層機制
 libraries: [watcom-9.01]
 goals: [craft, re]
 evidence: 強推論
@@ -14,7 +14,7 @@ symbols: [_cstart_, __OS2Main, __CMain, __DOSseg__, __Extender, __no87, __nullar
 related: [watcom/dos4gw-startup, watcom/watcom-lineage, watcom/watcom386-extenders, watcom/watcom65-runtime]
 ---
 
-# 9.01 的啟動多型：AutoCAD 三兄弟、Family API、與兩層機制的邊界
+# 9.01 的啟動多型：一份函式庫、三條啟動路徑、兩層機制
 
 ## 結論
 
@@ -45,6 +45,8 @@ related: [watcom/dos4gw-startup, watcom/watcom-lineage, watcom/watcom386-extende
    OS/2 是多工作業系統、AutoCAD 是把你的程式載進自己行程裡的宿主。
 3. 磁片空間有限，能共用就共用：RTL 一份、啟動碼多型；
    而同一支程式可能跑在不同家的 extender 上，偵測留給執行期。
+   （支援清單裡的 AutoCAD ADS／ADI 是「啟動需求不同的宿主」的例子；
+   宿主本身的契約不是本篇的主題。）
 
 ## 推導
 
@@ -73,36 +75,29 @@ Family API 進入點，連結器留下空位、載入時補上。這一步是**�
 由作業系統解析、在 DOS/4GW 上由 extender 解析，RTL 因此可以一份兩用
 （推論，依據是上一段與「兩版庫逐位元組相同」的事實）。
 
-### AutoCAD 三兄弟：被宿主載入的啟動碼
+### 隨附的變體啟動檔：一份原始碼、條件組譯、三顆出貨 .obj
 
-`startup.ads/adsstart.asm`（來源有出貨，檔頭明寫）把使用情境講清楚：
-AutoCAD 載入 ADS 應用或保護模式 ADI 驅動時，把它當**副常式**呼叫——
+`startup.ads/adsstart.asm`（來源有出貨）展示了 90 年代工具鏈的另一個手法：
+**一份啟動碼原始碼，靠條件組譯旗標（`ifdef` 標籤）切出多個出貨目的檔**。
+標籤有三個——`ACAD`（AutoCAD 宿主版）、`ADS`（AutoCAD Development System，
+用 C 寫 AutoCAD 應用的介面）、`PADI`（保護模式 ADI，AutoCAD 的裝置驅動介面；
+`EADI` 再切出「不碰浮點」的變體）。出貨的三顆 `.obj` 對應：
 
-- `ECX` 必須等於相容檢查值 `chkval`（十進位 1234，機器碼即 `0x4D2`）；
-  不對就認定「被誤當獨立程式執行」，印訊息後直接結束。
-- `DS:ESI` 指向初始化結構：前 4 bytes 是結構大小，接著 4 bytes 是 AutoCAD 的
-  loader 給的初始 heap 大小；保護模式 ADI（`PADI`）再多一個與 AutoCAD 共用的
-  封包緩衝實體位址（存進 `cbufadr`）。
-- 啟動碼的回傳值就是 `exit()` 的引數，直接交回 AutoCAD。
+| 檔 | 標籤 | 介面（外部由誰提供） |
+|---|---|---|
+| `adsstart.obj` | `ACAD`＋`ADS` | ADS 函式庫：`adsi_getinitinfo`／`adsi_child_exit`／`ads_map_phys_mem` |
+| `adiestrt.obj` | `ACAD`＋`EADI`＋`PADI` | AutoCAD 本體：`child_exit`／`map_phys_mem` |
+| `adifstrt.obj` | `ACAD`＋`PADI` | 同上 |
 
-三顆目的檔是同一份原始碼在不同**條件組譯旗標**（原始碼裡切分支的
-`ifdef` 標籤，不是程式內的標籤）下的產物。「介面」欄指該變體連結時
-外部符號由誰提供：
-
-| 檔 | 組譯標籤 | 介面（外部由誰提供） | 浮點 |
-|---|---|---|---|
-| `adsstart.obj` | `ACAD`＋`ADS` | ADS 函式庫：`adsi_getinitinfo`／`adsi_child_exit`／`ads_map_phys_mem` | 進入時 `fnstcw` 存 `__fsavcw`（與 `adifstrt` 同機制） |
-| `adiestrt.obj` | `ACAD`＋`EADI`＋`PADI` | AutoCAD 本體：`child_exit`／`map_phys_mem` | **不碰**：`EADI` 分支把 `no87` 視為已設（即當作沒有 8087 硬體） |
-| `adifstrt.obj` | `ACAD`＋`PADI` | 同上 | 進入時 `fnstcw` 存下 AutoLISP（AutoCAD 內建的直譯語言）的浮點控制字，之後由 `adsi_farcl()` 還原 |
-
-（`adiestrt` 與 `adifstrt` 的 `_TEXT` 段影像逐位元組比對有**兩處**條件編譯分歧：
-`adifstrt` 多 `fnstcw __fsavcw`、`adiestrt` 多 `mov bp,1`（強制 no87），淨差
-2 bytes；兩者的 PUB/EXT 名稱完全相同，位移在分歧點之後整體挪 2。
+應用端的使用情境（AutoCAD 把這類程式當**副常式**載入自己的行程，
+帶相容檢查值與初始化資訊，回傳值交回宿主）屬 AutoCAD 的契約，
+本篇只取它對工具鏈的意義：這些程式的啟動需求與獨立執行檔不同，
+所以發行端連啟動檔都要出專屬變體。兩顆 ADI 變體的 `_TEXT` 段影像
+逐位元組比對有兩處條件編譯分歧（`adifstrt` 多 `fnstcw __fsavcw`、
+`adiestrt` 多 `mov bp,1`——把 `no87` 視為已設，即當作沒有 8087 硬體），
+淨差 2 bytes；PUB/EXT 名稱完全相同，位移在分歧點之後整體挪 2。
 「adiestrt＝EADI」由機器碼反推（來源 `ifdef EADI` 正好對應這兩處）；
-「adif」的 F 字義沒有一手依據。）
-
-對 RE 的意義：`exit_to_acad`／`cbufadr` 這類符號（詳見下節清單）直接標記
-AutoCAD ADI 模組——它預期的宿主、可用的系統服務、結束方式全部不同。
+「adif」的 F 字義沒有一手依據。
 
 ### 純 DOS 的啟動碼：只出原始碼
 
@@ -158,9 +153,9 @@ WLINK 以進入點 `_cstart_` 從庫裡拉 `CSTART`。
 的段影像逐位元組比對；WCL386.EXE 與 WLINK.EXE 的字串掃描。
 
 **已證實（原文）**：`adsstart.asm` 的檔頭與標籤結構（ACAD／ADS／PADI／EADI）、
-`chkval` 值、初始化結構欄位、`exit_to_acad` 的存在；`cmain386.c` 的
-`__CMain`→`main`→`exit` 結構；INSTALL.SCR 的 `if %ads` 分派、ADS 支援
-71 KB 的安裝問題、DOS／OS2 兩個目標各裝一份函式庫；DMX 的連結腳本內容。
+`chkval` 值；`cmain386.c` 的 `__CMain`→`main`→`exit` 結構；INSTALL.SCR 的
+`if %ads` 分派、ADS 支援 71 KB 的安裝問題、DOS／OS2 兩個目標各裝一份函式庫；
+DMX 的連結腳本內容。
 
 **強推論**（全篇最弱的一級，所以前置欄位標的是這個）：
 

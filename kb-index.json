@@ -1205,7 +1205,7 @@
   {
    "id": "watcom/watcom90-startup",
    "path": "docs/80-watcom/watcom90-startup.md",
-   "title": "9.01 的啟動多型：AutoCAD 三兄弟、Family API、與兩層機制的邊界",
+   "title": "9.01 的啟動多型：一份函式庫、三條啟動路徑、兩層機制",
    "libraries": [
     "watcom-9.01"
    ],
