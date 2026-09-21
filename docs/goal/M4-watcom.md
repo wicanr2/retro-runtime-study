@@ -281,6 +281,30 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 | `le-lx-format` | LE 與 LX 的結構：物件表、分頁、fixup、入口 |
 | `re-watcom-tools` | 各版編譯器與連結器的 IDA 匯出，當作辨識 Watcom runtime 與格式解析的實例 |
 
+## 工作項目（第七批，R22 本輪）
+
+主體是「啟動的多型」，並行一個取得項。素材都已在手上（R19 的 omf386.py 直接可用），這一批不做 dosgolem 實跑（9.x 的工具跑不動）。
+
+| 項 | 內容 | issue |
+|---|---|---|
+| 主體 | 9.01 的啟動多型：三顆 adi*start.obj、庫內 cstart（OS/2 路徑）、各目標版庫（.DOS/.OS2/.WIN）的差異、連結期選模組 vs 執行期偵測的兩層分工、RE 指紋 | 公開 [#25](https://github.com/wicanr2/retro-runtime-study/issues/25)、私有 #42 |
+| 並行 | 取得 Watcom C 8.0 與 9.5：權利狀態查證 → 取得 → 照 M4 慣例盤點；來源不明朗就以「查過哪些來源」收尾 | 私有 #43 |
+
+### 主體要回答的問題
+
+1. `adsstart.obj`／`adiestrt.obj`／`adifstrt.obj` 各對應哪個 extender 或目標
+   （名字的 AD/ADIE/ADIF 是什麼的縮寫）；
+2. 庫內 `cstart`（EXT `__OS2Main`）與磁片上 `adsstart`（EXT `__CMain`）的分工：
+   連結器怎麼選啟動模組（預設庫裡兩顆都在，靠什麼不衝突）；
+3. 「連結期選啟動模組」與「cstart3r 執行期偵測 `__Extender`」兩層機制的邊界；
+4. DOS／OS2／WIN 三版 `clib3r`／`clib3s` 的模組與符號差異（omf386.py 逐符號）；
+5. RE：從執行檔的啟動碼形狀認出用的是哪顆啟動模組。
+
+### 並行項的完成條件
+
+取得並盤點（originals/＋extract＋manifest＋PROVENANCE），或記下查過的來源與
+不可行的原因收尾；不為取得本身開第二輪。
+
 ## 每一項的做法
 
 - 研究在私有工作區 `~/cht/borland/`，公開文章在本 repo，照兩邊 `CLAUDE.md` 的契約。

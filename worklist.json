@@ -4,5 +4,19 @@
     "article": "要寫的文章",
     "infra": "讓 AI 讀者能路由、讓閘門能自動跑的基礎設施"
   },
-  "items": []
+  "items": [
+    {
+      "id": "watcom90-startup-variants",
+      "layer": "article",
+      "title": "文章：9.01 的啟動多型——三顆 adi*start、庫內 cstart 與目標版的分工",
+      "why": "M4 第七批（R22）主體：三顆 adi*start.obj 各對應哪個 extender／目標、庫內 cstart 與磁片啟動檔的分工、連結期選模組 vs 執行期偵測兩層機制的邊界、DOS/OS2/WIN 三版庫差異、RE 指紋。見 docs/goal/M4-watcom.md 第七批。",
+      "verify": {
+        "kind": "missing",
+        "paths": [
+          "docs/80-watcom/watcom90-startup.md"
+        ]
+      },
+      "issue": 25
+    }
+  ]
 }
