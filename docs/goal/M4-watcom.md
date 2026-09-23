@@ -281,6 +281,19 @@ open-watcom-v2 是 2000 年代以後持續修改的版本，和 1988–1993 年�
 | `le-lx-format` | LE 與 LX 的結構：物件表、分頁、fixup、入口 |
 | `re-watcom-tools` | 各版編譯器與連結器的 IDA 匯出，當作辨識 Watcom runtime 與格式解析的實例 |
 
+## R27（本輪）：驗 WCC 6.5 自載 WCG 假設，解 E142
+
+接 M4 第一批留下的 `watcom65-wcg-overlay`（私有 #32）：6.5 在 dosgolem 下「能讀不能編」，
+`WCC`／`WCL` 卡在 `E142 ***FATAL*** Stack Overflow`（CPU 子集、記憶體、缺檔已排除）。
+本輪驗「`WCC` 自己載入 `WCG.EXE` 當 overlay、不走 DOS EXEC」——證據是 dosgolem 開檔紀錄有
+`WCG.EXE` 而 EXEC 紀錄是空的。
+
+方法：dosgolem `-memops` 重跑定位「開檔→載入→跳轉」三步；反組譯 `WCC` 開 `WCG` 那一段
+（先用跑得動的 `WDISASM`，不夠再上 IDA）；與 dosgolem 載入器行為對照。
+完成條件：E142 成因定位到具體機制，或證偽並提下一假設（各有排除證據）；私有筆記
+`notes/toolchains/watcom65.md`「還沒驗證的假設」段更新。
+本輪不做：修 dosgolem（缺服務就寫 READY 規格另開條目）、6.5 編譯對拍、7.0 工具。
+
 ## 工作項目（第七批，R22 本輪）
 
 主體是「啟動的多型」，並行一個取得項。素材都已在手上（R19 的 omf386.py 直接可用），這一批不做 dosgolem 實跑（9.x 的工具跑不動）。
