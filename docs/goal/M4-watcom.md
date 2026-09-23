@@ -332,6 +332,14 @@ WCC 側改動（定位後的修法另議）、7.0、對拍。
 backlog 並寫 READY 規格另開條目（本輪只寫規格）。本輪不做：修 dosgolem、WCC 側改動、
 7.0、對拍。
 
+## R32（本輪）：查閂鎖語意（正常初始化 vs FPU 分歧誤設）
+
+接 R31（私有 #32，`watcom65-wcg-exit1`）：SP 守衛說已推翻，AL=4 源是尾檢查閂鎖
+（啟動即設、清除者沒跑）。本輪三手：單獨跑 WCG 對照閂不閂鎖（資料段 `0x2AC`）；
+chained 跑找分派 `loc_12FA9` 者；查 dosgolem FPU 語意。完成條件：閂鎖語意判定，
+artifact 屬 dosgolem 就加 backlog＋READY 規格（只寫規格）。本輪不做：修 dosgolem、
+WCC 側改動、7.0、對拍。
+
 ## 工作項目（第七批，R22 本輪）
 
 主體是「啟動的多型」，並行一個取得項。素材都已在手上（R19 的 omf386.py 直接可用），這一批不做 dosgolem 實跑（9.x 的工具跑不動）。
