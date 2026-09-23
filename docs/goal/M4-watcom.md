@@ -356,6 +356,13 @@ WCC 側改動、7.0、對拍。
 完成條件：binary 有無＋對照結果或建置卡點；筆記待驗段更新。本輪不做：建置
 DOSBox-X（超半天停）、修 dosgolem、WCC 側改動、7.0、對拍。
 
+## R37（本輪）：DOSBox fpu=false 的 fnstcw 回值探針
+
+接 R36（私有 #32，`watcom65-wcg-exit1`）：call 樹有序，func#0 無辜。本輪自寫
+`FPUTEST.COM` 量 DOSBox 預設 vs `fpu=false` 的控制字。後者若回 `037Fh`→分歧解釋，
+寫 FPU READY 規格（實作另開條目）；同樣缺席→回頭查版面。完成條件：兩設定實測值
+＋裁決；筆記待驗段更新。本輪不做：修 dosgolem、WCC 側改動、7.0、對拍。
+
 ## R36（本輪）：收斂分歧窗（732214–732670 步 call 樹重建）
 
 接 R35（私有 #32，`watcom65-wcg-exit1`）：artifact 確立，FPU 二度排除。本輪 watch
