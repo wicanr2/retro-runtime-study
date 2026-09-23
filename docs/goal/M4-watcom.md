@@ -340,6 +340,14 @@ chained 跑找分派 `loc_12FA9` 者；查 dosgolem FPU 語意。完成條件：
 artifact 屬 dosgolem 就加 backlog＋READY 規格（只寫規格）。本輪不做：修 dosgolem、
 WCC 側改動、7.0、對拍。
 
+## R33（本輪）：輸入變因（空程式編譯裁決）
+
+接 R32（私有 #32，`watcom65-wcg-exit1`）：對照無效、FPU 排除、分派部分。本輪換輸入
+不換環境：`int main(void){return 0;}`（無含入、無呼叫）同命令列編譯。編過→內容觸發
+（往哪種 quad 觸發閂鎖收斂）；同 E142→基礎設施全滅（往 EXEC／版面差異收斂）。
+完成條件：結果＋memops 裁決二選一；筆記待驗段更新。本輪不做：修 dosgolem
+（artifact 寫規格另開條目）、WCC 側改動、7.0、對拍。
+
 ## 工作項目（第七批，R22 本輪）
 
 主體是「啟動的多型」，並行一個取得項。素材都已在手上（R19 的 omf386.py 直接可用），這一批不做 dosgolem 實跑（9.x 的工具跑不動）。
