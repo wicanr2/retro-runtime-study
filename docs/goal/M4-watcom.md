@@ -348,6 +348,14 @@ WCC 側改動、7.0、對拍。
 完成條件：結果＋memops 裁決二選一；筆記待驗段更新。本輪不做：修 dosgolem
 （artifact 寫規格另開條目）、WCC 側改動、7.0、對拍。
 
+## R35（本輪）：real-DOS 參照（DOSBox-X 跑 EMPTY.C）
+
+接 R34（私有 #32，`watcom65-wcg-exit1`）：三手齊，READY 規格缺 real-DOS 參照。
+本輪找現成 binary（工作區，無則評估建置成本，超半天停手），同 DOS 根跑 `EMPTY.C`：
+也 E142＝真 bug（remake 照抄）；編過＝artifact（回頭 diff 版面寫 READY 規格）。
+完成條件：binary 有無＋對照結果或建置卡點；筆記待驗段更新。本輪不做：建置
+DOSBox-X（超半天停）、修 dosgolem、WCC 側改動、7.0、對拍。
+
 ## R34（本輪）：隔離閂鎖設定觸發條件
 
 接 R33（私有 #32，`watcom65-wcg-exit1`）：全滅裁決，func#0–4 小型查詢。本輪三手：
