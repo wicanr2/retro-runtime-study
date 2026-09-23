@@ -363,6 +363,14 @@ DOSBox-X（超半天停）、修 dosgolem、WCC 側改動、7.0、對拍。
 寫 FPU READY 規格（實作另開條目）；同樣缺席→回頭查版面。完成條件：兩設定實測值
 ＋裁決；筆記待驗段更新。本輪不做：修 dosgolem、WCC 側改動、7.0、對拍。
 
+## R38（本輪）：實作 dosgolem spec-202＋重跑驗證
+
+接 R37（私有 #32，`watcom65-wcg-exit1`）：分歧已解釋，READY 規格已寫。本輪在
+dosgolem 側實作最小 x87 控制字（`FNINIT` 設 `037Fh`、`FNSTCW` 存回；不碰算術），
+照該 repo 慣例測試，然後回本 repo 重跑兩支範例（應編過、E142 消失；通過則移除
+worklist 條目）。完成條件：dosgolem 測試全過、探針回 `037Fh`、範例編過、兩邊推送。
+本輪不做：x87 算術、模擬器陷入、WCC 側改動、7.0、對拍。
+
 ## R36（本輪）：收斂分歧窗（732214–732670 步 call 樹重建）
 
 接 R35（私有 #32，`watcom65-wcg-exit1`）：artifact 確立，FPU 二度排除。本輪 watch
