@@ -394,6 +394,14 @@ dosgolem 寫部分 READY 規格（下一號）：已定引用 spec-202；新增�
 完成條件：dosgolem 測試全過、新欄位實測可見、兩邊推送。本輪不做：x87 算術、
 WCC 側改動、7.0、對拍、選擇器結論。
 
+## R46（本輪）：trace-range 實作＋直擊 SI 寫入者
+
+接 R45（私有 #32，`watcom65-wcg-exit1`）：主線暫停差全程 trace；msvc10 維持 blocked。
+本輪在 dosgolem 寫 spec-204（`-trace-range lo-hi`，沿用 trace 格式）並實作＋測試，
+回本 repo 抓 [732000, 733000] 全暫存器 trace 直擊 SI 寫入者。完成條件：測試全過、
+新旗標可用、兩邊推送、筆記更新。本輪不做：x87 算術、WCC 側改動、7.0、選擇器結論
+（R47 用新能力做）。
+
 ## R43（本輪）：追 SI 寫入者（dd@0x16D6 handler 鏈）
 
 接 R42（私有 #32，`watcom65-wcg-exit1`）：新欄位驗證成功，SI 流量可見。本輪用
