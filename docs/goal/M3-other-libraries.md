@@ -133,6 +133,16 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
 細節在私有 `notes/msvc-1.0-crt/topics/toolchain-status.md`。
 下一輪（R59）：展開安裝拿可執行的 `BIN/CL.EXE`＋MASM 缺口；對拍與簽章仍等工具鏈可執行。
 
+## 第三批結果（R59）：三套落地，#14 關閉
+
+- 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），
+  `LINK／NMAKE／CV` 有效，原廠 `.LIB` 全 OMF——worklist 驗收達成。
+- 1.52（archive.org）：542 檔已抽可用；附帶下載事故（檔頭 170 位元組錯誤頁，
+  損壞只限 System Area，R60 重下替換）。
+- MASM 6.11：5 片落地；`ML.EX$` 是 `KWAJ88`，安裝留 R60。
+- 私有 worklist 已清空；#14 關閉；R60（MASM 安裝＋ISO 重下＋首次編譯實驗）
+  另開 issue。簽章用的出貨 `.LIB` 至此才真正到手（R26 硬限制解除條件成就）。
+
 ## 風險與未知
 
 - **VC++ 1.0 工具鏈可能取得不到合法來源。** 取得不到時，A 的文章停在「原始碼與建置檔說了什麼」，
