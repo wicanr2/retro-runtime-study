@@ -133,6 +133,15 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
 細節在私有 `notes/msvc-1.0-crt/topics/toolchain-status.md`。
 下一輪（R59）：展開安裝拿可執行的 `BIN/CL.EXE`＋MASM 缺口；對拍與簽章仍等工具鏈可執行。
 
+## 第三批後續（R60）：首次編譯打通（#48 已關閉）
+
+- MASM 6.11：片一 `DECOMP.EXE` 直解 `ML.EX$`（免 SETUP），`ML` 跑出 usage。
+- 1.52 樹 DOSBox 下：CL 8.00c／LINK 5.60.339；`HELLO.C`（printf）→ OBJ →
+  EXE → 執行印出字串，真 CRT 連結端到端通（穩定走法：`CL /c`＋一行 LINK）。
+- 1.52c 備援驗畢（`CL.EXE` 與 1.52 位元組一致）；ISO 乾淨重下收尾中。
+- 下一步（R61，另開 issue）：拿這套工具鏈做 CRT 對拍（出貨 `.LIB` 已在手，
+  R26 硬限制解除）。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），
