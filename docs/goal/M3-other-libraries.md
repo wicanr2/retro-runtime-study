@@ -142,6 +142,12 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
 - 下一步（R61，另開 issue）：拿這套工具鏈做 CRT 對拍（出貨 `.LIB` 已在手，
   R26 硬限制解除）。
 
+## 第三批驗證（R61）：dosgolem 執行三支全一致（#49 已關閉）
+
+使用方要求驗證執行用 dosgolem：EMPTY／HELLO／ARGS（`one two`）在 DOSBox
+與 dosgolem 下退出碼＋輸出全一致（3／`argc=3 one` 等）。本輪無缺口；
+深水區（檔案 I／O、堆、浮點）留 R62 CRT 對拍（另開 issue）。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），
