@@ -395,6 +395,16 @@ WCC 側改動、7.0、對拍。
 （落子走 arena，空 arena 維持舊路）。完成條件：根因指名＋READY 規格；
 筆記更新。本輪不做：實作（R56）、WCC 側改動、7.0、對拍。
 
+## R56（本輪）：實作 spec-205，E142 結案
+
+接 R55（私有 #32，`watcom65-wcg-exit1`，本輪關閉）：dosgolem 落地
+`placeChild／carveBlock／freeArenaSeg`＋退出回收＋`freeSeg` 只升不降；
+`TestSpawnDoesNotOverlapLiveArena` 紅轉綠；全套件綠。三支全乾淨
+（EMPTY／HELLO／FLOAT，回傳碼皆 0）。附帶解開 `exit=FF` 之謎
+（WCG 乾淨退出碼 255，哨兵撞碼，另案處理）。完成條件：三支乾淨＋
+測試綠＋`watcom65-wcg-exit1` 自 worklist 移除。本輪不做：WCC 側改動、
+7.0、對拍（`toolchain-msvc10` 維持 blocked，#14 開）。
+
 ## R32（本輪）：查閂鎖語意（正常初始化 vs FPU 分歧誤設）
 
 接 R31（私有 #32，`watcom65-wcg-exit1`）：SP 守衛說已推翻，AL=4 源是尾檢查閂鎖
