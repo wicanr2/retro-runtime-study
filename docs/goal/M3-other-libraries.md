@@ -154,6 +154,16 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
 - 首輪重建目標：`VCCRT2/STRING/STRLEN.ASM`（單檔純函式，對讀 Borland STRLEN；
   比對法與判準已定，實作另輪）。細節在私有筆記 R62 段。
 
+## 第四批（R63）：strlen 跨廠文章（#28）
+
+- 第一篇跨廠比較：`docs/20-msvc-crt/strlen-anatomy.md`、兩張 SVG、
+  `examples/strlen/`（`sat＝65534` 等 `expected.txt` 鎖住）、
+  `signatures/msvc-1.0-crt/strlen.json`（五筆）。
+- 關鍵證據升級：Borland 65534 從靜讀升為 dosgolem 實測；
+  MS 65535 維持雙引擎四格（A 連 1.0 源重建 OBJ、B 連 1.52 庫，版本已揭露）。
+- 附帶修復 dosgolem 子行程 `PSP:0002`（配給塊頂，BCC／TLINK 鏈復活），
+  見 dosgolem `bcc20-toolchain` 分支。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

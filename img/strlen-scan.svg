@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="430" viewBox="0 0 700 430">
+  <rect width="700" height="430" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .dia { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .ret { fill: #eaf7ee; stroke: #2f9e44; stroke-width: 1; }
+    .label { font-size: 13px; }
+    .small { font-size: 11px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">strlen 掃描流程（兩家共用核心）</text>
+
+  <rect x="230" y="50" width="240" height="44" rx="6" class="box"/>
+  <text x="350" y="68" text-anchor="middle" class="label mono">CX = FFFFh，AL = 0</text>
+  <text x="350" y="86" text-anchor="middle" class="small">DI 指向字串開頭</text>
+
+  <rect x="230" y="114" width="240" height="44" rx="6" class="box"/>
+  <text x="350" y="132" text-anchor="middle" class="label mono">repne scasb</text>
+  <text x="350" y="150" text-anchor="middle" class="small">每次比對 CX 減一</text>
+
+  <polygon points="350,178 470,228 350,278 230,228" class="dia"/>
+  <text x="350" y="222" text-anchor="middle" class="label">怎麼停的？</text>
+  <text x="350" y="240" text-anchor="middle" class="small mono">ZF = 1 / CX = 0</text>
+
+  <rect x="60" y="300" width="250" height="60" rx="6" class="ret"/>
+  <text x="185" y="322" text-anchor="middle" class="label">找到結束符</text>
+  <text x="185" y="342" text-anchor="middle" class="small mono">長度 = NOT(CX) − 1</text>
+
+  <rect x="390" y="300" width="250" height="60" rx="6" class="ret"/>
+  <text x="515" y="322" text-anchor="middle" class="label">掃完 64K 無結束符</text>
+  <text x="515" y="342" text-anchor="middle" class="small mono">MS far 回 65535</text>
+
+  <line x1="350" y1="94" x2="350" y2="112" stroke="#666" marker-end="url(#arr)"/>
+  <line x1="350" y1="158" x2="350" y2="176" stroke="#666" marker-end="url(#arr)"/>
+  <line x1="268" y1="252" x2="200" y2="298" stroke="#666" marker-end="url(#arr)"/>
+  <line x1="432" y1="252" x2="500" y2="298" stroke="#666" marker-end="url(#arr)"/>
+  <text x="140" y="282" text-anchor="middle" class="small mono">ZF = 1</text>
+  <text x="565" y="282" text-anchor="middle" class="small mono">ZF = 0</text>
+
+  <text x="350" y="398" text-anchor="middle" class="small">收尾 xchg ax,cx 把結果搬進 AX；Borland 同情況回 65534（見邊界對照圖）</text>
+</svg>

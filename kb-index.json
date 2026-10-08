@@ -1347,6 +1347,41 @@
     "watcom/dos4gw-startup",
     "watcom/watcom-lineage"
    ]
+  },
+  {
+   "id": "msvc-crt/strlen-anatomy",
+   "path": "docs/20-msvc-crt/strlen-anatomy.md",
+   "title": "strlen 的兩種長相",
+   "libraries": [
+    "msvc-1.0-crt",
+    "borland-crtl-2.0"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯 16 位元程式，看到 repne scasb 想確認是不是 strlen",
+    "同一個 strlen 在 small 版與 large 版執行檔裡長得不一樣",
+    "要區分 Microsoft 與 Borland 編的 strlen",
+    "remake 要重做 strlen 的邊界行為（空字串、NULL、64K 無結束符）"
+   ],
+   "symbols": [
+    "strlen",
+    "_fstrlen",
+    "__fstrlen",
+    "repne scasb",
+    "xchg ax cx",
+    "STRLEN",
+    "FSTRLEN"
+   ],
+   "related": [
+    "msvc-crt/library-combination",
+    "borland-crtl/memory-model-macros",
+    "borland-crtl/compiler-helpers"
+   ]
   }
  ]
 }

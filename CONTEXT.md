@@ -49,6 +49,8 @@
 | conio | Borland 的主控台輸入輸出函式（`getch`、`clrscr`、`cprintf` 等），直接操作文字畫面與鍵盤，宣告在 `conio.h` |
 | 行緩衝／完全緩衝／不緩衝 | stdio 串流何時真的寫出：遇到換行時、緩衝區滿時、每次呼叫都立刻寫出 |
 | LCG（線性同餘產生器） | 偽亂數演算法：狀態 × 乘數 ＋ 增量。Borland 的 `rand` 用 32 位元狀態、乘數 0x015A4E35、增量 1，輸出取狀態第 16–30 位元 |
+| 飽和（strlen 的 64K 段） | `repne scasb` 比了 `FFFFh` 次都沒找到結束符，第 65536 個位元組硬體根本不讀；Microsoft 回 65535、Borland 回 65534 |
+| 方向旗標（`DF`） | 控制字串指令掃描方向的旗標：0 往前掃。Borland `strlen` 開頭下 `cld`；MSVC 版全程不碰它 |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |
