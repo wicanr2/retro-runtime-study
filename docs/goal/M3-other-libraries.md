@@ -20,7 +20,7 @@ goal 因此分成兩批：
 | 來源 | 內容 | 這一輪用得到的部分 |
 |---|---|---|
 | `vendor/msvc-1.0-crt` | `VCCRT1`（BUILD、CONVERT、DOS、EXEC、HEAP、HELPER、IOSTREAM、LOWIO、MISC、TIME）與 `VCCRT2`（CONIO、DIRECT、H、INC、STARTUP、STDIO、STRING） | `VCCRT1/BUILD/` 的 `.BLD`、`.MKF` 建置檔；`README.TXT` 的 Part 4（哪些 `.LIB`／`.OBJ` 建得出來、哪些建不出來）與 Part 5（合併庫） |
-| `vendor/msvc-2.0-crt` | VC++ 2.0（32 位元）的 CRT 原始碼 | 這一輪只當對照，不寫文章 |
+| `vendor/msvc-2.0-crt` | VC++ 2.0（32 位元）的 CRT 原始碼 | 第一批只當對照；R64 起寫文章（無工具鏈，只到已證實（原文）） |
 | `vendor/dmx` | 五個版本目錄：`dmx33b`、`dmx33d`、`dmx33gs`、`dmx34a`、`dmx37lib`，另有 `fmfix` | 版本之間的差異；`api/`、`inc/`、`ldr/`、`midi/`、`wav/`、`sercom/` 的分工；`bugs.lst` 與檔頭的修訂註解 |
 | `vendor/dsmi` | `src/` 下 43 個 `.C`、38 個 `.ASM`、96 個 `.PAS` | 三套介面怎麼對應同一組核心 |
 
@@ -163,6 +163,15 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   MS 65535 維持雙引擎四格（A 連 1.0 源重建 OBJ、B 連 1.52 庫，版本已揭露）。
 - 附帶修復 dosgolem 子行程 `PSP:0002`（配給塊頂，BCC／TLINK 鏈復活），
   見 dosgolem `bcc20-toolchain` 分支。
+
+## 第五批（R64）：MSVC 2.0 啟動碼文章（#29）
+
+- 第一篇 2.0 文章：`docs/50-msvc2-crt/startup.md`、三張 SVG。
+  無範例、無簽章（無 Win32 工具鏈、封存無啟動出貨 OBJ）。
+- 內容：一源四編、啟動七步、`.CRT` 段鏈、切詞 2N 規則、
+  萬用字元連結期開關、`_mtinit`、GUI 三件工作、退出四入口。
+- 審查抓出兩處註解與實作落差（`[ ]` 沒實作、`_exit` 有取鎖），
+  已寫進文章。
 
 ## 第三批結果（R59）：三套落地，#14 關閉
 

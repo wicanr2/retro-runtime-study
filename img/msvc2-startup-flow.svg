@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="470" viewBox="0 0 700 470">
+  <rect width="700" height="470" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .warn { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .user { fill: #edf7ee; stroke: #3d8b40; stroke-width: 1; }
+    .label { font-size: 13px; }
+    .small { font-size: 11px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    line { stroke: #999; stroke-width: 1; }
+    polyline { fill: none; stroke: #999; stroke-width: 1; }
+  </style>
+
+  <text x="30" y="30" class="title">啟動七步（guard 之外三步，之內四步）</text>
+
+  <rect x="180" y="50" width="340" height="44" rx="6" class="box"/>
+  <text x="350" y="68" text-anchor="middle" class="label">1. 拆版本號 <tspan class="mono small">GetVersion → 四全域</tspan></text>
+  <text x="350" y="86" text-anchor="middle" class="small">主版／次版／組合／建置號</text>
+
+  <rect x="180" y="104" width="340" height="44" rx="6" class="box"/>
+  <text x="350" y="122" text-anchor="middle" class="label">2. 初始化堆 <tspan class="mono small">_heap_init</tspan></text>
+  <text x="350" y="140" text-anchor="middle" class="small">後面全要 malloc，先好</text>
+
+  <rect x="180" y="158" width="340" height="44" rx="6" class="warn"/>
+  <text x="350" y="176" text-anchor="middle" class="label">3. 初始化多線程 <tspan class="mono small">_mtinit（MT 版）</tspan></text>
+  <text x="350" y="194" text-anchor="middle" class="small">失敗 → 255 死（guard 外面）</text>
+
+  <rect x="140" y="216" width="420" height="196" rx="8" fill="none" stroke="#d97706" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="350" y="234" text-anchor="middle" class="small">__try／__except guard（_XcptFilter）</text>
+
+  <rect x="180" y="244" width="340" height="36" rx="6" class="box"/>
+  <text x="350" y="266" text-anchor="middle" class="label">4. 低階 I/O <tspan class="mono small">_ioinit（＋__initmbctable）</tspan></text>
+
+  <rect x="180" y="288" width="340" height="36" rx="6" class="box"/>
+  <text x="350" y="310" text-anchor="middle" class="label">5. 命令列＋環境 <tspan class="mono small">_setargv／_setenvp</tspan></text>
+
+  <rect x="180" y="332" width="340" height="36" rx="6" class="box"/>
+  <text x="350" y="354" text-anchor="middle" class="label">6. C 初始化鏈 <tspan class="mono small">_cinit：XI → XC</tspan></text>
+
+  <rect x="180" y="376" width="340" height="36" rx="6" class="user"/>
+  <text x="350" y="398" text-anchor="middle" class="label">7. main／WinMain → exit</text>
+
+  <line x1="350" y1="94" x2="350" y2="104"/>
+  <line x1="350" y1="148" x2="350" y2="158"/>
+  <line x1="350" y1="202" x2="350" y2="244"/>
+  <line x1="350" y1="280" x2="350" y2="288"/>
+  <line x1="350" y1="324" x2="350" y2="332"/>
+  <line x1="350" y1="368" x2="350" y2="376"/>
+
+  <text x="350" y="438" text-anchor="middle" class="small">guard 外：線程結構還沒建好，罩了也沒用</text>
+  <text x="350" y="456" text-anchor="middle" class="small">guard 內沒接住的例外 → _exit（回傳碼＝例外碼）</text>
+</svg>

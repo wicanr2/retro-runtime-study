@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="340" viewBox="0 0 700 340">
+  <rect width="700" height="340" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .sent { fill: #f3f3f3; stroke: #999; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+  </style>
+
+  <text x="30" y="30" class="title">.CRT 段鏈：XI／XC 啟動跑，XP／XT 退出跑（連結後併入 .data）</text>
+
+  <text x="30" y="62" class="small">啟動（_cinit 跑）：</text>
+  <rect x="30" y="72" width="90" height="52" rx="6" class="sent"/>
+  <text x="75" y="92" text-anchor="middle" class="label mono">XIA</text>
+  <text x="75" y="108" text-anchor="middle" class="tiny">哨兵 NULL</text>
+  <rect x="130" y="72" width="150" height="52" rx="6" class="box"/>
+  <text x="205" y="92" text-anchor="middle" class="label mono">XI（C 初始化）</text>
+  <text x="205" y="108" text-anchor="middle" class="tiny">各模組函式指標</text>
+  <rect x="290" y="72" width="90" height="52" rx="6" class="sent"/>
+  <text x="335" y="92" text-anchor="middle" class="label mono">XIZ</text>
+  <text x="335" y="108" text-anchor="middle" class="tiny">哨兵 NULL</text>
+  <rect x="400" y="72" width="90" height="52" rx="6" class="sent"/>
+  <text x="445" y="92" text-anchor="middle" class="label mono">XCA</text>
+  <text x="445" y="108" text-anchor="middle" class="tiny">哨兵 NULL</text>
+  <rect x="500" y="72" width="150" height="52" rx="6" class="box"/>
+  <text x="575" y="92" text-anchor="middle" class="label mono">XC（C++ 初始化）</text>
+  <text x="575" y="108" text-anchor="middle" class="tiny">各模組函式指標</text>
+  <text x="30" y="142" class="tiny">XCZ 尾哨兵同理（版面省略）。CINITEXE 只放 XI／XC（CRT DLL 模型用）。</text>
+
+  <text x="30" y="172" class="small">退出（doexit 跑）：</text>
+  <rect x="30" y="182" width="90" height="52" rx="6" class="sent"/>
+  <text x="75" y="202" text-anchor="middle" class="label mono">XPA</text>
+  <text x="75" y="218" text-anchor="middle" class="tiny">哨兵 NULL</text>
+  <rect x="130" y="182" width="150" height="52" rx="6" class="box"/>
+  <text x="205" y="202" text-anchor="middle" class="label mono">XP（退出前置）</text>
+  <text x="205" y="218" text-anchor="middle" class="tiny">exit 跑，_exit 跳過</text>
+  <rect x="290" y="182" width="90" height="52" rx="6" class="sent"/>
+  <text x="335" y="202" text-anchor="middle" class="label mono">XPZ</text>
+  <text x="335" y="218" text-anchor="middle" class="tiny">哨兵 NULL</text>
+  <rect x="400" y="182" width="90" height="52" rx="6" class="sent"/>
+  <text x="445" y="202" text-anchor="middle" class="label mono">XTA</text>
+  <text x="445" y="218" text-anchor="middle" class="tiny">哨兵 NULL</text>
+  <rect x="500" y="182" width="150" height="52" rx="6" class="box"/>
+  <text x="575" y="202" text-anchor="middle" class="label mono">XT（終止）</text>
+  <text x="575" y="218" text-anchor="middle" class="tiny">兩種退出都跑</text>
+
+  <text x="30" y="252" class="tiny">XTZ 尾哨兵同理（版面省略）。</text>
+  <text x="30" y="272" class="small">為什麼哨兵不能留空：COFF 會丟掉空段，所以哨兵段放一個 NULL 佔位（遍歷本來就跳過零項）。</text>
+  <text x="30" y="292" class="small">連結指令：-merge:.CRT=.data（四條表併入資料段）、-defaultlib:kernel32。</text>
+  <text x="30" y="312" class="tiny">註：中間段（.CRT$XIU 等）按段名排序自然落在頭尾哨兵之間。</text>
+</svg>

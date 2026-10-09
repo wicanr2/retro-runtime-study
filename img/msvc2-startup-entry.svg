@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="300" viewBox="0 0 700 300">
+  <rect width="700" height="300" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .src { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 13px; }
+    .small { font-size: 11px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .head { font-size: 13px; font-weight: bold; }
+  </style>
+
+  <text x="30" y="30" class="title">兩個開關切出四種進入點（一份 CRT0 源）</text>
+
+  <rect x="200" y="48" width="300" height="40" rx="6" class="src"/>
+  <text x="350" y="73" text-anchor="middle" class="head mono">CRT0 源：WPRFLAG × _WINMAIN_</text>
+
+  <rect x="30" y="106" width="315" height="80" rx="6" class="box"/>
+  <text x="187" y="132" text-anchor="middle" class="label mono">mainCRTStartup</text>
+  <text x="187" y="152" text-anchor="middle" class="small">窄 × console → main</text>
+  <text x="187" y="170" text-anchor="middle" class="small">錯誤寫主控台</text>
+
+  <rect x="355" y="106" width="315" height="80" rx="6" class="box"/>
+  <text x="512" y="132" text-anchor="middle" class="label mono">wmainCRTStartup</text>
+  <text x="512" y="152" text-anchor="middle" class="small">寬 × console → wmain</text>
+  <text x="512" y="170" text-anchor="middle" class="small">錯誤寫主控台</text>
+
+  <rect x="30" y="196" width="315" height="80" rx="6" class="box"/>
+  <text x="187" y="222" text-anchor="middle" class="label mono">WinMainCRTStartup</text>
+  <text x="187" y="242" text-anchor="middle" class="small">窄 × GUI → WinMain</text>
+  <text x="187" y="260" text-anchor="middle" class="small">錯誤彈訊息框，預設拉 user32</text>
+
+  <rect x="355" y="196" width="315" height="80" rx="6" class="box"/>
+  <text x="512" y="222" text-anchor="middle" class="label mono">wWinMainCRTStartup</text>
+  <text x="512" y="242" text-anchor="middle" class="small">寬 × GUI → wWinMain</text>
+  <text x="512" y="260" text-anchor="middle" class="small">錯誤彈訊息框，預設拉 user32</text>
+</svg>
