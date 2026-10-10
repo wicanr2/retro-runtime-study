@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="440" viewBox="0 0 700 440">
+  <rect width="700" height="440" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#ch); }
+  </style>
+  <defs>
+    <marker id="ch" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">三十二變體一樞紐：剝四維，進 comexecmd，生行程</text>
+
+  <rect x="30" y="50" width="640" height="100" rx="6" class="box"/>
+  <text x="350" y="72" text-anchor="middle" class="label">包裝層：l／v × 有無 e × 有無 p × spawn／exec × 窄寬</text>
+  <text x="350" y="92" text-anchor="middle" class="small mono">l 轉 v：x86 用 &amp;arglist 直傳，RISC 用 _capture_argv（64 格＋倍增）</text>
+  <text x="350" y="110" text-anchor="middle" class="small">無 e 傳 NULL（繼承）；p 版先直試、ENOENT 才搜 PATH；exec 傳死 OVERLAY</text>
+  <text x="350" y="128" text-anchor="middle" class="small mono">無副檔名輪探 .com→.exe→.bat→.cmd（註解倒寫，以碼為準）</text>
+  <text x="350" y="144" text-anchor="middle" class="tiny">裸檔名補 .\ 前綴；檔名含 / 不搜 PATH（含 \ 照搜）</text>
+
+  <rect x="30" y="170" width="310" height="120" rx="6" class="hot"/>
+  <text x="185" y="192" text-anchor="middle" class="label">_cenvarg：計量＋封包</text>
+  <text x="185" y="212" text-anchor="middle" class="small mono">參數、環境各封頂 32767</text>
+  <text x="185" y="230" text-anchor="middle" class="small">超 E2BIG／配敗 ENOMEM</text>
+  <text x="185" y="248" text-anchor="middle" class="small mono">argv[0]＋NUL＋空格連＋雙 NUL</text>
+  <text x="185" y="266" text-anchor="middle" class="small">=X: 碟號段整段搬入子環境</text>
+  <text x="185" y="282" text-anchor="middle" class="tiny">_C_FILE_INFO 已死（硬寫無此串）</text>
+
+  <rect x="360" y="170" width="310" height="120" rx="6" class="box"/>
+  <text x="515" y="192" text-anchor="middle" class="label">_dospawn：五模＋封 CFI</text>
+  <text x="515" y="212" text-anchor="middle" class="small mono">WAIT 等／NOWAIT 回柄／OVERLAY 自毀</text>
+  <text x="515" y="230" text-anchor="middle" class="small mono">DETACH 清 0/1/2 回 0</text>
+  <text x="515" y="248" text-anchor="middle" class="small">CFI：[N][N 旗][N 柄] 進 lpReserved2</text>
+  <text x="515" y="266" text-anchor="middle" class="small mono">calloc 無判空（耗盡即崩）</text>
+  <text x="515" y="282" text-anchor="middle" class="tiny">生前 errno=0（子回 -1 與生敗相辨）</text>
+
+  <line x1="200" y1="150" x2="200" y2="168" class="arrow"/>
+  <line x1="500" y1="150" x2="500" y2="168" class="arrow"/>
+  <line x1="340" y1="230" x2="358" y2="230" class="arrow"/>
+
+  <rect x="190" y="310" width="320" height="44" rx="6" class="box"/>
+  <text x="350" y="330" text-anchor="middle" class="label mono">CreateProcess（柄可繼承、環境塊、STARTUPINFO）</text>
+  <text x="350" y="346" text-anchor="middle" class="tiny">_cwait：柄作 pid、-1/-2 擋、恆關柄</text>
+
+  <line x1="270" y1="290" x2="310" y2="308" class="arrow"/>
+  <line x1="430" y1="290" x2="390" y2="308" class="arrow"/>
+
+  <text x="30" y="382" class="small">註：_P_OVERLAY 單緒是變數 _p_overlay（=2）、多緒是常數 2；_dospawn 內比字面 2，兩版皆通。</text>
+  <text x="30" y="402" class="tiny">註：EXECVE.C=#define EXECVE＋包 spawnve.c（13 行，雙建）；寬版 WSPWNLPE／WSPWNVPE 檔名缺 A，內皆正。</text>
+  <text x="30" y="422" class="tiny">註：_fileinfo 死透（建 fileinfo 取 -1、無人讀）；CFINFO.C 是死源（建置未列）。</text>
+</svg>

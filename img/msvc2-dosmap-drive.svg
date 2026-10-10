@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="400" viewBox="0 0 700 400">
+  <rect width="700" height="400" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#dh); }
+  </style>
+  <defs>
+    <marker id="dh" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">誤碼漏斗與碟號協定：表＋區間＋預設；寫搬讀三端</text>
+
+  <rect x="30" y="50" width="320" height="150" rx="6" class="box"/>
+  <text x="190" y="72" text-anchor="middle" class="label">_dosmaperr：三層漏斗</text>
+  <text x="190" y="94" text-anchor="middle" class="small mono">先存 _doserrno=原碼</text>
+  <text x="190" y="114" text-anchor="middle" class="small">45 項線性表：中即回</text>
+  <text x="190" y="134" text-anchor="middle" class="small">兩區間：EACCES 區／ENOEXEC 區</text>
+  <text x="190" y="154" text-anchor="middle" class="small">餘一律 EINVAL（永不空手）</text>
+  <text x="190" y="174" text-anchor="middle" class="tiny">第 31 項誤植 INVALID_HANDLE</text>
+  <text x="190" y="190" text-anchor="middle" class="tiny">（第 6 項先中，永不可達）</text>
+
+  <rect x="370" y="50" width="300" height="150" rx="6" class="hot"/>
+  <text x="520" y="72" text-anchor="middle" class="label">=X: 寫搬讀三端</text>
+  <text x="520" y="94" text-anchor="middle" class="small">寫：_chdir 成功手寫 =X:</text>
+  <text x="520" y="114" text-anchor="middle" class="small">搬：_cenvarg 拷整段入子環境</text>
+  <text x="520" y="134" text-anchor="middle" class="small">讀：_getdcwd（X:.＋取全路徑）</text>
+  <text x="520" y="154" text-anchor="middle" class="small mono">_tgetcwd=持鎖調 0 號</text>
+  <text x="520" y="174" text-anchor="middle" class="tiny">無效碟回 EACCES（非 ENOENT）</text>
+  <text x="520" y="190" text-anchor="middle" class="tiny">_chdrive 驗 1–31（註解寫 1–26）</text>
+
+  <text x="30" y="228" class="small">errno 雙制：多緒取址器讀執行緒塊（_getptd）；單緒 MTERRNO.C 強制 #define _MT 騙宣告再 #undef，回全域位址。</text>
+  <text x="30" y="248" class="small">_fullpath：空路轉 getcwd；maxlen＜4 即 ERANGE；UNC／碟號分流；大小寫保留；.. 過根 EACCES。</text>
+  <text x="30" y="268" class="small">_dtoxmode：根或目錄加 x、非唯讀加寫、四副檔名加 x、三組位複製；x 位是猜的。</text>
+  <text x="30" y="296" class="tiny">註：chmod／access 只認 READONLY 位；mkdir／rmdir／rename／remove 各包一 API；unlink 即 remove。</text>
+  <text x="30" y="322" class="tiny">註：Alpha 差量 EXEC 九檔刪 x86 分支（_capture_argv 去 guard、l 版去 &amp;arglist 段），DOS 廿四檔全同。</text>
+
+  <text x="30" y="360" class="small">認法（強推論）：副檔名四串＋探測迴圈、誤碼 45 對表、32767 立即數、.\ 前綴、COMSPEC＋/c＋cmd.exe。</text>
+</svg>

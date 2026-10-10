@@ -869,6 +869,52 @@
    ]
   },
   {
+   "id": "msvc2-crt/exec",
+   "path": "docs/50-msvc2-crt/exec.md",
+   "title": "行程與 DOS：單樞 spawn、誤碼表、碟號協定",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "三十二種 spawn／exec 變體怎麼收斂到同一個 CreateProcess",
+    "子行程的柄表怎麼從父行程過去（lpReserved2 封包端）",
+    "_P_OVERLAY 為什麼有時是變數有時是常數",
+    "Win32 誤碼怎麼映到 errno（_dosmaperr）",
+    "每碟工作目錄（=X:）是誰在養",
+    "_fullpath 的 .. 怎麼折疊、錯了回什麼"
+   ],
+   "symbols": [
+    "_dospawn",
+    "_cenvarg",
+    "_spawnve",
+    "_execve",
+    "comexecmd",
+    "_p_overlay",
+    "_cwait",
+    "_system",
+    "_loaddll",
+    "_dosmaperr",
+    "_fileinfo",
+    "_chdir",
+    "_getdcwd",
+    "_fullpath",
+    "_dtoxmode",
+    "_errno"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc2-crt/string",
+    "msvc2-crt/convert",
+    "msvc2-crt/stdio"
+   ]
+  },
+  {
    "id": "msvc2-crt/heap",
    "path": "docs/50-msvc2-crt/heap.md",
    "title": "堆：描述子鏈加 region",

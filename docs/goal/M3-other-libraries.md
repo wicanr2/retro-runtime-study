@@ -225,6 +225,28 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   _locking 10 試 9 等等，全修；
   無誤判。
 
+## 第十批（R69）：MSVC 2.0 exec＋dos 文章（#34）
+
+- 第六篇 2.0 文章：`docs/50-msvc2-crt/exec.md`、兩張 SVG。
+  無範例、無簽章（同 R64 理由）。
+- 內容：comexecmd 單樞加 EXECVE 雙建、
+  _cenvarg 計量封包搬 cwd、_dospawn 五模封 CFI、
+  l 版捷徑與捕獲、副檔名探測與 PATH 五規、
+  system 三段、cwait 柄作 pid、loaddll 三件、
+  _fileinfo 化石、_dosmaperr 45 表死項、
+  errno 雙制、=X: 三端、fullpath 歸一、
+  _dtoxmode、execvpe 三異。
+- 審查抓出 4＋7＋30 餘條：三十二重算、
+  execvpe 改寫、45 表統一、argbuf 棧配、
+  寬版封頂折半、65535 降假說、
+  推論三處標級、UNC 首二字、
+  名徑非 NULL、CENVARG:117 等，全修；
+  兩審查皆誤判 SVG 缺件
+  （路徑錯，檔實存；但正文漏掛圖為真，
+  連 stdio 篇一併補掛）。
+- 附帶：stdio 篇補兩圖嵌入
+  （R68 漏掛，本輪補上）。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

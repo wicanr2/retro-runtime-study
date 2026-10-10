@@ -487,6 +487,8 @@ console 為何另開柄：
 寬版與 `v` 版同式
 （`SNWPRINT／VSNPRINT／VSNWPRNT`）。
 
+<p align="center"><img src="../../img/msvc2-output-fsa.svg" width="640" alt="_output 三建一機：查表八態，輸出原語抽換"></p>
+
 ### 收尾鏈：_cflush 與 XPX
 
 `_cflush` 是假變數：
@@ -750,6 +752,8 @@ CREATE_NEW`，
 檔頭寫 10 次、行內寫 9 次，
 各算各的（試次 vs 等次），
 以迴圈計為準。
+
+<p align="center"><img src="../../img/msvc2-stdio-layers.svg" width="640" alt="兩張表、三層結構：FILE 流進 fd 雙表出 Win32 柄"></p>
 
 ### console：另開柄、掃描碼查表
 
