@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="340" viewBox="0 0 700 340">
+  <rect width="700" height="340" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .rsv { fill: #f3f3f3; stroke: #999; stroke-width: 1; }
+    .cmt { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    line { stroke: #999; stroke-width: 1; }
+  </style>
+
+  <text x="30" y="30" class="title">region：保留是窗（不吃記憶體），commit 才是肉</text>
+
+  <text x="30" y="58" class="small">region 表（最多 64 項）：</text>
+  <rect x="30" y="68" width="200" height="72" rx="6" class="box"/>
+  <text x="130" y="90" text-anchor="middle" class="label mono">region 0</text>
+  <text x="130" y="108" text-anchor="middle" class="tiny">基址／已提交／已保留</text>
+  <text x="130" y="124" text-anchor="middle" class="tiny">先找它 commit</text>
+  <rect x="250" y="68" width="200" height="72" rx="6" class="box"/>
+  <text x="350" y="90" text-anchor="middle" class="label mono">region 1</text>
+  <text x="350" y="108" text-anchor="middle" class="tiny">基址／已提交／已保留</text>
+  <text x="350" y="124" text-anchor="middle" class="tiny">不夠再找它…</text>
+  <rect x="470" y="68" width="200" height="72" rx="6" class="box"/>
+  <text x="570" y="90" text-anchor="middle" class="label mono">… 空位開新窗</text>
+  <text x="570" y="108" text-anchor="middle" class="tiny">表滿＝配不出</text>
+  <text x="570" y="124" text-anchor="middle" class="tiny">MEM_RESERVE 佔窗</text>
+
+  <text x="30" y="168" class="small">一個 region 內部：</text>
+  <rect x="30" y="178" width="300" height="56" rx="6" class="cmt"/>
+  <text x="180" y="200" text-anchor="middle" class="label">已提交（堆可用）</text>
+  <text x="180" y="218" text-anchor="middle" class="tiny">描述子鏈管的就是這段</text>
+  <rect x="330" y="178" width="340" height="56" rx="6" class="rsv"/>
+  <text x="500" y="200" text-anchor="middle" class="label">已保留未提交（窗）</text>
+  <text x="500" y="218" text-anchor="middle" class="tiny">成長時 commit，_heapmin 從尾還</text>
+
+  <text x="30" y="262" class="small">窗大小倍增：小窗 16K→32K→…→256K 頂／大窗 1M→2M→4M→…→16M 頂（請求更大就按請求開）。</text>
+  <text x="30" y="282" class="small">大小檔選擇：_osver 高位元＋主版 &lt; 4（Win32s／Phar Lap）才用小檔，否則大檔。</text>
+  <text x="30" y="302" class="small">還頁：_heapmin 全併後逐 region 從尾 decommit；_heap_term 全釋（指標全失效）。</text>
+</svg>

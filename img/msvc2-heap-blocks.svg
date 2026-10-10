@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="342" viewBox="0 0 700 342">
+  <rect width="700" height="342" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .mem { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .free { fill: #edf7ee; stroke: #3d8b40; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    line { stroke: #999; stroke-width: 1; }
+  </style>
+
+  <text x="30" y="30" class="title">描述子鏈：8 位元組管一塊，塊頭 4 位元組回指</text>
+
+  <text x="30" y="46" class="small">描述子（住描述子頁，跟使用者記憶體分開）：</text>
+  <rect x="30" y="80" width="200" height="64" rx="6" class="box"/>
+  <text x="130" y="102" text-anchor="middle" class="label mono">next → 下一描述子</text>
+  <text x="130" y="122" text-anchor="middle" class="label mono">塊位址＋2 位狀態</text>
+  <text x="130" y="138" text-anchor="middle" class="tiny">0 使用中／1 閒／2 啞</text>
+
+  <rect x="250" y="80" width="200" height="64" rx="6" class="box"/>
+  <text x="350" y="102" text-anchor="middle" class="label mono">next → 下一描述子</text>
+  <text x="350" y="122" text-anchor="middle" class="label mono">塊位址＋2 位狀態</text>
+  <text x="350" y="138" text-anchor="middle" class="tiny">鏈序＝位址序（算式要求）</text>
+
+  <rect x="470" y="80" width="200" height="64" rx="6" class="box"/>
+  <text x="570" y="102" text-anchor="middle" class="label mono">… 尾哨兵</text>
+  <text x="570" y="122" text-anchor="middle" class="label">搜尋終點</text>
+  <line x1="230" y1="112" x2="250" y2="112"/>
+  <line x1="450" y1="112" x2="470" y2="112"/>
+
+  <text x="30" y="174" class="small">記憶體塊（位址連續）：</text>
+  <rect x="30" y="184" width="60" height="64" rx="6" class="mem"/>
+  <text x="60" y="208" text-anchor="middle" class="label mono">回指</text>
+  <text x="60" y="226" text-anchor="middle" class="tiny">4B</text>
+  <rect x="90" y="184" width="140" height="64" rx="6" class="mem"/>
+  <text x="160" y="208" text-anchor="middle" class="label">使用者區 A</text>
+  <text x="160" y="226" text-anchor="middle" class="tiny">指標＝塊頭＋4</text>
+  <rect x="230" y="184" width="60" height="64" rx="6" class="free"/>
+  <text x="260" y="208" text-anchor="middle" class="label mono">回指</text>
+  <text x="260" y="226" text-anchor="middle" class="tiny">4B</text>
+  <rect x="290" y="184" width="140" height="64" rx="6" class="free"/>
+  <text x="360" y="208" text-anchor="middle" class="label">閒塊 B</text>
+  <text x="360" y="226" text-anchor="middle" class="tiny">搜尋可拿</text>
+  <rect x="430" y="184" width="240" height="64" rx="6" class="mem"/>
+  <text x="550" y="208" text-anchor="middle" class="label">… 下一塊</text>
+  <text x="550" y="226" text-anchor="middle" class="tiny">塊大小＝下塊位址－本塊位址－4</text>
+
+  <line x1="60" y1="184" x2="60" y2="144" stroke-dasharray="4,3"/>
+  <line x1="260" y1="184" x2="260" y2="144" stroke-dasharray="4,3"/>
+
+  <line x1="130" y1="66" x2="130" y2="79"/>
+  <text x="130" y="63" text-anchor="middle" class="small mono">▼ rover（下次搜尋起點）</text>
+  <text x="30" y="274" class="small">rover：配出後指到下一塊，free 大洞可拉回；搜尋從它開始環一圈。</text>
+  <text x="30" y="294" class="small">free 驗證：讀 ptr－4 的回指 → 描述子塊位址＋4 必須等於 ptr，否則 abort。</text>
+  <text x="30" y="314" class="small">空描述子池：合併拆下的丟回來；池空先長頁，長不出才不切。</text>
+</svg>

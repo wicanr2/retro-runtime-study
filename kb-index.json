@@ -829,6 +829,44 @@
    ]
   },
   {
+   "id": "msvc2-crt/heap",
+   "path": "docs/50-msvc2-crt/heap.md",
+   "title": "堆：描述子鏈加 region",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "malloc 在 Win32 底下到底向誰要記憶體（不是 brk 也不是段）",
+    "為什麼 free 非法指標會整批 abort 而不是悄悄壞掉",
+    "realloc 什麼時候原地長大、什麼時候搬家",
+    "calloc 的乘法溢出在這版有沒有檢查",
+    "new handler（_set_new_handler）的重試迴圈長什麼樣"
+   ],
+   "symbols": [
+    "_nh_malloc",
+    "_malloc_lk",
+    "_heap_search",
+    "_heap_grow",
+    "_heap_split_block",
+    "_heap_expand_block",
+    "_heap_abort",
+    "_HEAP_MAXREQ",
+    "_heap_regions",
+    "rover",
+    "_pnhHeap"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc-crt/library-combination",
+    "borland-crtl/heap"
+   ]
+  },
+  {
    "id": "msvc2-crt/startup",
    "path": "docs/50-msvc2-crt/startup.md",
    "title": "啟動碼：四種進入點、一份源",

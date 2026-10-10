@@ -53,6 +53,8 @@
 | 方向旗標（`DF`） | 控制字串指令掃描方向的旗標：0 往前掃。Borland `strlen` 開頭下 `cld`；MSVC 版全程不碰它 |
 | 進入點（`mainCRTStartup` 等） | Win32 PE 檔頭寫的起始位址，不是 `main`；VC++ 2.0 CRT 一源四編：`main／wmain／WinMain／wWinMain` 各一種 |
 | `.CRT$XI／XC／XP／XT` | MSVC 初始化／終止函式表段：`XI／XC` 啟動跑、`XP／XT` 退出跑，頭尾哨兵段各放一個 `NULL`（COFF 會丟空段） |
+| rover（堆搜尋起點） | MSVC 堆下次搜尋的起始描述子；配出後指到下一塊，搜尋從它開始環一圈（首適） |
+| region（堆位址窗） | CRT 向 `VirtualAlloc` 保留的位址窗；保留不吃記憶體，commit 才可用，大小倍增（64 個上限） |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |
