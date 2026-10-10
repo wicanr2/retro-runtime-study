@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="420" viewBox="0 0 700 420">
+  <rect width="700" height="420" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#ah); }
+    .side { stroke: #999; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#ah); }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">兩張表、三層結構：FILE 流 → fd 雙表 → Win32 柄</text>
+
+  <rect x="30" y="50" width="420" height="110" rx="6" class="box"/>
+  <text x="240" y="72" text-anchor="middle" class="label">上層 FILE：_iob[_NSTREAM_]（單緒 20／MT 40）</text>
+  <text x="240" y="92" text-anchor="middle" class="small mono">[0] stdin 自帶 _bufin 4096（YOURBUF）</text>
+  <text x="240" y="110" text-anchor="middle" class="small mono">[1][2] stdout／stderr 無緩衝（寫向 WRT）</text>
+  <text x="240" y="128" text-anchor="middle" class="small">_getstream 掃首閒、保持鎖定返回</text>
+  <text x="240" y="146" text-anchor="middle" class="tiny">緩衝四態：MYBUF／YOURBUF／NBF／FLRTN（臨借）</text>
+
+  <rect x="30" y="180" width="420" height="110" rx="6" class="hot"/>
+  <text x="240" y="202" text-anchor="middle" class="label">下層 fd：_osfile[] 旗 ＋ _osfhnd[] 柄（64／256）</text>
+  <text x="240" y="222" text-anchor="middle" class="small mono">七旗：FOPEN／FEOFLAG／FCRLF／FPIPE／FAPPEND／FDEV／FTEXT</text>
+  <text x="240" y="240" text-anchor="middle" class="small">_alloc_osfhnd 同手法：掃首閉、保持鎖定返回</text>
+  <text x="240" y="258" text-anchor="middle" class="small mono">文字翻譯在這層：_read 壓 CRLF→LF，_write 展 LF→CRLF</text>
+  <text x="240" y="276" text-anchor="middle" class="tiny">_pipech[] 單字前瞻（初值 10 表空）；0/1/2 同步 SetStdHandle</text>
+
+  <rect x="30" y="310" width="420" height="40" rx="6" class="box"/>
+  <text x="240" y="334" text-anchor="middle" class="label mono">Win32 HANDLE：ReadFile／WriteFile／CreateFile</text>
+
+  <line x1="240" y1="160" x2="240" y2="178" class="arrow"/>
+  <line x1="240" y1="290" x2="240" y2="308" class="arrow"/>
+
+  <rect x="480" y="50" width="190" height="110" rx="6" class="box"/>
+  <text x="575" y="72" text-anchor="middle" class="label">console 直通</text>
+  <text x="575" y="92" text-anchor="middle" class="small mono">CONIN$／CONOUT$</text>
+  <text x="575" y="110" text-anchor="middle" class="small">XIC 開、XPX 關</text>
+  <text x="575" y="128" text-anchor="middle" class="small">不吃標準柄改向</text>
+  <text x="575" y="146" text-anchor="middle" class="tiny">_getch 掃描碼查鍵表</text>
+
+  <rect x="480" y="180" width="190" height="110" rx="6" class="box"/>
+  <text x="575" y="202" text-anchor="middle" class="label">繼承協定</text>
+  <text x="575" y="222" text-anchor="middle" class="small mono">lpReserved2：</text>
+  <text x="575" y="240" text-anchor="middle" class="small mono">[N][N 旗][N 柄]</text>
+  <text x="575" y="258" text-anchor="middle" class="small">_ioinit 截斷拷入</text>
+  <text x="575" y="276" text-anchor="middle" class="tiny">0/1/2 起步一律 FTEXT</text>
+
+  <text x="30" y="378" class="small">註：_pipe(textmode=0) 永遠 FTEXT——(textmode &amp; _O_TEXT == 0) 因 == 先於 &amp; 恆假，_fmode 後援是死子句。</text>
+  <text x="30" y="400" class="tiny">註：_dup2 同號閉位回 -1 不置 errno（POSIX 一致性）；INVALID_HANDLE_VALUE 數值上等於當今行程柄，須自驗開位。</text>
+</svg>

@@ -950,6 +950,55 @@
    ]
   },
   {
+   "id": "msvc2-crt/stdio",
+   "path": "docs/50-msvc2-crt/stdio.md",
+   "title": "輸入輸出：兩張表、三建引擎、文字翻譯層",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "FILE 與 fd 之間隔了幾層（_iob、_osfile/_osfhnd）",
+    "printf 的格式字串用什麼解析（查表狀態機）",
+    "scanf 的 %[] 怎麼比對（256 位元點陣）",
+    "文字模式的 CRLF 轉換在哪一層做",
+    "popen 怎麼把子行程接上管線",
+    "_pipe 的 textmode 預設吃誰"
+   ],
+   "symbols": [
+    "_iob",
+    "_getstream",
+    "_filbuf",
+    "_flsbuf",
+    "_output",
+    "_input",
+    "_openfile",
+    "_popen",
+    "_osfile",
+    "_osfhnd",
+    "_alloc_osfhnd",
+    "_ioinit",
+    "_pipech",
+    "_pipe",
+    "_dup2",
+    "_cflush",
+    "__endstdio",
+    "_getch",
+    "_fstat",
+    "_mktemp"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc2-crt/string",
+    "msvc2-crt/convert"
+   ]
+  },
+  {
    "id": "msvc2-crt/string",
    "path": "docs/50-msvc2-crt/string.md",
    "title": "字串：對齊、位圖、locale 三條線",

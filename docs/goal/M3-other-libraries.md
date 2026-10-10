@@ -207,6 +207,24 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   conv.lib 改 _fltused、ULONG 正名、Alpha 4 行、
   STRFLT 四欄等，全修。
 
+## 第九批（R68）：MSVC 2.0 stdio＋lowio 文章（#33）
+
+- 第五篇 2.0 文章：`docs/50-msvc2-crt/stdio.md`、兩張 SVG。
+  無範例、無簽章（同 R64 理由）。
+- 內容：_iob 流表加鎖定返回、緩衝四態加臨時借、
+  _openfile 靜默截斷、_output 查表八態三建、
+  _input 點陣掃描集、_popen 換柄藏管、
+  雙表繼承協定、_read 前瞻五案、
+  _pipe 死子句、console 掃描碼鍵表、
+  _fstat／_mktemp／ungetc／close／setmode。
+- 審查抓出 8＋12＋30 條：WOUTPUT 31 行、
+  _filbuf 尾段恢復、L 恆表 I64、
+  _cldcvt 兩版皆無、_pclose 先關後等、
+  _getwch 零命中、CREATE_NEW 第五式、
+  T／D 可並存、setvbuf 三項重列、
+  _locking 10 試 9 等等，全修；
+  無誤判。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），
