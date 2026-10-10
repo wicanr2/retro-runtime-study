@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="360" viewBox="0 0 700 360">
+  <rect width="700" height="360" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    line { stroke: #999; stroke-width: 1; }
+  </style>
+
+  <text x="30" y="30" class="title">strlen 三級對齊：湊到 dword 邊界，一次判 4 個位元組</text>
+
+  <rect x="30" y="50" width="200" height="72" rx="6" class="box"/>
+  <text x="130" y="72" text-anchor="middle" class="label">第 1 級：奇位址？</text>
+  <text x="130" y="90" text-anchor="middle" class="small mono">test edx,1 → 比 1 位元組</text>
+  <text x="130" y="106" text-anchor="middle" class="tiny">空就停（長度 0）</text>
+
+  <rect x="250" y="50" width="200" height="72" rx="6" class="box"/>
+  <text x="350" y="72" text-anchor="middle" class="label">第 2 級：半字？</text>
+  <text x="350" y="90" text-anchor="middle" class="small mono">test edx,2 → 比 1 字組</text>
+  <text x="350" y="106" text-anchor="middle" class="tiny">逐位元組比（兩次）</text>
+
+  <rect x="470" y="50" width="200" height="72" rx="6" class="hot"/>
+  <text x="570" y="72" text-anchor="middle" class="label">第 3 級：dword 迴圈</text>
+  <text x="570" y="90" text-anchor="middle" class="small mono">mov eax,[edx] 四判空</text>
+  <text x="570" y="106" text-anchor="middle" class="tiny">見下</text>
+
+  <line x1="230" y1="86" x2="250" y2="86"/>
+  <line x1="450" y1="86" x2="470" y2="86"/>
+
+  <text x="30" y="152" class="small">dword 內四判空（找空就停，結尾指標減起始＝長度）：</text>
+
+  <rect x="30" y="162" width="150" height="60" rx="6" class="hot"/>
+  <text x="105" y="184" text-anchor="middle" class="label mono">or al,al</text>
+  <text x="105" y="202" text-anchor="middle" class="tiny">第 1 位元組空？停</text>
+  <rect x="190" y="162" width="150" height="60" rx="6" class="hot"/>
+  <text x="265" y="184" text-anchor="middle" class="label mono">or ah,ah</text>
+  <text x="265" y="202" text-anchor="middle" class="tiny">第 2 位元組空？＋1 停</text>
+  <rect x="350" y="162" width="150" height="60" rx="6" class="hot"/>
+  <text x="425" y="184" text-anchor="middle" class="label mono">test 00ff0000h</text>
+  <text x="425" y="202" text-anchor="middle" class="tiny">第 3 位元組空？＋2 停</text>
+  <rect x="510" y="162" width="160" height="60" rx="6" class="hot"/>
+  <text x="590" y="184" text-anchor="middle" class="label mono">＋4 再 test ff…</text>
+  <text x="590" y="202" text-anchor="middle" class="tiny">第 4 位元組空？－3 停</text>
+
+  <text x="30" y="250" class="small">第 4 判先加 4 才測：測到空要回補（sub edx,3）；沒空就下一輪（已在下一個 dword）。</text>
+  <text x="30" y="270" class="small">跟 1.0 版比：沒有 repne、沒有飽和分支、沒有 xchg 收尾——長度是減法算出來的。</text>
+  <text x="30" y="300" class="tiny">註：test ff000000h 測的是讀進來的舊值（加 4 只動指標，不動 eax）。</text>
+  <text x="30" y="326" class="tiny">對照：memset／memcpy 同一套「湊對齊＋dword 中段＋收尾」三段式。</text>
+</svg>

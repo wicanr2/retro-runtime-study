@@ -183,6 +183,18 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
 - 審查抓出算術錯（4G 減 12K 非 192K）、碼數錯、
   `_heapused` 語意錯等共 13 條，全修。
 
+## 第七批（R66）：MSVC 2.0 字串文章（#31）
+
+- 第三篇 2.0 文章：`docs/50-msvc2-crt/string.md`、兩張 SVG。
+  無範例；出貨 `.OBJ` 有但還沒對位元組（簽章留後）。
+- 內容：strlen 三級對齊、memcpy 一源雙建兩版都防、
+  位圖家族、locale 三骨架、wcstok 直掃、
+  lead-byte 對偶律、五碼頁、Alpha 差量。
+- 審查抓出 13＋8 條：檔數、map[0] 偽碼落差、
+  locale 三骨架拆分、strxfrm 敗碼、strlwr 順序、
+  ShortMove、mbsdec 起點、表三鎖、Alpha 釐清等，全修。
+  其中 LSOURCES 半條是審查誤判（diff 確有 3 行差）。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

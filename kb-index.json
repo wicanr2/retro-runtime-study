@@ -910,6 +910,50 @@
    ]
   },
   {
+   "id": "msvc2-crt/string",
+   "path": "docs/50-msvc2-crt/string.md",
+   "title": "字串：對齊、位圖、locale 三條線",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯看到按 4 對齊後一次讀一個 dword 找 0，想確認是不是 strlen",
+    "memcpy 與 memmove 在出貨碼裡長得一樣，想知道差在哪",
+    "strspn／strcspn／strpbrk 共用 32 位元組位圖的結構",
+    "strcoll 在 C locale 下是不是直接變成 strcmp",
+    "wcstok 與 strtok 用不同算法（位圖 vs 直掃）",
+    "多位元組字串倒退一個字（_mbsdec）的奇偶律"
+   ],
+   "symbols": [
+    "strlen",
+    "memcpy",
+    "memmove",
+    "memset",
+    "strspn",
+    "strcspn",
+    "strpbrk",
+    "strtok",
+    "wcstok",
+    "strcoll",
+    "CompareStringA",
+    "LCMapStringA",
+    "_mbsdec",
+    "_mbsinc",
+    "MBSCAT",
+    "_tcs"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc-crt/strlen-anatomy"
+   ]
+  },
+  {
    "id": "re-fingerprints/bcc20-codegen",
    "path": "docs/60-re-fingerprints/bcc20-codegen.md",
    "title": "BCC 2.0 產生的程式碼在反組譯裡長什麼樣",

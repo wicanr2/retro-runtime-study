@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="380" viewBox="0 0 700 380">
+  <rect width="700" height="380" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    line { stroke: #999; stroke-width: 1; }
+  </style>
+
+  <text x="30" y="30" class="title">memcpy 判向：重疊就倒拷（memcpy／memmove 同體）</text>
+
+  <rect x="150" y="50" width="400" height="64" rx="6" class="hot"/>
+  <text x="350" y="72" text-anchor="middle" class="label mono">dst ≤ src 或 dst ≥ src＋count？</text>
+  <text x="350" y="90" text-anchor="middle" class="small">是 → 正拷（CopyUp）／否 → 倒拷（CopyDown）</text>
+  <text x="350" y="106" text-anchor="middle" class="tiny">等號兩邊都含；判斷在開關外，兩版都有</text>
+
+  <line x1="250" y1="114" x2="250" y2="130"/>
+  <line x1="450" y1="114" x2="450" y2="130"/>
+
+  <rect x="30" y="130" width="315" height="130" rx="6" class="box"/>
+  <text x="187" y="152" text-anchor="middle" class="label">正拷 CopyUp</text>
+  <text x="187" y="172" text-anchor="middle" class="small mono">湊對齊 → rep movsd</text>
+  <text x="187" y="190" text-anchor="middle" class="small mono">→ 跳表收尾 0～3</text>
+  <text x="187" y="208" text-anchor="middle" class="tiny">Trail3＝mov ax＋mov al</text>
+  <text x="187" y="226" text-anchor="middle" class="tiny">短拷（≤12）另有快路</text>
+  <text x="187" y="244" text-anchor="middle" class="tiny">回目的端</text>
+
+  <rect x="355" y="130" width="315" height="130" rx="6" class="box"/>
+  <text x="512" y="152" text-anchor="middle" class="label">倒拷 CopyDown</text>
+  <text x="512" y="172" text-anchor="middle" class="small mono">std，指標指尾端後</text>
+  <text x="512" y="190" text-anchor="middle" class="small mono">→ rep movsd → 倒拷跳表</text>
+  <text x="512" y="208" text-anchor="middle" class="tiny">出口 cld 恢復方向旗標</text>
+  <text x="512" y="226" text-anchor="middle" class="tiny">只在真重疊時走到</text>
+  <text x="512" y="244" text-anchor="middle" class="tiny">回目的端</text>
+
+  <text x="30" y="288" class="small">一源雙建：MEMMOVE.ASM＝定義 MEM_MOVE＋include 同一份源，開關只切符號名。</text>
+  <text x="30" y="308" class="small">註解說 memcpy 重疊會爛，實作兩版都防——註解過時，行為以實碼為準。</text>
+  <text x="30" y="328" class="tiny">註：dst＝src 走正拷（自己拷自己，方向無所謂）。</text>
+  <text x="30" y="352" class="tiny">memset 同形（正拷三段），無倒拷（單緩衝無重疊問題）。</text>
+</svg>
