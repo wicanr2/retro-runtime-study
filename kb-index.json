@@ -869,6 +869,53 @@
    ]
   },
   {
+   "id": "msvc2-crt/eh",
+   "path": "docs/50-msvc2-crt/eh.md",
+   "title": "例外處理：NT 借殼、查表三重、鉤子三件",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "C++ throw 在 Win32 上怎麼落地（RaiseException 借殼）",
+    "catch 的型別比對在哪裡做（三重掃描加 TypeMatch）",
+    "throw; 重拋用什麼信號（空 ThrowInfo）",
+    "terminate／unexpected／inconsistency 三鉤的關係",
+    "陣列建構一半拋了誰來拆（__ehvec 前綴倒序解構）",
+    "EH 魔數 0x19930520 是什麼"
+   ],
+   "symbols": [
+    "_CxxThrowException",
+    "__CxxFrameHandler",
+    "FindHandler",
+    "CatchIt",
+    "CallCatchBlock",
+    "TypeMatch",
+    "BuildCatchObject",
+    "AdjustPointer",
+    "DestructExceptionObject",
+    "terminate",
+    "unexpected",
+    "_inconsistency",
+    "__ehvec_ctor",
+    "__ehvec_dtor",
+    "EH_EXCEPTION_NUMBER",
+    "PER_IS_MSVC_EH"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc2-crt/string",
+    "msvc2-crt/convert",
+    "msvc2-crt/stdio",
+    "msvc2-crt/exec"
+   ]
+  },
+  {
    "id": "msvc2-crt/exec",
    "path": "docs/50-msvc2-crt/exec.md",
    "title": "行程與 DOS：單樞 spawn、誤碼表、碟號協定",

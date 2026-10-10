@@ -63,6 +63,8 @@
 | 三建 | 同一份 `OUTPUT.C／INPUT.C` 編三遍（窄／寬／console），輸出原語抽換成巨集，狀態機本體不動 |
 | 單樞收斂 | 十六（單寬度）`spawn／exec` 變體剝四維後全進 `comexecmd`，寬窄共三十二入口 |
 | `=X:` 協定 | 每碟工作目錄自養：`_chdir` 寫、`_cenvarg` 搬、`_getdcwd` 讀 |
+| 借殼 | C++ 例外借 NT SEH 的殼（`RaiseException`＋frame handler），裝自己的型別查表機 |
+| 贓物制 | `pCurrentException` 存上次捕獲的例外供 `throw;` 續行，`CallCatchBlock` 進出棧 |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |

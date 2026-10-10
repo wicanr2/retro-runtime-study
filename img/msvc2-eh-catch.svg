@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="410" viewBox="0 0 700 410">
+  <rect width="700" height="410" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#fh); }
+  </style>
+  <defs>
+    <marker id="fh" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">建捕獲物五路與鉤子三件：驗敗內部錯、爆則 terminate</text>
+
+  <rect x="30" y="50" width="330" height="160" rx="6" class="box"/>
+  <text x="195" y="72" text-anchor="middle" class="label">BuildCatchObject 五路</text>
+  <text x="195" y="92" text-anchor="middle" class="small">省略號／無捕獲物：免建</text>
+  <text x="195" y="110" text-anchor="middle" class="small">引用：綁址＋調址</text>
+  <text x="195" y="128" text-anchor="middle" class="small">簡單型：memmove＋指標調址</text>
+  <text x="195" y="146" text-anchor="middle" class="small">UDT 無拷貝：調址後整塊拷</text>
+  <text x="195" y="164" text-anchor="middle" class="small">UDT 有拷貝：調之（虛基多傳 1）</text>
+  <text x="195" y="182" text-anchor="middle" class="tiny">讀寫皆驗執僅拷貝路、敗進 _inconsistency</text>
+  <text x="195" y="198" text-anchor="middle" class="tiny">建構中爆進 terminate</text>
+
+  <rect x="380" y="50" width="290" height="178" rx="6" class="hot"/>
+  <text x="525" y="72" text-anchor="middle" class="label">鉤子三件（永不返回）</text>
+  <text x="525" y="92" text-anchor="middle" class="small">terminate：調鉤吞異常→abort</text>
+  <text x="525" y="110" text-anchor="middle" class="small">unexpected：調鉤或轉 terminate</text>
+  <text x="525" y="128" text-anchor="middle" class="small">_inconsistency：同形終轉 terminate</text>
+  <text x="525" y="146" text-anchor="middle" class="small">set_* 驗可執行才裝、回舊鉤</text>
+  <text x="525" y="164" text-anchor="middle" class="tiny">多緒鉤存執行緒塊、內部錯恆全域</text>
+  <text x="525" y="182" text-anchor="middle" class="tiny">__pUnexpected 初值即 terminate</text>
+  <text x="525" y="198" text-anchor="middle" class="tiny">__pInconsistency 初值亦 terminate</text>
+  <text x="525" y="214" text-anchor="middle" class="tiny">_Validate＊＝IsBad＊ 包裝（讀寫執）</text>
+
+  <text x="30" y="238" class="small">AdjustPointer：mdisp 直加，pdisp≥0 雙重解參照加 vdisp（虛基間接）。</text>
+  <text x="30" y="258" class="small">解構拋兩命：允許放行、不允許（unwind 中）terminate；向量中爆 terminate、末重拋。</text>
+  <text x="30" y="278" class="small">TypeMatch：省略號恆中；同型＋三相容（MIPS／Alpha 四，Alpha 另有雜湊快查）。</text>
+  <text x="30" y="306" class="tiny">註：向量 CALLTYPE x86 用 __thiscall（編譯旗 -d1Binl）、他者 __stdcall；ctor_vb 建構多傳 (ptr,1)。</text>
+  <text x="30" y="332" class="tiny">註：Alpha 差量 FRAME 加段、THROW 舊檔頭加 drectve 匯出、EHVEC 去 thiscall、ALPHA/ 三檔、SPECIAL.MAK 反向。</text>
+  <text x="30" y="360" class="small">認法（強推論）：E06D7363 立即數、19930520 魔數、表鏈形狀、_CxxFrameHandler 符號、__ehvec_ 符號。</text>
+  <text x="30" y="382" text-anchor="start" class="tiny">認法續：.drectve -export 字串、init_seg(compiler) 段名。</text>
+</svg>

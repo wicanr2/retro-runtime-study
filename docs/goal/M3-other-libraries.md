@@ -247,6 +247,32 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
 - 附帶：stdio 篇補兩圖嵌入
   （R68 漏掛，本輪補上）。
 
+## 第十一批（R70）：MSVC 2.0 eh 文章（#35）
+
+- 第七篇 2.0 文章：`docs/50-msvc2-crt/eh.md`、兩張 SVG。
+  無範例、無簽章（同 R64 理由）。
+- 內容：借殼三件、總機三段、
+  FindHandler 三重掃描、外來兩段、
+  TypeMatch、CatchIt 五步、CallCatchBlock、
+  BuildCatchObject 五路、AdjustPointer、
+  解構兩命、鉤子三件、頂層 filter、
+  向量三件、MIPS 與 Alpha 差量。
+- 審查抓出 15＋8＋36 條：
+  本輪誤述最多，全因初稿多處憑記憶補腦：
+  檔數 10、不可續行、總機順序、
+  一 try 一捕、中層 TypeMatch、
+  遞迴解構無清贓、外來無 __except 分派、
+  CatchIt 五步、讀寫驗分級、
+  drectve 限 Alpha、_CRTIMP 真因、
+  unaligned 及 Alpha、x86/MIPS 同源、
+  四推論降級、參數贓刪、
+  摩斯碼、指標寬、CALLTYPE 主體、
+  SVG 對齊、靜態取址、標記回鏈、
+  Alpha 雜湊、末更新一次、
+  術語首現註等，全修；無誤判。
+  教訓：沒親讀的行不寫，
+  審查前先自查捏造點。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

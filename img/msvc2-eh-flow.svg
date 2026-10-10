@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="440" viewBox="0 0 700 440">
+  <rect width="700" height="440" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#eh); }
+  </style>
+  <defs>
+    <marker id="eh" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">借殼流程：throw 借 RaiseException，handler 查三重表</text>
+
+  <rect x="30" y="50" width="300" height="110" rx="6" class="box"/>
+  <text x="180" y="72" text-anchor="middle" class="label">_CxxThrowException</text>
+  <text x="180" y="92" text-anchor="middle" class="small mono">碼 'msc'|E0000000（0xE06D7363）</text>
+  <text x="180" y="110" text-anchor="middle" class="small">3 參數：魔數＋拋物＋拋訊</text>
+  <text x="180" y="128" text-anchor="middle" class="small mono">魔數 0x19930520（推測 1993-05-20）</text>
+  <text x="180" y="146" text-anchor="middle" class="tiny">調 RaiseException 拋給 OS</text>
+
+  <rect x="370" y="50" width="300" height="110" rx="6" class="hot"/>
+  <text x="520" y="72" text-anchor="middle" class="label">總機：unwind 先、前瞻後、查表</text>
+  <text x="520" y="92" text-anchor="middle" class="small">unwind 路：有可拆物全幀解構</text>
+  <text x="520" y="110" text-anchor="middle" class="small">例外魔數新：驗可執行轉交</text>
+  <text x="520" y="128" text-anchor="middle" class="small">非 unwind 路進 FindHandler</text>
+  <text x="520" y="146" text-anchor="middle" class="tiny">驗敗進 _inconsistency</text>
+
+  <line x1="330" y1="105" x2="368" y2="105" class="arrow"/>
+
+  <rect x="30" y="180" width="640" height="120" rx="6" class="box"/>
+  <text x="350" y="202" text-anchor="middle" class="label">FindHandler：重拋偵測＋三重掃描（一 try 一捕）</text>
+  <text x="350" y="222" text-anchor="middle" class="small">殼對訊空即 throw;：用贓 pCurrentException 續行，無贓退場</text>
+  <text x="350" y="242" text-anchor="middle" class="small mono">try 區間套當今態（限捕獲深度）→ catch 逐條 → 可轉型別逐個</text>
+  <text x="350" y="262" text-anchor="middle" class="small">TypeMatch 中即 CatchIt 並跳下一 try；幀內續掃、未捕善後</text>
+  <text x="350" y="282" text-anchor="middle" class="tiny">外來例外：轉譯器 → 末條省略號吞 → 遞迴未捕 terminate</text>
+
+  <line x1="520" y1="160" x2="520" y2="178" class="arrow"/>
+
+  <rect x="30" y="320" width="300" height="44" rx="6" class="box"/>
+  <text x="180" y="340" text-anchor="middle" class="label mono">CatchIt：建物→拆幀→置態→跳塊</text>
+  <text x="180" y="356" text-anchor="middle" class="tiny">局部 unwind；捕獲塊內重拋回</text>
+
+  <rect x="370" y="320" width="300" height="44" rx="6" class="box"/>
+  <text x="520" y="340" text-anchor="middle" class="label">CallCatchBlock：贓進出棧＋分流</text>
+  <text x="520" y="356" text-anchor="middle" class="tiny">重拋回空、新異常優先、非重拋出解構</text>
+
+  <line x1="270" y1="300" x2="220" y2="318" class="arrow"/>
+  <line x1="430" y1="300" x2="480" y2="318" class="arrow"/>
+  <line x1="332" y1="342" x2="368" y2="342" class="arrow"/>
+
+  <text x="30" y="392" class="small">認親三重：碼＋參數數＋魔數，缺一即外來；頂層 filter MSVC 族 terminate、外來鏈舊。</text>
+  <text x="30" y="412" class="tiny">註：裸函式 thunk（Ben Schreiber 1993-05-24）修參數調總機；MIPS 另有 unwind 快捷與跳轉另路。</text>
+</svg>
