@@ -273,6 +273,41 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   教訓：沒親讀的行不寫，
   審查前先自查捏造點。
 
+## 第十二批（R71）：MSVC 2.0 iostream 文章（#36）
+
+- 第八篇 2.0 文章：`docs/50-msvc2-crt/iostream.md`、兩張 SVG。
+  無範例、無簽章（同 R64 理由）。
+- 內容：三層塔、八指標、
+  pfx 四件、getint／getdouble、
+  sprintf 借道、writepad、
+  filebuf 翻譯、fstream、
+  strstreambuf 動靜雙模、
+  stdiobuf、四物哨兵、
+  換底、負值鎖。
+- 深讀員回報通道截斷
+  且後續輪掉寫檔工具，
+  改全文親讀
+  （45 CXX＋標頭全讀，
+  行號逐條 grep 取真號）。
+- 審查抓出 17＋10＋30 條：
+  行號漂移八處、
+  sputc／sbumpc、
+  前挪／後移、
+  尾字映射、
+  openprot 陳舊註解、
+  空讀不寫字、
+  棧緩衝、
+  指紋出處、
+  死碼、差一、雙重 ipfx、
+  對拷不對稱、cin 無配額、
+  術語表、算例等，
+  全修；無誤判。
+  教訓延續 R70：
+  「附近」行號一律實測，
+  註解裡的關鍵字
+  會騙過 grep 取號
+  （init_seg 一案）。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

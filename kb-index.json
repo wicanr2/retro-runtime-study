@@ -1000,6 +1000,56 @@
    ]
   },
   {
+   "id": "msvc2-crt/iostream",
+   "path": "docs/50-msvc2-crt/iostream.md",
+   "title": "串流：三層塔、格式借道、換底同步",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "ios、istream、streambuf 三層各管什麼",
+    "格式化輸出為什麼全走 sprintf 借道",
+    "整數輸入的 getint 狀態機與回吐",
+    "filebuf 的 open 模式翻譯與隱含 trunc",
+    "sync_with_stdio 如何給四物換底",
+    "cin、cout、cerr、clog 的靜態初始化"
+   ],
+   "symbols": [
+    "ios",
+    "istream",
+    "ostream",
+    "streambuf",
+    "filebuf",
+    "strstreambuf",
+    "stdiobuf",
+    "ipfx",
+    "isfx",
+    "opfx",
+    "osfx",
+    "getint",
+    "getdouble",
+    "writepad",
+    "sync_with_stdio",
+    "sunk_with_stdio",
+    "Iostream_init",
+    "xalloc",
+    "bitalloc"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc2-crt/string",
+    "msvc2-crt/convert",
+    "msvc2-crt/stdio",
+    "msvc2-crt/exec"
+   ]
+  },
+  {
    "id": "msvc2-crt/startup",
    "path": "docs/50-msvc2-crt/startup.md",
    "title": "啟動碼：四種進入點、一份源",

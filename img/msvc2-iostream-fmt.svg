@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="470" viewBox="0 0 700 470">
+  <rect width="700" height="470" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#ah); }
+    .side { stroke: #999; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#ah); }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">格式兩借道：輸出 sprintf＋writepad，輸入 get掃描＋strto</text>
+
+  <rect x="30" y="50" width="640" height="140" rx="6" class="box"/>
+  <text x="350" y="72" text-anchor="middle" class="label">輸出：現組格式 → sprintf → writepad（三墊）</text>
+  <text x="350" y="92" text-anchor="middle" class="small mono">整數：obuffer[12] ＋ fmt（%d 改 x／X／o）＋ leader（0x／0／+，零值不掛）</text>
+  <text x="350" y="112" text-anchor="middle" class="small mono">writepad：右墊fill → 寫leader → internal中墊 → 寫本體 → left尾墊</text>
+  <text x="350" y="132" text-anchor="middle" class="small mono">double：精度 min(x_precision,FLT/DBL_DIG) → "%#.6g"現組 → 尾改 f／eE／gG</text>
+  <text x="350" y="152" text-anchor="middle" class="small">float 行內掛 x_floatused 轉 double；long double 只是 %Lg 同式；char 無寬雙保險</text>
+  <text x="350" y="172" text-anchor="middle" class="tiny">六整數版同式複製（%hd 家改 fmt[2]）；void* 是 %p 配 leader "0x"（大寫改 "0X"）</text>
+
+  <rect x="30" y="210" width="640" height="140" rx="6" class="hot"/>
+  <text x="350" y="232" text-anchor="middle" class="label">輸入：狀態機掃字串 → strto 轉值 → 箝位</text>
+  <text x="350" y="252" text-anchor="middle" class="small mono">getint：旗定底（dec10／hex16／oct8／無0自動）→ 掃 15 字 → 無數字逐字回吐</text>
+  <text x="350" y="272" text-anchor="middle" class="small mono">strtol／strtoul(ibuf,NULL,底) → int／short 箝 MAX／MIN＋fail；long 信 errno</text>
+  <text x="350" y="292" text-anchor="middle" class="small mono">getdouble：符號／小數點／E 指數三旗 → 上限 20／28／32 → strtod</text>
+  <text x="350" y="312" text-anchor="middle" class="small">float 箝 FLT 界不設 fail；long double 只是 (long double)strtod；char&gt;&gt; 先吃空白</text>
+  <text x="350" y="332" text-anchor="middle" class="tiny">char*：lim = width-1（width 0 得 FFFFFFFF 無界）；E 後無數字回吐一位；小數點只認句點（UNDONE）</text>
+
+  <line x1="350" y1="190" x2="350" y2="208" class="side"/>
+
+  <text x="30" y="382" class="small">一家：getline／ignore 全是行內（上鎖、_fGline++、調 get、解鎖）；ignore(n,d) 即 get(NULL,n+1,d) 借路丟字。</text>
+  <text x="30" y="402" class="small">對拷：operator&gt;&gt;(streambuf*) 與 operator&lt;&lt;(streambuf*) 逐字 sbumpc→sputc，自註低效。</text>
+  <text x="30" y="422" class="tiny">filebuf::open：預設 O_CREAT、trunc 蘊含 out、純 out 隱含 trunc、share 預設 DENYNO、ate 落位敗則關回 NULL。</text>
+  <text x="30" y="442" class="tiny">filebuf::sync：寫整批刷（短寫回退前挪）、讀剩倒帶（文本 \n 多算）；strstream 增一、stdiobuf 半分 hack。</text>
+</svg>
