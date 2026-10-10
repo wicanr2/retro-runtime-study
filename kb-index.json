@@ -1186,6 +1186,58 @@
    ]
   },
   {
+   "id": "msvc2-crt/timemisc",
+   "path": "docs/50-msvc2-crt/timemisc.md",
+   "title": "時間雜項目錄：時區雙源、locale 六樞、訊號兩制",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "time() 為什麼調 GetLocalTime 而不是 GetSystemTime",
+    "localtime 的前後三日守衛與直接調 tm 結構",
+    "mktime 的 ChkAdd/ChkMul 溢位檢查與 tm_isdst 規則",
+    "TZ 解析與 _isindst 的美國 DST 算則",
+    "strftime 的 # 旗與 WinWord 重數格式",
+    "qsort 的中樞選擇與 shortsort 名實不符",
+    "環境變數的雙味延遲轉換",
+    "setlocale 的六類表與複合字串",
+    "signal 的行程四訊號與例外三訊號",
+    "_disable 體內是 sti 而註解稱 cli（無答案，待對拍）"
+   ],
+   "symbols": [
+    "__loctotime_t",
+    "_make_time_t",
+    "__tzset",
+    "_isindst",
+    "_expandtime",
+    "_store_winword",
+    "holdrand",
+    "shortsort",
+    "__crtsetenv",
+    "findenv",
+    "setlocale",
+    "__init_ctype",
+    "__get_qualified_locale",
+    "_XcptActTab",
+    "_timet_from_ft"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc2-crt/string",
+    "msvc2-crt/convert",
+    "msvc2-crt/stdio",
+    "msvc2-crt/exec",
+    "msvc2-crt/eh",
+    "msvc2-crt/iostream"
+   ]
+  },
+  {
    "id": "re-fingerprints/bcc20-codegen",
    "path": "docs/60-re-fingerprints/bcc20-codegen.md",
    "title": "BCC 2.0 產生的程式碼在反組譯裡長什麼樣",

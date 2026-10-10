@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="470" viewBox="0 0 700 470">
+  <rect width="700" height="470" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#ah); }
+    .side { stroke: #999; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#ah); }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">locale 六樞；訊號兩制；環境雙味；排序；DIRECT 雜件</text>
+
+  <rect x="30" y="50" width="420" height="120" rx="6" class="box"/>
+  <text x="240" y="72" text-anchor="middle" class="label">setlocale 六元表（ALL 樞＋五類）</text>
+  <text x="240" y="92" text-anchor="middle" class="small mono">複合串 LC_CTYPE=x;... 逐類設，全敗才 NULL</text>
+  <text x="240" y="110" text-anchor="middle" class="small">單類六步：分項鎖 → 展字串 → 配新串 → 存舊 → 換新 → 敗回滾</text>
+  <text x="240" y="128" text-anchor="middle" class="small mono">五 __init_* 向 NLS 現取現配（ctype 建 257 雙表）</text>
+  <text x="240" y="146" text-anchor="middle" class="tiny">-J 經 _charmax 拖啟動修正（127 改 255）；AW_* 動態選 A/W</text>
+  <text x="240" y="162" text-anchor="middle" class="tiny">OCPtoACP 七組碼頁；NLSDATA 三拆為粒度</text>
+
+  <rect x="30" y="190" width="420" height="100" rx="6" class="hot"/>
+  <text x="240" y="212" text-anchor="middle" class="label">訊號兩制（signal／raise）</text>
+  <text x="240" y="232" text-anchor="middle" class="small mono">行程四（INT/BREAK/ABRT/TERM）：靜態四變數，^C 延遲掛載</text>
+  <text x="240" y="250" text-anchor="middle" class="small mono">例外三（FPE/ILL/SEGV）：_XcptActTab 查表（整除零等註掉）</text>
+  <text x="240" y="268" text-anchor="middle" class="small">raise：IGN 回 0、DFL 一律 _exit(3)（自註 BUG）</text>
+  <text x="240" y="284" text-anchor="middle" class="tiny">FPE 重置全表＋帶 fpecode 次參（遷就舊處理器）</text>
+
+  <rect x="480" y="50" width="190" height="120" rx="6" class="box"/>
+  <text x="575" y="72" text-anchor="middle" class="label">環境雙味</text>
+  <text x="575" y="92" text-anchor="middle" class="small mono">窄/寬延遲整批轉</text>
+  <text x="575" y="110" text-anchor="middle" class="small">findenv 未中回負長</text>
+  <text x="575" y="128" text-anchor="middle" class="small">首 putenv 先拷整塊</text>
+  <text x="575" y="146" text-anchor="middle" class="tiny">末同步 SetEnvVar</text>
+  <text x="575" y="162" text-anchor="middle" class="tiny">searchenv 先試當目錄</text>
+
+  <rect x="480" y="190" width="190" height="100" rx="6" class="box"/>
+  <text x="575" y="212" text-anchor="middle" class="label">排序搜尋</text>
+  <text x="575" y="232" text-anchor="middle" class="small mono">qsort 中樞＋棧30</text>
+  <text x="575" y="250" text-anchor="middle" class="small">8元下轉選擇排序</text>
+  <text x="575" y="268" text-anchor="middle" class="small mono">bsearch 奇偶中點</text>
+  <text x="575" y="284" text-anchor="middle" class="tiny">rand LCG 取中15位</text>
+
+  <line x1="450" y1="110" x2="478" y2="110" class="side"/>
+  <line x1="450" y1="240" x2="478" y2="240" class="side"/>
+
+  <rect x="30" y="310" width="640" height="80" rx="6" class="box"/>
+  <text x="350" y="332" text-anchor="middle" class="label">DIRECT 剩餘雜件（mkdir 等在 DOS 目錄，見 exec 篇）</text>
+  <text x="350" y="352" text-anchor="middle" class="small mono">_getdrives 直轉；_getdiskfree 拒 UNC、碟號限 26；find 三映 errno，NORMAL 歸零</text>
+  <text x="350" y="372" text-anchor="middle" class="small mono">_sleep(0) 加一；_enable／_disable 體內全是 sti（後者與註解矛盾）</text>
+
+  <text x="30" y="414" class="small">註：div 防 Intel 860（錯了手動修正）；_onexit 表滿長 ONEXITTBLINCR；strerror 多緒配線程私有。</text>
+  <text x="30" y="434" class="tiny">註：_cfltcvt_tab 六格全指 _fptrap（_fltused 鏈入改指六實函）；makepath/splitpath 明示不診斷非法名。</text>
+  <text x="30" y="454" class="tiny">註：_wsetlocale 三段轉換（窄進窄做寬出）；assert 先 setvbuf(_IONBF) 省 malloc；abort 三重保險。</text>
+</svg>

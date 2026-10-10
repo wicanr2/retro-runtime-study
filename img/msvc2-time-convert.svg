@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="470" viewBox="0 0 700 470">
+  <rect width="700" height="470" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#ah); }
+    .side { stroke: #999; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#ah); }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">時間四式互轉與時區雙源（附 clock 計時、strftime 引擎）</text>
+
+  <rect x="30" y="50" width="300" height="120" rx="6" class="box"/>
+  <text x="180" y="72" text-anchor="middle" class="label">time_t（1970 起秒數）</text>
+  <text x="180" y="92" text-anchor="middle" class="small mono">time()：GetLocalTime 取本地</text>
+  <text x="180" y="110" text-anchor="middle" class="small">GetSystemTime 語義歧義不敢用</text>
+  <text x="180" y="128" text-anchor="middle" class="small mono">__loctotime_t：查表＋閏年＋時區</text>
+  <text x="180" y="146" text-anchor="middle" class="tiny">範圍 1970～2038，超界回 -1</text>
+  <text x="180" y="162" text-anchor="middle" class="tiny">clock()：兩次 _ftime 相減</text>
+
+  <rect x="370" y="50" width="300" height="120" rx="6" class="box"/>
+  <text x="520" y="72" text-anchor="middle" class="label">struct tm（拆解式）</text>
+  <text x="520" y="92" text-anchor="middle" class="small mono">gmtime：四年間隔剝年＋查表定月日</text>
+  <text x="520" y="110" text-anchor="middle" class="small">localtime：快捷減時區／首尾三日直調</text>
+  <text x="520" y="128" text-anchor="middle" class="small mono">mktime：ChkAdd/ChkMul＋正規化回寫</text>
+  <text x="520" y="146" text-anchor="middle" class="tiny">共用一靜態緩衝（多緒 malloc）</text>
+  <text x="520" y="162" text-anchor="middle" class="tiny">asctime 恆 26 字；ctime 套兩者</text>
+
+  <line x1="330" y1="100" x2="368" y2="100" class="arrow"/>
+  <line x1="368" y1="130" x2="330" y2="130" class="arrow"/>
+
+  <rect x="30" y="190" width="300" height="100" rx="6" class="hot"/>
+  <text x="180" y="212" text-anchor="middle" class="label">時區雙源（__tzset 單例）</text>
+  <text x="180" y="232" text-anchor="middle" class="small mono">有 TZ：名3字＋hh[:mm[:ss]]＋尾字DST</text>
+  <text x="180" y="250" text-anchor="middle" class="small">無 TZ：問系統，名清空，只認美制</text>
+  <text x="180" y="268" text-anchor="middle" class="small mono">_isindst：1967後美規，4/10月算週日</text>
+  <text x="180" y="284" text-anchor="middle" class="tiny">預設 PST／PDT（太平洋）</text>
+
+  <rect x="370" y="190" width="300" height="100" rx="6" class="hot"/>
+  <text x="520" y="212" text-anchor="middle" class="label">SYSTEMTIME／FILETIME</text>
+  <text x="520" y="232" text-anchor="middle" class="small mono">_ftime：GetLocalTime＋mktime 借判DST</text>
+  <text x="520" y="250" text-anchor="middle" class="small">_setsystime：正規化後 SetLocalTime</text>
+  <text x="520" y="268" text-anchor="middle" class="small mono">utime 反向落盤；find 消歧再轉 time_t</text>
+  <text x="520" y="284" text-anchor="middle" class="tiny">strdate／strtime 定址填 8 字</text>
+
+  <line x1="180" y1="170" x2="180" y2="188" class="side"/>
+  <line x1="520" y1="170" x2="520" y2="188" class="side"/>
+
+  <rect x="30" y="310" width="640" height="80" rx="6" class="box"/>
+  <text x="350" y="332" text-anchor="middle" class="label">strftime 雙格式引擎（left 計數，滿回 0）</text>
+  <text x="350" y="352" text-anchor="middle" class="small mono">% 規格：# 去零、c/x/X 投 WinWord、U/W 週號共段、Z 先 tzset、未知忽略</text>
+  <text x="350" y="372" text-anchor="middle" class="small mono">WinWord 重數：M/d/y/h/H/m/s 查表、am-pm 大小寫收、' 引字串</text>
+
+  <text x="30" y="414" class="small">註：mktime 三用途：轉換、補 wday/yday/isdst、正規化（1/35 進位 2/4）；tm_isdst 遵 ANSI（正強制、負信判）。</text>
+  <text x="30" y="434" class="tiny">註：wcsftime 三段（malloc 窄緩未驗空 → strftime → mbstowcs）；餘寬版全是 WPRFLAG 包窄版。</text>
+  <text x="30" y="454" class="tiny">註：Alpha 三目錄 C 源零差異；差只在 MISC 外來 OBJ 表與 DIRECT 缺 SPECIAL.MAK。</text>
+</svg>

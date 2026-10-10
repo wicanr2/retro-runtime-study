@@ -308,6 +308,44 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   會騙過 grep 取號
   （init_seg 一案）。
 
+## 第十三批（R72）：MSVC 2.0 time+misc+direct 文章（#37）
+
+- 第九篇 2.0 文章：`docs/50-msvc2-crt/timemisc.md`、兩張 SVG。
+  無範例、無簽章（同 R64 理由）。
+- 內容：時間四式互轉、
+  時區雙源、美制 DST、
+  asctime 定式、strftime
+  雙引擎、數值薄皮、
+  qsort、環境雙味、
+  路徑拼拆、錯誤字串、
+  locale 六樞、訊號兩制、
+  DIRECT 雜件、雙 sti。
+- 全文親讀
+  （TIME／MISC／DIRECT
+  加引用到的標頭與
+  `STRING/STRNICOL.C`），
+  行號逐條 grep 取真號
+  （仍漂移廿處，
+  審查全抓回）。
+- 審查抓出 7＋17＋26 條：
+  外來 OBJ 漏 longjmp、
+  getsystime 只取不設、
+  utime 反向走、
+  WPERROR 獨立實作、
+  257 表、BUG 註位置、
+  六步回滾、
+  行號廿處、
+  術語表、算例等，
+  全修；駁回 1 條
+  （SVG DIRECT 框
+  splitpath 誤判，
+  原圖無此字）。
+- Alpha：三目錄 C 源零差異；
+  建置差為 MISC 外來 OBJ
+  表、`MISC/ALPHA/`
+  （22 .S＋2 .HS）、
+  DIRECT 缺 SPECIAL.MAK。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），
