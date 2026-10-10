@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="470" viewBox="0 0 700 470">
+  <rect width="700" height="470" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#ah); }
+    .side { stroke: #999; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#ah); }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">Alpha 差量：50 檔分布與六類差因（cmp 逐檔）</text>
+
+  <rect x="30" y="50" width="320" height="140" rx="6" class="hot"/>
+  <text x="190" y="72" text-anchor="middle" class="label">差 50 檔</text>
+  <text x="190" y="92" text-anchor="middle" class="small mono">H 26 ＋ EXEC 9 ＋ EH 5</text>
+  <text x="190" y="110" text-anchor="middle" class="small mono">DLLSTUFF 3 ＋ STARTUP 3</text>
+  <text x="190" y="128" text-anchor="middle" class="small mono">STDIO 2 ＋ CONVERT 1 ＋ FP10 缺件</text>
+  <text x="190" y="146" text-anchor="middle" class="small">缺：FP10／HELPER／I386</text>
+  <text x="190" y="164" text-anchor="middle" class="small">增：ALPHA／MISC-ALPHA／SIZEPTR.H</text>
+  <text x="190" y="182" text-anchor="middle" class="tiny">DEF 679行匯出674（_CI* 缺席、缺一空格）</text>
+
+  <rect x="370" y="50" width="300" height="140" rx="6" class="box"/>
+  <text x="520" y="72" text-anchor="middle" class="label">同 9 目錄</text>
+  <text x="520" y="92" text-anchor="middle" class="small mono">DIRECT／DOS／HEAP</text>
+  <text x="520" y="110" text-anchor="middle" class="small mono">IOSTREAM／LOWIO／MBSTRING</text>
+  <text x="520" y="128" text-anchor="middle" class="small mono">MISC／STRING／TIME</text>
+  <text x="520" y="146" text-anchor="middle" class="small">另 LINKOPTS 除缺件外同</text>
+  <text x="520" y="164" text-anchor="middle" class="small">H/SYS 五件全同</text>
+  <text x="520" y="182" text-anchor="middle" class="tiny">先前八篇差量註記之總表</text>
+
+  <rect x="30" y="210" width="640" height="100" rx="6" class="box"/>
+  <text x="350" y="232" text-anchor="middle" class="label">六類差因</text>
+  <text x="350" y="252" text-anchor="middle" class="small mono">va_list 結構化（a0＋offset、home 區、__builtin）</text>
+  <text x="350" y="272" text-anchor="middle" class="small mono">x86 捷徑刪除（l 快路、CALLTYPE、optimize y、精度引入名）</text>
+  <text x="350" y="292" text-anchor="middle" class="small mono">MRX000 改名、Win32s 刪除、_CI* 架構差、語義差四處</text>
+
+  <rect x="30" y="330" width="640" height="60" rx="6" class="box"/>
+  <text x="350" y="352" text-anchor="middle" class="label">README 差六處（三味、ASAXP、dls 刪除、預發段、FP10、裝箱表）</text>
+  <text x="350" y="372" text-anchor="middle" class="small mono">同載：3MB 源、20MB 產物、OBJ/LIB 禁散、MSVC* 禁名、H 禁令</text>
+
+  <text x="30" y="414" class="small">註：_PAGESIZE_ 8K；_M_MRX000 是 MIPS 殘留；THROW 另有匯出 hack 語義差。</text>
+  <text x="30" y="434" class="tiny">註：TIDTABLE 有 TEMP 塊；mt 誤植 libc.libmt（兩版皆然）；mycrtxx 只在 MAKEFILE。</text>
+  <text x="30" y="454" class="tiny">註：MSVCRT10 是陳舊名（本版 20）；V2TOV3 是 MS C 2.0 移植宏；_disable 體內 sti 待對拍。</text>
+</svg>

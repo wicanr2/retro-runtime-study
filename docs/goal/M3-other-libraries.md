@@ -346,6 +346,49 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   （22 .S＋2 .HS）、
   DIRECT 缺 SPECIAL.MAK。
 
+## 第十四批（R73）：MSVC 2.0 alpha+build+h 文章（#38，2.0 完結）
+
+- 第十篇 2.0 文章：`docs/50-msvc2-crt/alphabuild.md`、兩張 SVG。
+  無範例、無簽章（同 R64 理由）。
+  2.0 十篇全覆蓋：
+  啟動、堆、字串、轉換、
+  stdio、行程、EH、串流、
+  時間雜項、本篇收尾。
+- 內容：連結開關六件、
+  DLLSTUFF 啟動樁、
+  helper 八件、I386 成品、
+  H 內外、建置四味、
+  Alpha 差量總表。
+- 全文親讀加實測
+  （`cmp／diff／ar／comm`
+  重算全部計數），
+  行號先自查一輪
+  （漂移廿餘處自修）。
+- 審查抓出 18＋6＋30 條：
+  STDARGV 有源、
+  DLL_ARGV 致能、
+  CRTEXEW 檔頭錯、
+  HELPER 9 OBJ、
+  段樁兩對、CONV 12 件、
+  Internal 18 件、
+  AWINT 無 USE_、
+  存取函式群、15 庫、
+  Part4 六七件、
+  README 六處、
+  向量檔、THROW、
+  _CI* 架構、增件、
+  DEF 口徑等，
+  全修；無誤判。
+- Alpha 差量定案：
+  50 檔差（`H` 26 為首）、
+  9 目錄共有檔同、
+  缺件三、增件五、
+  六類差因。
+  MIPS 殘留三處：
+  `_M_MRX000`、
+  MAKEFILE 死分支、
+  THROW 門控。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

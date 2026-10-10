@@ -829,6 +829,56 @@
    ]
   },
   {
+   "id": "msvc2-crt/alphabuild",
+   "path": "docs/50-msvc2-crt/alphabuild.md",
+   "title": "收尾：連結選項、啟動樁、Alpha 差量與四味建置",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "連結一個 OBJ 就能改全域行為的六個開關",
+    "EXE 與 DLL 的啟動樁如何分工",
+    "_onexit 在 EXE 與 DLL 為何走不同表",
+    "64 位元運算 helper 的命名與分工",
+    "I386 目錄的預編 OBJ 與四味差異",
+    "H 目錄為何不給用戶程式用",
+    "Alpha 版與 x86 版的 50 檔差量",
+    "四味函式庫的建置拓樸"
+   ],
+   "symbols": [
+    "_fmode",
+    "_commode",
+    "_newmode",
+    "_dowildcard",
+    "mainCRTStartup",
+    "_DllMainCRTStartup",
+    "__dllonexit",
+    "__alldiv",
+    "__allmul",
+    "_fltused",
+    "BLD_ASM",
+    "SAMPLE_DLL",
+    "_M_ALPHA",
+    "va_list"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc2-crt/string",
+    "msvc2-crt/convert",
+    "msvc2-crt/stdio",
+    "msvc2-crt/exec",
+    "msvc2-crt/eh",
+    "msvc2-crt/iostream",
+    "msvc2-crt/timemisc"
+   ]
+  },
+  {
    "id": "msvc2-crt/convert",
    "path": "docs/50-msvc2-crt/convert.md",
    "title": "轉換：整數雙引擎、浮點黑箱、字元雙生",

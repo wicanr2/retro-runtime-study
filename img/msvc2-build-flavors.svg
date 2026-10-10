@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="470" viewBox="0 0 700 470">
+  <rect width="700" height="470" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+    .arrow { stroke: #4b7bb5; stroke-width: 1.5; marker-end: url(#ah); }
+    .side { stroke: #999; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#ah); }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4b7bb5"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" class="title">四味建置：旗標鏈 ST → MT → DLL → DLS 與產物</text>
+
+  <rect x="30" y="50" width="150" height="120" rx="6" class="box"/>
+  <text x="105" y="72" text-anchor="middle" class="label">st 單緒</text>
+  <text x="105" y="92" text-anchor="middle" class="small mono">COMMON_DEFS</text>
+  <text x="105" y="110" text-anchor="middle" class="small mono">-Oxy -Gds -Zelp8</text>
+  <text x="105" y="128" text-anchor="middle" class="small">16 目錄庫</text>
+  <text x="105" y="146" text-anchor="middle" class="small mono">libc.lib</text>
+  <text x="105" y="162" text-anchor="middle" class="tiny">預編 51 件</text>
+
+  <rect x="200" y="50" width="150" height="120" rx="6" class="box"/>
+  <text x="275" y="72" text-anchor="middle" class="label">mt 多緒</text>
+  <text x="275" y="92" text-anchor="middle" class="small mono">＋ _MT MTHREAD</text>
+  <text x="275" y="110" text-anchor="middle" class="small">同 16 目錄庫</text>
+  <text x="275" y="128" text-anchor="middle" class="small mono">libcmt.lib</text>
+  <text x="275" y="146" text-anchor="middle" class="tiny">預編 51 件（同 st）</text>
+  <text x="275" y="162" text-anchor="middle" class="tiny">dll 倚 mt 先建</text>
+
+  <rect x="370" y="50" width="150" height="120" rx="6" class="hot"/>
+  <text x="445" y="72" text-anchor="middle" class="label">dll 動態</text>
+  <text x="445" y="92" text-anchor="middle" class="small mono">＋ CRTDLL</text>
+  <text x="445" y="110" text-anchor="middle" class="small">加 dllstuff 啟動樁</text>
+  <text x="445" y="128" text-anchor="middle" class="small mono">mycrtlxx.dll＋.lib</text>
+  <text x="445" y="146" text-anchor="middle" class="tiny">預編 53 件（＋2）</text>
+  <text x="445" y="162" text-anchor="middle" class="tiny">643 匯出（31 DATA）</text>
+
+  <rect x="540" y="50" width="130" height="120" rx="6" class="hot"/>
+  <text x="605" y="72" text-anchor="middle" class="label">dls Win32s</text>
+  <text x="605" y="92" text-anchor="middle" class="small mono">＋ DLL_FOR_WIN32S</text>
+  <text x="605" y="110" text-anchor="middle" class="small">限 i386</text>
+  <text x="605" y="128" text-anchor="middle" class="small mono">.dls＋.lis</text>
+  <text x="605" y="146" text-anchor="middle" class="tiny">預編 53 件</text>
+  <text x="605" y="162" text-anchor="middle" class="tiny">Alpha 無此味</text>
+
+  <line x1="180" y1="110" x2="198" y2="110" class="arrow"/>
+  <line x1="350" y1="110" x2="368" y2="110" class="arrow"/>
+  <line x1="520" y1="110" x2="538" y2="110" class="arrow"/>
+
+  <rect x="30" y="190" width="640" height="100" rx="6" class="box"/>
+  <text x="350" y="212" text-anchor="middle" class="label">連結開關六件（連結即生效，零程式碼）</text>
+  <text x="350" y="232" text-anchor="middle" class="small mono">_fmode／_commode／_newmode：一行全域初值覆寫預設</text>
+  <text x="350" y="252" text-anchor="middle" class="small mono">fp10：x87 設 64 位元精度（Alpha 無此檔）</text>
+  <text x="350" y="272" text-anchor="middle" class="small mono">setargv／wsetargv：轉調萬用展開（否則用啞版）</text>
+
+  <rect x="30" y="310" width="640" height="80" rx="6" class="box"/>
+  <text x="350" y="332" text-anchor="middle" class="label">啟動樁分工（DLLSTUFF）</text>
+  <text x="350" y="352" text-anchor="middle" class="small mono">crtexe 四入口 → _setargv → __getmainargs（傳 _dowildcard＋_newmode）</text>
+  <text x="350" y="372" text-anchor="middle" class="small mono">atonexit：EXE 轉調 DLL 版、DLL 走模組私有表（Win32s 自旋）</text>
+
+  <text x="30" y="414" class="small">註：靜態味源表 17 項（15 庫＋conv／tran）；DLL 味另加 chkstk／crtlib／thread 等啟動件。</text>
+  <text x="30" y="434" class="tiny">註：BLD_ASM=0 預設拷入成品（MASM 6.11a 才改 1）；TARGET_CPU 寫死；禁 MSVC* 開頭自建名。</text>
+  <text x="30" y="454" class="tiny">註：helper 八件（__all*／__aull*）；EMPTY.C 逼建置建目錄；H 標頭禁編用戶程式。</text>
+</svg>
