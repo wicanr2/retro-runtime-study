@@ -57,6 +57,8 @@
 | region（堆位址窗） | CRT 向 `VirtualAlloc` 保留的位址窗；保留不吃記憶體，commit 才可用，大小倍增（64 個上限） |
 | 跳表尾 | ASM 熱路徑按餘數查表跳四路收尾（`memcpy` 的 `TrailingVecs`），不用一串比較 |
 | lead-byte 對偶律 | 多位元組字串前進看當下是不是 lead（是跳 2）、倒退數 lead 連段奇偶（奇退 2、偶退 1） |
+| 箝制（clamp） | 超界取邊界值：`strtol` 溢出回 `LONG_MAX／LONG_MIN`、`strtoul` 回 `ULONG_MAX`，另設 `ERANGE` |
+| `_fltused` | 浮點模組連入標記；連了才由 `_cfltcvt_init` 把 `_cfltcvt_tab` 六格換上實函式，給 `printf／scanf` 格式化浮點用 |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |

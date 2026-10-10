@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="360" viewBox="0 0 700 360">
+  <rect width="700" height="360" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .dark { fill: #f3f3f3; stroke: #666; stroke-width: 1; stroke-dasharray: 6,4; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+  </style>
+
+  <text x="30" y="30" class="title">浮點黑箱邊界：CRT 做整形，引擎在外面</text>
+
+  <rect x="30" y="50" width="200" height="120" rx="6" class="box"/>
+  <text x="130" y="72" text-anchor="middle" class="label">輸入整形（在源碼）</text>
+  <text x="130" y="92" text-anchor="middle" class="small mono">strtod 前段</text>
+  <text x="130" y="110" text-anchor="middle" class="small mono">wcstod 轉窄</text>
+  <text x="130" y="128" text-anchor="middle" class="small">MT 供 caller 緩衝</text>
+  <text x="130" y="146" text-anchor="middle" class="tiny">atof 跳空白直調 _fltin</text>
+
+  <rect x="250" y="50" width="200" height="120" rx="6" class="dark"/>
+  <text x="350" y="72" text-anchor="middle" class="label">引擎（黑箱）</text>
+  <text x="350" y="92" text-anchor="middle" class="small mono">_fltin／_fltin2</text>
+  <text x="350" y="110" text-anchor="middle" class="small mono">_fltout／_fltout2</text>
+  <text x="350" y="128" text-anchor="middle" class="small">不在封存源碼內</text>
+  <text x="350" y="146" text-anchor="middle" class="tiny">捨入應在裡面（推測）</text>
+
+  <rect x="470" y="50" width="200" height="120" rx="6" class="box"/>
+  <text x="570" y="72" text-anchor="middle" class="label">輸出整形（在源碼）</text>
+  <text x="570" y="92" text-anchor="middle" class="small mono">_fptostr 捨入進位</text>
+  <text x="570" y="110" text-anchor="middle" class="small mono">_fpcvt 裁零補零</text>
+  <text x="570" y="128" text-anchor="middle" class="small">借位格＋decpt 進位</text>
+  <text x="570" y="146" text-anchor="middle" class="tiny">ecvt 截 CVTBUFSIZE</text>
+
+  <rect x="150" y="190" width="400" height="72" rx="6" class="hot"/>
+  <text x="350" y="212" text-anchor="middle" class="label mono">_cfltcvt_tab[6]：初值全 _fptrap</text>
+  <text x="350" y="230" text-anchor="middle" class="small">給 printf／scanf 格式化用，_fltused 連入才換實函式</text>
+  <text x="350" y="248" text-anchor="middle" class="tiny">沒連就死在 floating point not loaded</text>
+
+  <text x="30" y="290" class="small">9.99 取兩位的路：引擎給 "999"＋小數點位 → _fptostr 見下一位捨入 → 繞成 "100" → decpt＋1。</text>
+  <text x="30" y="310" class="small">Alpha 版 _fptostr 多 4 行：進位後縮短字串 1（原因沒寫，疑修尾零殘留）。</text>
+  <text x="30" y="330" class="tiny">註：ecvt／fcvt 用 _fpcvt；gcvt 走 _cftoe／_cftof＋自己去尾零。</text>
+</svg>

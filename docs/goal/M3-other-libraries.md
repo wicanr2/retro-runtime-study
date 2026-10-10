@@ -195,6 +195,18 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   ShortMove、mbsdec 起點、表三鎖、Alpha 釐清等，全修。
   其中 LSOURCES 半條是審查誤判（diff 確有 3 行差）。
 
+## 第八批（R67）：MSVC 2.0 轉換文章（#32）
+
+- 第四篇 2.0 文章：`docs/50-msvc2-crt/convert.md`、兩張 SVG。
+  無範例；`CONV.LIB／TRAN.LIB` 還沒拆，簽章留後。
+- 內容：xtoa 倒填反轉、strtoxl 四旗預檢、atoi 陽春、
+  浮點黑箱邊界、_fptostr 借位格、_cfltcvt_tab、
+  ctype 雙生、tolower 三層、mbtowc、STRTOQ 樁。
+- 審查抓出 6＋7＋12 條：atof 直調、_gcvt 不走 _fpcvt、
+  wcstod 洩漏、iswctype 正名、巨集 MB 分流、
+  conv.lib 改 _fltused、ULONG 正名、Alpha 4 行、
+  STRFLT 四欄等，全修。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

@@ -829,6 +829,46 @@
    ]
   },
   {
+   "id": "msvc2-crt/convert",
+   "path": "docs/50-msvc2-crt/convert.md",
+   "title": "轉換：整數雙引擎、浮點黑箱、字元雙生",
+   "libraries": [
+    "msvc-2.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "itoa 與 strtol 的實作長什麼樣（倒填反轉、溢出預檢）",
+    "atoi 與 atol 有沒有溢出檢查",
+    "浮點轉字串的正確捨入在哪一層做",
+    "isalpha 這類巨集為什麼還有函式本體",
+    "_isctype 的遮罩與作業系統怎麼對上",
+    "mbtowc 在多線程下鎖什麼"
+   ],
+   "symbols": [
+    "xtoa",
+    "strtoxl",
+    "_fltin",
+    "_fltout",
+    "_fptostr",
+    "_cfltcvt_tab",
+    "_fptrap",
+    "_isctype",
+    "isalpha",
+    "tolower",
+    "mbtowc",
+    "strtoq"
+   ],
+   "related": [
+    "msvc2-crt/startup",
+    "msvc2-crt/heap",
+    "msvc2-crt/string"
+   ]
+  },
+  {
    "id": "msvc2-crt/heap",
    "path": "docs/50-msvc2-crt/heap.md",
    "title": "堆：描述子鏈加 region",

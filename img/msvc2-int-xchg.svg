@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="360" viewBox="0 0 700 360">
+  <rect width="700" height="360" fill="#ffffff"/>
+  <style>
+    text { font-family: 'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; }
+    .box { fill: #eef4fb; stroke: #4b7bb5; stroke-width: 1; }
+    .hot { fill: #fff4ea; stroke: #d97706; stroke-width: 1; }
+    .label { font-size: 12px; }
+    .small { font-size: 11px; fill: #666; }
+    .tiny { font-size: 10px; fill: #666; }
+    .mono { font-family: ui-monospace,Consolas,monospace; }
+  </style>
+
+  <text x="30" y="30" class="title">整數雙引擎：去程倒填反轉，來程四旗預檢</text>
+
+  <rect x="30" y="50" width="320" height="150" rx="6" class="box"/>
+  <text x="190" y="72" text-anchor="middle" class="label">去程 xtoa（數→串）</text>
+  <text x="190" y="92" text-anchor="middle" class="small mono">10 進負數先寫 -、值取負</text>
+  <text x="190" y="110" text-anchor="middle" class="small mono">do-while：取餘填字、除法去位</text>
+  <text x="190" y="128" text-anchor="middle" class="small">（10 以上轉 a～z 小寫）</text>
+  <text x="190" y="146" text-anchor="middle" class="small mono">補 NUL，雙頭互換回來</text>
+  <text x="190" y="164" text-anchor="middle" class="tiny">值 0 輸出 "0"（do-while 保底）</text>
+  <text x="190" y="182" text-anchor="middle" class="tiny">_itoa／_ltoa／_ultoa 只是包裝</text>
+
+  <rect x="350" y="50" width="320" height="150" rx="6" class="hot"/>
+  <text x="510" y="72" text-anchor="middle" class="label">來程 strtoxl（串→數）</text>
+  <text x="510" y="92" text-anchor="middle" class="small mono">跳空白 → 吃正負號 → 猜進位</text>
+  <text x="510" y="110" text-anchor="middle" class="small mono">maxval 預檢，爆了只設旗不停掃</text>
+  <text x="510" y="128" text-anchor="middle" class="small">（endptr 照停最後一位後）</text>
+  <text x="510" y="146" text-anchor="middle" class="small mono">ERANGE＋箝三值，結尾取負</text>
+  <text x="510" y="164" text-anchor="middle" class="tiny">一位沒讀到：endptr 指回頭、回 0</text>
+  <text x="510" y="182" text-anchor="middle" class="tiny">strtoul("-1")＝ULONG_MAX（標準行為）</text>
+
+  <text x="30" y="228" class="small">atoi 陽春版：跳空白、正負號、乘 10 累加——無溢出檢查、無 endptr、不認前綴。</text>
+  <text x="30" y="248" class="small">寬版偷懶：_itow＝窄版 _itoa＋整串轉寬；wcstol 是同構寬引擎（wcstoxl）。</text>
+  <text x="30" y="268" class="small">進位 0 猜法：0x→16、0→8、否則 10；非法進位（＜0、1、＞36）回 0。</text>
+  <text x="30" y="296" class="tiny">註：xtoa 不驗進位（傳 1 或 37 就除出怪東西，呼叫端自負）。</text>
+  <text x="30" y="322" class="tiny">註：LONG_MIN 取負包覆成 2³¹，除法照做，輸出 "-2147483648" 正確。</text>
+</svg>
