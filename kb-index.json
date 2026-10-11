@@ -943,6 +943,8 @@
    "symbols": [
     "DMX_Init",
     "DMX_DeInit",
+    "TSM_Install",
+    "TSM_Remove",
     "MUS_RegisterSong",
     "MUS_ChainSong",
     "SFX_PlayPatch",
@@ -955,12 +957,58 @@
     "FMT_GSS_PATCH",
     "FMT_WAV_SAMPLE",
     "Midi2Mus",
+    "ServicePlayer",
     "ServiceFader",
     "TraceQue"
    ],
    "related": [
     "dmx/version-history",
     "dsmi/interface-split"
+   ]
+  },
+  {
+   "id": "dmx/devices-formats",
+   "path": "docs/30-dmx/devices-formats.md",
+   "title": "DMX 的裝置與格式：七驅動、出貨雙軌與混音六入口",
+   "libraries": [
+    "dmx"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "想知道 DMX 支援的七種卡各由哪支檔驅動、表裡填什麼",
+    "封存裡有多支同名驅動（fm3812／fmopl2、codec／clabs），想知道出貨用哪支",
+    "遊戲附 .dsp 取樣檔，想知道檔頭長什麼樣",
+    "看到 fmfix 補丁，想知道它到底修了什麼、能不能直接蓋掉 3.4a"
+   ],
+   "symbols": [
+    "FmMus",
+    "clWav",
+    "mvWav",
+    "Gf1Mus",
+    "Gf1Wav",
+    "MpuMus",
+    "AweMus",
+    "AL_Detect",
+    "FmBoardInstalled",
+    "SB_SetCard",
+    "dmxMix8bitStereo",
+    "dmx16to8bit",
+    "dmxClipSeperate",
+    "WAV_SAMPLE",
+    "GSS_PATCH",
+    "FMT_WAV_SAMPLE",
+    "DMXGUS",
+    "pawe32",
+    "wcc386p",
+    "DOS4GW"
+   ],
+   "related": [
+    "dmx/api-core",
+    "dmx/version-history"
    ]
   },
   {
