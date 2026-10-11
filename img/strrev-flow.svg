@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="380" viewBox="0 0 700 380" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect x="0" y="0" width="700" height="380" fill="#ffffff"/>
+<defs>
+<marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#334155"/>
+</marker>
+</defs>
+<g font-size="14" fill="#0f172a" text-anchor="middle">
+<text x="320" y="24">量長 → SI 指頭，DI 指尾（dec di 兩次）</text>
+<!-- cells -->
+<rect x="100" y="80" width="100" height="50" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="150" y="112">a</text>
+<rect x="200" y="80" width="100" height="50" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="250" y="112">b</text>
+<rect x="300" y="80" width="100" height="50" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="112">c</text>
+<rect x="400" y="80" width="100" height="50" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="450" y="112">d</text>
+<rect x="500" y="80" width="100" height="50" fill="#e2e8f0" stroke="#334155" stroke-width="1.5"/>
+<text x="550" y="112">NUL</text>
+<text x="550" y="148" font-size="11" fill="#475569">結束符不參與</text>
+<!-- swap arc -->
+<path d="M 150,70 Q 300,10 450,70" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="300" y="62" font-size="12">AH／AL 互換寫回</text>
+<!-- pointers -->
+<line x1="150" y1="180" x2="150" y2="136" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="150" y="198" font-size="12">SI（頭），每輪 SI++</text>
+<line x1="450" y1="180" x2="450" y2="136" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="450" y="198" font-size="12">DI（尾），每輪 DI--</text>
+<!-- meet -->
+<rect x="200" y="212" width="300" height="52" rx="8" fill="#fff7ed" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="233" font-size="13">每輪先比：cmp si,di</text>
+<text x="350" y="251" font-size="12" fill="#475569">jae 相遇即停（相遇或交叉）</text>
+<!-- empty guard -->
+<rect x="190" y="278" width="320" height="52" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="299" font-size="13">空串專防：cmp cx,-2</text>
+<text x="350" y="317" font-size="12" fill="#475569">CX＝-2 即長度零，直出</text>
+<text x="350" y="356" font-size="12" fill="#475569">回傳原址（mov ax,bx，BX 存頭）</text>
+</g>
+</svg>

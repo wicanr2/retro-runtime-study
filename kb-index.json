@@ -822,6 +822,39 @@
    ]
   },
   {
+   "id": "msvc-crt/strlwr-family",
+   "path": "docs/20-msvc-crt/strlwr-family.md",
+   "title": "strlwr 家族：就地改寫的五種手法",
+   "libraries": [
+    "msvc-1.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯 16 位元程式，看到迴圈裡 sub／cmp／jnb 接著寫回 [bx]，想確認是不是大小寫轉換",
+    "strlwr 与 strupr 在執行檔裡只差兩個位元組，想一次認出兩支",
+    "remake 要重做 strrev 的空串守衛与 strnset 的 count 語意",
+    "同源碼重建与出貨逐位元組全同的一批，想看零差異長什麼樣"
+   ],
+   "symbols": [
+    "__strlwr",
+    "__strupr",
+    "__strset",
+    "__strnset",
+    "__strrev",
+    "rep stosb",
+    "xchg"
+   ],
+   "related": [
+    "msvc-crt/strchr-family",
+    "msvc-crt/strcmp-family"
+   ]
+  },
+  {
    "id": "dmx/version-history",
    "path": "docs/30-dmx/version-history.md",
    "title": "DMX 的五份封存：版本號、建置設定與呼叫慣例是三件事",
