@@ -49,8 +49,27 @@
 | [從執行檔判斷 runtime 廠牌、版本與記憶體模型](docs/60-re-fingerprints/identify-vendor-and-model.md) | 壓縮檢查、TLINK 的檔頭標記、C0 進入點與字串、用簽章推記憶體模型與出貨版本、沒有簽章時從產生碼判斷 |
 | [BCC 2.0 的 C++ 產生碼指紋：mangling、vtable、靜態建構](docs/60-re-fingerprints/bcc20-cxx-codegen.md) | `@類別@名稱$q參數` 的 mangling 與型別碼表、`$bctr`/`$blsh` 等運算子碼、以類別命名的 vtable 虛擬段與近指標表、`call word ptr [bx+N]` 虛擬呼叫、`@_STCON_$qv` 與 `_INIT_` 優先序 32 |
 | [一套 CRT 原始碼怎麼變成三十幾個 .LIB](docs/20-msvc-crt/library-combination.md) | Visual C++ 1.0 的 16 位元 CRT：模型 × 浮點方式 × 環境三個維度、安裝時才合併的元件庫、模型無關的 `LIBH` 怎麼做到、與 Borland 的取捨對照（**沒有對拍**，限於建置檔所寫） |
+| [strlen 的兩種長相](docs/20-msvc-crt/strlen-anatomy.md) | 兩家 `strlen` 共用 `repne scasb` 倒數慣用法；差別在 far 飽和分支、NULL 檢查與 `DI` 保存位置；Microsoft 出貨位元組對拍 |
+| [strcpy 家族：複製、串接與它們的邊界](docs/20-msvc-crt/strcpy-family.md) | `strcpy／strcat` 兩遍式（量長再整塊搬、奇位址湊對齊）；`strncpy／strncat` 有界版與段偏移 0 的失控複製；原廠 ML 重編對拍 |
+| [strcmp 家族：三值比較與大小寫折疊](docs/20-msvc-crt/strcmp-family.md) | `strcmp` 量長加 `repe` 比、`stricmp` 快慢雙路；`strncmp` 重比末位元組、`strnicmp` 無 `repe` 迴圈；兩種作者手筆；原廠 ML 重編對拍 |
+| [strchr 家族：搜尋的三種算法與分詞狀態機](docs/20-msvc-crt/strchr-family.md) | 單字元兩遍式與方向旗借還、子串樸素雙層、集合組的 256 位元表、`strtok` 靜態狀態機；原廠 ML 重編對拍 |
+| [strlwr 家族：就地改寫的五種手法](docs/20-msvc-crt/strlwr-family.md) | 五支就地改寫：`BX` 游標、無號區間檢查、跳入式迴圈、`cEnd` 三式收尾；原廠 ML 重編對拍 |
+| [mem 家族：記憶體塊的複製、比較、搜尋與填寫](docs/20-msvc-crt/mem-family.md) | 一源多件（`MEM_MOVE` 開關、`hmemcpy` 三件）、重疊兩關判定、`memccpy` 尾式；原廠 ML 重編對拍 |
+| [locale 樁與未建的寬字串](docs/20-msvc-crt/locale-stubs.md) | C locale 下 `strcoll／strxfrm` 恆等樁、建置旗記載、`WCS` 未建三面夾擊；原廠 CL 重現 |
 | [DMX 的五份封存：版本號、建置設定與呼叫慣例是三件事](docs/30-dmx/version-history.md) | 五個目錄名不是五個版本：功能版本幾乎沒動，差異在建置檔位與參數傳遞方式；出貨的庫併了第三方 AWE32 支援，樹裡沒有那份原始碼；`fmfix` 同時改了 OPL3 偵測與 FM 搶聲；遊戲資料裡的 GENMIDI、DMXGUS、MUS 是這套庫的格式（**只讀原始碼**，版權標示機密與專有） |
+| [DMX 的 API 核心：四播放器、兩張表與一個軟體時鐘](docs/30-dmx/api-core.md) | 四播放器、兩張函式表、`HIWORD` 路由、MUS 雙槽鏈結淡變、內嵌 `Midi2Mus`、TSM 軟體時鐘（**只讀原始碼**，無簽章） |
+| [DMX 的裝置與格式：七驅動、出貨雙軌與混音六入口](docs/30-dmx/devices-formats.md) | 七驅動規格、出貨雙軌（`dmx.mif` 20 對備份 5）、FM 三段式、DMA 多頁環混音六入口、SFX 四格式、`fmfix` 雙向差（**只讀原始碼**，無簽章） |
 | [DSMI：一份組語核心，三種語言接得上](docs/40-dsmi/interface-split.md) | 核心是一份組語原始碼、用組譯期符號編出 C 版與 Pascal 版兩套目的碼；CDI 這張裝置表在架構中央，MCP、GUS、無聲各是一個裝置；封存裡哪些檔根本不是原始碼（**只讀原始碼**，授權禁止逆向該套件） |
+| [啟動碼：四種進入點、一份源](docs/50-msvc2-crt/startup.md) | 一份 `CRT0` 源、兩個開關編出四種進入點；`main` 只是七步的最後一步 |
+| [字串：對齊、位圖、locale 三條線](docs/50-msvc2-crt/string.md) | 窄字元組語熱路徑加 C locale、寬字元素 C、多位元組 73 檔；對齊、位圖、`locale` 三條線 |
+| [輸入輸出：兩張表、三建引擎、文字翻譯層](docs/50-msvc2-crt/stdio.md) | `STDIO` 管流、`LOWIO` 管 fd；兩張表、三建引擎、文字翻譯層 |
+| [轉換：整數雙引擎、浮點黑箱、字元雙生](docs/50-msvc2-crt/convert.md) | 整數 `xtoa` 雙頭反轉、浮點黑箱、字元分類大小寫雙生 |
+| [堆：描述子鏈加 region](docs/50-msvc2-crt/heap.md) | Win32 描述子鏈加 region 分配器：8 位元組描述子、`VirtualAlloc` 取頁 |
+| [行程與 DOS：單樞 spawn、誤碼表、碟號協定](docs/50-msvc2-crt/exec.md) | 三十二種 `spawn／exec` 收斂到 `SPAWNVE` 單樞紐；五種等待模式與假 overlay |
+| [例外處理：NT 借殼、查表三重、鉤子三件](docs/50-msvc2-crt/eh.md) | 借 NT SEH 的殼裝 C++ 型別查表；`'msc'` 例外碼標籤、三參數、x86／MIPS 同源 Alpha 另樹 |
+| [串流：三層塔、格式借道、換底同步](docs/50-msvc2-crt/iostream.md) | 三層塔（`ios` 狀態、中層格式化、底層三出口）、格式借道、換底同步 |
+| [時間雜項目錄：時區雙源、locale 六樞、訊號兩制](docs/50-msvc2-crt/timemisc.md) | 時間四式互轉、時區雙源、`locale` 六樞、訊號兩制；`_disable` 體內 `sti` 之謎 |
+| [收尾：連結選項、啟動樁、Alpha 差量與四味建置](docs/50-msvc2-crt/alphabuild.md) | 連結開關六件、啟動樁、Alpha 差量；四味建置收尾（2.0 完結） |
 | [Watcom C 6.5：1988 年就把參數放進暫存器](docs/80-watcom/watcom65-runtime.md) | 暫存器呼叫慣例與它在符號上的痕跡（尾端底線）、四組 far 指標 helper 為什麼存在、六個記憶體模型的位元旗標與巨集、啟動碼與 Borland C0 的逐項對照；`_r`／`_s` 命名一路延續到 DMX |
 | [Watcom C/386 7.0：編譯器賣你，作業系統得跟別人買](docs/80-watcom/watcom386-extenders.md) | 1989 年的 32 位元 DOS 程式怎麼分工：編譯器廠商只賣碼與函式庫，DOS extender 要另外買；連 PSP 都是 extender 約定的選擇器；兩種呼叫慣例的啟動碼差的幾乎只有符號名；16 位元那組指標 helper 到 32 位元全部消失 |
 | [DPMI 與 DOS/4GW：32 位元 DOS 程式不必再為每家 extender 編一次](docs/80-watcom/dos4gw-startup.md) | 音效卡中斷在保護模式下的三個難題（DMA 的 1 MB 限制、記憶體鎖定、兩種模式都要能接）與 DPMI 的解法；extender 從自己買到隨編譯器附的三個階段；stub 怎麼找到 `dos4gw.exe` 再把自己交出去，以及 9.01 的啟動碼怎麼在執行時認出自己跑在哪一家 extender 上 |
