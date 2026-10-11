@@ -678,6 +678,38 @@
    ]
   },
   {
+   "id": "msvc-crt/locale-stubs",
+   "path": "docs/20-msvc-crt/locale-stubs.md",
+   "title": "locale 樁与未建的寬字串",
+   "libraries": [
+    "msvc-1.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯看到 strcoll 直接調 strcmp，想確認 1.0 是否根本沒有 locale 排序",
+    "strxfrm 回傳值到底是搬了幾個還是來源多長",
+    "寬字串函式在 1.0 出貨庫裡找得到嗎",
+    "同一批 .C 檔用什麼編譯旗標編出逐位元組一致的成品"
+   ],
+   "symbols": [
+    "strcoll",
+    "strxfrm",
+    "wcscoll",
+    "wcsxfrm",
+    "/Gs",
+    "/Ot"
+   ],
+   "related": [
+    "msvc-crt/strcpy-family",
+    "msvc-crt/strcmp-family"
+   ]
+  },
+  {
    "id": "msvc-crt/mem-family",
    "path": "docs/20-msvc-crt/mem-family.md",
    "title": "mem 家族：記憶體塊的複製、比較、搜尋与填寫",
