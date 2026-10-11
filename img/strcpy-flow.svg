@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="470" viewBox="0 0 640 470" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect x="0" y="0" width="640" height="470" fill="#ffffff"/>
+<defs>
+<marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#334155"/>
+</marker>
+</defs>
+<g font-size="14" fill="#0f172a" text-anchor="middle">
+<!-- start -->
+<rect x="240" y="8" width="160" height="30" rx="15" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="28">開始：dst, src</text>
+<line x1="320" y1="38" x2="320" y2="52" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- measure -->
+<rect x="150" y="52" width="340" height="56" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="74">量長度：ES=DS，repne scasb</text>
+<text x="320" y="95" font-size="12" fill="#475569">CX 由 FFFFh 倒數，not＋dec 換算 len＋1</text>
+<line x1="320" y1="108" x2="320" y2="122" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- saturation diamond -->
+<path d="M320,122 L430,156 L320,190 L210,156 Z" fill="#fff7ed" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="151" font-size="13">far 且掃完無 NUL？</text>
+<text x="320" y="167" font-size="11" fill="#475569">CX=0</text>
+<text x="308" y="210" font-size="12" fill="#475569">否</text>
+<line x1="320" y1="190" x2="320" y2="212" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="448" y="151" font-size="12" fill="#475569">是</text>
+<line x1="430" y1="156" x2="470" y2="156" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="470" y="124" width="160" height="64" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="550" y="148" font-size="12">先搬一個字</text>
+<text x="550" y="166" font-size="12">計數扣回正常</text>
+<line x1="550" y1="188" x2="550" y2="212" stroke="#334155" stroke-width="1.5"/>
+<line x1="550" y1="212" x2="324" y2="212" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- align diamond -->
+<path d="M320,212 L430,246 L320,280 L210,246 Z" fill="#fff7ed" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="242" font-size="13">目的位址是奇數？</text>
+<text x="308" y="300" font-size="12" fill="#475569">否</text>
+<line x1="320" y1="280" x2="320" y2="302" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="448" y="241" font-size="12" fill="#475569">是</text>
+<line x1="430" y1="246" x2="470" y2="246" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="470" y="214" width="160" height="64" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="550" y="238" font-size="12">movsb 墊一字節</text>
+<text x="550" y="256" font-size="12">後面湊成偶數</text>
+<line x1="550" y1="278" x2="550" y2="330" stroke="#334155" stroke-width="1.5"/>
+<line x1="550" y1="330" x2="494" y2="330" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- move -->
+<rect x="150" y="302" width="340" height="56" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="324">整塊搬：shr，rep movsw</text>
+<text x="320" y="345" font-size="12" fill="#475569">掉出的位元由 adc 接住再 movsb</text>
+<line x1="320" y1="358" x2="320" y2="372" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- return -->
+<rect x="150" y="372" width="340" height="34" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="394">回傳 dst（AX，far 另帶 DX）</text>
+<line x1="320" y1="406" x2="320" y2="420" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="240" y="420" width="160" height="30" rx="15" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="440">結束</text>
+</g>
+</svg>

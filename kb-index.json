@@ -678,6 +678,44 @@
    ]
   },
   {
+   "id": "msvc-crt/strcpy-family",
+   "path": "docs/20-msvc-crt/strcpy-family.md",
+   "title": "strcpy 家族：複製、串接與它們的邊界",
+   "libraries": [
+    "msvc-1.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯 16 位元程式，看到 repne scasb 後面接著整塊搬移，想確認是哪個複製函式",
+    "同一個 strcpy 在 small 版與 large 版執行檔裡長度不一樣",
+    "remake 要重做 strncpy 不補 NUL、strncat 的 count 語意與 64K 飽和行為",
+    "連結時多重定義只發生在 strcpy／strcat 身上（不是你的問題）"
+   ],
+   "symbols": [
+    "strcpy",
+    "strncpy",
+    "strcat",
+    "strncat",
+    "_fstrcpy",
+    "_fstrncpy",
+    "_fstrcat",
+    "_fstrncat",
+    "repne scasb",
+    "rep movsw",
+    "STRCAT",
+    "STRNCAT"
+   ],
+   "related": [
+    "msvc-crt/strlen-anatomy",
+    "msvc-crt/library-combination"
+   ]
+  },
+  {
    "id": "msvc-crt/strlen-anatomy",
    "path": "docs/20-msvc-crt/strlen-anatomy.md",
    "title": "strlen 的兩種長相",
