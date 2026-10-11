@@ -389,6 +389,44 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   MAKEFILE 死分支、
   THROW 門控。
 
+## 第十五批（PUB1）：MSVC 1.0 strcpy-family 文章（#39，1.0 首篇對拍文）
+
+- `docs/20-msvc-crt/strcpy-family.md`、
+  流程圖一張、
+  `signatures/msvc-1.0-crt/strcpy-family.json`
+  （16 筆、各 27 bytes、无需遮罩、
+  出貨 `.LIB` 取出、
+  掃 `STRTA10.EXE` 四命中）。
+  無範例（行為探針在私有 `work/pub1-ncat0/`）。
+- 內容：兩遍式骨架
+  （量長→對齊→整塊搬）、
+  far 飽和分支
+  （僅 `strcpy／strcat`、
+  跳過對齊直達整塊搬）、
+  `strncat count=0`
+  條件式真 bug
+  （尾端偏移≡0 才發作、
+  `dec di` 改旗標才是源頭）、
+  開場 `8B D7 8B DE` 對
+  `55 8B EC 57 56` 兩派、
+  取參位移雙來源加 2。
+- 方法：`ML 6.11` 重編、
+  DOS 五組＋Windows 四組、
+  組組 `omfdiff` 7／7
+  （僅差 `COMENT A3`）、
+  DOSBox＋dosgolem
+  雙邊四格一致。
+- 雙審查 22＋12 條全修：
+  專家抓到 R118 舊錯
+  （`ZF` 來源誤植、
+  私有筆記同步更正）、
+  學生要的指令一句話、
+  術語定義、數字攤開、
+  範圍／方法欄全補。
+  補對照探針六案
+  （large 141022 步、
+  small 11932 步）。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），

@@ -74,6 +74,9 @@
 | 連結開關 | 六 OBJ 連結即覆寫全域初值（`_fmode／_commode／_newmode／_dowildcard`、x87 精度、萬用展開） |
 | 四味建置 | `st／mt／dll／dls` 旗標鏈疊加；`libc／libcmt／mycrtlxx.dll／.dls`；Alpha 三味無 Win32s |
 | Alpha 差量 | C 源差 50 檔（`H` 26 為首，`va_list` 結構化）；9 目錄共有檔同；`_M_MRX000` 是 MIPS 殘留 |
+| 兩遍式 | 1.0 `strcpy／strcat`：`repne` 量長→對齊→`rep movsw` 整塊搬；`shr／adc cx,cx／rep movsb` 收奇偶零頭 |
+| 飽和跳對齊 | 1.0 far 版 64K 無 NUL 先 `movsw` 一字、`CX` 扣回，`jmp move` 跳過對齊直達整塊搬（僅複製／串接兩支有） |
+| 尾端≡0 | 1.0 `strncat count=0` 真 bug 觸發條件：`dec di` 的 `ZF` 被 `jne` 誤讀，尾端偏移為零才複製 65535 |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |
