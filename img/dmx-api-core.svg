@@ -1,53 +1,85 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="700" height="460" viewBox="0 0 700 460" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
-<rect x="0" y="0" width="700" height="460" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="520" viewBox="0 0 700 520" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect x="0" y="0" width="700" height="520" fill="#ffffff"/>
 <defs>
 <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
 <path d="M0,0 L8,4 L0,8 Z" fill="#334155"/>
 </marker>
+<marker id="ard" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+</marker>
 </defs>
 <g font-size="13" fill="#0f172a" text-anchor="middle">
-<text x="350" y="24">DMX API：初始化配對 → 四播放器吃兩張表 → HIWORD 路由，TSM 管時間</text>
-<!-- init -->
-<rect x="60" y="40" width="580" height="66" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
-<text x="350" y="62" font-size="13">DMX_Init：DMXOPTION 環境 → 逐裝置 Init() → 配對 MUS／GSS／WAV → 回 HardWare</text>
-<text x="350" y="84" font-size="11" fill="#475569">GUS → MV → AWE32 → SB → MPU → AdLib → PCSPK（fMus／fSfx／fWav 三旗防重配）</text>
-<!-- players -->
-<rect x="60" y="126" width="128" height="60" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
-<text x="124" y="149" font-size="12">MUS_ 歌曲</text>
-<text x="124" y="168" font-size="11" fill="#475569">註冊・播・鏈結</text>
-<rect x="198" y="126" width="128" height="60" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
-<text x="262" y="149" font-size="12">GSS_ 音色</text>
-<text x="262" y="168" font-size="11" fill="#475569">借 MUS 表</text>
-<rect x="336" y="126" width="128" height="60" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
-<text x="400" y="149" font-size="12">WAV_ 取樣</text>
-<text x="400" y="168" font-size="11" fill="#475569">PlayMode・播</text>
-<rect x="474" y="126" width="106" height="60" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,3"/>
-<text x="527" y="149" font-size="12">PCS_ 喇叭</text>
-<text x="527" y="168" font-size="11" fill="#475569">直調，无表</text>
-<path d="M 350,106 L 350,122" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
-<!-- tables -->
-<rect x="120" y="216" width="200" height="60" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
-<text x="220" y="239" font-size="12">DMX_MUS 表</text>
-<text x="220" y="258" font-size="11" fill="#475569">Init／Enter／Leave…</text>
-<rect x="380" y="216" width="200" height="60" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
-<text x="480" y="239" font-size="12">DMX_WAV 表</text>
-<text x="480" y="258" font-size="11" fill="#475569">PlayMode／Stop…</text>
-<path d="M 180,186 L 200,212" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
-<path d="M 280,186 L 250,212" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
-<path d="M 430,186 L 460,212" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
-<text x="350" y="208" font-size="11" fill="#475569">一表兩吃</text>
-<!-- routing -->
-<rect x="60" y="306" width="300" height="60" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
-<text x="210" y="329" font-size="12">HIWORD(handle) 路由</text>
-<text x="210" y="348" font-size="11" fill="#475569">FMT_PCS／GSS／WAV 分派後續操作</text>
-<rect x="380" y="306" width="260" height="60" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
-<text x="510" y="329" font-size="12">TSM 軟體時鐘</text>
-<text x="510" y="348" font-size="11" fill="#475569">Service 優先佇列・淡變・鏈結・校時</text>
-<path d="M 124,276 L 124,302" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
-<path d="M 400,276 L 480,302" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
-<!-- debug -->
-<rect x="150" y="386" width="400" height="54" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
-<text x="350" y="408" font-size="12" fill="#475569">除錯（非出貨）：VGA 邊框色標區間 ＋ 64K TraceQue 落檔</text>
-<text x="350" y="428" font-size="11" fill="#94a3b8">#ifndef PROD 加 DmxDebug 旗雙門</text>
+<text x="350" y="24">DMX API 結構主線：配對 → 分派 → 播放器 → 驅動表，TSM 管時間</text>
+<text x="350" y="40" font-size="11" fill="#475569">實線＝呼叫・虛線＝配對／觀測・橘框＝驅動契約表・虛線框＝無表／非出貨</text>
+<!-- left: setup -->
+<rect x="30" y="52" width="140" height="44" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="100" y="70" font-size="11">TSM_Install</text>
+<text x="100" y="87" font-size="10" fill="#475569">呼叫端先裝時鐘</text>
+<path d="M 100,96 L 100,106" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="30" y="110" width="140" height="200" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="100" y="130" font-size="11">DMX_Init 配對</text>
+<text x="100" y="148" font-size="10" fill="#475569">GUS→MV→AWE32</text>
+<text x="100" y="164" font-size="10" fill="#475569">→SB→MPU→AdLib</text>
+<text x="100" y="180" font-size="10" fill="#475569">→PCSPK 回 HardWare</text>
+<text x="100" y="200" font-size="10" fill="#475569">fMus/fSfx/fWav 防重配</text>
+<text x="100" y="220" font-size="10" fill="#c2410c">AWE32 不設 fSfx</text>
+<text x="100" y="240" font-size="10" fill="#475569">DMXOPTION 開選項</text>
+<text x="100" y="264" font-size="10" fill="#475569">收尾在 DeInit（略）</text>
+<!-- pairing -->
+<path d="M 170,190 L 246,190" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ard)"/>
+<text x="208" y="182" font-size="10" fill="#64748b">配對三家</text>
+<!-- right: SFX -->
+<rect x="250" y="52" width="427" height="80" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="463" y="74" font-size="11">SFX_PlayPatch（patch・pitch・x・vol・flags・prio）</text>
+<text x="463" y="93" font-size="10" fill="#475569">首字 FMT_* 四值收斂三家 → 高字回填 → 後續 switch HIWORD</text>
+<text x="463" y="111" font-size="10" fill="#475569">PCS_WAVE／GSS_WAVE／GSS_PATCH／WAV_SAMPLE</text>
+<!-- right: players -->
+<rect x="250" y="148" width="103" height="92" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="301" y="168" font-size="11">MUS_ 歌曲</text>
+<text x="301" y="186" font-size="10" fill="#475569">SongStatus[2]</text>
+<text x="301" y="202" font-size="10" fill="#475569">鏈結・淡變</text>
+<text x="301" y="218" font-size="10" fill="#475569">註冊・播・停・暫停</text>
+<rect x="358" y="148" width="103" height="92" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="409" y="168" font-size="11">GSS_ 音色</text>
+<text x="409" y="186" font-size="10" fill="#475569">WAVE／PATCH</text>
+<text x="409" y="202" font-size="10" fill="#475569">雙格式・借 MUS 表</text>
+<text x="409" y="218" font-size="10" fill="#475569">（一表兩吃）</text>
+<rect x="466" y="148" width="103" height="92" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="517" y="168" font-size="11">WAV_ 取樣</text>
+<text x="517" y="186" font-size="10" fill="#475569">channels・rate</text>
+<text x="517" y="202" font-size="10" fill="#475569">PlayMode・載播</text>
+<text x="517" y="218" font-size="10" fill="#475569">StopMode＋回呼</text>
+<rect x="574" y="148" width="103" height="92" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,3"/>
+<text x="625" y="168" font-size="11">PCS_ 喇叭</text>
+<text x="625" y="186" font-size="10" fill="#475569">128 頻率表</text>
+<text x="625" y="202" font-size="10" fill="#475569">140Hz 餵・直調</text>
+<text x="625" y="218" font-size="10" fill="#475569">（無表）</text>
+<path d="M 409,132 L 409,144" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 517,132 L 517,144" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 625,132 L 625,144" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="301" y="142" font-size="10" fill="#475569">分派三家（MUS 除外）</text>
+<!-- right: tables -->
+<rect x="250" y="256" width="211" height="76" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<text x="355" y="278" font-size="11">DMX_MUS 表</text>
+<text x="355" y="296" font-size="10" fill="#475569">NoteOn／Off・Bend</text>
+<text x="355" y="312" font-size="10" fill="#475569">Command・Enter／Leave</text>
+<rect x="466" y="256" width="211" height="76" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<text x="571" y="278" font-size="11">DMX_WAV 表</text>
+<text x="571" y="296" font-size="10" fill="#475569">PlayMode／StopMode</text>
+<text x="571" y="312" font-size="10" fill="#475569">Callback 回呼</text>
+<path d="M 301,240 L 301,252" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 409,240 L 409,252" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 517,240 L 517,252" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- right: TSM -->
+<rect x="250" y="348" width="427" height="70" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="463" y="370" font-size="11">TSM 軟體時鐘（Service 優先佇列・商餘分頻）</text>
+<text x="463" y="389" font-size="10" fill="#475569">ServicePlayer(10)・ServiceFader(50Hz,9)・GSS／PCS 各 140Hz</text>
+<text x="463" y="406" font-size="10" fill="#475569">CorrectTime 校時・Remove 拆・播歌層向此註冊</text>
+<!-- right: debug -->
+<rect x="250" y="434" width="427" height="64" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+<text x="463" y="456" font-size="11" fill="#475569">除錯（非出貨）：邊框色＋64K 線性 TraceQue</text>
+<text x="463" y="476" font-size="10" fill="#94a3b8">#ifndef PROD 與 DmxDebug 旗雙重開關・DMXTRACE 開</text>
+<path d="M 250,466 L 235,466 L 235,294 L 246,294" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ard)"/>
+<text x="208" y="380" font-size="10" fill="#64748b">觀測</text>
 </g>
 </svg>
