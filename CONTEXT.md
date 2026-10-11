@@ -89,6 +89,8 @@
 | 字組骨架 | 1.0 `memcpy／memmove／memset`：`shr／rep movsw／adc／rep movsb`（near 另奇位址試探，far 无） |
 | 重疊兩關 | `memmove`：`dst<src` 前進，否则 `src+count` 比 `dst`；far 交 `ahdiff` 算線性差，同邏輯不同演算 |
 | 收尾三式 | `cEnd`：`nogen` 全手寫、`nolocals` 不發 `mov sp,bp`、`full` 才發（`memccpy` 尾見 `8B E5`） |
+| 恆等樁 | 1.0 `strcoll→strcmp`、`strxfrm→strncpy+strlen`；C locale 下是完備實作非偷懶 |
+| 未建三面 | 建置零命中＋出貨零成員＋頭檔零宣告；WCS 三面全零，1.52 全庫掃同 |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |
