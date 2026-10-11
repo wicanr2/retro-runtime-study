@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="470" viewBox="0 0 700 470" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect x="0" y="0" width="700" height="470" fill="#ffffff"/>
+<defs>
+<marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#334155"/>
+</marker>
+</defs>
+<g font-size="14" fill="#0f172a" text-anchor="middle">
+<!-- start -->
+<rect x="240" y="8" width="160" height="30" rx="15" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="28">開始：s1, s2</text>
+<line x1="320" y1="38" x2="320" y2="52" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- measure -->
+<rect x="150" y="52" width="340" height="56" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="74">量長度：repne 量 s2，not 換算</text>
+<text x="320" y="95" font-size="12" fill="#475569">CX＝len＋1（含結束符），sub di 復位</text>
+<line x1="320" y1="108" x2="320" y2="122" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- repe -->
+<rect x="170" y="122" width="300" height="44" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="141">repe cmpsb 逐比</text>
+<text x="320" y="159" font-size="12" fill="#475569">至多 s2 長，NUL 也參戰</text>
+<line x1="320" y1="166" x2="320" y2="180" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- equal diamond -->
+<path d="M320,180 L430,214 L320,248 L210,214 Z" fill="#fff7ed" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="209" font-size="13">全等？(je)</text>
+<text x="320" y="225" font-size="11" fill="#475569">前綴案走否</text>
+<text x="308" y="268" font-size="12" fill="#475569">否</text>
+<line x1="320" y1="248" x2="320" y2="270" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="448" y="209" font-size="12" fill="#475569">是</text>
+<line x1="430" y1="214" x2="470" y2="214" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="470" y="190" width="160" height="48" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="550" y="210" font-size="12">回傳 0</text>
+<text x="550" y="228" font-size="12">含結束符全同</text>
+<line x1="630" y1="214" x2="662" y2="214" stroke="#334155" stroke-width="1.5"/>
+<line x1="662" y1="214" x2="662" y2="438" stroke="#334155" stroke-width="1.5"/>
+<line x1="662" y1="429" x2="404" y2="429" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- carry diamond -->
+<path d="M320,270 L430,304 L320,338 L210,304 Z" fill="#fff7ed" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="299" font-size="13">CY＝1？(s1＜s2)</text>
+<text x="320" y="315" font-size="11" fill="#475569">sbb 兩條映射</text>
+<text x="308" y="358" font-size="12" fill="#475569">否</text>
+<line x1="320" y1="338" x2="320" y2="360" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="448" y="299" font-size="12" fill="#475569">是</text>
+<line x1="430" y1="304" x2="470" y2="304" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="470" y="280" width="160" height="48" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="550" y="300" font-size="12">sbb 取 −1</text>
+<text x="550" y="318" font-size="12">回傳 −1</text>
+<line x1="630" y1="304" x2="662" y2="304" stroke="#334155" stroke-width="1.5"/>
+<line x1="662" y1="438" x2="404" y2="438" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- return +1 -->
+<rect x="220" y="360" width="200" height="40" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="385">sbb 取＋1，回傳＋1</text>
+<line x1="320" y1="400" x2="320" y2="414" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="240" y="414" width="160" height="30" rx="15" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="320" y="434">結束</text>
+</g>
+</svg>

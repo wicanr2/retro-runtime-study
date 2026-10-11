@@ -678,6 +678,41 @@
    ]
   },
   {
+   "id": "msvc-crt/strcmp-family",
+   "path": "docs/20-msvc-crt/strcmp-family.md",
+   "title": "strcmp 家族：三值比較與大小寫折疊",
+   "libraries": [
+    "msvc-1.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯 16 位元程式，看到 repe cmpsb 後面接著 sbb，想確認是哪個比較函式",
+    "remake 要重做 stricmp 的大小寫折疊與 strncmp 的 count 語意",
+    "同一個函式在 small 版與 large 版執行檔裡取參位移不一樣",
+    "同源碼重建的 stricmp 與出貨版有幾個位元組對不上（組譯器編碼差，不是你的問題）"
+   ],
+   "symbols": [
+    "strcmp",
+    "strncmp",
+    "_stricmp",
+    "_strcmpi",
+    "_strnicmp",
+    "repe cmpsb",
+    "sbb",
+    "STRNCMP",
+    "STRNICMP"
+   ],
+   "related": [
+    "msvc-crt/strcpy-family",
+    "msvc-crt/library-combination"
+   ]
+  },
+  {
    "id": "msvc-crt/strcpy-family",
    "path": "docs/20-msvc-crt/strcpy-family.md",
    "title": "strcpy 家族：複製、串接與它們的邊界",
