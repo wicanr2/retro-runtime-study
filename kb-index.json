@@ -1109,6 +1109,65 @@
    ]
   },
   {
+   "id": "dsmi/core-drivers",
+   "path": "docs/40-dsmi/core-drivers.md",
+   "title": "DSMI 核心與驅動：混音、播放、輸出怎麼串起來",
+   "libraries": [
+    "dsmi"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "讀過介面分層，想知道 CDI、MCP、AMP、SDI 每一層實際做什麼",
+    "想知道 tracker 模組從檔案到喇叭經過哪些步驟",
+    "想知道 DSMI 怎麼在沒有音效卡時照常跑（NOSOUND）",
+    "想知道 1990 年代初的軟體混音器怎麼在 16 位元與 32 位元碼之間共用同一份組語",
+    "要做 remake，想照行為重寫混音、播放、偵測的流程"
+   ],
+   "symbols": [
+    "CDI",
+    "CDIDEVICE",
+    "CDI_MCP",
+    "CDI_GUS",
+    "CDI_NOSOUND",
+    "cdiInit",
+    "cdiRegister",
+    "cdiGetChannelStatus",
+    "MCP",
+    "mixBuffer",
+    "mcpInit",
+    "mcpInitSoundDevice",
+    "mcpPoll",
+    "mcpSetupChannels",
+    "MCP_TABLESIZE",
+    "QUALITYSIZE",
+    "AMP",
+    "playNote",
+    "playTrack",
+    "playCommand",
+    "ampLoadModule",
+    "ampInit",
+    "SDI",
+    "SOUNDDEVICE",
+    "SOUNDCARD",
+    "initDSMI",
+    "detectGUS",
+    "detectPAS",
+    "detectAria",
+    "detectSB",
+    "LOADM",
+    "MOD_15",
+    "SFXENG",
+    "NOSOUND"
+   ],
+   "related": [
+    "dsmi/interface-split"
+   ]
+  },
+  {
    "id": "dsmi/interface-split",
    "path": "docs/40-dsmi/interface-split.md",
    "title": "DSMI：一份組語核心，三種語言接得上",

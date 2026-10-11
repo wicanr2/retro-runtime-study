@@ -61,6 +61,7 @@
 | [DMX 的裝置與格式：七驅動、出貨雙軌與混音六入口](docs/30-dmx/devices-formats.md) | 七驅動規格、出貨雙軌（`dmx.mif` 20 對備份 5）、FM 三段式、DMA 多頁環混音六入口、SFX 四格式、`fmfix` 雙向差（**只讀原始碼**，無簽章） |
 | [DMX 怎麼跟 DOS extender 相處：DPMI、跳板與看門狗](docs/30-dmx/extender-usage.md) | 實用三組 DPMI 加六個零呼叫包裝器、跳板生平、旗標交換、看門狗補服、DMA 只進不出；勘誤 Watcom 篇（**只讀原始碼**，無簽章） |
 | [DSMI：一份組語核心，三種語言接得上](docs/40-dsmi/interface-split.md) | 核心是一份組語原始碼、用組譯期符號編出 C 版與 Pascal 版兩套目的碼；CDI 這張裝置表在架構中央，MCP、GUS、無聲各是一個裝置；封存裡哪些檔根本不是原始碼（**只讀原始碼**，授權禁止逆向該套件） |
+| [DSMI 核心與驅動：混音、播放、輸出怎麼串起來](docs/40-dsmi/core-drivers.md) | 載入器→AMP→CDI→MCP→SDI 五層單向資料流；CDI 按聲道範圍註冊三裝置；MCP 單一混音迴圈四分支＋IF16/IF32；AMP 24 個 CMD 效果器；自動偵測只走 GUS→PAS→Aria→SB 四層；LOADM 魔術數字辨認順序（**只讀原始碼**，無反組譯無位元組簽章） |
 | [啟動碼：四種進入點、一份源](docs/50-msvc2-crt/startup.md) | 一份 `CRT0` 源、兩個開關編出四種進入點；`main` 只是七步的最後一步 |
 | [字串：對齊、位圖、locale 三條線](docs/50-msvc2-crt/string.md) | 窄字元組語熱路徑加 C locale、寬字元素 C、多位元組 73 檔；對齊、位圖、`locale` 三條線 |
 | [輸入輸出：兩張表、三建引擎、文字翻譯層](docs/50-msvc2-crt/stdio.md) | `STDIO` 管流、`LOWIO` 管 fd；兩張表、三建引擎、文字翻譯層 |

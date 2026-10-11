@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="564" viewBox="0 0 700 564" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect x="0" y="0" width="700" height="564" fill="#ffffff"/>
+<defs>
+<marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#334155"/>
+</marker>
+<marker id="ard" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+</marker>
+<marker id="aro" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#c2410c"/>
+</marker>
+</defs>
+<g font-size="13" fill="#0f172a" text-anchor="middle">
+<text x="350" y="24">DSMI 執行時資料流：五層單向，GUS 與無聲是平行裝置</text>
+<text x="350" y="40" font-size="11" fill="#475569">實線＝資料流・虛線＝初始化與側路・橘框橘箭頭＝硬體相關・灰底＝共用邊界表</text>
+<!-- main column -->
+<rect x="200" y="52" width="300" height="36" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="75" font-size="11">模組檔：樣本＋樂譜（MOD／S3M／669⋯⋯）</text>
+<rect x="200" y="98" width="300" height="60" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="117" font-size="11">LOADM getType：按簽名順序辨認格式</text>
+<text x="350" y="134" font-size="10" fill="#475569">FAR→MTM→AMF→S3M→669</text>
+<text x="350" y="150" font-size="10" fill="#475569">STM→MOD→TREK/xCHN→舊 MOD</text>
+<rect x="200" y="168" width="300" height="48" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="187" font-size="11">AMP：playTrack 走格子，24 個 CMD 效果器</text>
+<text x="350" y="204" font-size="10" fill="#475569">playCommand 分派・樂譜換算成聲道命令</text>
+<rect x="200" y="226" width="300" height="48" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="245" font-size="11">CDI：25 欄裝置表，註冊聲道範圍</text>
+<text x="350" y="262" font-size="10" fill="#475569">例 0–31 內：音樂低段・音效高段</text>
+<!-- side boxes -->
+<rect x="20" y="98" width="160" height="106" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3"/>
+<text x="100" y="120" font-size="11">initDSMI 總入口</text>
+<text x="100" y="137" font-size="10" fill="#475569">偵測四層：</text>
+<text x="100" y="152" font-size="10" fill="#475569">GUS→PAS→Aria→SB</text>
+<text x="100" y="167" font-size="10" fill="#475569">命中按卡號選 SDI 表</text>
+<text x="100" y="182" font-size="10" fill="#475569">DAC／WSS／喇叭走手選單</text>
+<rect x="520" y="98" width="160" height="106" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3"/>
+<text x="600" y="120" font-size="11">SFXENG 音效引擎</text>
+<text x="600" y="137" font-size="10" fill="#475569">40 個註冊・8 個播放槽</text>
+<text x="600" y="152" font-size="10" fill="#475569">初始化吃聲道範圍</text>
+<text x="600" y="167" font-size="10" fill="#475569">初始化→註冊→播放</text>
+<text x="600" y="182" font-size="10" fill="#475569">AMP 不知情</text>
+<!-- fan to three devices -->
+<rect x="30" y="294" width="200" height="56" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="130" y="315" font-size="11">CDI_MCP：主機軟體混音</text>
+<text x="130" y="332" font-size="10" fill="#475569">mixBuffer 旗標分支・IF16/IF32 巨集</text>
+<rect x="250" y="294" width="200" height="56" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<text x="350" y="315" font-size="11">CDI_GUS：卡上發聲</text>
+<text x="350" y="332" font-size="10" fill="#475569">繞過整個 MCP 與 SDI</text>
+<rect x="470" y="294" width="200" height="56" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+<text x="570" y="315" font-size="11" fill="#475569">CDI_NOSOUND：無聲</text>
+<text x="570" y="332" font-size="10" fill="#94a3b8">空殼＋虛擬時鐘推進</text>
+<rect x="30" y="360" width="200" height="44" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="130" y="379" font-size="11">SDI_*：12 欄輸出表</text>
+<text x="130" y="396" font-size="10" fill="#475569">SB／PAS／SB16／Aria／磁碟</text>
+<rect x="30" y="414" width="200" height="32" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<text x="130" y="435" font-size="11">音效卡 DMA 出聲</text>
+<rect x="250" y="414" width="200" height="32" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<text x="350" y="435" font-size="11">GUS 卡上混音出聲</text>
+<rect x="470" y="414" width="200" height="32" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+<text x="570" y="435" font-size="11" fill="#475569">靜音，遊戲照跑</text>
+<!-- arrows main -->
+<path d="M 350,88 L 350,94" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 350,158 L 350,164" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 350,216 L 350,222" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 300,274 L 170,290" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 350,274 L 350,290" stroke="#c2410c" stroke-width="1.5" marker-end="url(#aro)"/>
+<path d="M 400,274 L 530,290" stroke="#64748b" stroke-width="1.5" marker-end="url(#ard)"/>
+<path d="M 130,350 L 130,356" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 130,404 L 130,410" stroke="#c2410c" stroke-width="1.5" marker-end="url(#aro)"/>
+<path d="M 350,350 L 350,410" stroke="#c2410c" stroke-width="1.5" marker-end="url(#aro)"/>
+<path d="M 570,350 L 570,410" stroke="#64748b" stroke-width="1.5" marker-end="url(#ard)"/>
+<!-- dashed side paths -->
+<path d="M 20,150 L 12,150 L 12,382 L 26,382" fill="none" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#ard)"/>
+<text x="16" y="270" font-size="9" fill="#64748b" text-anchor="start">選表</text>
+<path d="M 520,150 L 510,150 L 510,250 L 504,250" fill="none" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#ard)"/>
+<!-- startup strip -->
+<rect x="30" y="460" width="640" height="62" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="480" font-size="11">啟動順序：偵測 → 選驅動 → 掛表 → 計時 → 混音 → CDI → 註冊聲道 → 播放器 → 載入 → 播放</text>
+<text x="350" y="498" font-size="10" fill="#475569">mcpInitSoundDevice 先於 mcpInit・cdiRegister(0–31) 在 ampInit 之前・關閉依反序</text>
+<text x="350" y="514" font-size="10" fill="#475569">GUS 分支跳過掛表與混音・無聲分支只推進虛擬時間</text>
+<text x="350" y="544" font-size="9" fill="#94a3b8">五層＝LOADM／AMP／CDI／MCP／SDI，檔與硬體不計層・只讀原始碼無簽章・GUS 19293・喇叭暗號 0x42</text>
+</g>
+</svg>
