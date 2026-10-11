@@ -80,6 +80,9 @@
 | 三值掐 | 1.0 比較家族回 `-1／0／+1`：`strcmp／stricmp` 用 `sbb` 兩條（`1-2CY`），`strncmp／strnicmp` 用 `not` |
 | 快路折疊 | 1.0 `stricmp` 先敏感比、失配才無分支轉小寫（`sbb cl,cl／and 20h`）；`strnicmp` 无快路、條件加法 |
 | 重比末 byte | 旗標被毀只好重比：`strncmp` 從記憶体重載（`[si-1]`），`strnicmp` 暫存器重比（`cmp ah,al`） |
+| 256 位元表 | 1.0 集合組共用骨架：棧上 32 位元組、字元值除 8 定位元組模 8 定位元；`spn／cspn` 只差收尾極性（`75／74`） |
+| 破壞性斷尾 | 1.0 `strtok` 把分隔符改寫成 `NUL`、靜態 `token` 續掃；`string=NULL` 讀舊位，全目錄唯一靜態資料 |
+| std 借還 | 1.0 `strrchr` 倒掃：`dec di` 退到尾、`std` 倒掃、`cld` 必還原；方向旗標是 CPU 單一旗標 |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |
