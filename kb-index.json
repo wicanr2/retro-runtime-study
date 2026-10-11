@@ -923,6 +923,47 @@
    ]
   },
   {
+   "id": "dmx/api-core",
+   "path": "docs/30-dmx/api-core.md",
+   "title": "DMX 的 API 核心：四播放器、兩張表與一個軟體時鐘",
+   "libraries": [
+    "dmx"
+   ],
+   "goals": [
+    "craft",
+    "re"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "要 remake 用 DMX 的遊戲，想知道 DMX_Init 到底配了什麼、順序是什麼",
+    "SFX handle 的高字是什麼，想知道音效播到一半怎麼路由",
+    "遊戲播 MIDI 檔卻沒看到轉換工具，想知道轉換藏在哪",
+    "DOS 沒有執行緒，想知道多首歌加淡入淡出怎麼做排程"
+   ],
+   "symbols": [
+    "DMX_Init",
+    "DMX_DeInit",
+    "MUS_RegisterSong",
+    "MUS_ChainSong",
+    "SFX_PlayPatch",
+    "TSM_NewService",
+    "DMX_MUS",
+    "DMX_WAV",
+    "HIWORD",
+    "FMT_PCS_WAVE",
+    "FMT_GSS_WAVE",
+    "FMT_GSS_PATCH",
+    "FMT_WAV_SAMPLE",
+    "Midi2Mus",
+    "ServiceFader",
+    "TraceQue"
+   ],
+   "related": [
+    "dmx/version-history",
+    "dsmi/interface-split"
+   ]
+  },
+  {
    "id": "dmx/version-history",
    "path": "docs/30-dmx/version-history.md",
    "title": "DMX 的五份封存：版本號、建置設定與呼叫慣例是三件事",
