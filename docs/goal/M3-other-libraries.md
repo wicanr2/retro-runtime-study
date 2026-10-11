@@ -598,6 +598,30 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   `gravis.c`；SVG 重畫驗圖；
   全篇轉繁體。私有筆記同源更正。
 
+## 第二十二批（PUB8）：DMX 裝置與格式文章（#46）
+
+- `docs/30-dmx/devices-formats.md`、三欄流圖一張
+  （七驅動填兩表，取樣經混音管線，格式首字路由）。
+  無簽章（授權：DMX 不做位元組簽章）。
+- 內容：驅動規格（四家三件套＋PAS／GUS 雙件）＋
+  出貨雙軌（`dmx.mif` 20 對同名備份 5 加測試工具）＋
+  FM 三段式＋DMA 多頁環混音六入口＋
+  SFX 四格式＋`midi2mus` 同源異本＋
+  `fmfix` 雙向差＋Watcom 工具鏈。
+- 方法：只讀原始碼（R98 筆記加本篇核實，
+  驅動檔加混音 asm 加轉換器加 `fmfix` 加
+  `makefile／dmx.mif` 加三支測試程式），
+  無編譯實跑。
+- 雙審查專家 31 全中、學生 38 全補：
+  順序倒置更正（`Detect→SetCard→Init`，
+  `DMX_Init` 零 `Detect`）、MPU 握手、
+  AWE 分兩層（DSP 有解、EMU 永久無解）、
+  雙頁改多頁環（8／16／32）、
+  死陣列死碼、備份重數、三符號衝突、
+  欄位寬度、`%version` 名、unrolled 指紋、
+  全套 primer、圖例拆分、全形修。
+  私有筆記兩輪 upstream 同源更正。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），
