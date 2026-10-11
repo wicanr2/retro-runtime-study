@@ -77,6 +77,9 @@
 | 兩遍式 | 1.0 `strcpy／strcat`：`repne` 量長→對齊→`rep movsw` 整塊搬；`shr／adc cx,cx／rep movsb` 收奇偶零頭 |
 | 飽和跳對齊 | 1.0 far 版 64K 無 NUL 先 `movsw` 一字、`CX` 扣回，`jmp move` 跳過對齊直達整塊搬（僅複製／串接兩支有） |
 | 尾端≡0 | 1.0 `strncat count=0` 真 bug 觸發條件：`dec di` 的 `ZF` 被 `jne` 誤讀，尾端偏移為零才複製 65535 |
+| 三值掐 | 1.0 比較家族回 `-1／0／+1`：`strcmp／stricmp` 用 `sbb` 兩條（`1-2CY`），`strncmp／strnicmp` 用 `not` |
+| 快路折疊 | 1.0 `stricmp` 先敏感比、失配才無分支轉小寫（`sbb cl,cl／and 20h`）；`strnicmp` 无快路、條件加法 |
+| 重比末 byte | 旗標被毀只好重比：`strncmp` 從記憶体重載（`[si-1]`），`strnicmp` 暫存器重比（`cmp ah,al`） |
 | BIOS tick | BIOS 每 54.9 毫秒推進一次的計數器（`int 1Ah` 讀，午夜歸零）。`clock()` 的單位就是它，`CLK_TCK`＝18.2 |
 | unix 秒 | 自 1970-01-01 GMT 起算的秒數，`time_t`（32 位元 `long`）存的值。2038-01-19 03:14:07 GMT 之後 signed 32 位元溢位 |
 | TZ | DOS 環境變數，`tzset` 剖析它得到時區：3 個字母＋整數小時（可負）＋可選的日光節約名；壞格式靜默退回預設 EST5EDT |

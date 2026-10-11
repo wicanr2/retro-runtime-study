@@ -427,6 +427,42 @@ R26 的「未授權站不採用」被使用者推翻（2026-09-25，私有 #14�
   （large 141022 步、
   small 11932 步）。
 
+## 第十六批（PUB2）：MSVC 1.0 strcmp-family 文章（#40）
+
+- `docs/20-msvc-crt/strcmp-family.md`、
+  流程圖一張、
+  `signatures/msvc-1.0-crt/strcmp-family.json`
+  （16 筆、各 41 bytes、无需遮罩、
+  掃 A 側 2 命中、B 側 4 命中）。
+- 內容：三值映射兩式
+  （`sbb` 兩條／`not` 掐）、
+  前綴 `NUL` 參戰、
+  `min(len+1,count)`、
+  快路＋無分支折疊、
+  條件加法折疊、
+  暫存器重比、
+  註解兩筆誤
+  （`strcmp` 表寫反、
+  `stricmp` 轉小寫標錯邊）。
+- 方法：`ML 6.11` 重編、
+  `strcmp／strncmp` 7／7、
+  `icmp` 兩支純 `cmp` 編碼差
+  （二／六處，行為證等價）、
+  small 廿一案（22132 步）＋
+  large 九案（11323 步）
+  四格一致。
+- 雙審查 15＋18 條全修：
+  專家抓到摘要內部矛盾
+  （`strncmp` 機制誤套 `strnicmp`）、
+  `strnicmp` 進位方向寫反
+  （私有筆記同錯，一併修）、
+  `8A 44 FF` 特徵誤植、
+  large 欄錯置；
+  學生要的數字試算
+  （`sbb`／折疊／`min` 三組）、
+  暫存器說明、前綴並排、
+  分段背景框全補。
+
 ## 第三批結果（R59）：三套落地，#14 關閉
 
 - 1.0 Professional：235 檔全展開，`CL.EXE` 跑出 usage（`DOSXNT` 要放 PATH），
