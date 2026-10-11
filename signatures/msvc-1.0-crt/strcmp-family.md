@@ -43,7 +43,7 @@ helper 庫 `LIBH.LIB` 取出的十六筆樣式：
 （`repe cmpsb`）；`strncmp` 有 `F7 D9 03 CB`
 （`neg／add` 算 `min(len+1,count)`）；`stricmp`
 有 `B0 FF … AC 8A 27`（`AL=-1` 保證入迴圈、
-`lodsb`、`mov ah,[bx]`）；`strnicmp` 有
+`lodsb`、`mov ah,[bx]`，far 版中間多 `26h`）；`strnicmp` 有
 `B7 41 B3 5A B6 20`（`'A'／'Z'／' '` 轉小寫常數）。
 
 ## 掃描驗證
@@ -53,6 +53,8 @@ A 側（1.0 源碼重建，`SCMPTA.EXE`）命中兩處
 （`strcmp`、`strncmp`——重建与出貨逐位元組一致），
 `stricmp／strnicmp` 未命中是預期的：
 重建用的 `ML 6.11` 与出貨組譯器對 `cmp` 選了不同編碼
-（`38 C4` 對 `3A E0`，第 21 位元組起，行為等價已證）；
+（`38 C4` 對 `3A E0`，near 模型自 0-based 第 21 位元組起
+（第 22 個），far 模型因段前綴在 0-based 第 23 位元組
+（第 24 個），行為等價已證）；
 B 側（1.52 出貨庫，`SCMPTB.EXE`）四處全命中——
 1.52 沿用了与 1.0 出貨相同的編碼選擇。
