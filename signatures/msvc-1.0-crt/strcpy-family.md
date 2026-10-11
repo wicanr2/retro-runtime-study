@@ -11,8 +11,8 @@ helper 庫 `LIBH.LIB` 取出的十六筆樣式：
 `inputs` 列出五個 `.LIB` 的 SHA-256，先核對版本再用
 （与 `strlen.json` 同一批函式庫，雜湊相同）。
 `LIBH` 筆的本體與 `LLIBCR` 筆逐位元組相同，差別只在公開符號
-（`__fstrcpy` 對 `_strcpy` 等）：它是給 small／medium
-程式呼叫的 far 版，呼叫端寫 `_fstrcpy` 等。
+（`__fstrcpy` 對 `_strcpy` 等）：它是模型無關的 far 版，
+呼叫端寫 `_fstrcpy` 等（不限 small／medium）。
 
 ## 各函式的四筆怎麼分
 
