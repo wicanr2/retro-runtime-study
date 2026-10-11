@@ -9,7 +9,8 @@
 </marker>
 </defs>
 <g font-size="14" fill="#0f172a" text-anchor="middle">
-<text x="350" y="26">locale 四樁：左建右未建，同義不同命</text>
+<text x="350" y="22">locale 四樁：左建右未建，同義不同命</text>
+<text x="350" y="38" font-size="11" fill="#475569">功能相同，命運不同（左有編進庫，右沒有）・箭頭＝呼叫（xfrm 先 strncpy 後 strlen）・實線＝庫裡有，虛線＝源碼有庫裡無</text>
 <!-- left: built -->
 <rect x="60" y="44" width="270" height="200" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
 <text x="195" y="68" font-size="13">窄樁：已建（8 組 12／12）</text>
@@ -26,11 +27,11 @@
 <text x="265" y="164" font-size="11">strlen</text>
 <path d="M 202,131 L 216,129" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
 <path d="M 202,147 L 216,159" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
-<text x="195" y="198" font-size="11" fill="#475569">K&amp;R 式・1988-1992・string.h</text>
+<text x="195" y="198" font-size="11" fill="#475569">K&amp;R 式・1988-1992・含 string.h</text>
 <text x="195" y="218" font-size="11" fill="#475569">CL /Gs /Ot 八組重現出貨</text>
 <!-- right: unbuilt -->
 <rect x="370" y="44" width="270" height="200" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="6,4"/>
-<text x="505" y="68" font-size="13">寬樁：未建（建置 0・出貨 0）</text>
+<text x="505" y="68" font-size="13">寬樁：未建（建置 0 命中・出貨 0 成員）</text>
 <rect x="400" y="82" width="110" height="30" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
 <text x="455" y="103" font-size="12" fill="#64748b">wcscoll</text>
 <rect x="530" y="82" width="90" height="30" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
@@ -44,13 +45,14 @@
 <text x="575" y="164" font-size="11" fill="#64748b">wcslen</text>
 <path d="M 512,131 L 526,129" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arx)"/>
 <path d="M 512,147 L 526,159" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arx)"/>
-<text x="505" y="198" font-size="11" fill="#475569">ANSI 原型・1990-1992・＋locale.h</text>
+<text x="505" y="198" font-size="11" fill="#475569">ANSI 原型・1990-1992・多含 locale.h</text>
 <text x="505" y="218" font-size="11" fill="#475569">後寫或後改・17 檔 ASM 同未建</text>
 <!-- bottom: verdict -->
-<rect x="150" y="264" width="400" height="112" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
-<text x="350" y="290" font-size="13">未建證據（兩面夾擊）</text>
-<text x="350" y="312" font-size="12" fill="#475569">建置面：三份建置檔全文零 wcs</text>
-<text x="350" y="334" font-size="12" fill="#475569">出貨面：1.0 五庫＋1.52 全庫只剩兩轉換件</text>
-<text x="350" y="356" font-size="12" fill="#475569">為何未建未知（封存內无說法，不猜）</text>
+<rect x="150" y="258" width="400" height="134" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="282" font-size="13">未建證據（三面夾擊）</text>
+<text x="350" y="304" font-size="12" fill="#475569">建置面：三份建置檔全文零 wcs</text>
+<text x="350" y="326" font-size="12" fill="#475569">出貨面：1.0 五庫＋1.52 全庫只剩 mbstowcs 等兩件</text>
+<text x="350" y="348" font-size="12" fill="#475569">頭檔面：STRING.H 零 wcs・STDLIB.H 只宣告兩轉換件</text>
+<text x="350" y="370" font-size="12" fill="#475569">為何未建未知（封存內无說法，不猜）</text>
 </g>
 </svg>
