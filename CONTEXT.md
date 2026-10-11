@@ -188,6 +188,9 @@
 | GENMIDI／OP2 | DMX 的 FM 音色表格式，檔頭是 `#OPL_II#`，175 個樂器各 36 bytes 再加 32 bytes 名稱 |
 | MUS | DMX 附的音樂格式，比標準 MIDI 精簡；封存裡的 `MIDI2MUS` 負責轉換 |
 | 樣本分級表（DMXGUS） | 依 Gravis UltraSound 卡上記憶體大小，決定每個 MIDI 樂器載入哪個樣本的對應表 |
+| HIWORD 路由 | DMX：`SFX_PlayPatch` 把格式碼回填 handle 高字，後續操作 `switch (HIWORD)` 分派三家 |
+| 殺舊翻槽 | DMX 歌曲交接：舊首播完或淡到零，殺舊槽、`MUS_Index ^= 1` 翻槽接新首；先殺後接，無疊播 |
+| 商餘分頻 | TSM：每 tick 累加商、餘數留到下輪，整數累加做出分數頻率 |
 | 四捨六入五成雙 | 進位規則：剛好是 0.5 時往最接近的偶數靠（0.5→0、1.5→2、2.5→2），而不是一律進位 |
 
 ## 前置欄位的值
