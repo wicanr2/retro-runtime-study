@@ -59,6 +59,7 @@
 | [DMX 的五份封存：版本號、建置設定與呼叫慣例是三件事](docs/30-dmx/version-history.md) | 五個目錄名不是五個版本：功能版本幾乎沒動，差異在建置檔位與參數傳遞方式；出貨的庫併了第三方 AWE32 支援，樹裡沒有那份原始碼；`fmfix` 同時改了 OPL3 偵測與 FM 搶聲；遊戲資料裡的 GENMIDI、DMXGUS、MUS 是這套庫的格式（**只讀原始碼**，版權標示機密與專有） |
 | [DMX 的 API 核心：四播放器、兩張表與一個軟體時鐘](docs/30-dmx/api-core.md) | 四播放器、兩張函式表、`HIWORD` 路由、MUS 雙槽鏈結淡變、內嵌 `Midi2Mus`、TSM 軟體時鐘（**只讀原始碼**，無簽章） |
 | [DMX 的裝置與格式：七驅動、出貨雙軌與混音六入口](docs/30-dmx/devices-formats.md) | 七驅動規格、出貨雙軌（`dmx.mif` 20 對備份 5）、FM 三段式、DMA 多頁環混音六入口、SFX 四格式、`fmfix` 雙向差（**只讀原始碼**，無簽章） |
+| [DMX 怎麼跟 DOS extender 相處：DPMI、跳板與看門狗](docs/30-dmx/extender-usage.md) | 實用三組 DPMI 加六個零呼叫包裝器、跳板生平、旗標交換、看門狗補服、DMA 只進不出；勘誤 Watcom 篇（**只讀原始碼**，無簽章） |
 | [DSMI：一份組語核心，三種語言接得上](docs/40-dsmi/interface-split.md) | 核心是一份組語原始碼、用組譯期符號編出 C 版與 Pascal 版兩套目的碼；CDI 這張裝置表在架構中央，MCP、GUS、無聲各是一個裝置；封存裡哪些檔根本不是原始碼（**只讀原始碼**，授權禁止逆向該套件） |
 | [啟動碼：四種進入點、一份源](docs/50-msvc2-crt/startup.md) | 一份 `CRT0` 源、兩個開關編出四種進入點；`main` 只是七步的最後一步 |
 | [字串：對齊、位圖、locale 三條線](docs/50-msvc2-crt/string.md) | 窄字元組語熱路徑加 C locale、寬字元素 C、多位元組 73 檔；對齊、位圖、`locale` 三條線 |

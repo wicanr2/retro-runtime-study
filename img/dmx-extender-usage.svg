@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="570" viewBox="0 0 700 570" font-family="'Noto Sans CJK TC','PingFang TC','Microsoft JhengHei',sans-serif">
+<rect x="0" y="0" width="700" height="570" fill="#ffffff"/>
+<defs>
+<marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#334155"/>
+</marker>
+<marker id="ard" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/>
+</marker>
+</defs>
+<g font-size="13" fill="#0f172a" text-anchor="middle">
+<text x="350" y="24">DMX 中斷雙路徑：保護模式直達，實模式跳板加看門狗補服</text>
+<text x="350" y="40" font-size="11" fill="#475569">實線＝流程・虛線＝延遲補服・橘＝實模式側・灰＝保護模式側・僅高位 IRQ 有右路</text>
+<!-- left column header -->
+<rect x="30" y="52" width="300" height="40" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="77" font-size="12">左路：中斷到時在保護模式（直達）</text>
+<rect x="30" y="102" width="300" height="44" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="121" font-size="11">樁 irqN 直調 pcIRQ，查表找回呼</text>
+<text x="180" y="138" font-size="10" fill="#475569">無回呼只做 EOI 善後</text>
+<rect x="30" y="156" width="300" height="44" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="175" font-size="11">IRQ7 幻影檢查（在勤位元）</text>
+<text x="180" y="192" font-size="10" fill="#475569">沒有就 EOI 走人</text>
+<rect x="30" y="210" width="300" height="44" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="229" font-size="11">切專用堆疊（4 頁×4K）</text>
+<text x="180" y="246" font-size="10" fill="#475569">CallFuncWithNewStack，用完歸還</text>
+<rect x="30" y="264" width="300" height="44" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="283" font-size="11">跑回呼（混音／時鐘）</text>
+<text x="180" y="300" font-size="10" fill="#475569">EOI 依 PRE／POST 旗前後送</text>
+<rect x="30" y="318" width="300" height="40" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="180" y="343" font-size="11">iret，中斷處理完</text>
+<path d="M 180,92 L 180,98" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 180,146 L 180,152" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 180,200 L 180,206" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 180,254 L 180,260" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 180,308 L 180,314" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- right column -->
+<rect x="370" y="52" width="300" height="40" rx="6" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<text x="520" y="77" font-size="12">右路：中斷到時在實模式（跳板）</text>
+<rect x="370" y="102" width="300" height="44" rx="6" fill="#ffffff" stroke="#c2410c" stroke-width="1.5"/>
+<text x="520" y="121" font-size="11">跳板跑（複製塊，USE16）</text>
+<text x="520" y="138" font-size="10" fill="#475569">讀從屬在勤，OR 入旗標</text>
+<rect x="370" y="156" width="300" height="44" rx="6" fill="#ffffff" stroke="#c2410c" stroke-width="1.5"/>
+<text x="520" y="175" font-size="11">雙片 EOI（從屬先主片後）</text>
+<text x="520" y="192" font-size="10" fill="#475569">iret——音訊還沒做</text>
+<rect x="370" y="210" width="300" height="44" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,3"/>
+<text x="520" y="229" font-size="11" fill="#475569">看門狗每 tick 跑（TSM）</text>
+<text x="520" y="246" font-size="10" fill="#94a3b8">頻率 0・優先級 255 最高</text>
+<rect x="370" y="264" width="300" height="44" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="520" y="283" font-size="11">取旗標＋讀雙片在勤成遮罩</text>
+<text x="520" y="300" font-size="10" fill="#475569">旗標取走清零</text>
+<rect x="370" y="318" width="300" height="40" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+<text x="520" y="343" font-size="11">直調回呼（補服，晚到不到）</text>
+<path d="M 520,92 L 520,98" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 520,146 L 520,152" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 520,200 L 520,206" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ard)"/>
+<path d="M 520,254 L 520,260" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 520,308 L 520,314" stroke="#334155" stroke-width="1.5" marker-end="url(#ar)"/>
+<!-- bottom strips -->
+<rect x="30" y="372" width="640" height="56" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="394" font-size="11">啟用條件：跳板庫啟動無條件複製・掛實模式向量限 IRQ＞7・SB 常用 5／7 無右路</text>
+<text x="350" y="414" font-size="10" fill="#475569">複製：算長→0100h 配置→拷貝→修正點位移補 2→rmTrap 指旗標・掛：0201h 指複製塊＋開遮罩</text>
+<rect x="30" y="438" width="640" height="56" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+<text x="350" y="460" font-size="11">DMA 緩衝：多要 2 paragraph・至多試 5 次・跨 64K 重配・釋放路 #if 0（只進不出）</text>
+<text x="350" y="480" font-size="10" fill="#475569">DPMI 實用：0100h／0200h／0201h 直寫＋Watcom 向量函式・dpmiapi 六包裝器零呼叫</text>
+<rect x="30" y="504" width="640" height="52" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+<text x="350" y="526" font-size="11" fill="#475569">建置：SYSTEM dos4g（DOS/4GW）・出貨 pcints／備份 pcint（懶複製、無堆疊）</text>
+<text x="350" y="544" font-size="10" fill="#94a3b8">勘誤：實模式中斷晚到不到・複製無條件（詳見正文與 Watcom 篇補註）</text>
+</g>
+</svg>
