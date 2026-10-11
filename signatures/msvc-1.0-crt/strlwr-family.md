@@ -28,16 +28,18 @@ small 模型兩支各 30 個位元組，全同除第 11 与第 17
 開場分三派：`strlwr／strupr` 以
 `55 8B EC 8B 5E 04 8B D3`
 （無 `push` 存檔：`BX` 當游標、`DX` 存回傳）開場；
-`strset／strnset／strrev` 以 `55 8B EC 57`
-（手寫 `push di`，`strrev` 另加 `56`）開場，
-其中 `strnset` 緊接 `jcxz`（`E3`）零數守衛。
+`strset／strnset` 以 `55 8B EC 57`
+（手寫 `push di`）開場，
+其中 `strnset` 緊接 `jcxz`（`E3`）零數守衛；
+`strrev` 以 `55 8B EC 57 56`
+（另存 `SI`）開場。
 呼叫方式看結尾（`C3` 對 `CB`）與取參位移；
 資料寬度看取參指令（`8B` 對 `C4／C5`）：
 
 | 函式 | `SLIBCR` | `MLIBCR` | `CLIBCR` | `LLIBCR／LIBH` |
 |---|---|---|---|---|
-| `strlwr` | `8B 5E 04`，`C3` | `8B 5E 06`，`CB` | `C4 5E 04`，`C3` | `C4 5E 06`，`CB` |
-| `strupr` | `8B 5E 04`，`C3` | `8B 5E 06`，`CB` | `C4 5E 04`，`C3` | `C4 5E 06`，`CB` |
+| `strlwr` | `8B 5E 04`，`C3` | `8B 5E 06`，`CB` | `C5 5E 04`，`C3` | `C5 5E 06`，`CB` |
+| `strupr` | `8B 5E 04`，`C3` | `8B 5E 06`，`CB` | `C5 5E 04`，`C3` | `C5 5E 06`，`CB` |
 | `strset` | `8B 7E 04`，`C3` | `8B 7E 06`，`CB` | `C4 7E 04`，`C3` | `C4 7E 06`，`CB` |
 | `strnset` | `8B 7E 04`，`C3` | `8B 7E 06`，`CB` | `C4 7E 04`，`C3` | `C4 7E 06`，`CB` |
 | `strrev` | `8B 7E 04`，`C3` | `8B 7E 06`，`CB` | `C4 7E 04`，`C3` | `C4 7E 06`，`CB` |
@@ -53,11 +55,14 @@ small 模型兩支各 30 個位元組，全同除第 11 与第 17
 `dec` 扣掉 `NUL`）接 `F3 AA`（`rep stosb` 全填）；
 `strnset` 有 `2B D9`（`sub bx,cx` 取 `min`）；
 `strrev` 有 `83 F9 FE`（`cmp cx,-2` 空串守衛）
-接 `3B F7`（`cmp si,di` 相遇檢查）。
+後跟 `3B F7`（`cmp si,di` 相遇檢查，中間隔 `74 12 4F 4F`）。
 
 ## 掃描驗證
 
 以 R121 的 small 測試執行檔驗證：
 A 側（1.0 源碼重建，`SCSTTA.EXE`）与 B 側
 （1.52 出貨庫，`SCSTTB.EXE`）五個函式全命中——
-本批零編碼差，重建与兩版出貨逐位元組一致。
+本批零編碼差：開頭 30B 重建与兩版出貨逐位元組一致
+（`strlwr／strupr` small 版全函式恰 30B，
+故這兩支是全函式一致；其餘三支全函式对 1.52
+未做全長比對，以 1.0 重建对出貨的 7／7 為準）。

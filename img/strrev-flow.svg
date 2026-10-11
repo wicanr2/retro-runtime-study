@@ -34,7 +34,7 @@
 <!-- empty guard -->
 <rect x="190" y="278" width="320" height="52" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
 <text x="350" y="299" font-size="13">空串專防：cmp cx,-2</text>
-<text x="350" y="317" font-size="12" fill="#475569">CX＝-2 即長度零，直出</text>
+<text x="350" y="317" font-size="12" fill="#475569">先於 SI／DI 設定，-2 即直出</text>
 <text x="350" y="356" font-size="12" fill="#475569">回傳原址（mov ax,bx，BX 存頭）</text>
 </g>
 </svg>
