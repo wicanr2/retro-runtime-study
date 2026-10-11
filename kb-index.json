@@ -678,6 +678,42 @@
    ]
   },
   {
+   "id": "msvc-crt/strchr-family",
+   "path": "docs/20-msvc-crt/strchr-family.md",
+   "title": "strchr 家族：搜尋的三種算法与分詞狀態機",
+   "libraries": [
+    "msvc-1.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯 16 位元程式，看到 std／cld 夾著一遍掃描，想確認是不是 strrchr",
+    "開場 sub sp,20h 接 rep stosw 的函式有三個長得一樣，分不清是 pbrk／spn／cspn 哪一支",
+    "remake 要重做 strtok 的續掃、空欄跳過與破壞性斷尾",
+    "同源碼重建的 strtok 與出貨版有幾處 FIXUPP 對不上（組譯器發射風格差，不是你的問題）"
+   ],
+   "symbols": [
+    "strchr",
+    "strrchr",
+    "strpbrk",
+    "strspn",
+    "strcspn",
+    "strstr",
+    "strtok",
+    "repne scasb",
+    "std",
+    "token"
+   ],
+   "related": [
+    "msvc-crt/strcpy-family",
+    "msvc-crt/strcmp-family"
+   ]
+  },
+  {
    "id": "msvc-crt/strcmp-family",
    "path": "docs/20-msvc-crt/strcmp-family.md",
    "title": "strcmp 家族：三值比較與大小寫折疊",

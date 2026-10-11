@@ -1,0 +1,374 @@
+{
+ "schema": "retro-runtime-study.signatures.v1",
+ "source": "msvc-1.0-crt",
+ "max_bytes": 64,
+ "min_fixed": 12,
+ "inputs": [
+  {
+   "lib": "SLIBCR.LIB",
+   "sha256": "1ae30a17a5bd889e4c4892eb982dae061f6f28a657e29298e65de390ca6fba84"
+  },
+  {
+   "lib": "MLIBCR.LIB",
+   "sha256": "73328ca824039415f6ee8e1104c65b7f868ea554e003406507897ce7892a3c79"
+  },
+  {
+   "lib": "CLIBCR.LIB",
+   "sha256": "de0492cac3fb058fdbc88ba0878d12c82243dbeaffa318949e7370b862324501"
+  },
+  {
+   "lib": "LLIBCR.LIB",
+   "sha256": "7503ef035aa88654a807a6ea2e64b7fcf6b55202694518383df44aebdce1552b"
+  },
+  {
+   "lib": "LIBH.LIB",
+   "sha256": "df4b591dbdd07ed512a68c3c4e6665e45a03f9610236a2c47caefaa7ce8636d8"
+  }
+ ],
+ "count": 24,
+ "signatures": [
+  {
+   "names": [
+    "_strchr"
+   ],
+   "modules": [
+    "STRCHR"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 C4 7E 04 8B DF 33 C0 B9 FF FF F2 AE F7 D1 8A 46 08 8B FB F2 AE 74 0D 0A C0 75 03 47 EB 06 33 C0 33 D2 EB 05"
+  },
+  {
+   "names": [
+    "_strchr",
+    "__fstrchr"
+   ],
+   "modules": [
+    "STRCHR"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 C4 7E 06 8B DF 33 C0 B9 FF FF F2 AE F7 D1 8A 46 0A 8B FB F2 AE 74 0D 0A C0 75 03 47 EB 06 33 C0 33 D2 EB 05"
+  },
+  {
+   "names": [
+    "_strchr"
+   ],
+   "modules": [
+    "STRCHR"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 8B 7E 06 1E 07 8B DF 33 C0 B9 FF FF F2 AE F7 D1 8A 46 08 8B FB F2 AE 74 04 33 C0 EB 03 8D 45 FF 5F 8B E5 5D"
+  },
+  {
+   "names": [
+    "_strchr"
+   ],
+   "modules": [
+    "STRCHR"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 8B 7E 04 1E 07 8B DF 33 C0 B9 FF FF F2 AE F7 D1 8A 46 06 8B FB F2 AE 74 04 33 C0 EB 03 8D 45 FF 5F 8B E5 5D"
+  },
+  {
+   "names": [
+    "_strcspn",
+    "_strspn"
+   ],
+   "modules": [
+    "STRCSPN",
+    "STRSPN"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 1E C5 76 08 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07"
+  },
+  {
+   "names": [
+    "_strcspn",
+    "_strspn",
+    "__fstrcspn",
+    "__fstrspn"
+   ],
+   "modules": [
+    "STRCSPN",
+    "STRSPN"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 1E C5 76 0A 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07"
+  },
+  {
+   "names": [
+    "_strcspn",
+    "_strspn"
+   ],
+   "modules": [
+    "STRCSPN",
+    "STRSPN"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 8B 76 08 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2"
+  },
+  {
+   "names": [
+    "_strcspn",
+    "_strspn"
+   ],
+   "modules": [
+    "STRCSPN",
+    "STRSPN"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 8B 76 06 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2"
+  },
+  {
+   "names": [
+    "_strpbrk"
+   ],
+   "modules": [
+    "STRPBRK"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 1E C5 76 08 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07"
+  },
+  {
+   "names": [
+    "_strpbrk",
+    "__fstrpbrk"
+   ],
+   "modules": [
+    "STRPBRK"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 1E C5 76 0A 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07"
+  },
+  {
+   "names": [
+    "_strpbrk"
+   ],
+   "modules": [
+    "STRPBRK"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 8B 76 08 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2"
+  },
+  {
+   "names": [
+    "_strpbrk"
+   ],
+   "modules": [
+    "STRPBRK"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 8B 76 06 8C D0 8E C0 B9 10 00 33 C0 8D 7E E0 F3 AB AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2"
+  },
+  {
+   "names": [
+    "_strrchr"
+   ],
+   "modules": [
+    "STRRCHR"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 C4 7E 04 33 C0 B9 FF FF F2 AE F7 D1 4F 0A 46 08 75 08 26 3A 05 75 0E 4F EB 0B FD F2 AE 74 06 33 C0 8B D0 EB"
+  },
+  {
+   "names": [
+    "_strrchr",
+    "__fstrrchr"
+   ],
+   "modules": [
+    "STRRCHR"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 C4 7E 06 33 C0 B9 FF FF F2 AE F7 D1 4F 0A 46 0A 75 08 26 3A 05 75 0E 4F EB 0B FD F2 AE 74 06 33 C0 8B D0 EB"
+  },
+  {
+   "names": [
+    "_strrchr"
+   ],
+   "modules": [
+    "STRRCHR"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 1E 07 8B 7E 06 33 C0 B9 FF FF F2 AE F7 D1 4F 8A 46 08 FD F2 AE 74 04 33 C0 EB 03 8D 45 01 FC 5F 8B E5 5D CB"
+  },
+  {
+   "names": [
+    "_strrchr"
+   ],
+   "modules": [
+    "STRRCHR"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 57 1E 07 8B 7E 04 33 C0 B9 FF FF F2 AE F7 D1 4F 8A 46 06 FD F2 AE 74 04 33 C0 EB 03 8D 45 01 FC 5F 8B E5 5D C3"
+  },
+  {
+   "names": [
+    "_strstr"
+   ],
+   "modules": [
+    "STRSTR"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 02 56 57 1E C4 7E 08 06 1F 33 C0 B9 FF FF F2 AE F7 D1 75 01 49 E3 3E 49 89 4E FE C4 7E 04 8B DF 33 C0 B9"
+  },
+  {
+   "names": [
+    "_strstr",
+    "__fstrstr"
+   ],
+   "modules": [
+    "STRSTR"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 02 56 57 1E C4 7E 0A 06 1F 33 C0 B9 FF FF F2 AE F7 D1 75 01 49 E3 3E 49 89 4E FE C4 7E 06 8B DF 33 C0 B9"
+  },
+  {
+   "names": [
+    "_strstr"
+   ],
+   "modules": [
+    "STRSTR"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 02 56 57 1E 07 8B 7E 08 33 C0 B9 FF FF F2 AE F7 D1 49 E3 3A 49 89 4E FE 8B 7E 06 8B DF 33 C0 B9 FF FF F2"
+  },
+  {
+   "names": [
+    "_strstr"
+   ],
+   "modules": [
+    "STRSTR"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 02 56 57 1E 07 8B 7E 06 33 C0 B9 FF FF F2 AE F7 D1 49 E3 3A 49 89 4E FE 8B 7E 04 8B DF 33 C0 B9 FF FF F2"
+  },
+  {
+   "names": [
+    "_strtok"
+   ],
+   "modules": [
+    "STRTOK"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 16 07 B9 10 00 33 C0 8D 7E E0 F3 AB 1E 07 C5 76 08 AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2"
+  },
+  {
+   "names": [
+    "_strtok",
+    "__fstrtok"
+   ],
+   "modules": [
+    "STRTOK"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 16 07 B9 10 00 33 C0 8D 7E E0 F3 AB 1E 07 C5 76 0A AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2"
+  },
+  {
+   "names": [
+    "_strtok"
+   ],
+   "modules": [
+    "STRTOK"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 16 07 B9 10 00 33 C0 8D 7E E0 F3 AB 8B 76 08 AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2 E0 B1"
+  },
+  {
+   "names": [
+    "_strtok"
+   ],
+   "modules": [
+    "STRTOK"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 40,
+   "pattern": "55 8B EC 83 EC 20 56 57 16 07 B9 10 00 33 C0 8D 7E E0 F3 AB 8B 76 06 AC 0A C0 74 14 8B F8 8B C8 B0 01 80 E1 07 D2 E0 B1"
+  }
+ ],
+ "skipped": [],
+ "modules_filter": [
+  "STRCHR",
+  "STRCSPN",
+  "STRPBRK",
+  "STRRCHR",
+  "STRSPN",
+  "STRSTR",
+  "STRTOK"
+ ]
+}
