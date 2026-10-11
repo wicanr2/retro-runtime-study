@@ -678,6 +678,42 @@
    ]
   },
   {
+   "id": "msvc-crt/mem-family",
+   "path": "docs/20-msvc-crt/mem-family.md",
+   "title": "mem 家族：記憶體塊的複製、比較、搜尋与填寫",
+   "libraries": [
+    "msvc-1.0-crt"
+   ],
+   "goals": [
+    "craft",
+    "re",
+    "oracle"
+   ],
+   "evidence": "已證實",
+   "triggers": [
+    "反組譯 16 位元程式，看到 shr／rep movsw／adc／rep movsb 四件套，想確認是不是 mem 函式",
+    "memmove 的重疊判斷与倒搬路徑，想看前進倒搬怎麼分家",
+    "far 版跨段搬運的 MIN 分塊与段步進，想知道上界寫在哪",
+    "同一份源碼編出多個庫成員（memcpy／memmove 同源），想看機械怎麼分"
+   ],
+   "symbols": [
+    "_memcpy",
+    "_memmove",
+    "__memccpy",
+    "_memchr",
+    "_memcmp",
+    "__memicmp",
+    "_memset",
+    "__AHINCR",
+    "rep movsw",
+    "sbb"
+   ],
+   "related": [
+    "msvc-crt/strcpy-family",
+    "msvc-crt/strcmp-family"
+   ]
+  },
+  {
    "id": "msvc-crt/strchr-family",
    "path": "docs/20-msvc-crt/strchr-family.md",
    "title": "strchr 家族：搜尋的三種算法与分詞狀態機",

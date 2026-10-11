@@ -1,0 +1,422 @@
+{
+ "schema": "retro-runtime-study.signatures.v1",
+ "source": "msvc-1.0-crt",
+ "max_bytes": 64,
+ "min_fixed": 12,
+ "inputs": [
+  {
+   "lib": "SLIBCR.LIB",
+   "sha256": "1ae30a17a5bd889e4c4892eb982dae061f6f28a657e29298e65de390ca6fba84"
+  },
+  {
+   "lib": "MLIBCR.LIB",
+   "sha256": "73328ca824039415f6ee8e1104c65b7f868ea554e003406507897ce7892a3c79"
+  },
+  {
+   "lib": "CLIBCR.LIB",
+   "sha256": "de0492cac3fb058fdbc88ba0878d12c82243dbeaffa318949e7370b862324501"
+  },
+  {
+   "lib": "LLIBCR.LIB",
+   "sha256": "7503ef035aa88654a807a6ea2e64b7fcf6b55202694518383df44aebdce1552b"
+  },
+  {
+   "lib": "LIBH.LIB",
+   "sha256": "df4b591dbdd07ed512a68c3c4e6665e45a03f9610236a2c47caefaa7ce8636d8"
+  }
+ ],
+ "count": 28,
+ "signatures": [
+  {
+   "names": [
+    "__memccpy"
+   ],
+   "modules": [
+    "MEMCCPY"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 57 56 1E 07 8B 7E 04 8B 76 06 8A 66 08 8B 4E 0A E3 08 AC AA 3A C4 74 04 E2 F8 33"
+  },
+  {
+   "names": [
+    "__memccpy"
+   ],
+   "modules": [
+    "MEMCCPY"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 57 56 1E 07 8B 7E 06 8B 76 08 8A 66 0A 8B 4E 0C E3 08 AC AA 3A C4 74 04 E2 F8 33"
+  },
+  {
+   "names": [
+    "__memccpy"
+   ],
+   "modules": [
+    "HMEMCPY"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B 4E 0E 1E 57 56 E3 53 C5 76 08 C4 7E 04 8B C1 48 8B D7 F7 D2 2B C2 1B DB 23 C3"
+  },
+  {
+   "names": [
+    "__memccpy",
+    "__fmemccpy"
+   ],
+   "modules": [
+    "HMEMCPY"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B 4E 10 1E 57 56 E3 53 C5 76 0A C4 7E 06 8B C1 48 8B D7 F7 D2 2B C2 1B DB 23 C3"
+  },
+  {
+   "names": [
+    "__memicmp"
+   ],
+   "modules": [
+    "HMEMCMP"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 33 C0 8B 4E 0C E3 79 1E 57 56 C5 76 04 C4 7E 08 8B C1 48 8B D7 F7 D2 2B C2 1B DB"
+  },
+  {
+   "names": [
+    "__memicmp",
+    "__fmemicmp"
+   ],
+   "modules": [
+    "HMEMCMP"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 33 C0 8B 4E 0E E3 79 1E 57 56 C5 76 06 C4 7E 0A 8B C1 48 8B D7 F7 D2 2B C2 1B DB"
+  },
+  {
+   "names": [
+    "__memicmp"
+   ],
+   "modules": [
+    "MEMICMP"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 56 57 8B 76 04 8B 7E 06 1E 07 8B 4E 08 E3 2F B7 41 B3 5A B6 20 8A 24 8A 05 46 47"
+  },
+  {
+   "names": [
+    "__memicmp"
+   ],
+   "modules": [
+    "MEMICMP"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 56 57 8B 76 06 8B 7E 08 1E 07 8B 4E 0A E3 2F B7 41 B3 5A B6 20 8A 24 8A 05 46 47"
+  },
+  {
+   "names": [
+    "_memchr"
+   ],
+   "modules": [
+    "MEMCHR"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 33 C0 8B 4E 08 E3 18 8B DF 8C D8 8E C0 8B 7E 04 8A 46 06 F2 AE B8 00 00 75 03 8D"
+  },
+  {
+   "names": [
+    "_memchr"
+   ],
+   "modules": [
+    "MEMCHR"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 33 C0 8B 4E 0A E3 18 8B DF 8C D8 8E C0 8B 7E 06 8A 46 08 F2 AE B8 00 00 75 03 8D"
+  },
+  {
+   "names": [
+    "_memchr"
+   ],
+   "modules": [
+    "HMEMCHR"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 57 8B 4E 0A E3 2C C4 7E 04 8B D7 F7 DA 74 0C 2B D1 1B DB 23 D3 03 D1 87 D1 2B D1"
+  },
+  {
+   "names": [
+    "_memchr",
+    "__fmemchr"
+   ],
+   "modules": [
+    "HMEMCHR"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 57 8B 4E 0C E3 2C C4 7E 06 8B D7 F7 DA 74 0C 2B D1 1B DB 23 D3 03 D1 87 D1 2B D1"
+  },
+  {
+   "names": [
+    "_memcmp"
+   ],
+   "modules": [
+    "HMEMCMP"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 33 C0 8B 4E 0C E3 4F 1E 57 56 C5 76 04 C4 7E 08 8B C1 48 8B D7 F7 D2 2B C2 1B DB"
+  },
+  {
+   "names": [
+    "_memcmp",
+    "__fmemcmp"
+   ],
+   "modules": [
+    "HMEMCMP"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 33 C0 8B 4E 0E E3 4F 1E 57 56 C5 76 06 C4 7E 0A 8B C1 48 8B D7 F7 D2 2B C2 1B DB"
+  },
+  {
+   "names": [
+    "_memcmp"
+   ],
+   "modules": [
+    "MEMCMP"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8B DE 8C D8 8E C0 8B 76 04 8B 7E 06 33 C0 8B 4E 08 E3 09 F3 A6 74 05 1B C0"
+  },
+  {
+   "names": [
+    "_memcmp"
+   ],
+   "modules": [
+    "MEMCMP"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8B DE 8C D8 8E C0 8B 76 06 8B 7E 08 33 C0 8B 4E 0A E3 09 F3 A6 74 05 1B C0"
+  },
+  {
+   "names": [
+    "_memcpy"
+   ],
+   "modules": [
+    "HMEMCPY"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B 4E 0C 1E 57 56 E3 48 C5 76 08 C4 7E 04 8B C1 48 8B D7 F7 D2 2B C2 1B DB 23 C3"
+  },
+  {
+   "names": [
+    "_memcpy",
+    "__fmemcpy"
+   ],
+   "modules": [
+    "HMEMCPY"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B 4E 0E 1E 57 56 E3 48 C5 76 0A C4 7E 06 8B C1 48 8B D7 F7 D2 2B C2 1B DB 23 C3"
+  },
+  {
+   "names": [
+    "_memcpy"
+   ],
+   "modules": [
+    "MEMCPY"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8B DE 8C D8 8E C0 8B 76 06 8B 7E 04 8B C7 8B 4E 08 E3 0E A8 01 74 02 A4 49"
+  },
+  {
+   "names": [
+    "_memcpy"
+   ],
+   "modules": [
+    "MEMCPY"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8B DE 8C D8 8E C0 8B 76 08 8B 7E 06 8B C7 8B 4E 0A E3 0E A8 01 74 02 A4 49"
+  },
+  {
+   "names": [
+    "_memmove"
+   ],
+   "modules": [
+    "HMEMCPY"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 28,
+   "pattern": "55 8B EC 8B 4E 0C 1E 57 56 0B C9 75 03 E9 AD 00 C5 76 08 C4 7E 04 1E 56 06 57 E8 .. .. 8B"
+  },
+  {
+   "names": [
+    "_memmove",
+    "__fmemmove"
+   ],
+   "modules": [
+    "HMEMCPY"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 27,
+   "pattern": "55 8B EC 8B 4E 0E 1E 57 56 0B C9 75 03 E9 AF 00 C5 76 0A C4 7E 06 1E 56 06 57 9A .. .. .."
+  },
+  {
+   "names": [
+    "_memmove"
+   ],
+   "modules": [
+    "MEMCPY"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8B DE 8C D8 8E C0 8B 76 06 8B 7E 04 8B C7 8B 4E 08 E3 2A 3B FE 76 16 8B C6"
+  },
+  {
+   "names": [
+    "_memmove"
+   ],
+   "modules": [
+    "MEMCPY"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8B DE 8C D8 8E C0 8B 76 08 8B 7E 06 8B C7 8B 4E 0A E3 2A 3B FE 76 16 8B C6"
+  },
+  {
+   "names": [
+    "_memset"
+   ],
+   "modules": [
+    "HMEMSET"
+   ],
+   "libs": [
+    "CLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B 4E 0A E3 38 57 C4 7E 04 8B D7 F7 DA 74 0C 2B D1 1B DB 23 D3 03 D1 87 D1 2B D1"
+  },
+  {
+   "names": [
+    "_memset",
+    "__fmemset"
+   ],
+   "modules": [
+    "HMEMSET"
+   ],
+   "libs": [
+    "LLIBCR",
+    "LIBH"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B 4E 0C E3 38 57 C4 7E 06 8B D7 F7 DA 74 0C 2B D1 1B DB 23 D3 03 D1 87 D1 2B D1"
+  },
+  {
+   "names": [
+    "_memset"
+   ],
+   "modules": [
+    "MEMSET"
+   ],
+   "libs": [
+    "SLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8C D8 8E C0 8B 7E 04 8B DF 8B 4E 08 E3 15 8A 46 06 8A E0 F7 C7 01 00 74 02"
+  },
+  {
+   "names": [
+    "_memset"
+   ],
+   "modules": [
+    "MEMSET"
+   ],
+   "libs": [
+    "MLIBCR"
+   ],
+   "fixed": 30,
+   "pattern": "55 8B EC 8B D7 8C D8 8E C0 8B 7E 06 8B DF 8B 4E 0A E3 15 8A 46 08 8A E0 F7 C7 01 00 74 02"
+  }
+ ],
+ "skipped": [],
+ "modules_filter": [
+  "HMEMCHR",
+  "HMEMCMP",
+  "HMEMCPY",
+  "HMEMSET",
+  "MEMCCPY",
+  "MEMCHR",
+  "MEMCMP",
+  "MEMCPY",
+  "MEMICMP",
+  "MEMSET"
+ ]
+}
